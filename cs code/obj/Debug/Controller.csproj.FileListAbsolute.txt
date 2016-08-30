@@ -1,0 +1,4 @@
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\ResolveAssemblyReference.cache
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.PaletteForm.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\Controller.Properties.Resources.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\Controller.csproj.GenerateResource.Cache

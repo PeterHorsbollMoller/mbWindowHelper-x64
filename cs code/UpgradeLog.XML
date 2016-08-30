@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type='text/xsl' href='_UpgradeReport_Files/UpgradeReport.xslt'?><UpgradeLog>
+<Properties><Property Name="Solution" Value="WindowHelper">
+</Property><Property Name="Solution File" Value="D:\Dropbox\3. MB_Kode\WindowHelper\cs code\WindowHelper.sln">
+</Property><Property Name="Date" Value="14. juni 2012">
+</Property><Property Name="Time" Value="22:56">
+</Property></Properties><Event ErrorLevel="0" Project="WindowHelper" Source="WindowHelper.csproj" Description="Project converted successfully">
+</Event><Event ErrorLevel="3" Project="WindowHelper" Source="WindowHelper.csproj" Description="Converted">
+</Event><Event ErrorLevel="0" Project="" Source="WindowHelper.sln" Description="Solution converted successfully">
+</Event><Event ErrorLevel="3" Project="" Source="WindowHelper.sln" Description="Converted">
+</Event><Event ErrorLevel="0" Project="WindowHelper" Source="WindowHelper.csproj" Description="Scan complete: Upgrade not required for project files.">
+</Event></UpgradeLog>

@@ -1,0 +1,10 @@
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\ResolveAssemblyReference.cache
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.DockableWindowForm.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.ModifyWindowForm.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.WindowHelperForm.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.Properties.Resources.resources
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.csproj.GenerateResource.Cache
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.dll
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\cs code\obj\Debug\WindowHelper.pdb
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\WindowHelper.dll
+C:\1. Data\3. MB_Kode\WindowHelper 1.x\WindowHelper.pdb
