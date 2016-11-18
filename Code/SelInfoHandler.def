@@ -1,0 +1,10 @@
+Declare Sub SELINFOSetControlIndex(ByVal nIndex As Integer)
+Declare Sub SELINFOSetImageFolder(ByVal sFolder As String)
+
+Declare Sub SELINFOSetConfigFile(ByVal sFile As String)
+Declare Sub SELINFOWriteConfigFile
+Declare Sub SELINFOReadConfigFile
+
+Declare Sub SELINFOSelChangedHandler
+Declare Sub SELINFOSwitchDisplay
+Declare Sub SELINFOTableClosedHandler(ByVal args as This)

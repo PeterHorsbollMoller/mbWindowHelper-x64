@@ -22,8 +22,7 @@ Include "Library\Types\T_WINDOW_SIZE_POSITION.def"
 
 Include "BaseWindows.def"
 Include "Resources.def"
-
-Declare Method GetScreenSize Class "WindowHelper.Controller" Lib "WindowHelper.dll" () As String
+Include "WindowHelper.Assembly.def"
 
 Declare Sub BWINHndlr_WindowNames_Clicked
 Declare Sub BWINHndlr_Create_Clicked

@@ -6,14 +6,15 @@ using System.IO;
 using System.Xml;
 using System.Threading;
 using WindowHelper.Geometry;
-using MapInfo.MiPro.Interop;
+using MapInfo.Types;
 
 namespace WindowHelper
 {
     public class Controller
     {
         private static WindowWrapper _winWrap = null;
-        private static WindowHelperForm _winhelperDlg = null;
+        protected IMapInfoPro _mapInfoApplication;
+        private static bool _mapInfoHasBeenInitialised = false;
 
         #region MapInfo Handlers for the Resource strings
         /// <summary>
@@ -72,6 +73,17 @@ namespace WindowHelper
         }
         #endregion
 
+        public void Initialise(IMapInfoPro mapinfoApp)
+        {
+            if (!_mapInfoHasBeenInitialised)
+            {
+                _mapInfoApplication = mapinfoApp;
+                _mapInfoHasBeenInitialised = true;
+            }
+            //InteropHelper.Initialise(mapinfoApp);
+            //ZoomNextAndPrevious.Initialise(mapinfoApp);
+        }
+
         //<summary>
         /// </summary>
         /// <param name="filePath">Get screen size pixels</param>
@@ -83,7 +95,6 @@ namespace WindowHelper
             return size;
         }
 
-        #region MapInfo Handlers for the WindowHelper dialog
         /// <summary>
         /// This function is called from MapBasic code
         /// when another window gets focus in MapInfo Pro
@@ -94,30 +105,7 @@ namespace WindowHelper
         {
             try
             {
-                if ((_winhelperDlg == null) || (_winhelperDlg.IsDisposed))
-                    return;
-                else
-                {
-                    if (windowID == 0)
-                    {
-                        _winhelperDlg.ResetActiveWindow();
-                    }
-                    else
-                    {
-                        //For some reason the ID sent was 145 which didn't refer to any window in side Mi Pro
-                        //for now we just ignore ID below 1000
-                        if (windowID < 1000)
-                            //Do nothing
-                            return;
-                        else
-                        {
-                            _winhelperDlg.SetActiveWindow(windowID);
-                            _winhelperDlg.AutolockWindow(windowID);
-                            _winhelperDlg.AddToOrUpdateInWindowLists(windowID, "", 0);
-                            _winhelperDlg.ZoomNextAndPreviousAddWindow(windowID);
-                        }
-                    }
-                }
+                ZoomNextAndPrevious.AddWindow(windowID);
             }
             catch (Exception e)
             {
@@ -135,22 +123,7 @@ namespace WindowHelper
         {
             try
             {
-                if ((_winhelperDlg == null) || (_winhelperDlg.IsDisposed))
-                    return;
-                else
-                {
-                    //For some reason the ID sent was 145 which didn't refer to any window in side Mi Pro
-                    //for now we just ignore ID below 1000
-                    if (windowID < 1000)
-                        //Do nothing
-                        return;
-                    else
-                    {
-                        _winhelperDlg.ResetActiveWindow();
-                        _winhelperDlg.RemoveFromAllWindowsLists(windowID);
-                        _winhelperDlg.ZoomNextAndPreviousRemoveWindow(windowID);
-                    }
-                    }
+                ZoomNextAndPrevious.RemoveWindow(windowID);
             }
             catch (Exception e)
             {
@@ -169,22 +142,7 @@ namespace WindowHelper
         {
             try
             {
-                if ((_winhelperDlg == null) || (_winhelperDlg.IsDisposed))
-                    return;
-                else
-                {
-                    //For some reason the ID sent was 145 which didn't refer to any window in side Mi Pro
-                    //for now we just ignore ID below 1000
-                    if (windowID < 1000)
-                        //Do nothing
-                        return;
-                    else 
-                        {
-                            _winhelperDlg.ZoomNextAndPreviousAddExtent(windowID);
-                            _winhelperDlg.AddToOrUpdateInWindowLists(windowID, "", 0);
-                            _winhelperDlg.SetActiveWindow(windowID);
-                        }
-                }
+                ZoomNextAndPrevious.AddExtent(windowID);
             }
             catch (Exception e)
             {
@@ -193,127 +151,7 @@ namespace WindowHelper
 
         }
 
-        /// <summary>
-        /// This is called from MapBasic code
-        /// to get a named resource string
-        /// </summary>
-        /// <param name="itemName">Title of the string resource</param>
-        /// <returns>Value of the string resource</returns>
-        //       public static string GetResItemStr(string itemName)
-        //       {
-        //           return Properties.Resources.ResourceManager.GetString(itemName, Properties.Resources.Culture);
-        //       }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to display the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgShow(int hMainWnd)
-        {
-            if ((_winhelperDlg == null) || (_winhelperDlg.IsDisposed))
-                _winhelperDlg = new WindowHelperForm("Window Helper");
-        }
-         
-        /// <summary>
-        /// This function is called to close the WindowHelper dialog
-        ///and release the resources when the end handeler is called
-        /// </summary>
-        public static void WinHelpDlgClose()
-        {
-            if (_winhelperDlg != null)
-            {
-                _winhelperDlg.Close();
-            }
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to add a window to the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <param name="windowWID"></param>
-        /// <param name="windowName"></param>
-        /// <param name="windowType"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgAddWindow(int hMainWnd, int windowID, string windowName, int windowType)
-        {
-            WinHelpDlgShow(hMainWnd);
-            _winhelperDlg.AddToOrUpdateInWindowLists(windowID, windowName, windowType);
-
-            _winhelperDlg.ZoomNextAndPreviousAddWindow(windowID);
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to add a window to the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <param name="windowWID"></param>
-        /// <param name="windowName"></param>
-        /// <param name="windowType"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgAddWindows(int hMainWnd, int[] windowIDs, string[] windowName, int[] windowType)
-        {
-            WinHelpDlgShow(hMainWnd);
-            _winhelperDlg.AddToOrUpdateInWindowLists(windowIDs, windowName, windowType);
-
-            foreach (int windowID in windowIDs)
-                _winhelperDlg.ZoomNextAndPreviousAddWindow(windowID);
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to add all windows to the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <param name="windowWID"></param>
-        /// <param name="windowName"></param>
-        /// <param name="windowType"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgAddAllWindows(int hMainWnd, int[] windowIDs, string[] windowNames, int[] windowTypes)
-        {
-            WinHelpDlgShow(hMainWnd);
-            _winhelperDlg.CreateWindowList(windowIDs, windowNames, windowTypes);
-
-            foreach (int windowID in windowIDs)
-                _winhelperDlg.ZoomNextAndPreviousAddWindow(windowID);
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to add a closed window to the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <param name="windowWID"></param>
-        /// <param name="windowName"></param>
-        /// <param name="windowType"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgAddClosedWindow(int hMainWnd, int windowID, string windowName, int windowType)
-        {
-            WinHelpDlgShow(hMainWnd);
-            _winhelperDlg.AddToClosedWindowList(windowID, windowName, windowType);
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// to add the special windows to the WindowHelper dialog.
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <param name="windowWID"></param>
-        /// <param name="windowName"></param>
-        /// <param name="windowType"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgLoadSpecialWindows(int hMainWnd)
-        {
-            WinHelpDlgShow(hMainWnd);
-            _winhelperDlg.LoadSpecialWindows();
-        }
-
-        #endregion MapInfo Handlers for the WindowHelper dialog
-
-        ///****************************************************************************
+         ///****************************************************************************
         ///lets you bind the new form to the MapInfo Pro window
         ///****************************************************************************
         #region WindowWrapper

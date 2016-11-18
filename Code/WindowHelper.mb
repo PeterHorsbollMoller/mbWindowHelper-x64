@@ -18,7 +18,7 @@ Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
 
 Include "WindowHelper.def"
-Include "Resources.def"
+Include "WindowHelper.Assembly.def"
 
 Define CTRL_LST_WINDOW_NAMES	100
 
@@ -56,28 +56,47 @@ Define CTRL_LST_WINDOW_NAMES	100
 'Parameters:
 '
 '**********************************************************************************************''
-'Sub WINHWinFocusChangedHandler(ByVal nWID As Integer)
-'
-'OnError GoTo ErrorOccured
-'
+Sub WINHWinFocusChangedHandler(ByVal nWID As Integer)
+
+OnError GoTo ErrorOccured
+
 '	If mbAutoLockWindow Then
-''		Call DEBUGPrint("WINHWinFocusChangedHandler: " & nWID)
+'		Call DEBUGPrint("WINHWinFocusChangedHandler: " & nWID)
 '		If WindowInfo(nWID, WIN_INFO_TYPE) IN (WIN_BUTTONPAD, WIN_HELP, WIN_INFO, WIN_LEGEND, WIN_MESSAGE, WIN_RULER, WIN_STATISTICS, WIN_TOOLBAR, WIN_MAPBASIC) Then
 '			'**Make sure we don't lock any of the special windows
-''			Call DEBUGPrint("   Special windows do not get locked!")
+'			Call DEBUGPrint("   Special windows do not get locked!")
 '		Else
-''			Call DEBUGPrint("   Ordinary windows (" & nWID & ", " & WindowInfo(nWID, WIN_INFO_TYPE) & ") get locked!")
+'			Call DEBUGPrint("   Ordinary windows (" & nWID & ", " & WindowInfo(nWID, WIN_INFO_TYPE) & ") get locked!")
 '			Call WINHLockWindow(nWID)
 '		End If
 '	End If
+	Call WINHAddMapExtent(nWID)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHWinFocusChangedHandler")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
+'Parameters:
 '
-'	Exit Sub
-''-------------------------
-'ErrorOccured:
-'	Call ERRCreate(Err(), Error$(), "WINHWinFocusChangedHandler")
-'	Call ERRShow()
-'
-'End Sub
+'**********************************************************************************************''
+Sub WINHWinChangedHandler(ByVal nWID As Integer)
+
+OnError GoTo ErrorOccured
+
+	Call WINHAddMapExtent(nWID)
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHWinChangedHandler")
+	Call ERRShow()
+
+End Sub
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
@@ -693,3 +712,102 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHInitialiseZoomMapExtent
+
+Dim	i, nMID As Integer
+
+OnError GoTo ErrorOccured
+
+	For i = 1 To NumWindows()
+		nMID = WindowID(i)
+		If WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+			Call WINHAddMapExtent(nMID)
+		End If
+	Next
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHInitialiseZoomnMapExtent")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHZoomFirstMapExtent
+
+OnError GoTo ErrorOccured
+
+	Call ZoomToFirst()
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHZoomFirstMapExtent")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHZoomPreviousMapExtent
+
+OnError GoTo ErrorOccured
+
+	Call ZoomToPrevious()
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHZoomPreviousMapExtent")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHZoomNextMapExtent
+
+OnError GoTo ErrorOccured
+
+	Call ZoomToNext()
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHZoomNextMapExtent")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHAddMapExtent(ByVal nMID As Integer)
+
+OnError GoTo ErrorOccured
+
+'	Call AddExtent(nMID) '**For Zoom Next and Previous
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHAddMapExtent")
+	Call ERRShow()
+
+End Sub
+

@@ -1,0 +1,293 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Business Insight
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\STRINGLib.def"
+Include "Library\TABLELib.def"
+
+Include "DLGAdvancedLayerRename.def"
+Include "WindowHelper.Assembly.def"
+
+Define CTRL_TXT_LAYER_NAME			100
+Define CTRL_CHK_SAVE_AS_DEFAULT		200
+Define CTRL_CHK_RENAME_IN_ALL_MAPS	300
+
+Declare Sub DALRHandler_OnLoad
+Declare Sub DALRHandler_OKClicked
+
+Dim	msCurrentDescription, msNewDescription, msLayerName, msTablename, msTableFile As String,
+	mnMID, mnLayerID As Integer,
+	mbSaveAsDefaultDescription As Logical,
+	mbRenameInAllMaps As Logical
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGAdvancedLayerRename(	  ByVal nMID As Integer
+							, ByVal nLayerID As Integer
+							) As Logical
+
+OnError GoTo ErrorOccured
+
+DLGAdvancedLayerRename = FALSE
+
+	mnMID				= nMID
+	mnLayerID				= nLayerID
+	msLayerName			= LayerInfo(mnMID, mnLayerID, LAYER_INFO_NAME)
+	msCurrentDescription	= LayerInfo(mnMID, mnLayerID, LAYER_INFO_FRIENDLYNAME)
+	If NOT LayerInfo(mnMID, mnLayerID, LAYER_INFO_TYPE) IN (LAYER_INFO_TYPE_COSMETIC, LAYER_INFO_TYPE_THEMATIC) Then
+		msTablename			= msLayerName
+		msTableFile			= PathToFileName$(TableInfo(msLayerName, TAB_INFO_TABFILE))
+	Else
+		msTablename			= ""
+		msTableFile			= ""
+	End If
+
+	If msCurrentDescription = "" Then
+		If msTableFile = "" Then
+			msCurrentDescription	= msLayerName
+		Else
+			msCurrentDescription	= Left$(msTableFile, Len(msTableFile) - 4)
+		End If
+
+		msCurrentDescription	= STRINGReplace(msCurrentDescription, "_", " ")
+		msCurrentDescription	= STRINGReplace(msCurrentDescription, "    ", " ")
+		msCurrentDescription	= STRINGReplace(msCurrentDescription, "   ", " ")
+		msCurrentDescription	= STRINGReplace(msCurrentDescription, "  ", " ")
+	End If
+
+	Dialog
+		Title GetResItemStr("DLG_TITLE_ADVANCED_LAYER_RENAME")
+		Calling DALRHandler_OnLoad
+
+		Control StaticText		Position 5,5
+			Width 200
+			Title GetResItemStr("STR_FRIENDLY_LAYER_NAME")
+		Control EditText		Position 5,15		ID CTRL_TXT_LAYER_NAME
+			Width 200
+			Value msCurrentDescription
+
+		Control Checkbox		Position 15,35		ID CTRL_CHK_SAVE_AS_DEFAULT
+			Width 200
+			Title GetResItemStr("STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME")
+			Value mbSaveAsDefaultDescription
+		Control Checkbox		Position 15,55		ID CTRL_CHK_RENAME_IN_ALL_MAPS
+			Width 200
+			Title GetResItemStr("STR_RENAME_LAYER_IN_ALL_MAPS")
+			Value mbRenameInAllMaps
+
+		Control OKButton
+			Calling DALRHandler_OKClicked
+		Control CancelButton
+
+	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
+		Exit Function
+	End If
+
+DLGAdvancedLayerRename = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGAdvancedLayerRename")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DALRHandler_OnLoad
+
+OnError GoTo ErrorOccured
+
+	Alter Control CTRL_CHK_RENAME_IN_ALL_MAPS 	Enable
+	Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Enable
+
+	If LayerInfo(mnMID, mnLayerID, LAYER_INFO_TYPE) IN (LAYER_INFO_TYPE_COSMETIC, LAYER_INFO_TYPE_THEMATIC) Then
+		Alter Control CTRL_CHK_RENAME_IN_ALL_MAPS 	Disable
+		Alter Control CTRL_CHK_RENAME_IN_ALL_MAPS 	Value FALSE
+		Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Disable
+		Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Value FALSE
+	Else
+		If TableInfo(msLayerName, TAB_INFO_TEMP) Then
+			Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Disable
+			Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Value FALSE
+		ElseIf TableInfo(msLayerName, TAB_INFO_READONLY) Then
+			Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Disable
+			Alter Control CTRL_CHK_SAVE_AS_DEFAULT		Value FALSE
+		End If
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRHandler_OnLoad")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DALRHandler_OKClicked
+
+OnError GoTo ErrorOccured
+
+	msNewDescription			= ReadControlValue(CTRL_TXT_LAYER_NAME)
+	If msNewDescription = "" Then
+		Note GetResItemStr("ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME")
+		Dialog Preserve
+		Alter Control CTRL_TXT_LAYER_NAME Active
+		Exit Sub
+	End If
+	mbSaveAsDefaultDescription	= ReadControlValue(CTRL_CHK_SAVE_AS_DEFAULT)
+	mbRenameInAllMaps			= ReadControlValue(CTRL_CHK_RENAME_IN_ALL_MAPS)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRHandler_OKClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRGetTableName() As String
+
+OnError GoTo ErrorOccured
+
+	DALRGetTableName = msTablename
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRGetTableName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRGetLayerName() As String
+
+OnError GoTo ErrorOccured
+
+	DALRGetLayerName = msLayerName
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRGetLayerName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRGetNewFriendlyName() As String
+
+OnError GoTo ErrorOccured
+
+	DALRGetNewFriendlyName = msNewDescription
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRGetNewFriendlyName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRGetCurrentFriendlyName() As String
+
+OnError GoTo ErrorOccured
+
+	DALRGetCurrentFriendlyName = msCurrentDescription
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRGetCurrentFriendlyName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRSetAsDefaultDescription() As Logical
+
+OnError GoTo ErrorOccured
+
+	DALRSetAsDefaultDescription = mbSaveAsDefaultDescription
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRSetAsDefaultDescription")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DALRRenameInAllMaps() As Logical
+
+OnError GoTo ErrorOccured
+
+	DALRRenameInAllMaps = mbRenameInAllMaps
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DALRRenameInAllMaps")
+	Call ERRShow()
+
+End Function

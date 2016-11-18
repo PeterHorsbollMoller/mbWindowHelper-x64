@@ -1,5 +1,6 @@
 'Declare Sub WINHWinClosedHandler(ByVal nWID As Integer)
-'Declare Sub WINHWinFocusChangedHandler(ByVal nWID As Integer)
+Declare Sub WINHWinFocusChangedHandler(ByVal nWID As Integer)
+Declare Sub WINHWinChangedHandler(ByVal nWID As Integer)
 
 'Declare Sub WINHAutoLockWindowSwitchMenu
 'Declare Sub WINHLockWindowMenu
@@ -17,3 +18,9 @@ Declare Sub WINHSetDefaultViewAllLayers
 Declare Sub WINHSetDefaultViewSingleLayer
 
 Declare Sub WINHSaveWindowToWorkspace
+
+Declare Sub WINHAddMapExtent(ByVal nMID As Integer)
+Declare Sub WINHInitialiseZoomMapExtent
+Declare Sub WINHZoomFirstMapExtent
+Declare Sub WINHZoomPreviousMapExtent
+Declare Sub WINHZoomNextMapExtent

@@ -1,0 +1,47 @@
+Declare Method Initialise Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal mapInfoApplication As This)
+
+Declare Method GetResItemStr Class "WindowHelper.Controller" Lib "WindowHelper.dll" (ByVal sName As String) As String
+Declare Method GetResItemStrReplace Class "WindowHelper.Controller" Lib "WindowHelper.dll" Alias GetResItemStr (ByVal sName As String, ByVal sReplaceList As String) As String
+
+Declare Method GetScreenSize Class "WindowHelper.Controller" Lib "WindowHelper.dll" () As String
+
+Declare Method WinHelpDlgShow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer)
+Declare Method WinHelpDlgClose Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	()
+Declare Method WinHelpDlgAddWindow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer, ByVal nWID As Integer, ByVal sName As String, ByVal nType As Integer)
+Declare Method WinHelpDlgAddWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer, arrWIDs() As Integer, arrNames() As String, arrTypes() As Integer)
+Declare Method WinHelpDlgAddAllWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer, arrWIDs() As Integer, arrNames() As String, arrTypes() As Integer)
+
+Declare Method WinHelpDlgAddClosedWindow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer, ByVal nWID As Integer, ByVal sName As String, ByVal nType As Integer)
+
+Declare Method WinHelpDlgLoadSpecialWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nMainWnd As Integer)
+
+Declare Method WinHelpDlgWinFocusChanged Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nWID As Integer)
+Declare Method WinHelpDlgWinClosed Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nWID As Integer)
+Declare Method WinHelpDlgWinChanged Class "WindowHelper.Controller" Lib "WindowHelper.dll"
+	(ByVal nWID As Integer)
+
+'**ZoomNextAndPrevious
+Declare Method ResetActiveWindow Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	()
+Declare Method SetActiveWindow Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	(ByVal nWID As Integer)
+Declare Method AddExtent Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	(ByVal nWID As Integer)
+Declare Method ZoomToFirst Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	()
+Declare Method ZoomToPrevious Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	()
+Declare Method ZoomToNext Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
+	()
+
+

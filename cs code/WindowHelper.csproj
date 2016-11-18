@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WindowHelper</RootNamespace>
     <AssemblyName>WindowHelper</AssemblyName>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <FileUpgradeFlags>
     </FileUpgradeFlags>
@@ -41,6 +41,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -49,13 +50,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="miadm10.5.0.202">
-      <HintPath>.\miadm10.5.0.202.dll</HintPath>
+    <Reference Include="MapInfo.Types">
+      <HintPath>C:\MapInfo\Pro x64\12.5 EN\MapInfo.Types.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -73,28 +75,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DockableWindowForm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="DockableWindowForm.designer.cs">
-      <DependentUpon>DockableWindowForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controller.cs" />
     <Compile Include="Geometry\Coordinate.cs" />
     <Compile Include="Geometry\MBR.cs" />
     <Compile Include="InteropHelper.cs" />
-    <Compile Include="ModifyWindowForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="ModifyWindowForm.Designer.cs">
-      <DependentUpon>ModifyWindowForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="WindowHelperForm.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="WindowHelperForm.designer.cs">
-      <DependentUpon>WindowHelperForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -109,17 +93,9 @@
     <Compile Include="Windows\Win32Window.cs" />
     <Compile Include="Windows\Window.cs" />
     <Compile Include="Windows\WindowList.cs" />
+    <Compile Include="ZoomNextAndPrevious.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="DockableWindowForm.resx">
-      <DependentUpon>DockableWindowForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="ModifyWindowForm.resx">
-      <DependentUpon>ModifyWindowForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WindowHelperForm.resx">
-      <DependentUpon>WindowHelperForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

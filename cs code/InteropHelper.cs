@@ -1,13 +1,36 @@
 using System;
 using System.Windows.Forms;
-using MapInfo.MiPro.Interop;
 using WindowHelper.Geometry;
+using MapInfo.Types;
 
 namespace WindowHelper
 {
-	static class InteropHelper
+    static class InteropHelper
 	{
+
         //private static System.Globalization.NumberFormatInfo _usNumberFormat;
+        private static IMapInfoPro _mapinfoApp = null;
+        private static bool _MapInfoInitialised = false;
+
+/*       public static void Initialise(IMapInfoPro mapinfoApp)
+        {
+            if (!_MapInfoInitialised)
+            {
+                _mapinfoApp = mapinfoApp;
+                _MapInfoInitialised = true;
+            }
+        }
+*/
+        public static void Initialise()
+        {
+            if (!_MapInfoInitialised)
+            {
+                //_mapinfoApp = (IMapInfoApplication)
+
+                    //Dispatch("MapInfo.Application.x64");
+                _MapInfoInitialised = true;
+            }
+        }
 
         #region [Do and EVAL]
 
@@ -17,8 +40,9 @@ namespace WindowHelper
         /// <param name="statement">statement to send to MapInfo</param>
         public static void Do(string statement)
         {
-            //InteropServices.MapInfoApplication.Do(string.Format("Print \"{0}\"", statement));
-            InteropServices.MapInfoApplication.Do(statement);
+            //Do(string.Format("Print \"{0}\"", statement));
+            //Do(statement);
+            _mapinfoApp.RunMapBasicCommand(statement);
         }
 
         /// <summary>
@@ -28,8 +52,9 @@ namespace WindowHelper
         /// <returns>result of evaluation as string</returns>
         public static string Eval(string statement)
         {
-            //InteropServices.MapInfoApplication.Do(string.Format("Print \"{0}\"", statement));
-            return InteropServices.MapInfoApplication.Eval(statement);
+            //Do(string.Format("Print \"{0}\"", statement));
+            //return Eval(statement);
+            return _mapinfoApp.EvalMapBasicCommand(statement);
         }
 
         #endregion
@@ -45,7 +70,7 @@ namespace WindowHelper
 		public static string GetAppVersion()
 		{
 			string expr = string.Format("SystemInfo({0})", SYS_INFO_APPVERSION);
-			return InteropServices.MapInfoApplication.Eval(expr);
+			return Eval(expr);
 		}
 
 		#endregion
@@ -58,7 +83,7 @@ namespace WindowHelper
 		/// <returns>Id of the front window</returns>
 		public static int GetFrontWindow()
 		{
-			string evalResult = InteropServices.MapInfoApplication.Eval("FrontWindow()");
+			string evalResult = Eval("FrontWindow()");
 			return Int32.Parse(evalResult);
 		}
 
@@ -85,7 +110,7 @@ namespace WindowHelper
         public static string GetWindowName(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_NAME);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             return evalResult;
         }
         
@@ -97,28 +122,28 @@ namespace WindowHelper
         public static int GetWindowType(int windowId)
 		{
 			string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_TYPE);
-			string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+			string evalResult = Eval(expr);
 			return Int32.Parse(evalResult);
 		}
 
         public static Double GetWindowHeight(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_HEIGHT);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             return Double.Parse(evalResult, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public static Double GetWindowWidth(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_WIDTH);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             return Double.Parse(evalResult, System.Globalization.CultureInfo.InvariantCulture);
         }
 
         public static bool GetWindowSystemMenuClose(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_SYSMENUCLOSE);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             if (evalResult == "T")
                 return true;
             else
@@ -128,14 +153,14 @@ namespace WindowHelper
         public static string GetWindowCloneStatement(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_CLONEWINDOW);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             return evalResult;
         }
 
         public static string GetWindowWorkspaceStatement(int windowId)
         {
             string expr = string.Format("WindowInfo({0}, {1})", windowId, WIN_INFO_WORKSPACE);
-            string evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            string evalResult = Eval(expr);
             return evalResult;
         }
 
@@ -176,7 +201,7 @@ namespace WindowHelper
 			string expr, evalResult;
 
 			expr = string.Format("MapperInfo({0}, {1})", windowId, infoType);
-			evalResult = InteropServices.MapInfoApplication.Eval(expr);
+			evalResult = Eval(expr);
 			return evalResult;
 		}
 
@@ -190,7 +215,7 @@ namespace WindowHelper
 			string expr;
 
 			expr = string.Format("MapperInfo({0}, {1})", windowId, MAPPER_INFO_COORDSYS_CLAUSE_WITH_BOUNDS);
-			return InteropServices.MapInfoApplication.Eval(expr);
+			return Eval(expr);
 		}
 
 		/// <summary>
@@ -203,7 +228,7 @@ namespace WindowHelper
 			string expr;
 
 			expr = string.Format("MapperInfo({0}, {1})", windowId, MAPPER_INFO_DISTUNITS);
-			return InteropServices.MapInfoApplication.Eval(expr);
+			return Eval(expr);
 		}
 
 		/// <summary>
@@ -284,12 +309,12 @@ namespace WindowHelper
         #region [HANDLERS]
         public static void EnableHandler(string handlerName)
         {
-            InteropServices.MapInfoApplication.Do(string.Format("Set Handler {0} On", handlerName));
+            Do(string.Format("Set Handler {0} On", handlerName));
         }
 
         public static void DisableHandler(string handlerName)
         {
-            InteropServices.MapInfoApplication.Do(string.Format("Set Handler {0} Off", handlerName));
+            Do(string.Format("Set Handler {0} Off", handlerName));
         }
 
         #endregion [HANDLERS]
@@ -304,7 +329,7 @@ namespace WindowHelper
 		public static string GetSessionDistanceUnit()
 		{
 			// Use SessionInfo(SESSION_INFO_DISTANCE_UNITS) to get the unit string
-			return InteropServices.MapInfoApplication.Eval("SessionInfo(2)");
+			return Eval("SessionInfo(2)");
 		}
 
 		/// <summary>
@@ -317,7 +342,7 @@ namespace WindowHelper
 			string expr;
 
 			expr = string.Format("Set Distance Units \"{0}\"", unit);
-			InteropServices.MapInfoApplication.Do(expr);
+			Do(expr);
 		}
 
         /// <summary>
@@ -328,7 +353,7 @@ namespace WindowHelper
         public static string GetSessionPaperUnit()
         {
             // Use SessionInfo(SESSION_INFO_DISTANCE_UNITS) to get the unit string
-            return InteropServices.MapInfoApplication.Eval("SessionInfo(4)");
+            return Eval("SessionInfo(4)");
         }
 
         /// <summary>
@@ -341,7 +366,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Set Paper Units \"{0}\"", unit);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
 		/// <summary>
@@ -352,7 +377,7 @@ namespace WindowHelper
 		public static string GetSessionCoordSys()
 		{
 			// Make note of the current MapBasic Coordinate System SessionInfo(SESSION_INFO_COORDSYS_CLAUSE) 
-			return InteropServices.MapInfoApplication.Eval("SessionInfo(1)"); 
+			return Eval("SessionInfo(1)"); 
 		}
 
 		/// <summary>
@@ -362,7 +387,7 @@ namespace WindowHelper
 		/// <param name="csys">string such as "CoordSys Earth"</param>
 		public static void SetSessionCoordSys(string csys)
 		{
-			InteropServices.MapInfoApplication.Do(string.Format("Set {0}", csys));
+			Do(string.Format("Set {0}", csys));
         }
 
         #endregion
@@ -387,7 +412,7 @@ namespace WindowHelper
 		/// <returns>A number string with a decimal separator based on the user's system settings</returns>
 		public static string GetFormattedString(string numericString)
 		{
-			return InteropServices.MapInfoApplication.Eval(string.Format("FormatNumber$({0})", numericString)); 
+			return Eval(string.Format("FormatNumber$({0})", numericString)); 
 		}
 
         public static string GetDeformattedString(string numericString)
@@ -395,7 +420,7 @@ namespace WindowHelper
             string expr;
             expr = string.Format("DeformatNumber$(\"{0}\")", numericString);
             //MessageBox.Show(expr);
-            return InteropServices.MapInfoApplication.Eval(expr);
+            return Eval(expr);
         }
 
 		#endregion
@@ -436,7 +461,7 @@ namespace WindowHelper
 
             //MessageBox.Show(setMapStatement);
 
-			InteropServices.MapInfoApplication.Do(setMapStatement); 
+			Do(setMapStatement); 
 
 			// Restore the MapBasic Coordinate System to its previous state 
 			SetSessionCoordSys(oldCoordSys); 
@@ -474,7 +499,7 @@ namespace WindowHelper
 
             //MessageBox.Show(setMapStatement);
 
-            InteropServices.MapInfoApplication.Do(setMapStatement);
+            Do(setMapStatement);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);
@@ -493,7 +518,7 @@ namespace WindowHelper
                 "Set Map Window {0} Zoom {3} Units \"{4}\"",
                     windowId, mapperZoom, unit);
 
-            InteropServices.MapInfoApplication.Do(setMapStatement);
+            Do(setMapStatement);
         }
 
 
@@ -558,7 +583,7 @@ namespace WindowHelper
 
             //MessageBox.Show(cmd);
 
-            InteropServices.MapInfoApplication.Do(cmd);
+            Do(cmd);
         }
 
         #endregion
@@ -579,7 +604,7 @@ namespace WindowHelper
 
             //MessageBox.Show(cmd);
 
-            InteropServices.MapInfoApplication.Do(cmd);
+            Do(cmd);
         }
 		#endregion
 
@@ -622,7 +647,7 @@ namespace WindowHelper
         public static void PrintMessage(string sText)
         {
             string sCmd = string.Format("Print \"{0}\"", sText);
-            InteropServices.MapInfoApplication.Do(sCmd);
+            Do(sCmd);
         }
 
         #endregion
@@ -631,7 +656,7 @@ namespace WindowHelper
 
         public static Int32 RunSQLStatement(string sCmd, string sIntoTable)
         {
-            InteropServices.MapInfoApplication.Do(sCmd);
+            Do(sCmd);
             return GetTableNumRows(sIntoTable);
         }
 
@@ -700,7 +725,7 @@ namespace WindowHelper
             string expr, evalResult;
 
             expr = string.Format("TableInfo({0}, {1})", tableId, infoType);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             return evalResult;
         }
 
@@ -712,7 +737,7 @@ namespace WindowHelper
             string expr, evalResult;
 
             expr = string.Format("TableInfo({0}, {1})", tableName, infoType);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             return evalResult;
         }
 
@@ -778,7 +803,7 @@ namespace WindowHelper
             string evalResult, expr;
 
             expr = string.Format("NumTables()");
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             return System.Convert.ToInt32(evalResult);
         }
 
@@ -814,7 +839,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Fetch First From {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -826,7 +851,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Fetch Last From {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -838,7 +863,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Fetch Next From {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -850,7 +875,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Fetch Prev From {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -863,7 +888,7 @@ namespace WindowHelper
             string expr, evalResult;
 
             expr = string.Format("EOT({0})", tableName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             return (evalResult == "T");
         }
 
@@ -881,7 +906,7 @@ namespace WindowHelper
             string expr, evalResult;
 
             expr = string.Format("{0}.{1}", tableName, columnName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             return evalResult;
         }
 
@@ -904,10 +929,10 @@ namespace WindowHelper
             //double coord;
 
             expr = string.Format("Set CoordSys Table {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
 
             expr = string.Format("ObjectGeography({0}.OBJ, 1)", tableName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             //MessageBox.Show(String.Format("{0} => {1}", string.Format("ObjectGeography({0}.OBJ, 1)", tableName), evalResult));
 
             //if (double.TryParse(evalResult, System.Globalization.NumberStyles.Number, _usNumberFormat, out coord))
@@ -917,7 +942,7 @@ namespace WindowHelper
             miMBR.MinimumX = Double.Parse(evalResult, System.Globalization.CultureInfo.InvariantCulture);
 
             expr = string.Format("ObjectGeography({0}.OBJ, 2)", tableName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             //if (double.TryParse(evalResult, System.Globalization.NumberStyles.Number, _usNumberFormat, out coord))
             //    miMBR.MinimumY = coord;
             //else
@@ -925,7 +950,7 @@ namespace WindowHelper
             miMBR.MinimumY = Double.Parse(evalResult, System.Globalization.CultureInfo.InvariantCulture);
 
             expr = string.Format("ObjectGeography({0}.OBJ, 3)", tableName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             //if (double.TryParse(evalResult, System.Globalization.NumberStyles.Number, _usNumberFormat, out coord))
             //    miMBR.MaximumX = coord;
             //else
@@ -933,7 +958,7 @@ namespace WindowHelper
             miMBR.MaximumX = Double.Parse(evalResult, System.Globalization.CultureInfo.InvariantCulture);
 
             expr = string.Format("ObjectGeography({0}.OBJ, 4)", tableName);
-            evalResult = InteropServices.MapInfoApplication.Eval(expr);
+            evalResult = Eval(expr);
             //if (double.TryParse(evalResult, System.Globalization.NumberStyles.Number, _usNumberFormat, out coord))
             //    miMBR.MaximumY = coord;
             //else
@@ -959,7 +984,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Close Table {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         #endregion
@@ -975,7 +1000,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Create Table {0} (ID Integer) File TempFileName$(\"\")", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -988,7 +1013,7 @@ namespace WindowHelper
 
             expr = string.Format("Create Map For {0} {1}", tableName, csys);
             PrintMessage(expr);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         #endregion
@@ -1004,7 +1029,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Set CoordSys Table {0}", tableName);
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -1016,7 +1041,7 @@ namespace WindowHelper
             string expr;
 
             expr = string.Format("Set CoordSys Window {0}", Convert.ToString(windowID));
-            InteropServices.MapInfoApplication.Do(expr);
+            Do(expr);
         }
 
         /// <summary>
@@ -1029,7 +1054,7 @@ namespace WindowHelper
 
             expr = string.Format("EPSGToCoordSysString$(\"{0}\")", EPSG);
             //MessageBox.Show(string.Format("EPSG query: {0}", expr));
-            return InteropServices.MapInfoApplication.Eval(expr);
+            return Eval(expr);
         }
 
         #endregion
@@ -1066,7 +1091,7 @@ namespace WindowHelper
             //MessageBox.Show(insertStmt);
             //PrintMessage(insertStmt);
 
-            InteropServices.MapInfoApplication.Do(insertStmt);
+            Do(insertStmt);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);
@@ -1107,7 +1132,7 @@ namespace WindowHelper
             //MessageBox.Show(insertStmt);
             //PrintMessage(insertStmt);
 
-            InteropServices.MapInfoApplication.Do(insertStmt);
+            Do(insertStmt);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);
@@ -1149,7 +1174,7 @@ namespace WindowHelper
             //MessageBox.Show(insertStmt);
             //PrintMessage(insertStmt);
 
-            InteropServices.MapInfoApplication.Do(insertStmt);
+            Do(insertStmt);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);
@@ -1189,7 +1214,7 @@ namespace WindowHelper
             //MessageBox.Show(insertStmt);
             //PrintMessage(insertStmt);
 
-            InteropServices.MapInfoApplication.Do(insertStmt);
+            Do(insertStmt);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);
@@ -1230,7 +1255,7 @@ namespace WindowHelper
             //MessageBox.Show(insertStmt);
             //PrintMessage(insertStmt);
 
-            InteropServices.MapInfoApplication.Do(insertStmt);
+            Do(insertStmt);
 
             // Restore the MapBasic Coordinate System to its previous state 
             SetSessionCoordSys(oldCoordSys);

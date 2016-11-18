@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
     <value>Do you want to find the tab file or the grid file?</value>
@@ -150,6 +150,9 @@
   <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
   </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>Advanced Layer Rename</value>
+  </data>
   <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Create Map Extent</value>
   </data>
@@ -165,6 +168,12 @@
   <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
     <value>Pick window to restore</value>
   </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>The cosmetic layer is not supported!</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>An empty string can not be used as the friendly name of a layer!</value>
+  </data>
   <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
     <value>Please enter a name of the new base window!</value>
   </data>
@@ -177,11 +186,17 @@
   <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
     <value>The must be at least one map window open!</value>
   </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>Please click in the cell to read the value from! The application ignores the first row in the first column</value>
+  </data>
   <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
     <value>There are no windows to restore!</value>
   </data>
   <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
     <value>The must be at least one window open!</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>Only char and numeric columns are supported</value>
   </data>
   <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
     <value>Please open a window to read the size and position from!</value>
@@ -206,6 +221,9 @@
   </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one layer in the Layer Control!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>Please select a single layer in the layer control!</value>
   </data>
   <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one map in the Layer Control!</value>
@@ -246,6 +264,9 @@
   <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
     <value>&amp;About {0}...</value>
   </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>Advanced Rename</value>
+  </data>
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Close Table</value>
   </data>
@@ -255,8 +276,17 @@
   <data name="MNU_END_PROGRAM" xml:space="preserve">
     <value>&amp;End Program</value>
   </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Filter Using Cell Value</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>Cell Value</value>
+  </data>
   <data name="MNU_HELP" xml:space="preserve">
     <value>&amp;Help</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>This will let you rename the selected layer and let you save the new name as the default name</value>
   </data>
   <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
     <value>Autolock all windows</value>
@@ -276,6 +306,9 @@
   <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
     <value>Make window dockable</value>
   </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>This will filter the browser using the value in the currently selected cell</value>
+  </data>
   <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Display a clone of the active layout</value>
   </data>
@@ -290,6 +323,9 @@
   </data>
   <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open the selected tab file in</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>Rate Application at the Pitney Bowes Community Download Page</value>
   </data>
   <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
     <value>Restore one or more windows closed during this session</value>
@@ -356,6 +392,9 @@
   </data>
   <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open Tab File In</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>Rate Application</value>
   </data>
   <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
     <value>&amp;Restore Closed Window...</value>
@@ -432,8 +471,14 @@
   <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
     <value>Are you sure that you want to close this window: {0} ?</value>
   </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>This application extents MapInfo Pro with a number of useful features for working with windows</value>
+  </data>
   <data name="STR_APPLY" xml:space="preserve">
     <value>Apply</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>Show Info on Selection</value>
   </data>
   <data name="STR_CHANGE" xml:space="preserve">
     <value>Change</value>
@@ -452,6 +497,9 @@
   </data>
   <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
     <value>Editable Layer in</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Friendly Name</value>
   </data>
   <data name="STR_GRID_FILE" xml:space="preserve">
     <value>Grid File</value>
@@ -477,14 +525,32 @@
   <data name="STR_RASTER_FILE" xml:space="preserve">
     <value>Raster File</value>
   </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>Rename this table/layer in all map windows</value>
+  </data>
   <data name="STR_RESTORE" xml:space="preserve">
     <value>Restore</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Save as default friendly name</value>
   </data>
   <data name="STR_TABLE" xml:space="preserve">
     <value>Table</value>
   </data>
   <data name="STR_TAB_FILE" xml:space="preserve">
     <value>Tab File</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>Click to Enable Info on Selection</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>Click to Disable Info on Selection</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>Display tabular Information about map objects</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>Display the distance between two map points</value>
   </data>
   <data name="STR_UPDATE" xml:space="preserve">
     <value>Update</value>

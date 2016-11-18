@@ -1,0 +1,11 @@
+Declare Function DLGAdvancedLayerRename(  ByVal nMID As Integer
+								, ByVal nLayerID As Integer
+								) As Logical
+
+Declare Function DALRGetTableName() As String
+Declare Function DALRGetLayerName() As String
+Declare Function DALRGetNewFriendlyName() As String
+Declare Function DALRGetCurrentFriendlyName() As String
+
+Declare Function DALRSetAsDefaultDescription() As Logical
+Declare Function DALRRenameInAllMaps() As Logical

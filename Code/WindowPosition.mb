@@ -22,8 +22,8 @@ Include "Library\Types\T_WINDOW_SIZE_POSITION.def"
 
 Include "WindowPosition.def"
 Include "Resources.def"
+Include "WindowHelper.Assembly.def"
 
-Declare Method GetScreenSize Class "WindowHelper.Controller" Lib "WindowHelper.dll" () As String
 
 Dim	marrWindows() As T_WINDOW_SIZE_POSITION,
 	marrWindowAutoStore() As Logical

@@ -18,30 +18,7 @@ Include "Library\ERRORLib.def"
 Include "Library\TABLELib.def"
 
 Include "WindowHelperDialog.def"
-
-Declare Method WinHelpDlgShow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer)
-Declare Method WinHelpDlgClose Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	()
-Declare Method WinHelpDlgAddWindow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer, ByVal nWID As Integer, ByVal sName As String, ByVal nType As Integer)
-Declare Method WinHelpDlgAddWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer, arrWIDs() As Integer, arrNames() As String, arrTypes() As Integer)
-Declare Method WinHelpDlgAddAllWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer, arrWIDs() As Integer, arrNames() As String, arrTypes() As Integer)
-
-Declare Method WinHelpDlgAddClosedWindow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer, ByVal nWID As Integer, ByVal sName As String, ByVal nType As Integer)
-
-Declare Method WinHelpDlgLoadSpecialWindows Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nMainWnd As Integer)
-
-Declare Method WinHelpDlgWinFocusChanged Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nWID As Integer)
-Declare Method WinHelpDlgWinClosed Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nWID As Integer)
-Declare Method WinHelpDlgWinChanged Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal nWID As Integer)
+Include "WindowHelper.Assembly.def"
 
 
 Declare Sub WHDSendAllWindows

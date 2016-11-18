@@ -19,10 +19,6 @@ D:\Dropbox\3. MB_Kode\mbWindowHelper\WindowHelper.dll
 D:\Dropbox\3. MB_Kode\mbWindowHelper\WindowHelper.pdb
 D:\Dropbox\3. MB_Kode\mbWindowHelper\cs code\obj\Release\WindowHelper.csprojResolveAssemblyReference.cache
 D:\Dropbox\3. MB_Kode\mbWindowHelper\cs code\obj\Release\WindowHelper.csproj.GenerateResource.Cache
-D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csprojResolveAssemblyReference.cache
-D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.DockableWindowForm.resources
-D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.ModifyWindowForm.resources
-D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.WindowHelperForm.resources
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.resources
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.GenerateResource.Cache
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.dll
@@ -31,3 +27,4 @@ D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper.dll
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper.pdb
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.dll
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.pdb
+D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csprojResolveAssemblyReference.cache

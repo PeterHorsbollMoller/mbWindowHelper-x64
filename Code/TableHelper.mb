@@ -37,7 +37,7 @@ Dim	sTab, sFile As String
 
 	sTab = TableListSelectionInfo (1, TL_SEL_INFO_NAME)
 	Do Case TableInfo(sTab, TAB_INFO_TYPE)
-		Case TAB_TYPE_BASE, TAB_TYPE_FME, TAB_TYPE_LINKED, TAB_TYPE_WFS, TAB_TYPE_WMS
+		Case TAB_TYPE_BASE, TAB_TYPE_FME, TAB_TYPE_LINKED, TAB_TYPE_WFS, TAB_TYPE_WMS, TAB_TYPE_TILESERVER', TAB_TYPE_WMTS
 			sFile	= TableInfo(sTab, TAB_INFO_TABFILE)
 		Case TAB_TYPE_IMAGE
 			If Ask(GetResItemStr("ASK_LOCATE_TAB_FILE_OR_RASTER_FILE"), GetResItemStr("STR_TAB_FILE"), GetResItemStr("STR_RASTER_FILE")) Then	'Ask("Do you want to find the tab file or the raster file?", "Table", "Raster") Then

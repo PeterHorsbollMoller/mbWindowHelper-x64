@@ -1,0 +1,274 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Business Insight
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "IMapInfoPro.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\CONFIGFILELib.def"
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\ProgramInfo.def"
+Include "Library\RIBBONLib.def"
+Include "Library\TABLELib.def"
+
+Include "SelInfoHandler.def"
+Include "WindowHelper.Assembly.def"
+
+Dim	msIniFile, msImageFolder, msLastSelectionTable As String,
+	mbInfoSelChangedHandlerEnabled, mbShowInfoOnDeselect As Logical,
+	mnbtnSelInfoHandlerIdx As Integer
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOSetControlIndex(ByVal nIndex As Integer)
+
+OnError GoTo ErrorOccured
+
+	mnbtnSelInfoHandlerIdx = nIndex
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSetControlIndex")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOSetImageFolder(ByVal sFolder As String)
+
+OnError GoTo ErrorOccured
+
+	msImageFolder = sFolder
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSetImageFolder")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOSetConfigFile(ByVal sFile As String)
+
+OnError GoTo ErrorOccured
+
+	msIniFile = sFile
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSetConfigFile")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOWriteConfigFile
+
+OnError GoTo ErrorOccured
+
+'	Call CONFIGWriteKey(msIniFile, "SETTINGS", "LANGUAGE", PRGIGetApplicationLanguageName())
+	Call CONFIGWriteKey(msIniFile, "SETTINGS", "INITIALSTATEISON", Int(mbInfoSelChangedHandlerEnabled))
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOWriteConfigFile")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOReadConfigFile
+
+Dim	sFile, sState, sShowOnDeselect As String
+
+OnError GoTo ErrorOccured
+
+	sFile 	= ApplicationDirectory$() & PathToFileName$(msIniFile)
+
+	sState			= CONFIGReadKey(sFile, "SETTINGS", "INITIALSTATEISON")
+	sShowOnDeselect	= CONFIGReadKey(sFile, "SETTINGS", "SHOWINFOONDESELECT")
+
+	If FileExists(msIniFile) Then
+'		msLanguage	= CONFIGReadKey(msIniFile, "SETTINGS", "LANGUAGE")
+'		Call DEBUGPrint("Found '" & msLanguage & "' in " & msIniFile)
+
+		sState		= CONFIGReadKey(msIniFile, "SETTINGS", "INITIALSTATEISON")
+	Else
+'		msLanguage	= CONFIGReadKey(sFile, "SETTINGS", "LANGUAGE")
+'		Call DEBUGPrint("Found '" & msLanguage & "' in " & sFile)
+
+		sState		= CONFIGReadKey(sFile, "SETTINGS", "INITIALSTATEISON")
+	End If
+
+	If sState = "1" Then
+		'**The value get's switched by the first call to SELINFOSwitchDisplay
+		'**So it must be set to the opposite of what it should be initially
+		mbInfoSelChangedHandlerEnabled = FALSE
+	Else
+		'**The value get's switched by the first call to SELINFOSwitchDisplay
+		'**So it must be set to the opposite of what it should be initially
+		mbInfoSelChangedHandlerEnabled = TRUE
+	End If
+	If sShowOnDeselect = "0" Then
+		'**Do not update the Info window when a record is deselected
+		mbShowInfoOnDeselect	= FALSE
+	Else
+		'**Do update the Info window when a record is deselected
+		mbShowInfoOnDeselect	= TRUE
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOReadConfigFile")
+	Call ERRShow()
+
+End Sub
+
+'****************************************
+'**   Created by Rémi Bizet, Pitney Bowes Software, France
+'**	 Modified by Peter Horsbøll Møller, Pitney Bowes Software
+'****************************************
+Sub SELINFOSelChangedHandler
+
+Dim	nRowID As Integer
+
+OnError GoTo ErrorOccured
+
+	If NumTables() = 0 Then
+		msLastSelectionTable = ""
+		Exit Sub
+	End If
+
+ 	If mbInfoSelChangedHandlerEnabled Then
+ 		Call DEBUGPrint("SELINFOSelChangedHandler: Action")
+
+ 		Set Handler SelChangedHandler Off
+
+		Do Case CommandInfo(CMD_INFO_SELTYPE)
+			Case 1	'one row was added to the selection;
+				Call DEBUGPrint("   One row was added to the selection")
+				nRowID	= CommandInfo(CMD_INFO_ROWID)
+				Set Window WIN_INFO
+					Table SelectionInfo(SEL_INFO_TABLENAME) Rec nRowID
+			Case 2	'one row was removed from the selection;
+				Call DEBUGPrint("   One row was removed from the selection")
+				If mbShowInfoOnDeselect Then
+'					Call DEBUGPrint("   Number of open tables: " & NumTables())
+					If msLastSelectionTable <> "" Then
+						If TABIsOpen(msLastSelectionTable) Then
+							nRowID	= CommandInfo(CMD_INFO_ROWID)
+							Call DEBUGPrint("   Showing Rec " & nRowID & " From table " & msLastSelectionTable)
+							Set Window WIN_INFO
+								Table msLastSelectionTable Rec nRowID
+						Else
+							Call DEBUGPrint("   Previous selection base table is no longer open")
+							msLastSelectionTable = ""
+						End If
+					End If
+				End If
+		End Case
+
+ 		Set Handler SelChangedHandler On
+'	Else
+ '		Call DEBUGPrint("SELINFOSelChangedHandler: No Action")
+
+		If SelectionInfo(SEL_INFO_NROWS) > 0 Then
+			msLastSelectionTable =  SelectionInfo(SEL_INFO_TABLENAME)
+		End If
+ 	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSelChangedHandler")
+	If NOT ERRGetLatestErrorNo() IN (689) Then
+		Call ERRShow()
+	End If
+	Resume Next
+
+End Sub
+
+'****************************************
+'**   Created by Rémi Bizet, Pitney Bowes Software, France
+'**
+'****************************************
+Sub SELINFOSwitchDisplay
+
+OnError GoTo ErrorOccured
+
+'	Call DEBUGPrint("SELINFOSwitchDisplaySelInfo")
+	mbInfoSelChangedHandlerEnabled = (NOT mbInfoSelChangedHandlerEnabled)
+
+'	Call DEBUGPrint("RBNControlToggleIdx(" & mnbtnSelInfoHandlerIdx & ", " & mbInfoSelChangedHandlerEnabled & ")")
+
+	Call RBNControlSelectedIdx(mnbtnSelInfoHandlerIdx, mbInfoSelChangedHandlerEnabled)
+
+	If mbInfoSelChangedHandlerEnabled Then
+		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_DISABLE_INFO_SEL"), "")
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, "", msImageFolder & "InfoSelHandlerGreen_32x32.png")
+	Else
+		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, "", msImageFolder & "InfoSelHandlerRed_32x32.png")
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSwitchDisplayRBN")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub SELINFOTableClosedHandler(ByVal args as This)
+
+Dim	sTableName As String
+
+OnError GoTo ErrorOccured
+
+	sTableName	= GetTableEventArgsTableAlias(args)
+	If sTableName = msLastSelectionTable Then
+		msLastSelectionTable = ""
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOTableClosedHandler")
+	Call ERRShow()
+
+End Sub

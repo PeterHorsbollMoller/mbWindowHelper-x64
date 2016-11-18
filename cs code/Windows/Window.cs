@@ -11,7 +11,6 @@ namespace WindowHelper.Windows
         private int _windowID = 0;
         private string _windowTitle = "";
         private int _windowType = 0;
-        private DockableWindowForm _dockableWindow = null;
 
         /// <summary>
         /// Type of Window.
@@ -142,9 +141,6 @@ namespace WindowHelper.Windows
             {   
                 _windowTitle = value;
                 InteropHelper.Do(string.Format("Set Window {0} Title \"{1}\"", _windowID, _windowTitle));
-
-                if (IsMadeDockable() == true)
-                    _dockableWindow.Title = _windowTitle;
             }
         }
 
@@ -203,16 +199,6 @@ namespace WindowHelper.Windows
             }
         }
 
-        /// <summary>
-        /// Property.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>Locks/unlocks the window and ask what it is currently</returns>
-        public DockableWindowForm DockedWindow
-        {
-            get { return _dockableWindow; }
-        }
-
         #endregion
 
         /// <summary>
@@ -245,12 +231,6 @@ namespace WindowHelper.Windows
         /// <returns>Closes the Window</returns>
         public void Close(bool interactive)
         {
-            if (IsMadeDockable() == true)
-            {
-                _dockableWindow.Close();
-                _dockableWindow = null;
-            }
-
             if (interactive == true)
                 InteropHelper.Do(string.Format("Close Window {0} Interactive", _windowID));
             else
@@ -314,12 +294,6 @@ namespace WindowHelper.Windows
         public void SetFront()
         {
             InteropHelper.Do(string.Format("Set Window {0} Front", _windowID));
-
-            if (IsMadeDockable() == true)
-            {
-                _dockableWindow.Activate();
-                _dockableWindow.BringToFront();
-            }
         }
 
         /// <summary>
@@ -376,72 +350,7 @@ namespace WindowHelper.Windows
         }
         #endregion
 
-        //------------------------------------------------------------
-        #region Methods for Docking
-        /// <summary>
-        /// Method.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>Makes the Window into a dockable window</returns>
-        public void MakeDockable()
-        {
-            Win32Window window = new Win32Window(_windowID);
-
-            switch (Type)
-            {
-                case WindowType.Browser:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.CartographicLegend:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.LegendDesigner:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.Graph:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.Layout:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.Mapper:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-                case WindowType.Mapper3D:
-                    _dockableWindow = new DockableWindowForm(window);
-                    break;
-
-                default:
-                    _dockableWindow = new DockableWindowForm(window, window.Title);
-                    break;
-            }
-        }
-
-        ///// <summary>
-        ///// Method.
-        ///// </summary>
-        ///// <param name=""></param>
-        ///// <returns>Makes the Window into a not dockable window</returns>
-        //public void MakeUndockable()
-        //{
-        //    _dockableWindow.ReleaseWindow();
-        //}
-
-        /// <summary>
-        /// Method.
-        /// </summary>
-        /// <param name=""></param>
-        /// <returns>True if the window has been made dockable</returns>
-        public bool IsMadeDockable()
-        {
-            if (_dockableWindow == null)
-                return false;
-            else
-                return true;
-        }
-        #endregion
-
-        //------------------------------------------------------------
+         //------------------------------------------------------------
         #region Window Type
         /// <summary>
         /// Method.
