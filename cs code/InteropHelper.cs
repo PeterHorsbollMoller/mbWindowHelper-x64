@@ -5,32 +5,40 @@ using MapInfo.Types;
 
 namespace WindowHelper
 {
-    static class InteropHelper
+ 	public interface IMapInfoProAddIn
+	{
+		void Initialize(IMapInfoPro mapInfoApplication, string mbxname);
+		void Unload();
+		IMapBasicApplication ThisApplication { get; set; }
+
+	}
+
+	public class MapInfoProAddInBase : IMapInfoProAddIn
+	{
+        public IMapInfoPro _mapinfoApp;
+
+		public virtual void Initialize(IMapInfoPro mapInfoApplication, string mbxname)
+		{
+			//UriParser.Register(new GenericUriParser(GenericUriParserOptions.GenericAuthority), "pack", -1);
+            _mapinfoApp = mapInfoApplication;
+		}
+
+		public virtual void Unload()
+		{
+            //There's nothing to do or is there?
+        }
+
+		public IMapBasicApplication ThisApplication { get; set; }
+	}
+
+	public class InteropHelper : MapInfoProAddInBase
 	{
 
         //private static System.Globalization.NumberFormatInfo _usNumberFormat;
-        private static IMapInfoPro _mapinfoApp = null;
+        //private static IMapInfoPro _mapinfoApp = null;
         private static bool _MapInfoInitialised = false;
-
-/*       public static void Initialise(IMapInfoPro mapinfoApp)
-        {
-            if (!_MapInfoInitialised)
-            {
-                _mapinfoApp = mapinfoApp;
-                _MapInfoInitialised = true;
-            }
-        }
-*/
-        public static void Initialise()
-        {
-            if (!_MapInfoInitialised)
-            {
-                //_mapinfoApp = (IMapInfoApplication)
-
-                    //Dispatch("MapInfo.Application.x64");
-                _MapInfoInitialised = true;
-            }
-        }
+        private static Windows.Window _activeWindow = null;
+        private static Windows.MapWindowExtentsList _mapWindowExtents = new Windows.MapWindowExtentsList();
 
         #region [Do and EVAL]
 
@@ -38,7 +46,7 @@ namespace WindowHelper
         /// Sends a statement to MapInfo to be executed
         /// </summary>
         /// <param name="statement">statement to send to MapInfo</param>
-        public static void Do(string statement)
+        public void Do(string statement)
         {
             //Do(string.Format("Print \"{0}\"", statement));
             //Do(statement);
@@ -50,7 +58,7 @@ namespace WindowHelper
         /// </summary>
         /// <param name="statement">statement to send to MapInfo</param>
         /// <returns>result of evaluation as string</returns>
-        public static string Eval(string statement)
+        public string Eval(string statement)
         {
             //Do(string.Format("Print \"{0}\"", statement));
             //return Eval(statement);
@@ -1263,5 +1271,162 @@ namespace WindowHelper
 
         #endregion
     
+//    }
+
+//    class ZoomNextAndPrevious
+//    {
+        //*****************************************************************************    
+        //#region private variables
+        //        private static IMapInfoPro _mapinfoApp;
+        //        private static bool _MapInfoInitialised = false;
+        //private static Windows.Window _activeWindow = null;
+        //private static Windows.MapWindowExtentsList _mapWindowExtents = new Windows.MapWindowExtentsList();
+
+        //#endregion
+
+        //*****************************************************************************    
+        //#region Constructors
+        //public ZoomNextAndPrevious()
+        //{
+        //    _miApp = InteropServices.MapInfoApplication;
+        //    //_miApp.Do("Set Paper Units \"cm\"");
+        //    // Register the window with the docking system
+        //}
+        //#endregion 
+
+        //*****************************************************************************    
+        #region Mehods
+        //-----------------------------------------------------------------
+        /*        public static void Initialise(IMapInfoPro mapinfoApp)
+                {
+                    if (!_MapInfoInitialised)
+                    {
+                        _mapinfoApp = mapinfoApp;
+                        _MapInfoInitialised = true;
+                    }
+                }
+        */
+        //-----------------------------------------------------------------
+        public void ZNPResetActiveWindow()
+        {
+            if (_activeWindow != null)
+                _activeWindow = null;
+        }
+
+        //-----------------------------------------------------------------
+        public static void ZNPSetActiveWindow(int windowID)
+        {
+            Windows.Window window = new Windows.Window(windowID);
+            _activeWindow = window;
+        }
+
+        #endregion
+
+        //-----------------------------------------------------------------
+        public static void ZNPAddWindow(int windowID)
+        {
+            try
+            {
+                Windows.Window mapWindow = new Windows.Window(windowID);
+                if (mapWindow.Type != Windows.Window.WindowType.Mapper)
+                    return;
+
+                if (_mapWindowExtents.WindowExists(mapWindow) == false)
+                {
+                    Windows.MapWindowExtents mapExtent = new Windows.MapWindowExtents(mapWindow);
+                    _mapWindowExtents.Add(mapExtent);
+                }
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(string.Format("{0} Exception caught.", e));
+            }
+        }
+
+        //-----------------------------------------------------------------
+        public static void ZNPRemoveWindow(int windowID)
+        {
+            Windows.Window mapWindow = new Windows.Window(windowID);
+            if (mapWindow.Type != Windows.Window.WindowType.Mapper)
+                return;
+
+            int index = _mapWindowExtents.FindWindow(mapWindow);
+            if (index >= 0)
+                _mapWindowExtents.RemoveAt(index);
+        }
+
+        //-----------------------------------------------------------------
+        public static void ZNPAddExtent(int windowID)
+        {
+            try
+            {
+                Windows.Window mapWindow = new Windows.Window(windowID);
+                if (mapWindow.Type != Windows.Window.WindowType.Mapper)
+                    return;
+
+                int index = _mapWindowExtents.FindWindow(mapWindow);
+                if (index >= 0)
+                {
+                    int extentIndex = _mapWindowExtents[index].MapExtentList.AddExtent(mapWindow);
+                }
+                else
+                {
+                    ZNPAddWindow(windowID);
+                }
+            }
+            catch (Exception e)
+            {
+                WindowHelper.InteropHelper.PrintMessage(string.Format("{0} Exception caught.", e));
+            }
+        }
+
+        //-----------------------------------------------------------------
+        public static void ZNPZoomToPrevious()
+        {
+            if (_activeWindow.Type != Windows.Window.WindowType.Mapper)
+                return;
+
+            int index = _mapWindowExtents.FindWindow(_activeWindow);
+            if (index >= 0)
+            {
+                _mapWindowExtents[index].MapExtentList.ZoomToPrevious(_activeWindow);
+            }
+        }
+        //-----------------------------------------------------------------
+        public static void ZNPZoomToNext()
+        {
+            if (_activeWindow.Type != Windows.Window.WindowType.Mapper)
+                return;
+
+            int index = _mapWindowExtents.FindWindow(_activeWindow);
+            if (index >= 0)
+            {
+                _mapWindowExtents[index].MapExtentList.ZoomToNext(_activeWindow);
+            }
+        }
+        //-----------------------------------------------------------------
+        public static void ZNPZoomToFirst()
+        {
+            if (_activeWindow.Type != Windows.Window.WindowType.Mapper)
+                return;
+
+            int index = _mapWindowExtents.FindWindow(_activeWindow);
+            if (index >= 0)
+            {
+                _mapWindowExtents[index].MapExtentList.ZoomToFirst(_activeWindow);
+            }
+        }
+        //-----------------------------------------------------------------
+        public static void ZNPZoomToLast()
+        {
+            if (_activeWindow.Type != Windows.Window.WindowType.Mapper)
+                return;
+
+            int index = _mapWindowExtents.FindWindow(_activeWindow);
+            if (index >= 0)
+            {
+                _mapWindowExtents[index].MapExtentList.ZoomToLast(_activeWindow);
+            }
+        }
     }
 }

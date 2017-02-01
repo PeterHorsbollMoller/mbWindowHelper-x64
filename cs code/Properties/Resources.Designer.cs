@@ -160,11 +160,29 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string DLG_OPTIONS {
+            get {
+                return ResourceManager.GetString("DLG_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Layer Rename.
         /// </summary>
         internal static string DLG_TITLE_ADVANCED_LAYER_RENAME {
             get {
                 return ResourceManager.GetString("DLG_TITLE_ADVANCED_LAYER_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Multiple Layers.
+        /// </summary>
+        internal static string DLG_TITLE_MULTIPLE_LAYERS_RENAME {
+            get {
+                return ResourceManager.GetString("DLG_TITLE_MULTIPLE_LAYERS_RENAME", resourceCulture);
             }
         }
         
@@ -273,6 +291,15 @@ namespace WindowHelper.Properties {
         internal static string ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED {
             get {
                 return ResourceManager.GetString("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The map doesn&apos;t have a selectable layer.
+        /// </summary>
+        internal static string ERR_NO_SELECTABLE_LAYER {
+            get {
+                return ResourceManager.GetString("ERR_NO_SELECTABLE_LAYER", resourceCulture);
             }
         }
         
@@ -511,6 +538,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Autolock Windows.
+        /// </summary>
+        internal static string MNU_AUTOLOCK_WINDOWS {
+            get {
+                return ResourceManager.GetString("MNU_AUTOLOCK_WINDOWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close Table.
         /// </summary>
         internal static string MNU_CLOSE_TABLE {
@@ -669,6 +705,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_MOFIFY_WINDOW {
             get {
                 return ResourceManager.GetString("MNU_HLP_MOFIFY_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename all layers to match the tab file name.
+        /// </summary>
+        internal static string MNU_HLP_MULTIPLE_LAYERS_RENAME {
+            get {
+                return ResourceManager.GetString("MNU_HLP_MULTIPLE_LAYERS_RENAME", resourceCulture);
             }
         }
         
@@ -880,11 +925,38 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Lock window.
+        /// </summary>
+        internal static string MNU_LOCK_WINDOW {
+            get {
+                return ResourceManager.GetString("MNU_LOCK_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Rename Multiple Layers.
+        /// </summary>
+        internal static string MNU_MULTIPLE_LAYERS_RENAME {
+            get {
+                return ResourceManager.GetString("MNU_MULTIPLE_LAYERS_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Open Tab File In.
         /// </summary>
         internal static string MNU_OPEN_TABFILE_IN_TEXT_EDITOR {
             get {
                 return ResourceManager.GetString("MNU_OPEN_TABFILE_IN_TEXT_EDITOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Options.
+        /// </summary>
+        internal static string MNU_OPTIONS {
+            get {
+                return ResourceManager.GetString("MNU_OPTIONS", resourceCulture);
             }
         }
         
@@ -898,7 +970,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &amp;Restore Closed Window....
+        ///   Looks up a localized string similar to Restore Windows.
         /// </summary>
         internal static string MNU_RESTORE_CLOSED_WINDOWS {
             get {
@@ -921,6 +993,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_SAVE_WINDOW_TO_WOR {
             get {
                 return ResourceManager.GetString("MNU_SAVE_WINDOW_TO_WOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Within Map.
+        /// </summary>
+        internal static string MNU_SELECT_WITHIN_MAP {
+            get {
+                return ResourceManager.GetString("MNU_SELECT_WITHIN_MAP", resourceCulture);
             }
         }
         
@@ -1087,6 +1168,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unlock window.
+        /// </summary>
+        internal static string MNU_UNLOCK_WINDOW {
+            get {
+                return ResourceManager.GetString("MNU_UNLOCK_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Entire Map.
         /// </summary>
         internal static string MNU_VIEW_ENTIRE_MAP {
@@ -1231,6 +1321,42 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Map.
+        /// </summary>
+        internal static string STR_MAP {
+            get {
+                return ResourceManager.GetString("STR_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Mini Toolbar.
+        /// </summary>
+        internal static string STR_MAP_MINI_TOOLBAR {
+            get {
+                return ResourceManager.GetString("STR_MAP_MINI_TOOLBAR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Info Tool to Map Mini Toolbar.
+        /// </summary>
+        internal static string STR_MTB_ADD_INFO_TOOL {
+            get {
+                return ResourceManager.GetString("STR_MTB_ADD_INFO_TOOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Ruler Tool to Map Mini Toolbar.
+        /// </summary>
+        internal static string STR_MTB_ADD_RULER_TOOL {
+            get {
+                return ResourceManager.GetString("STR_MTB_ADD_RULER_TOOL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Name.
         /// </summary>
         internal static string STR_NAME {
@@ -1312,6 +1438,33 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show Info when Deselecting Records.
+        /// </summary>
+        internal static string STR_SHOW_INFO_ON_DESELECT {
+            get {
+                return ResourceManager.GetString("STR_SHOW_INFO_ON_DESELECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show Info on Selection.
+        /// </summary>
+        internal static string STR_SHOW_INFO_ON_SELECTION {
+            get {
+                return ResourceManager.GetString("STR_SHOW_INFO_ON_SELECTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Skip Layer with Friendly Name.
+        /// </summary>
+        internal static string STR_SKIP_LAYER_WITH_FRIENLY_NAME {
+            get {
+                return ResourceManager.GetString("STR_SKIP_LAYER_WITH_FRIENLY_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tab File.
         /// </summary>
         internal static string STR_TAB_FILE {
@@ -1330,7 +1483,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click to Enable Info on Selection.
+        ///   Looks up a localized string similar to Info on Selection is Disabled. Click to Enable Info on Selection.
         /// </summary>
         internal static string STR_TTIP_DISABLE_INFO_SEL {
             get {
@@ -1339,7 +1492,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Click to Disable Info on Selection.
+        ///   Looks up a localized string similar to Info on Selection is Enabled. Click to Disable Info on Selection.
         /// </summary>
         internal static string STR_TTIP_ENABLE_INFO_SEL {
             get {
@@ -1380,6 +1533,24 @@ namespace WindowHelper.Properties {
         internal static string STR_USE_DEFAULT_WINDOW_NAME {
             get {
                 return ResourceManager.GetString("STR_USE_DEFAULT_WINDOW_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use Existing Table Description.
+        /// </summary>
+        internal static string STR_USE_EXISTING_TABLE_DESCRIPTION {
+            get {
+                return ResourceManager.GetString("STR_USE_EXISTING_TABLE_DESCRIPTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Use File Name as Friendly Layer Name.
+        /// </summary>
+        internal static string STR_USE_FILENAME_AS_FRIENDLY_NAME {
+            get {
+                return ResourceManager.GetString("STR_USE_FILENAME_AS_FRIENDLY_NAME", resourceCulture);
             }
         }
         
@@ -1452,6 +1623,69 @@ namespace WindowHelper.Properties {
         internal static string TAB_SPECIAL {
             get {
                 return ResourceManager.GetString("TAB_SPECIAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows are not automatically locked which would prevent them from being closed. Click here to enable automatically locking of windows.
+        /// </summary>
+        internal static string TTIP_AUTOLOCK_WINDOWS_OFF {
+            get {
+                return ResourceManager.GetString("TTIP_AUTOLOCK_WINDOWS_OFF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Windows are automatically locked which prevents them  from being closed. Click here to disable automatically locking of windows.
+        /// </summary>
+        internal static string TTIP_AUTOLOCK_WINDOWS_ON {
+            get {
+                return ResourceManager.GetString("TTIP_AUTOLOCK_WINDOWS_ON", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Lock the window to prevent it from being closed.
+        /// </summary>
+        internal static string TTIP_LOCK_WINDOW {
+            get {
+                return ResourceManager.GetString("TTIP_LOCK_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open the Options dialog for the WindowHelper application.
+        /// </summary>
+        internal static string TTIP_OPTIONS {
+            get {
+                return ResourceManager.GetString("TTIP_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Restore windows that have been closed during this session.
+        /// </summary>
+        internal static string TTIP_RESTORE_CLOSED_WINDOWS {
+            get {
+                return ResourceManager.GetString("TTIP_RESTORE_CLOSED_WINDOWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select objects that have their centroid within the current map extent.
+        /// </summary>
+        internal static string TTIP_SELECT_WITHIN_MAP {
+            get {
+                return ResourceManager.GetString("TTIP_SELECT_WITHIN_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unlock the window to make it possible to close the window.
+        /// </summary>
+        internal static string TTIP_UNLOCK_WINDOW {
+            get {
+                return ResourceManager.GetString("TTIP_UNLOCK_WINDOW", resourceCulture);
             }
         }
         

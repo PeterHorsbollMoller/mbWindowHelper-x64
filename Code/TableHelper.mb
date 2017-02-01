@@ -18,7 +18,8 @@ Include "Library\ERRORLib.def"
 Include "Library\TABLELib.def"
 
 Include "TableHelper.def"
-Include "Resources.def"
+Include "WindowHelper.Assembly.def"
+'Include "Resources.def"
 
 Dim	msTextEditor As String
 '**********************************************************************************************''
@@ -35,15 +36,25 @@ Dim	sTab, sFile As String
 		Exit Sub
 	End If
 
+'	Define TAB_TYPE_BASE                            1
+'	Define TAB_TYPE_RESULT                          2	- is ignored
+'	Define TAB_TYPE_VIEW                            3	- is ignored
+'	Define TAB_TYPE_IMAGE                           4
+'	Define TAB_TYPE_LINKED                          5
+'	Define TAB_TYPE_WMS                             6
+'	Define TAB_TYPE_WFS                             7
+'	Define TAB_TYPE_FME                             8
+'	Define TAB_TYPE_TILESERVER                      9
+
 	sTab = TableListSelectionInfo (1, TL_SEL_INFO_NAME)
 	Do Case TableInfo(sTab, TAB_INFO_TYPE)
-		Case TAB_TYPE_BASE, TAB_TYPE_FME, TAB_TYPE_LINKED, TAB_TYPE_WFS, TAB_TYPE_WMS, TAB_TYPE_TILESERVER', TAB_TYPE_WMTS
+		Case TAB_TYPE_BASE, TAB_TYPE_FME, TAB_TYPE_LINKED, TAB_TYPE_WFS, TAB_TYPE_WMS, TAB_TYPE_TILESERVER
 			sFile	= TableInfo(sTab, TAB_INFO_TABFILE)
 		Case TAB_TYPE_IMAGE
 			If Ask(GetResItemStr("ASK_LOCATE_TAB_FILE_OR_RASTER_FILE"), GetResItemStr("STR_TAB_FILE"), GetResItemStr("STR_RASTER_FILE")) Then	'Ask("Do you want to find the tab file or the raster file?", "Table", "Raster") Then
 				sFile	= TableInfo(sTab, TAB_INFO_TABFILE)
 			Else
-				sFile = RasterTableInfo(sTab, RASTER_TAB_INFO_IMAGE_NAME)
+				sFile	= RasterTableInfo(sTab, RASTER_TAB_INFO_IMAGE_NAME)
 			End If
 		Case Else
 			Note GetResItemStr("ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL")		' "Please select a non temporal table!"
@@ -84,8 +95,17 @@ Dim	nMID, nLayerID As Integer,
 	nLayerID	= LayerControlSelectionInfo(1, LC_SEL_INFO_LAYER_ID)
 	sTab 	= LayerInfo(nMID, nLayerID, LAYER_INFO_NAME)
 
+'	Define LAYER_INFO_TYPE_NORMAL                   0
+'	Define LAYER_INFO_TYPE_COSMETIC                 1	- is ignored
+'	Define LAYER_INFO_TYPE_IMAGE                    2
+'	Define LAYER_INFO_TYPE_THEMATIC                 3	- is ignored
+'	Define LAYER_INFO_TYPE_GRID                     4
+'	Define LAYER_INFO_TYPE_WMS                      5
+'	Define LAYER_INFO_TYPE_TILESERVER               6
+'	Define LAYER_INFO_TYPE_GRIDLINE                 7	- is ignored
+
 	Do Case LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE)
-		Case LAYER_INFO_TYPE_NORMAL
+		Case LAYER_INFO_TYPE_NORMAL, LAYER_INFO_TYPE_WMS, LAYER_INFO_TYPE_TILESERVER
 			sFile	= TableInfo(sTab, TAB_INFO_TABFILE)
 		Case LAYER_INFO_TYPE_GRID
 			If Ask(GetResItemStr("ASK_LOCATE_TAB_FILE_OR_GRID_FILE"), GetResItemStr("STR_TAB_FILE"), GetResItemStr("STR_GRID_FILE")) Then	'Ask("Do you want to find the tab file or the grid file?", "Table", "Grid") Then

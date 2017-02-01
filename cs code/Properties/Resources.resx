@@ -150,8 +150,14 @@
   <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
   </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>Options</value>
+  </data>
   <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
     <value>Advanced Layer Rename</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Rename Multiple Layers</value>
   </data>
   <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Create Map Extent</value>
@@ -185,6 +191,9 @@
   </data>
   <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
     <value>The must be at least one map window open!</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>The map doesn't have a selectable layer</value>
   </data>
   <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
     <value>Please click in the cell to read the value from! The application ignores the first row in the first column</value>
@@ -267,6 +276,9 @@
   <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
     <value>Advanced Rename</value>
   </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Autolock Windows</value>
+  </data>
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Close Table</value>
   </data>
@@ -320,6 +332,9 @@
   </data>
   <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Rename all layers to match the tab file name</value>
   </data>
   <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open the selected tab file in</value>
@@ -390,20 +405,32 @@
   <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
     <value>Locate File In Windows Explorer</value>
   </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>Lock window</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Rename Multiple Layers</value>
+  </data>
   <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open Tab File In</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>Options</value>
   </data>
   <data name="MNU_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application</value>
   </data>
   <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
-    <value>&amp;Restore Closed Window...</value>
+    <value>Restore Windows</value>
   </data>
   <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
     <value>Restore Window Positions Now</value>
   </data>
   <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
     <value>Save Window To Workspace Without 'Open table ...' statements</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Within Map</value>
   </data>
   <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
     <value>Setup Base Windows...</value>
@@ -459,6 +486,9 @@
   <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
     <value>Store Window Positions On Exit</value>
   </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Unlock window</value>
+  </data>
   <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>View Entire Map</value>
   </data>
@@ -507,6 +537,18 @@
   <data name="STR_HEIGHT" xml:space="preserve">
     <value>Height</value>
   </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>Map</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>Map Mini Toolbar</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>Add Info Tool to Map Mini Toolbar</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>Add Ruler Tool to Map Mini Toolbar</value>
+  </data>
   <data name="STR_NAME" xml:space="preserve">
     <value>Name</value>
   </data>
@@ -534,6 +576,15 @@
   <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
     <value>Save as default friendly name</value>
   </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>Show Info when Deselecting Records</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>Show Info on Selection</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>Skip Layer with Friendly Name</value>
+  </data>
   <data name="STR_TABLE" xml:space="preserve">
     <value>Table</value>
   </data>
@@ -541,10 +592,10 @@
     <value>Tab File</value>
   </data>
   <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
-    <value>Click to Enable Info on Selection</value>
+    <value>Info on Selection is Disabled. Click to Enable Info on Selection</value>
   </data>
   <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
-    <value>Click to Disable Info on Selection</value>
+    <value>Info on Selection is Enabled. Click to Disable Info on Selection</value>
   </data>
   <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
     <value>Display tabular Information about map objects</value>
@@ -557,6 +608,12 @@
   </data>
   <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
     <value>Use Default Window Name</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>Use Existing Table Description</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>Use File Name as Friendly Layer Name</value>
   </data>
   <data name="STR_WIDTH" xml:space="preserve">
     <value>Width</value>
@@ -581,6 +638,27 @@
   </data>
   <data name="TAB_SPECIAL" xml:space="preserve">
     <value>Special</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>Windows are not automatically locked which would prevent them from being closed. Click here to enable automatically locking of windows</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>Windows are automatically locked which prevents them  from being closed. Click here to disable automatically locking of windows</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>Lock the window to prevent it from being closed</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>Open the Options dialog for the WindowHelper application</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Restore windows that have been closed during this session</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Select objects that have their centroid within the current map extent</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Unlock the window to make it possible to close the window</value>
   </data>
   <data name="VIEW_OF_VIEWS" xml:space="preserve">
     <value>{0} of {1}</value>

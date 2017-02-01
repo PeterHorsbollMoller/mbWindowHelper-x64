@@ -1,0 +1,7 @@
+Declare Function DLGMultipleLayersRename(  ByVal nMID As Integer
+								) As Logical
+
+Declare Function DMLRSkipLayersWithFriendlyName() As Logical
+Declare Function DMLRUseExistingTableDescription() As Logical
+Declare Function DMLRSetAsDefaultDescription() As Logical
+Declare Function DMLRRenameInAllMaps() As Logical

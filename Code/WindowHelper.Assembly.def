@@ -1,5 +1,9 @@
-Declare Method Initialise Class "WindowHelper.Controller" Lib "WindowHelper.dll"
-	(ByVal mapInfoApplication As This)
+Global mapbasicAddIn as This
+
+' Declare methods from our own assembly
+Declare Method New_WindowHelperAddIn Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll" Alias  Ctor_CreateInstance() as This
+Declare Method Initialize Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll" Alias Initialize(ByVal p1 as This, ByVal p2 as refptr, ByVal p3 as String)
+Declare Method Unload Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll" Alias Unload(ByVal p1 as This)
 
 Declare Method GetResItemStr Class "WindowHelper.Controller" Lib "WindowHelper.dll" (ByVal sName As String) As String
 Declare Method GetResItemStrReplace Class "WindowHelper.Controller" Lib "WindowHelper.dll" Alias GetResItemStr (ByVal sName As String, ByVal sReplaceList As String) As String
@@ -31,17 +35,17 @@ Declare Method WinHelpDlgWinChanged Class "WindowHelper.Controller" Lib "WindowH
 	(ByVal nWID As Integer)
 
 '**ZoomNextAndPrevious
-Declare Method ResetActiveWindow Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	()
-Declare Method SetActiveWindow Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	(ByVal nWID As Integer)
-Declare Method AddExtent Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	(ByVal nWID As Integer)
-Declare Method ZoomToFirst Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	()
-Declare Method ZoomToPrevious Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	()
-Declare Method ZoomToNext Class "WindowHelper.ZoomNextAndPrevious" Lib "WindowHelper.dll"
-	()
+Declare Method ZNPResetActiveWindow Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This)
+Declare Method ZNPSetActiveWindow Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This, ByVal nWID As Integer)
+Declare Method ZNPAddExtent Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This, ByVal nWID As Integer)
+Declare Method ZNPZoomToFirst Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This)
+Declare Method ZNPZoomToPrevious Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This)
+Declare Method ZNPZoomToNext Class "WindowHelper.InteropHelper" Lib "WindowHelper.dll"
+	(ByVal mapbasicAddIn as This)
 
 

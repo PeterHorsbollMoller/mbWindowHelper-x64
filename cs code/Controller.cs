@@ -5,15 +5,14 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Threading;
-using WindowHelper.Geometry;
-using MapInfo.Types;
+//using MapInfo.Types;
 
 namespace WindowHelper
 {
     public class Controller
     {
         private static WindowWrapper _winWrap = null;
-        protected IMapInfoPro _mapInfoApplication;
+//       protected IMapInfoPro _mapInfoApplication;
         private static bool _mapInfoHasBeenInitialised = false;
 
         #region MapInfo Handlers for the Resource strings
@@ -73,7 +72,7 @@ namespace WindowHelper
         }
         #endregion
 
-        public void Initialise(IMapInfoPro mapinfoApp)
+/*        public void Initialise(IMapInfoPro mapinfoApp)
         {
             if (!_mapInfoHasBeenInitialised)
             {
@@ -83,6 +82,7 @@ namespace WindowHelper
             //InteropHelper.Initialise(mapinfoApp);
             //ZoomNextAndPrevious.Initialise(mapinfoApp);
         }
+*/
 
         //<summary>
         /// </summary>
@@ -93,62 +93,6 @@ namespace WindowHelper
             string size = "";
             size = string.Format("{0}x{1}", SystemInformation.PrimaryMonitorSize.Width, SystemInformation.PrimaryMonitorSize.Height);
             return size;
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// when another window gets focus in MapInfo Pro
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgWinFocusChanged(int windowID)
-        {
-            try
-            {
-                ZoomNextAndPrevious.AddWindow(windowID);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(string.Format("{0} Exception caught.", e));
-            }
-        }
-
-        /// <summary>
-        /// This function is called from MapBasic code
-        /// when a window is closed in MapInfo Pro
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgWinClosed(int windowID)
-        {
-            try
-            {
-                ZoomNextAndPrevious.RemoveWindow(windowID);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(string.Format("{0} Exception caught.", e));
-            }
-
-        }
-
-                /// <summary>
-        /// This function is called from MapBasic code
-        /// when a window is changed in some way in MapInfo Pro
-        /// </summary>
-        /// <param name="hMainWnd"></param>
-        /// <returns></returns>
-        public static void WinHelpDlgWinChanged(int windowID)
-        {
-            try
-            {
-                ZoomNextAndPrevious.AddExtent(windowID);
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(string.Format("{0} Exception caught.", e));
-            }
-
         }
 
          ///****************************************************************************

@@ -1,0 +1,9 @@
+Declare Function DLGWHOWindowHelperOptions() As Logical
+
+Declare Sub DLGWHOSetAddInfoToolToMTB(ByVal bValue As Logical)
+Declare Function DLGWHOGetAddInfoToolToMTB() As Logical
+Declare Sub DLGWHOSetAddRulerToolToMTB(ByVal bValue As Logical)
+Declare Function DLGWHOGetAddRulerToolToMTB() As Logical
+
+Declare Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
+Declare Function DLGWHOGetShowInfoOnDeselect() As Logical

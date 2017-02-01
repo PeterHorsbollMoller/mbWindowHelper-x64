@@ -8,3 +8,6 @@ Declare Sub SELINFOReadConfigFile
 Declare Sub SELINFOSelChangedHandler
 Declare Sub SELINFOSwitchDisplay
 Declare Sub SELINFOTableClosedHandler(ByVal args as This)
+
+Declare Sub SELINFOSetShowInfoOnDeselect(ByVal bValue As Logical)
+Declare Function SELINFOGetShowInfoOnDeselect() As Logical

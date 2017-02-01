@@ -1,0 +1,180 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Business Insight
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\TABLELib.def"
+
+Define	CTRL_CHK_MTB_ADD_INFO_TOOL	100
+Define	CTRL_CHK_MTB_ADD_RULER_TOOL	110
+Define	CTRL_CHK_SELINFO_ON_DESELECT	200
+
+Include "WindowHelper.Assembly.def"
+Include "DLGWHOWindowHelperOptions.def"
+
+Declare Sub DLGWHOHandler_OKClicked
+
+Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Function DLGWHOWindowHelperOptions() As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOWindowHelperOptions = FALSE
+
+	Dialog
+		Title GetResItemStr("DLG_OPTIONS")
+
+		Control GroupBox
+			Position 5,5	Width 170		Height 45
+			Title GetResItemStr("STR_MAP_MINI_TOOLBAR")
+		Control CheckBox		ID CTRL_CHK_MTB_ADD_INFO_TOOL
+			Position 15,20	Width 150
+			Title GetResItemStr("STR_MTB_ADD_INFO_TOOL")
+			Value DLGWHOGetAddInfoToolToMTB()
+		Control CheckBox		ID CTRL_CHK_MTB_ADD_RULER_TOOL
+			Position 15,35	Width 150
+			Title GetResItemStr("STR_MTB_ADD_RULER_TOOL")
+			Value DLGWHOGetAddRulerToolToMTB()
+
+		Control GroupBox
+			Position 5,60	Width 170		Height 30
+			Title GetResItemStr("STR_SHOW_INFO_ON_SELECTION")
+		Control CheckBox		ID CTRL_CHK_SELINFO_ON_DESELECT
+			Position 15,75	Width 150
+			Title GetResItemStr("STR_SHOW_INFO_ON_DESELECT")
+			Value DLGWHOGetShowInfoOnDeselect()
+
+		Control OKButton
+		Control CancelButton
+
+	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
+		Exit Sub
+	End If
+
+	DLGWHOWindowHelperOptions = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOWindowHelperOptions")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGWHOHandler_OKClicked
+
+OnError GoTo ErrorOccured
+
+	Call DLGWHOSetAddInfoToolToMTB(ReadControlValue(CTRL_CHK_MTB_ADD_INFO_TOOL))
+	Call DLGWHOSetAddRulerToolToMTB(ReadControlValue(CTRL_CHK_MTB_ADD_RULER_TOOL))
+	Call DLGWHOSetShowInfoOnDeselect(ReadControlValue(CTRL_CHK_SELINFO_ON_DESELECT))
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOHandler_OKClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+' Property 'AddInfoToolToMapMiniToolbar
+'**********************************************************************************************''
+Sub DLGWHOSetAddInfoToolToMTB(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbAddInfoToolToMTB = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetAddInfoToolToMTB")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetAddInfoToolToMTB() As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOGetAddInfoToolToMTB = mbAddInfoToolToMTB
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetAddInfoToolToMTB")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'AddRulerToolToMapMiniToolbar
+'**********************************************************************************************''
+Sub DLGWHOSetAddRulerToolToMTB(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbAddRulerToolToMTB = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetAddRulerToolToMTB")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetAddRulerToolToMTB() As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOGetAddRulerToolToMTB = mbAddRulerToolToMTB
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetAddRulerToolToMTB")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'AddRulerToolToMapMiniToolbar
+'**********************************************************************************************''
+Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbShowInfoOnDeselect = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetShowInfoOnDeselect")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetShowInfoOnDeselect() As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOGetShowInfoOnDeselect = mbShowInfoOnDeselect
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetShowInfoOnDeselect")
+
+End Function

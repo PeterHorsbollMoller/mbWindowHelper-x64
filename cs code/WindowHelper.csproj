@@ -56,9 +56,6 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="MapInfo.Types">
-      <HintPath>C:\MapInfo\Pro x64\12.5 EN\MapInfo.Types.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -76,24 +73,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controller.cs" />
-    <Compile Include="Geometry\Coordinate.cs" />
-    <Compile Include="Geometry\MBR.cs" />
-    <Compile Include="InteropHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Windows\ClosedWindow.cs" />
-    <Compile Include="Windows\ClosedWindowList.cs" />
-    <Compile Include="Windows\MapWindowExtents.cs" />
-    <Compile Include="Windows\MapExtent.cs" />
-    <Compile Include="Windows\MapExtentList.cs" />
-    <Compile Include="Windows\MapWindowExtentsList.cs" />
-    <Compile Include="Windows\Win32Window.cs" />
-    <Compile Include="Windows\Window.cs" />
-    <Compile Include="Windows\WindowList.cs" />
-    <Compile Include="ZoomNextAndPrevious.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">

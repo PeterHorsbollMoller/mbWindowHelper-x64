@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WindowHelper.Geometry
 {
-    class MBR
+    public class MBR
     {
         Double _minimumX;
         Double _minimumY;

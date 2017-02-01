@@ -92,6 +92,7 @@ OnError GoTo ErrorOccured
 
 '	Call CONFIGWriteKey(msIniFile, "SETTINGS", "LANGUAGE", PRGIGetApplicationLanguageName())
 	Call CONFIGWriteKey(msIniFile, "SETTINGS", "INITIALSTATEISON", Int(mbInfoSelChangedHandlerEnabled))
+	Call CONFIGWriteKey(msIniFile, "SETTINGS", "SHOWINFOONDESELECT", Int(SELINFOGetShowInfoOnDeselect()))
 
 	Exit Sub
 '-------------------------
@@ -118,14 +119,8 @@ OnError GoTo ErrorOccured
 	sShowOnDeselect	= CONFIGReadKey(sFile, "SETTINGS", "SHOWINFOONDESELECT")
 
 	If FileExists(msIniFile) Then
-'		msLanguage	= CONFIGReadKey(msIniFile, "SETTINGS", "LANGUAGE")
-'		Call DEBUGPrint("Found '" & msLanguage & "' in " & msIniFile)
-
 		sState		= CONFIGReadKey(msIniFile, "SETTINGS", "INITIALSTATEISON")
 	Else
-'		msLanguage	= CONFIGReadKey(sFile, "SETTINGS", "LANGUAGE")
-'		Call DEBUGPrint("Found '" & msLanguage & "' in " & sFile)
-
 		sState		= CONFIGReadKey(sFile, "SETTINGS", "INITIALSTATEISON")
 	End If
 
@@ -140,10 +135,10 @@ OnError GoTo ErrorOccured
 	End If
 	If sShowOnDeselect = "0" Then
 		'**Do not update the Info window when a record is deselected
-		mbShowInfoOnDeselect	= FALSE
+		Call SELINFOSetShowInfoOnDeselect(FALSE)
 	Else
 		'**Do update the Info window when a record is deselected
-		mbShowInfoOnDeselect	= TRUE
+		Call SELINFOSetShowInfoOnDeselect(TRUE)
 	End If
 
 	Exit Sub
@@ -182,7 +177,7 @@ OnError GoTo ErrorOccured
 					Table SelectionInfo(SEL_INFO_TABLENAME) Rec nRowID
 			Case 2	'one row was removed from the selection;
 				Call DEBUGPrint("   One row was removed from the selection")
-				If mbShowInfoOnDeselect Then
+				If SELINFOGetShowInfoOnDeselect() Then
 '					Call DEBUGPrint("   Number of open tables: " & NumTables())
 					If msLastSelectionTable <> "" Then
 						If TABIsOpen(msLastSelectionTable) Then
@@ -226,19 +221,20 @@ Sub SELINFOSwitchDisplay
 
 OnError GoTo ErrorOccured
 
-'	Call DEBUGPrint("SELINFOSwitchDisplaySelInfo")
 	mbInfoSelChangedHandlerEnabled = (NOT mbInfoSelChangedHandlerEnabled)
-
-'	Call DEBUGPrint("RBNControlToggleIdx(" & mnbtnSelInfoHandlerIdx & ", " & mbInfoSelChangedHandlerEnabled & ")")
 
 	Call RBNControlSelectedIdx(mnbtnSelInfoHandlerIdx, mbInfoSelChangedHandlerEnabled)
 
 	If mbInfoSelChangedHandlerEnabled Then
-		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_DISABLE_INFO_SEL"), "")
-		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, "", msImageFolder & "InfoSelHandlerGreen_32x32.png")
+		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName()
+								, GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, ""
+								, msImageFolder & "InfoSelHandlerGreen_32x32.png")
 	Else
-		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
-		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, "", msImageFolder & "InfoSelHandlerRed_32x32.png")
+		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName()
+								, GetResItemStr("STR_TTIP_DISABLE_INFO_SEL"), "")
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, ""
+								, msImageFolder & "InfoSelHandlerRed_32x32.png")
 	End If
 
 	Exit Sub
@@ -272,3 +268,30 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+' Property
+'**********************************************************************************************''
+Sub SELINFOSetShowInfoOnDeselect(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbShowInfoOnDeselect = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOSetShowInfoOnDeselect")
+
+End Sub
+'**********************************************************************************************''
+Function SELINFOGetShowInfoOnDeselect() As Logical
+
+OnError GoTo ErrorOccured
+
+	SELINFOGetShowInfoOnDeselect = mbShowInfoOnDeselect
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "SELINFOGetShowInfoOnDeselect")
+
+End Function

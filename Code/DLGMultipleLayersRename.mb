@@ -1,0 +1,214 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Business Insight
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\STRINGLib.def"
+Include "Library\TABLELib.def"
+
+Include "DLGMultipleLayersRename.def"
+Include "WindowHelper.Assembly.def"
+
+Define CTRL_CHK_SKIP_LYR_W_FRIENDLY_N	100
+Define CTRL_CHK_USE_TABLE_DESCRIPTION	200
+Define CTRL_CHK_SAVE_AS_DEFAULT		300
+Define CTRL_CHK_RENAME_IN_ALL_MAPS		400
+
+Declare Sub DMLRHandler_OnLoad
+Declare Sub DMLRHandler_OKClicked
+
+Dim	mbSkipLayersWithFriendlyName As Logical,
+	mbUseExistingTableDescription As Logical,
+	mbSaveAsDefaultDescription As Logical,
+	mbRenameInAllMaps As Logical
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGMultipleLayersRename(	  ByVal nMID As Integer
+							) As Logical
+
+OnError GoTo ErrorOccured
+
+DLGMultipleLayersRename = FALSE
+
+	Dialog
+		Title GetResItemStr("DLG_TITLE_MULTIPLE_LAYERS_RENAME")
+		Calling DMLRHandler_OnLoad
+
+		Control StaticText		Position 15,10
+			Width 200
+			Title GetResItemStr("STR_MAP") & ": " & WindowInfo(nMID, WIN_INFO_NAME)
+
+		Control StaticText		Position 15,25
+			Width 200
+			Title GetResItemStr("STR_USE_FILENAME_AS_FRIENDLY_NAME")
+
+		Control Checkbox		Position 25,40		ID CTRL_CHK_SKIP_LYR_W_FRIENDLY_N
+			Width 200
+			Title GetResItemStr("STR_SKIP_LAYER_WITH_FRIENLY_NAME")
+			Value mbSkipLayersWithFriendlyName
+		Control Checkbox		Position 25,60		ID CTRL_CHK_USE_TABLE_DESCRIPTION
+			Width 200
+			Title GetResItemStr("STR_USE_EXISTING_TABLE_DESCRIPTION")
+			Value mbUseExistingTableDescription
+		Control Checkbox		Position 25,80		ID CTRL_CHK_SAVE_AS_DEFAULT
+			Width 200
+			Title GetResItemStr("STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME")
+			Value mbSaveAsDefaultDescription
+'		Control Checkbox		Position 25,100		ID CTRL_CHK_RENAME_IN_ALL_MAPS
+'			Width 200
+'			Title GetResItemStr("STR_RENAME_LAYER_IN_ALL_MAPS")
+'			Value mbRenameInAllMaps
+
+		Control OKButton
+			Calling DMLRHandler_OKClicked
+		Control CancelButton
+
+	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
+		Exit Function
+	End If
+
+DLGMultipleLayersRename = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGMultipleLayersRename")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DMLRHandler_OnLoad
+
+OnError GoTo ErrorOccured
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRHandler_OnLoad")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DMLRHandler_OKClicked
+
+OnError GoTo ErrorOccured
+
+	mbSkipLayersWithFriendlyName	= ReadControlValue(CTRL_CHK_SKIP_LYR_W_FRIENDLY_N)
+	mbUseExistingTableDescription	= ReadControlValue(CTRL_CHK_USE_TABLE_DESCRIPTION)
+	mbSaveAsDefaultDescription	= ReadControlValue(CTRL_CHK_SAVE_AS_DEFAULT)
+'	mbRenameInAllMaps			= ReadControlValue(CTRL_CHK_RENAME_IN_ALL_MAPS)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRHandler_OKClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DMLRSkipLayersWithFriendlyName() As Logical
+
+OnError GoTo ErrorOccured
+
+	DMLRSkipLayersWithFriendlyName = mbSkipLayersWithFriendlyName
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRSkipLayersWithFriendlyName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DMLRUseExistingTableDescription() As Logical
+
+OnError GoTo ErrorOccured
+
+	DMLRUseExistingTableDescription = mbUseExistingTableDescription
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRUseExistingTableDescription")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DMLRSetAsDefaultDescription() As Logical
+
+OnError GoTo ErrorOccured
+
+	DMLRSetAsDefaultDescription = mbSaveAsDefaultDescription
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRSetAsDefaultDescription")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DMLRRenameInAllMaps() As Logical
+
+OnError GoTo ErrorOccured
+
+	DMLRRenameInAllMaps = mbRenameInAllMaps
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DMLRRenameInAllMaps")
+	Call ERRShow()
+
+End Function

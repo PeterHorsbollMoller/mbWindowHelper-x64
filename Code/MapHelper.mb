@@ -1,0 +1,197 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Business Insight
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\STRINGLib.def"
+Include "Library\TABLELib.def"
+
+Include "MapHelper.def"
+Include "WindowHelper.Assembly.def"
+
+Include "DLGAdvancedLayerRename.def"
+Include "DLGMultipleLayersRename.def"
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHRenameLayerAdvancedLC
+
+Dim	nMID, nLayerID, nWin As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+
+	If NOT DLGAdvancedLayerRename(nMID, nLayerID) Then
+		Exit Sub
+	End If
+
+	Set Map
+		Window nMID
+		Layer nLayerID FriendlyName DALRGetNewFriendlyName()
+
+	If DALRSetAsDefaultDescription() Then
+		Call DEBUGPrint("Set Table " & DALRGetTableName() & " Description " & DALRGetNewFriendlyName())
+		Set Table DALRGetTableName()
+			Description DALRGetNewFriendlyName()
+	End If
+
+	If DALRRenameInAllMaps() Then
+		For nWin = 1 To NumWindows()
+			nMID = WindowID(nWin)
+			If WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+				For nLayerID = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+					If LayerInfo(nMID, nLayerID, WIN_INFO_NAME) = DALRGetLayerName() Then
+						Set Map
+							Window nMID
+							Layer nLayerID FriendlyName DALRGetNewFriendlyName()
+					End If
+				Next
+			End If
+		Next
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHRenameLayerAdvanced")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHRenameMultipleLayersLC
+
+Dim	nMID, nLayerID, nWin As Integer,
+	sTab, sDescription, sFriendlyName, sNewFriendlyName As String,
+	bHasFriendlyName As Logical
+
+OnError GoTo ErrorOccured
+
+	If NOT LayerControlInfo(LC_INFO_SEL_COUNT) = 1 Then
+		Note "1: " & GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+'	If LayerControlSelectionInfo(1, LC_SEL_INFO_TYPE ) = LC_SEL_INFO_TYPE_MAP  Then
+'		Note "2: " & GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL")
+'		Exit Sub
+'	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	If nMID = 0 Then
+		Note "3: " & GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+	If NOT DLGMultipleLayersRename(nMID) Then
+		Exit Sub
+	End If
+
+	Call DEBUGPrint("Using existing Table Description = " & DMLRUseExistingTableDescription())
+	Call DEBUGPrint("Skip Layers with a Friendly Name = " & DMLRSkipLayersWithFriendlyName())
+
+	For nLayerID = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+		If NOT LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) IN (LAYER_INFO_TYPE_COSMETIC, LAYER_INFO_TYPE_THEMATIC, LAYER_INFO_TYPE_GRIDLINE) Then
+			sTab				= LayerInfo(nMID, nLayerID, LAYER_INFO_NAME)
+			Call DEBUGPrint("Layer: " & sTab)
+			sFriendlyName		= LayerInfo(nMID, nLayerID, LAYER_INFO_FRIENDLYNAME)
+			Call DEBUGPrint("   Friendly Name: " & sFriendlyName)
+			sDescription		= TableInfo(sTab, TAB_INFO_DESCRIPTION)
+			Call DEBUGPrint("   Table Description: " & sDescription)
+			sNewFriendlyName	= PathToFileName$(TableInfo(sTab, TAB_INFO_TABFILE))
+			sNewFriendlyName	= Left$(sNewFriendlyName, Len(sNewFriendlyName) - 4)
+			sNewFriendlyName	= STRINGReplace(sNewFriendlyName, "_", " ")
+			Call DEBUGPrint("   New Friendly Name (1): " & sNewFriendlyName)
+
+			If DMLRUseExistingTableDescription() Then
+				If NOT (sDescription = "" OR sDescription = sTab) Then
+					sNewFriendlyName	= sDescription
+				End If
+			End If
+			Call DEBUGPrint("   New Friendly Name (2): " & sNewFriendlyName)
+
+			If sTab = sFriendlyName Then
+				Call DEBUGPrint("   Layer has already a friendly name")
+				bHasFriendlyName = FALSE
+			Else
+				bHasFriendlyName = TRUE
+			End If
+
+			If DMLRSkipLayersWithFriendlyName() AND bHasFriendlyName Then
+				'**Do nothing
+				Call DEBUGPrint("   Ignoring this Layer")
+			Else
+				Call DEBUGPrint("   Chainging Friendly Layer Name to: " & sNewFriendlyName)
+				Set Map
+					Window nMID
+					Layer nLayerID FriendlyName sNewFriendlyName
+			End If
+
+			If DMLRSetAsDefaultDescription() AND sNewFriendlyName <> sDescription Then
+				Call DEBUGPrint("Set Table " & DALRGetTableName() & " Description " & sNewFriendlyName)
+				Set Table sTab
+					Description sNewFriendlyName
+			End If
+
+'			If DMLRRenameInAllMaps() Then
+'				For nWin = 1 To NumWindows()
+'					nMID = WindowID(nWin)
+'					If WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+'						For nLayerID = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+'							If LayerInfo(nMID, nLayerID, WIN_INFO_NAME) = sTab Then
+'								Set Map
+'									Window nMID
+'									Layer nLayerID FriendlyName sFriendlyName
+'							End If
+'						Next
+'					End If
+'				Next
+'			End If
+		End If
+	Next
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHRenameMultipleLayers")
+	Call ERRShow()
+
+End Sub
+
