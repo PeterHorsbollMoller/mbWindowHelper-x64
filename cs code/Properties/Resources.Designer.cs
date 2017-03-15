@@ -1231,7 +1231,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show Info on Selection.
+        ///   Looks up a localized string similar to Show Info.
         /// </summary>
         internal static string STR_BTN_SEL_INFO_HANDLER {
             get {

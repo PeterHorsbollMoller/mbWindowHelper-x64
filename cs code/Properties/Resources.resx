@@ -508,7 +508,7 @@
     <value>Apply</value>
   </data>
   <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
-    <value>Show Info on Selection</value>
+    <value>Show Info</value>
   </data>
   <data name="STR_CHANGE" xml:space="preserve">
     <value>Change</value>
