@@ -108,6 +108,9 @@
 '						- Added Select Within Map Extent
 '3.0.2	29-11-2016 21:27:19	- Added Options dialog
 '		31-01-2017 11:49:51	- Added Rename Multiple Layers, Layer Control Map context menu
+'3.0.2	15-03-2017 14:05:20 - Changed the Aboutbox for ProgramInfo to link to Community Download
+'						- Made the icons in the MAP > Options group small
+'						- Created a new document for the tool
 '*******************************************************************************
 
 '-------------------------------------
@@ -122,7 +125,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.0.2"
+Define xVersion 		"3.0.3"
 Define xYear			"2017"
 Define xAddToMenuBar	FALSE
 
@@ -143,6 +146,7 @@ Include "Library\FILELib.def"
 Include "Library\MAPPERLib.def"
 Include "Library\ProgramInfo.def"
 Include "Library\RibbonElements.def"
+Include "Library\RESSTRNGLib.def"
 Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\SYSTEMLib.def"
@@ -218,6 +222,7 @@ OnError GoTo ErrorOccured
 	Call DEBUGPrint("----------------------------------------------------------------------------------------------")
 	Call DEBUGPrint("Application " & PRGIGetApplicationName() & " " & xVersion & " started")
 
+	Call RESSTRNGSetStringFilesFolder(ApplicationDirectory$())
 '	Call RESSTRNGSetStringFilesFolder(ApplicationDirectory$() & "Strings\")
 '	Call PRGILoadLanguageStrings(msLanguage)
 
@@ -385,7 +390,7 @@ OnError GoTo ErrorOccured
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
 		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, "", PATH_IMAGES & "MapWindowExtent_32x32.png")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "MapWindowExtent_32x32.png")
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
 	End If
@@ -400,7 +405,7 @@ OnError GoTo ErrorOccured
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
 		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, "", PATH_IMAGES & "InfoSelHandler_32x32.png")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "InfoSelHandler_32x32.png")
 		'**Set the handler to match the handler of the first button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "SELINFOSwitchDisplay")
 	End If
@@ -410,7 +415,7 @@ OnError GoTo ErrorOccured
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_RESTORE_CLOSED_WINDOWS"), "")
 		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "WindowRestore_16x16.png", PATH_IMAGES & "WindowRestore_32x32.png")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "WindowRestore_32x32.png")
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
 	End If

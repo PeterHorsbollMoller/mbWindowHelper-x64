@@ -228,12 +228,12 @@ OnError GoTo ErrorOccured
 	If mbInfoSelChangedHandlerEnabled Then
 		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName()
 								, GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
-		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, ""
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_SMALL, ""
 								, msImageFolder & "InfoSelHandlerGreen_32x32.png")
 	Else
 		Call RBNControlSetToolTipIdx(mnbtnSelInfoHandlerIdx, PRGIGetApplicationName()
 								, GetResItemStr("STR_TTIP_DISABLE_INFO_SEL"), "")
-		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_LARGE, ""
+		Call RBNControlSetIconsIdx(mnbtnSelInfoHandlerIdx, CONTROL_SIZE_SMALL, ""
 								, msImageFolder & "InfoSelHandlerRed_32x32.png")
 	End If
 

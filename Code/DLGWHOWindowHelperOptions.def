@@ -7,3 +7,4 @@ Declare Function DLGWHOGetAddRulerToolToMTB() As Logical
 
 Declare Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
 Declare Function DLGWHOGetShowInfoOnDeselect() As Logical
+
