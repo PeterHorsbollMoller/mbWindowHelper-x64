@@ -39,7 +39,7 @@ Declare Method SYSGetTextFromClipboard Class "SystemLib.MIClipboard" Lib "System
 Declare Method SYSCopyImageToClipboard Class "SystemLib.MIClipboard" Lib "SystemLib.dll"
 	Alias "CopyImageToClipboard" (ByVal sImageFile As String)
 
-Declare Method SYSGetScreenSize Class "SystemLib.MISystemInfo" Lib "SystemLib.dll"
+Declare Method SYSGetPrimaryScreenSize Class "SystemLib.MISystemInfo" Lib "SystemLib.dll"
 	Alias "GetPrimaryScreenSize" () As String
 
 
