@@ -1,2 +1,20 @@
+Define THEME_OBJ_TYPE_POLYGONS		3
+Define THEME_OBJ_TYPE_LINES		2
+Define THEME_OBJ_TYPE_POINTS		1
+
 Declare Sub MAPHRenameLayerAdvancedLC
 Declare Sub MAPHRenameMultipleLayersLC
+Declare Sub MAPHCloneMapLC
+
+Declare Sub MAPHMenuThemeUsingCurrentStyles
+Declare Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
+								, ByVal nMID As Integer
+								, ByVal sTab As String
+								, ByVal sCol As String
+								)
+
+Declare Function MAPHGetCartographicScale(ByVal nMID As Integer) As Integer
+Declare Function MAPHGetCoordinate(  ByVal nMID As Integer
+							, ByVal sCoordinate As String
+							) As Float
+

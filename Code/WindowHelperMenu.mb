@@ -111,6 +111,15 @@
 '3.0.2	15-03-2017 14:05:20 - Changed the Aboutbox for ProgramInfo to link to Community Download
 '						- Made the icons in the MAP > Options group small
 '						- Created a new document for the tool
+'3.5.0	10-04-2018 21:48:11	- Added a menu item for cloning a map window via the Layer Control Map Context menu
+'						- Added an option for creating a theme from a table/column using the current style from the objects.
+'3.5.1	25-04-2018 08:25:59	- Added a function to return Cartographic Scale of a Map window (to be used in a SmartText)
+'						- Added a function to return Coordinates from a Map window (to be used in a SmartText)
+'3.5.2	09-05-2018 12:18:26	- Added a dialog to show a list of functions that can be used via the new Exec() function
+'						- Added Browse in floating window to TABLE tab, including Ctrl+Shift+F4 shortcut
+'						- Added Browse in floating window to Table List Table Context menu
+'						- Fixed issue: InfoSelHandler State wasn't saved correctly
+'3.5.3	18-05-2018 12:37:31	- Fixed ToolTip for Floating Browser window
 '*******************************************************************************
 
 '-------------------------------------
@@ -125,8 +134,8 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.0.3"
-Define xYear			"2017"
+Define xVersion 		"3.5.3 Beta"
+Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -162,6 +171,7 @@ Include "WindowHelper.def"
 'Include "WindowShow.def"
 'Include "WindowHelperDialog.def"
 Include "MAPEXTCreate.def"
+Include "DLGExecFunctions.def"
 
 Include "WindowHelper.Assembly.def"
 Include "SelInfoHandler.def"
@@ -313,6 +323,8 @@ OnError GoTo ErrorOccured
 
 	Call SELINFOSwitchDisplay
 
+'	Call DLGExecFunctions
+
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
 	End If
@@ -385,7 +397,7 @@ OnError GoTo ErrorOccured
 	sTabName		= TAB_MAP
 	sGroupName	= TAB_GROUP_MAP_OPTIONS
 
-	nCtrlIdx = RBNGroupAddButton("MapMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "", sTabName, sGroupName)
+	nCtrlIdx = RBNGroupAddButton("btnMapMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
@@ -410,7 +422,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "SELINFOSwitchDisplay")
 	End If
 
-	nCtrlIdx = RBNGroupAddButton("MapRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
+	nCtrlIdx = RBNGroupAddButton("btnMapRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_RESTORE_CLOSED_WINDOWS"), "")
@@ -418,6 +430,19 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "WindowRestore_32x32.png")
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
+	End If
+
+	sTabName		= TAB_MAP
+	sGroupName	= TAB_GROUP_MAP_FILE
+
+	nCtrlIdx = RBNGroupInsertControlAfter("btnMapStaticTheme", GetResItemStr("MNU_STATIC_THEME"), "", ControlType_Button, sTabName, sGroupName, "MapAddThematicButton")
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_STATIC_THEME"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuThemeUsingCurrentStyles")
 	End If
 
 '	nCtrlIdx = RBNGroupAddButton("MapAutolockWindows", GetResItemStr("MNU_AUTOLOCK_WINDOWS"), "", sTabName, sGroupName)
@@ -481,7 +506,7 @@ OnError GoTo ErrorOccured
 '	End If
 
 	'**************************************************************************************************
-	nCtrlIdx = RBNSplitButtonGroupAddControl("MAPSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), ""
+	nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), ""
 				, ControlType_Button, sTabName, sGroupName, "MapSelectionToolsSplitButton", "SelectionDownMenuGroup")
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
@@ -544,6 +569,18 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    T A B L E
 	'********************************************************************************
 	sTabName				= TAB_TABLE
+	sGroupName			= TAB_GROUP_TABLE_DATA
+	nCtrlIdx = RBNGroupInsertButton("tabBrowserFloating", GetResItemStr("MNU_BROWSER_FLOATING"), "", sTabName, sGroupName, 1)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName() & " (Ctrl+Shift+F4)", GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHBrowserFloating")
+		Call RBNControlSetKeyGestureIdx(nCtrlIdx, "Ctrl+Shift+F4")
+	End If
+
 	sGroupName			= TAB_GROUP_TABLE_SORTFILTER
 	nCtrlIdx = RBNDropDButtonGroupAddControl("tabdbgFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE_SHORT"), ""
 				, ControlType_Button, sTabName, sGroupName, "FilterDropDown", "FilterDropDownMenuGroup")
@@ -558,7 +595,6 @@ OnError GoTo ErrorOccured
 	End If
 
 
-
 '	GetResItemStr("MNU_SAVE_WINDOW_TO_WOR")							'"Save window to workspace without 'Open table ...' statements"
 '		HelpMsg GetResItemStr("MNU_HLP_SAVE_WINDOW_TO_WOR")			'"Saves the active window to a workspace without the 'Open Table ...' statements"
 '		Calling WINHSaveWindowToWorkspace,
@@ -567,15 +603,12 @@ OnError GoTo ErrorOccured
 	'C O N T E X T   M E N U S
 	'***************************************************************
 	'**Adding a menu item to the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_MapperShortcut, "mapCntxtMapExtent"
-								, GetResItemStr("MNU_CREATE_MAP_EXTENT"), "")
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_MapperShortcut, "mapCntxtMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "")
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
-								, GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
 		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, ""
-								, PATH_IMAGES & "MapWindowExtent_24x24.png")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "MapWindowExtent_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
@@ -606,7 +639,7 @@ OnError GoTo ErrorOccured
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewAllLayers")
 	End If
-	'**Adding a menu item as the first menu item on the Mapper Context menu
+	'**Adding a menu item as the third menu item on the Mapper Context menu
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME"), "", 2)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
@@ -616,6 +649,17 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameMultipleLayersLC")
+	End If
+	'**Adding a menu item as the fourth menu item on the Mapper Context menu
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", 3)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLONE_MAP"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLONEMAP_16, MI_IMG_MAP_CLONEMAP_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHCloneMapLC")
 	End If
 
 	'***************************************************************
@@ -681,6 +725,18 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileTL")
 	End If
 
+	'**Adding a menu item to the Table List Context menu
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHBrowserFloatingTL")
+	End If
+
 	sTextEditorExe	= SYSFindTextEditor()
 	If sTextEditorExe <> "" Then
 		sTextEditor 	= PathToFileName$(sTextEditorExe)
@@ -716,6 +772,18 @@ OnError GoTo ErrorOccured
 	'***************************************************************
 	'A P P L I C A T I O N    C O N T E X T    M E N U S
 	'***************************************************************
+
+	nCtrlIdx	= RBNToolContextMenuAddMenuItem("showFunctionList", GetResItemStr("MNU_SHOW_MB_FUNCTION_LIST"), "")
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SHOW_MB_FUNCTION_LIST"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_APP_RUNMAPBASIC_16, MI_IMG_APP_RUNMAPBASIC_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "DLGExecFunctions")
+	End If
+
 	nCtrlIdx	= RBNToolContextMenuAddMenuItem("rateApplication", GetResItemStr("MNU_RATE_APPLICATION"), "")
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
@@ -988,7 +1056,7 @@ OnError GoTo ErrorOccured
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_INFO", Int(DLGWHOGetAddInfoToolToMTB()))
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_RULER", Int(DLGWHOGetAddRulerToolToMTB()))
 
-	Call CONFIGWriteKey(FILE_INI, "SBROWSERFILTERETTINGS", "IGNORE_TOPLEFTCELL", Int(mbIgnoreTopLeftCell))
+	Call CONFIGWriteKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL", Int(mbIgnoreTopLeftCell))
 
 	Call SELINFOWriteConfigFile
 	Call WINHWriteConfigFile

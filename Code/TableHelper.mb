@@ -31,6 +31,8 @@ Sub TABHLocateTabFileTL
 
 Dim	sTab, sFile As String
 
+OnError GoTo ErrorOccured
+
 	If TableListInfo(TL_INFO_SEL_COUNT) <> 1 Then
 		Note GetResItemStr("ERR_SELECT_ONE_TABLE_IN_TABLELIST")		'"Please select one table in the TableList window!"
 		Exit Sub
@@ -80,6 +82,8 @@ Sub TABHLocateTabFileLC
 
 Dim	nMID, nLayerID As Integer,
 	sTab, sFile As String
+
+OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) <> 1 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL")		'"Please select one layer in the Layer Control!"
@@ -143,6 +147,8 @@ Sub TABHOpenTabFileTL
 
 Dim	sTab, sFile As String
 
+OnError GoTo ErrorOccured
+
 	If TableListInfo(TL_INFO_SEL_COUNT) <> 1 Then
 		Note GetResItemStr("ERR_SELECT_ONE_TABLE_IN_TABLELIST")		'"Please select one table in the TableList window!"
 		Exit Sub
@@ -175,6 +181,8 @@ Sub TABHOpenTabFileLC
 
 Dim	nMID, nLayerID As Integer,
 	sTab, sFile As String
+
+OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) <> 1 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL")		'"Please select one layer in the Layer Control!"
@@ -216,6 +224,8 @@ Sub TABHCloseTableLC
 Dim	nMID, nLayerID As Integer,
 	sTab, sFile As String
 
+OnError GoTo ErrorOccured
+
 	If LayerControlInfo(LC_INFO_SEL_COUNT) <> 1 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL")		'Note "Please select one layer in the Layer Control!"
 		Exit Sub
@@ -249,6 +259,38 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub 'TABHCloseTableLC
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub TABHBrowserFloatingTL
+
+Dim	sTab As String
+
+OnError GoTo ErrorOccured
+
+	If TableListInfo(TL_INFO_SEL_COUNT) <> 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_TABLE_IN_TABLELIST")		'"Please select one table in the TableList window!"
+		Exit Sub
+	End If
+
+	sTab		= TableListSelectionInfo (1, TL_SEL_INFO_NAME)
+
+	If not TableInfo(sTab, TAB_INFO_TYPE) In (TAB_TYPE_IMAGE, TAB_TYPE_WMS, TAB_TYPE_TILESERVER) Then
+		Browse * From sTab Floating
+	Else
+
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHBrowserFloatingTL")
+	Call ERRShow()
+
+End Sub	'TABHBrowserFloatingTL
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software

@@ -13,10 +13,15 @@ Include "Menu.def"
 Include "Library\Defaults.def"
 
 '-------------------------------------
+Include "Library\COLUMNLib.def"
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
+Include "Library\LAYERLib.def"
+Include "Library\MAPPERLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
+
+Include "Library\Dialogs\DLGSelectTableAndColumn.def"
 
 Include "MapHelper.def"
 Include "WindowHelper.Assembly.def"
@@ -195,3 +200,315 @@ ErrorOccured:
 
 End Sub
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHCloneMapLC
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+	If NOT LayerControlInfo(LC_INFO_SEL_COUNT) = 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	If nMID = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+	Set Window nMID Front
+	Run Menu Command M_MAP_CLONE_MAPPER
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHCloneMapLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuThemeUsingCurrentStyles
+
+Dim	nObjectTypes As Integer,
+	oFirst As Object,
+	aObj As Alias
+
+OnError GoTo ErrorOccured
+
+	If not DLGSelectTableAndColumn(TAB_USE_ALL_MAPPABLE_BUT_IMAGES + TAB_USE_READONLY, GetResItemStr("DLG_STATIC_THEME"), GetResItemStr("DLG_STATIC_THEME_SELECT_TABLE"), DLGSTCGetTableName()
+							, CRITERIA_USE_CHAR + CRITERIA_USE_INTEGER + CRITERIA_USE_SMALLINT, GetResItemStr("DLG_STATIC_THEME_SELECT_COLUMN"), DLGSTCGetColumnName(), GetResItemStr("STR_OPEN") & "...", TRUE) Then
+		Exit Sub
+	End If
+
+	Fetch First From DLGSTCGetTableName()
+	aObj 	= DLGSTCGetTableName() & ".OBJ"
+	oFirst	= aObj
+
+	Do Case ObjectInfo(oFirst, OBJ_INFO_TYPE)
+		Case OBJ_TYPE_ARC, OBJ_TYPE_LINE, OBJ_TYPE_PLINE
+			nObjectTypes = THEME_OBJ_TYPE_LINES
+
+		Case OBJ_TYPE_ELLIPSE, OBJ_TYPE_REGION, OBJ_TYPE_RECT, OBJ_TYPE_ROUNDRECT
+			nObjectTypes = THEME_OBJ_TYPE_POLYGONS
+
+		Case OBJ_TYPE_POINT
+			nObjectTypes = THEME_OBJ_TYPE_POINTS
+
+		Case Else
+			Note GetResItemStrReplace("ERR_UNSUPPORTED_OBJECT_TYPE", Str$(oFirst))
+	End Case
+
+	Call MAPHThemeUsingCurrentStyles(nObjectTypes, 0, DLGSTCGetTableName(), DLGSTCGetColumnName())
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHThemeUsingCurrentStyles")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHThemeUsingCurrentStyles(	  ByVal nObjectTypes As Integer
+							, ByVal nMID As Integer
+							, ByVal sTab As String
+							, ByVal sCol As String
+							)
+
+Dim	aCol As Alias,
+	nLayer As Integer,
+	sShadeCmd, sThemeCmd, sLegendCmd, sLegendElementsCmd As String
+
+OnError GoTo ErrorOccured
+
+	If nMID = 0 Then
+		nMID = FrontWindow()
+		If nMID = 0 Then
+			'**No windows open
+		ElseIf NOT WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+			nMID = MAPFrontMostWindow()
+		End If
+	End If
+
+	If nMID = 0 Then
+		Map From sTab
+		nMID = FrontWindow()
+		nLayer = 1
+	Else
+		nLayer = LAYERGetLayerNumber(nMID, sTab)
+		If nLayer = 0 Then
+			Add Map
+				Window nMID
+				Layer sTab
+			nLayer = 1
+		End If
+	End If
+
+
+	aCol = sTab & "." & sCol
+
+	Do Case nObjectTypes
+		Case THEME_OBJ_TYPE_POLYGONS
+			Select aCol "VALUE", Str$(ObjectInfo(OBJ, OBJ_INFO_BRUSH)) "BRUSH", Str$(ObjectInfo(OBJ, OBJ_INFO_PEN)) "PEN"
+				From sTab
+				Where OBJ
+				Group By aCol
+				Order By aCol
+				Into __THEME__STYLES NoSelect 'Hide
+		Case THEME_OBJ_TYPE_LINES
+			Select aCol "VALUE", Str$(ObjectInfo(OBJ, OBJ_INFO_PEN)) "PEN"
+				From sTab
+				Where OBJ
+				Group By aCol
+				Order By aCol
+				Into __THEME__STYLES NoSelect Hide
+		Case THEME_OBJ_TYPE_POINTS
+			Select aCol "VALUE", Str$(ObjectInfo(OBJ, OBJ_INFO_SYMBOL)) "SYMBOL"
+				From sTab
+				Where OBJ
+				Group By aCol
+				Order By aCol
+				Into __THEME__STYLES NoSelect Hide
+	End Case
+
+	Call DEBUGPrint("Number of unique values: " & TableInfo(__THEME__STYLES, TAB_INFO_NROWS))
+
+	Fetch First From __THEME__STYLES
+	Do Until EOT(__THEME__STYLES)
+		If sThemeCmd = "" Then
+			Do Case nObjectTypes
+				Case THEME_OBJ_TYPE_POLYGONS
+					sThemeCmd		= " Values " & eye & __THEME__STYLES.VALUE & eye & " " & __THEME__STYLES.PEN & " " & __THEME__STYLES.BRUSH
+				Case THEME_OBJ_TYPE_LINES
+					sThemeCmd		= " Values " & eye & __THEME__STYLES.VALUE & eye & " " & STRINGReplace(__THEME__STYLES.PEN, "Pen", "line")
+				Case THEME_OBJ_TYPE_POINTS
+					sThemeCmd		= " Values " & eye & __THEME__STYLES.VALUE & eye & " " & __THEME__STYLES.SYMBOL
+			End Case
+
+			sLegendElementsCmd	= eye & __THEME__STYLES.VALUE & eye & " Display On"
+		Else
+			Do Case nObjectTypes
+				Case THEME_OBJ_TYPE_POLYGONS
+					sThemeCmd = sThemeCmd & ", " & eye & __THEME__STYLES.VALUE & eye & " " & __THEME__STYLES.PEN & " " & __THEME__STYLES.BRUSH
+				Case THEME_OBJ_TYPE_LINES
+					sThemeCmd		= " Values " & eye & __THEME__STYLES.VALUE & eye & " " & STRINGReplace(__THEME__STYLES.PEN, "Pen", "line")
+				Case THEME_OBJ_TYPE_POINTS
+					sThemeCmd		= " Values " & eye & __THEME__STYLES.VALUE & eye & " " & __THEME__STYLES.SYMBOL
+			End Case
+
+			sLegendElementsCmd	= sLegendElementsCmd & ", " & eye & __THEME__STYLES.VALUE & eye & " Display On"
+		End if
+
+		Fetch Next From __THEME__STYLES
+	Loop
+
+'	Close Table __THEME__STYLES
+
+	sShadeCmd = "Shade Window " & nMID
+		& " " & nLayer
+		& " With " & sCol
+		'[ Ignore value_to_ignore ]
+		'Values const [ Pen... ] [ Line...] [ Brush... ] [ Symbol... ]
+		'[ , const [ Pen... ] [ Line...] [ Brush... ] [ Symbol... ] ... ]
+		'[ Vary { Color | All } ]
+		'[ Style Replace { On | Off } ]
+		'[ Default [ Pen... ] [ Brush... ] [ Symbol... ] ]
+		& sThemeCmd
+
+	Print sShadeCmd
+	Run Command sShadeCmd
+
+	sLegendCmd = "Set Legend Window " & nMID
+		& " Layer " & sTab
+		& "  Display On"
+	Do Case nObjectTypes
+		Case THEME_OBJ_TYPE_POLYGONS
+			sLegendCmd = sLegendCmd & " Shades On Symbols Off Lines Off"
+		Case THEME_OBJ_TYPE_LINES
+			sLegendCmd = sLegendCmd & " Shades Off Symbols Off Lines On"
+		Case THEME_OBJ_TYPE_POINTS
+			sLegendCmd = sLegendCmd & " Shades Off Symbols On Lines Off"
+	End Case
+
+	sLegendCmd = sLegendCmd & " Count On"
+'	[ Title { Auto | layer_title [ Font... ] } ]
+'	[ SubTitle { Auto | layer_subtitle [ Font... ] } ]
+'	[ Region [ Height region_height [ Units paper_units ] ] ]
+'	[ Region [ Width region_width [ Units paper_units ] ] ]
+'	[ Line [ Width line_width [ Units paper_units ] ] ]
+'	[ Auto Font Size { On | Off } ]
+'	[ Style Size { Large | Small } ]
+'	[ Columns number_of_columns ]
+'	[ Ascending { On | Off } | Order { Ascending | Descending | Custom } ]
+'	[ Ranges { Auto | [ Font... ]
+'	[ Range { range_identifier | default } ]
+'	range_title [ Display { On | Off } ] }
+		& sLegendElementsCmd
+
+	Print sLegendCmd
+'	Run Command sLegendCmd
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHThemeUsingCurrentStyles")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function MAPHGetCartographicScale(ByVal nMID As Integer) As Integer
+
+Dim	fMapWidth, fWinWidth As Float
+
+OnError GoTo ErrorOccured
+
+MAPHGetCartographicScale = "0"
+
+	Set Distance Units "cm"
+'	fMapWidth = Distance(MapperInfo(nMID, MAPPER_INFO_MINX), MapperInfo(nMID, MAPPER_INFO_MINY), MapperInfo(nMID, MAPPER_INFO_MAXX), MapperInfo(nMID, MAPPER_INFO_MINY), "m")
+	fMapWidth = MapperInfo(nMID, MAPPER_INFO_ZOOM)
+
+	Print "Map Zoom, cm: " & fMapWidth
+
+	Set Paper Units "cm"
+	If SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_CLASSICMENU Then
+		fWinWidth = WindowInfo(nMID, WIN_INFO_WIDTH)
+	Else
+		fWinWidth = WindowInfo(nMID, WIN_INFO_CLIENTWIDTH)
+	End if
+
+	Print "Win Width, cm: " & fWinWidth
+
+'	MAPHGetCartographicScale = fMapWidth / fWinWidth
+	MAPHGetCartographicScale = Round(fMapWidth / fWinWidth, 1)
+'	MAPHGetCartographicScale = Round((fMapWidth * 100) / fWinWidth, 1)
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHGetCartographicScale")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function MAPHGetCoordinate(	  ByVal nMID As Integer
+						, ByVal sCoordinate As String
+						) As Float
+
+OnError GoTo ErrorOccured
+
+MAPHGetCoordinate = "0"
+
+	Set CoordSys Window nMID
+
+	Do Case sCoordinate
+		Case "MINX"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_MINX)
+		Case "MAXX"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_MAXX)
+		Case "MINY"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_MINY)
+		Case "MAXY"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_MAXY)
+		Case "CENX", "CENTX", "CENTERX"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_CENTERX)
+		Case "CENY", "CENTY", "CENTERY"
+			MAPHGetCoordinate = MapperInfo(nMID, MAPPER_INFO_CENTERY)
+	End Case
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHGetCoordinate")
+	Call ERRShow()
+
+End Function

@@ -1,0 +1,204 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Enums.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\ARRAYLib.def"
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\ProgramInfo.def"
+Include "Library\RIBBONLib.def"
+Include "Library\STRINGLib.def"
+Include "Library\SYSTEMLib.def"
+Include "Library\TABLELib.def"
+
+Include "DLGExecFunctions.def"
+Include "WindowHelper.Assembly.def"
+
+Define	CTRL_TXT_FILTER		100
+Define	CTRL_CMD_FILTER		200
+Define	CTRL_LST_FUNCTIONS		300
+Define	CTRL_TXT_DESCRIPTION	400
+Define	CTRL_CMD_COPY			500
+
+Declare Sub DLGEF_LoadFunctions
+Declare Sub DLGEF_OnFunctionsClicked
+Declare Sub DLGEF_OnCopyClicked
+
+Dim	marrFunctions(), marrDescriptions(), marrExpressions() As String
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGExecFunctions
+
+OnError GoTo ErrorOccured
+
+	Dialog
+		Title GetResItemStr("DLG_LIST_FUNCTIONS_PROCEDURES")
+		Calling DLGEF_LoadFunctions
+
+		Control StaticText
+			Position 5,5
+			Title GetResItemStr("STR_FILTER")
+		Control EditText	ID CTRL_TXT_FILTER
+			Position 5,15		Width 300
+		Control OKButton	ID CTRL_CMD_FILTER
+			Position 310,15	Width 35	Height 12
+			Title GetResItemStr("STR_FILTER")
+			Calling DLGEF_LoadFunctions
+
+		Control StaticText
+			Position 5,35
+			Title GetResItemStr("STR_FUNCTIONS_SUBPROCEDURES")
+		Control ListBox	ID CTRL_LST_FUNCTIONS
+			Position 5,45		Width 345	Height 150
+			Calling DLGEF_OnFunctionsClicked
+
+		Control EditText	ID CTRL_TXT_DESCRIPTION
+			Position 5,210		Width 345	Height 45
+
+		Control Button		ID CTRL_CMD_COPY
+			Position 260,260	Width 40
+			Title GetResItemStr("STR_COPY")
+			Calling DLGEF_OnCopyClicked
+		Control CancelButton
+			Position 305,260	Width 40
+			Title GetResItemStr("STR_CLOSE")
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGExecFunctions")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGEF_LoadFunctions
+
+Dim	sFilter, sLine, arrParts() As String
+
+OnError GoTo ErrorOccured
+
+	sFilter	= ReadControlValue(CTRL_TXT_FILTER)
+
+	Open File ApplicationDirectory$() & "FunctionList.txt"
+		For Input
+		As #765
+		CharSet "UTF-8"
+
+	Redim marrFunctions(0)
+	Redim marrDescriptions(0)
+	Redim marrExpressions(0)
+
+	Do While Not EOF(765)
+		Line Input #765, sLine
+
+		If Not EOF(765) Then
+			If STRINGSplitAndTrim(sLine, ";" , arrParts) = 3 Then
+				If sFilter = "" Then
+					Call ARRAYAddValueString(marrFunctions, arrParts(1))
+					Call ARRAYAddValueString(marrDescriptions, arrParts(2))
+					Call ARRAYAddValueString(marrExpressions, arrParts(3))
+				Else
+					If InStr(1, UCase$(sLine), UCase$(sFilter)) > 0 Then
+						Call ARRAYAddValueString(marrFunctions, arrParts(1))
+						Call ARRAYAddValueString(marrDescriptions, arrParts(2))
+						Call ARRAYAddValueString(marrExpressions, arrParts(3))
+					End if
+				End If
+			End If
+		End If
+	Loop
+
+	Close File #765
+
+	Alter Control CTRL_LST_FUNCTIONS Title From Variable marrFunctions
+	Call DLGEF_OnFunctionsClicked
+
+	Dialog Preserve
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGEF_LoadFunctions")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGEF_OnFunctionsClicked
+
+Dim	nItem As Integer
+
+OnError GoTo ErrorOccured
+
+	nItem = ReadControlValue(CTRL_LST_FUNCTIONS)
+	If nItem = 0 Then
+		Alter Control CTRL_CMD_COPY			Disable
+		Alter Control CTRL_TXT_DESCRIPTION		Value ""
+	Else
+		Alter Control CTRL_CMD_COPY			Enable
+		Alter Control CTRL_TXT_DESCRIPTION		Value marrDescriptions(nItem)
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGEF_OnFunctionsClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGEF_OnCopyClicked
+
+Dim	sExpression, sPostfix As String,
+	nItem As Integer
+
+OnError GoTo ErrorOccured
+
+	nItem = ReadControlValue(CTRL_LST_FUNCTIONS)
+	If nItem = 0 Then
+		Beep
+		Exit Sub
+	End if
+
+	sExpression	= marrExpressions(nItem)
+
+	Call SYSCopyTextToClipboard(sExpression)
+	Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("STR_EXPRESSION_COPIED_TO_CLIPBOARD") & sExpression, Notify_Info, 5000)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGEF_OnCopyClicked")
+	Call ERRShow()
+
+End Sub

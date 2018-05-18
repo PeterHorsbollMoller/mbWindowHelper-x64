@@ -147,11 +147,24 @@
   <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
     <value>Base windows ({0})</value>
   </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>Custom Functions and Subprocedures</value>
+  </data>
   <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
   </data>
   <data name="DLG_OPTIONS" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>Static Theme</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Select Column with Categories</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>Select Table for Theme</value>
   </data>
   <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
     <value>Advanced Layer Rename</value>
@@ -240,6 +253,9 @@
   <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
     <value>Please select one table in the TableList window!</value>
   </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>The table holds object types not supported by this function {0}</value>
+  </data>
   <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
     <value>All Closed Windows</value>
   </data>
@@ -279,6 +295,15 @@
   <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
     <value>Autolock Windows</value>
   </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>Floating Browser</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>Browse in Floating Window</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>Clone Map</value>
+  </data>
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Close Table</value>
   </data>
@@ -302,6 +327,12 @@
   </data>
   <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
     <value>Autolock all windows</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>Display and Manipulate data in a floating browser window</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>Clone the selected Map Window</value>
   </data>
   <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
     <value>Clone window</value>
@@ -362,6 +393,9 @@
   </data>
   <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
     <value>Set default view on selected layer</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Show list of functions and subprocedures to use with the Exec() function</value>
   </data>
   <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
     <value>Store the current position of the windows</value>
@@ -456,6 +490,9 @@
   <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
     <value>Show The Map&amp;Basic Window</value>
   </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Show list of functions and subprocedures</value>
+  </data>
   <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
     <value>Show The &amp;Message Window</value>
   </data>
@@ -467,6 +504,9 @@
   </data>
   <data name="MNU_SHOW_WINDOW" xml:space="preserve">
     <value>&amp;Show Window</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>Static Theme</value>
   </data>
   <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
     <value>Store Window Positions Now</value>
@@ -519,6 +559,9 @@
   <data name="STR_CLOSE_WINDOW" xml:space="preserve">
     <value>Close Window</value>
   </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>Copy</value>
+  </data>
   <data name="STR_COSM_LAYER_IN" xml:space="preserve">
     <value>Cosmetic layer in</value>
   </data>
@@ -528,8 +571,17 @@
   <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
     <value>Editable Layer in</value>
   </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Exec() Expression copied to Clipboard: </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>Filter</value>
+  </data>
   <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
     <value>Friendly Name</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>Functions and Subprocedures</value>
   </data>
   <data name="STR_GRID_FILE" xml:space="preserve">
     <value>Grid File</value>
@@ -560,6 +612,9 @@
   </data>
   <data name="STR_OK" xml:space="preserve">
     <value>OK</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>Open</value>
   </data>
   <data name="STR_POSITION" xml:space="preserve">
     <value>Position</value>
@@ -656,6 +711,9 @@
   </data>
   <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
     <value>Select objects that have their centroid within the current map extent</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>Create Theme from a Column and the Existing Object Styles</value>
   </data>
   <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
     <value>Unlock the window to make it possible to close the window</value>

@@ -1,20 +1,25 @@
 [LINK]
 Application=..\WindowHelper\WindowHelper.mbx
 Module=Library\ARRAYLib.mbo
+Module=Library\COLUMNLib.mbo
 Module=Library\CONFIGFileLib.mbo
+Module=Library\DATETIMELib.mbo
 Module=Library\DEBUGLib.mbo
 Module=Library\ERRORLib.mbo
 Module=Library\FILELib.mbo
+Module=Library\LAYERLib.mbo
 Module=Library\MAPPERLib.mbo
 Module=Library\ProgramInfo.mbo
 Module=Library\RESSTRNGLib.MBO
 Module=Library\RIBBONLib.mbo
 Module=Library\STRINGLib.mbo
-Module=Library\SYSTEMLib.mbo
+Module=Library\SystemLib 1251.mbo
 Module=Library\STYLELib.mbo
 Module=Library\TABLELib.mbo
+Module=Library\Dialogs\DLGSelectTableAndColumn.mbo
 Module=WindowHelperMenu.mbo
 Module=DLGAdvancedLayerRename.mbo
+Module=DLGExecFunctions.mbo
 Module=DLGMultipleLayersRename.mbo
 Module=DLGWHOWindowHelperOptions.mbo
 Module=MAPHelper.mbo

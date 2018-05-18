@@ -103,7 +103,7 @@ Sub WINHWriteConfigFile
 
 OnError GoTo ErrorOccured
 
-	Call CONFIGWriteKey(msIniFile, "SETTINGS", "INITIALSTATEISON", Int(WINHAutolockWindows()))
+	Call CONFIGWriteKey(msIniFile, "AUTOLOCKWINDOWS", "INITIALSTATEISON", Int(WINHAutolockWindows()))
 	Exit Sub
 '-------------------------
 ErrorOccured:
@@ -126,9 +126,9 @@ OnError GoTo ErrorOccured
 	sFile 	= ApplicationDirectory$() & PathToFileName$(msIniFile)
 
 	If FileExists(msIniFile) Then
-		sState		= CONFIGReadKey(msIniFile, "SETTINGS", "AUTOLOCKWINDOWS")
+		sState		= CONFIGReadKey(msIniFile, "AUTOLOCKWINDOWS", "AUTOLOCKWINDOWS")
 	Else
-		sState		= CONFIGReadKey(sFile, "SETTINGS", "AUTOLOCKWINDOWS")
+		sState		= CONFIGReadKey(sFile, "AUTOLOCKWINDOWS", "AUTOLOCKWINDOWS")
 	End If
 
 	Call WINHSetAutolockWindows(sState = "1")
@@ -907,4 +907,34 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHBrowserFloating
+
+Dim	nNumWindows, nWID As Integer
+
+OnError GoTo ErrorOccured
+
+	nNumWindows	= NumWindows()
+
+	Run Menu Command M_WINDOW_BROWSE
+
+	If NumWindows() = nNumWindows Then
+		Exit Sub
+	End If
+
+	nWID = WindowID(0)
+	Set Window nWID Floating
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHBrowserFloating")
+	Call ERRShow()
+
+End Sub	'WINHBrowserFloating
 

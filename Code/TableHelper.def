@@ -4,3 +4,4 @@ Declare Sub TABHOpenTabFileTL
 Declare Sub TABHOpenTabFileLC
 Declare Sub TABHCloseTableLC
 Declare Sub TABHSetTextEditor(ByVal sTextEditor As String)
+Declare Sub TABHBrowserFloatingTL

@@ -30,3 +30,5 @@ Declare Sub WINHInitialiseZoomMapExtent
 Declare Sub WINHZoomFirstMapExtent
 Declare Sub WINHZoomPreviousMapExtent
 Declare Sub WINHZoomNextMapExtent
+
+Declare Sub WINHBrowserFloating

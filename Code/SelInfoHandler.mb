@@ -90,9 +90,9 @@ Sub SELINFOWriteConfigFile
 
 OnError GoTo ErrorOccured
 
-'	Call CONFIGWriteKey(msIniFile, "SETTINGS", "LANGUAGE", PRGIGetApplicationLanguageName())
-	Call CONFIGWriteKey(msIniFile, "SETTINGS", "INITIALSTATEISON", Int(mbInfoSelChangedHandlerEnabled))
-	Call CONFIGWriteKey(msIniFile, "SETTINGS", "SHOWINFOONDESELECT", Int(SELINFOGetShowInfoOnDeselect()))
+'	Call CONFIGWriteKey(msIniFile, "INFOSELHANDLER", "LANGUAGE", PRGIGetApplicationLanguageName())
+	Call CONFIGWriteKey(msIniFile, "INFOSELHANDLER", "INITIALSTATEISON", Int(mbInfoSelChangedHandlerEnabled))
+	Call CONFIGWriteKey(msIniFile, "INFOSELHANDLER", "SHOWINFOONDESELECT", Int(SELINFOGetShowInfoOnDeselect()))
 
 	Exit Sub
 '-------------------------
@@ -115,13 +115,12 @@ OnError GoTo ErrorOccured
 
 	sFile 	= ApplicationDirectory$() & PathToFileName$(msIniFile)
 
-	sState			= CONFIGReadKey(sFile, "SETTINGS", "INITIALSTATEISON")
-	sShowOnDeselect	= CONFIGReadKey(sFile, "SETTINGS", "SHOWINFOONDESELECT")
+	sState			= CONFIGReadKey(sFile, "INFOSELHANDLER", "INITIALSTATEISON")
+	sShowOnDeselect	= CONFIGReadKey(sFile, "INFOSELHANDLER", "SHOWINFOONDESELECT")
 
 	If FileExists(msIniFile) Then
-		sState		= CONFIGReadKey(msIniFile, "SETTINGS", "INITIALSTATEISON")
-	Else
-		sState		= CONFIGReadKey(sFile, "SETTINGS", "INITIALSTATEISON")
+		sState			= CONFIGReadKey(msIniFile, "INFOSELHANDLER", "INITIALSTATEISON")
+		sShowOnDeselect	= CONFIGReadKey(sFile, "INFOSELHANDLER", "SHOWINFOONDESELECT")
 	End If
 
 	If sState = "1" Then
@@ -240,7 +239,7 @@ OnError GoTo ErrorOccured
 	Exit Sub
 '-------------------------
 ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "SELINFOSwitchDisplayRBN")
+	Call ERRCreate(Err(), Error$(), "SELINFOSwitchDisplay")
 	Call ERRShow()
 
 End Sub

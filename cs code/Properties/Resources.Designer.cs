@@ -19,7 +19,7 @@ namespace WindowHelper.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -151,6 +151,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Custom Functions and Subprocedures.
+        /// </summary>
+        internal static string DLG_LIST_FUNCTIONS_PROCEDURES {
+            get {
+                return ResourceManager.GetString("DLG_LIST_FUNCTIONS_PROCEDURES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Modify Window.
         /// </summary>
         internal static string DLG_MODIFY_WINDOW {
@@ -165,6 +174,33 @@ namespace WindowHelper.Properties {
         internal static string DLG_OPTIONS {
             get {
                 return ResourceManager.GetString("DLG_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static Theme.
+        /// </summary>
+        internal static string DLG_STATIC_THEME {
+            get {
+                return ResourceManager.GetString("DLG_STATIC_THEME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Column with Categories.
+        /// </summary>
+        internal static string DLG_STATIC_THEME_SELECT_COLUMN {
+            get {
+                return ResourceManager.GetString("DLG_STATIC_THEME_SELECT_COLUMN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Table for Theme.
+        /// </summary>
+        internal static string DLG_STATIC_THEME_SELECT_TABLE {
+            get {
+                return ResourceManager.GetString("DLG_STATIC_THEME_SELECT_TABLE", resourceCulture);
             }
         }
         
@@ -430,6 +466,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The table holds object types not supported by this function {0}.
+        /// </summary>
+        internal static string ERR_UNSUPPORTED_OBJECT_TYPE {
+            get {
+                return ResourceManager.GetString("ERR_UNSUPPORTED_OBJECT_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All Closed Windows.
         /// </summary>
         internal static string LST_CLOSED_WINDOWS_ALL {
@@ -547,6 +592,33 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Browse in Floating Window.
+        /// </summary>
+        internal static string MNU_BROWSE_FLOATING_WIN {
+            get {
+                return ResourceManager.GetString("MNU_BROWSE_FLOATING_WIN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Floating Browser.
+        /// </summary>
+        internal static string MNU_BROWSER_FLOATING {
+            get {
+                return ResourceManager.GetString("MNU_BROWSER_FLOATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clone Map.
+        /// </summary>
+        internal static string MNU_CLONE_MAP {
+            get {
+                return ResourceManager.GetString("MNU_CLONE_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close Table.
         /// </summary>
         internal static string MNU_CLOSE_TABLE {
@@ -615,6 +687,24 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_AUTOLOCK_ALL_WINDOWS {
             get {
                 return ResourceManager.GetString("MNU_HLP_AUTOLOCK_ALL_WINDOWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Display and Manipulate data in a floating browser window.
+        /// </summary>
+        internal static string MNU_HLP_BROWSER_FLOATING {
+            get {
+                return ResourceManager.GetString("MNU_HLP_BROWSER_FLOATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Clone the selected Map Window.
+        /// </summary>
+        internal static string MNU_HLP_CLONE_MAP {
+            get {
+                return ResourceManager.GetString("MNU_HLP_CLONE_MAP", resourceCulture);
             }
         }
         
@@ -795,6 +885,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_SETUP_BASE_WINDOWS {
             get {
                 return ResourceManager.GetString("MNU_HLP_SETUP_BASE_WINDOWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show list of functions and subprocedures to use with the Exec() function.
+        /// </summary>
+        internal static string MNU_HLP_SHOW_MB_FUNCTION_LIST {
+            get {
+                return ResourceManager.GetString("MNU_HLP_SHOW_MB_FUNCTION_LIST", resourceCulture);
             }
         }
         
@@ -1078,6 +1177,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show list of functions and subprocedures.
+        /// </summary>
+        internal static string MNU_SHOW_MB_FUNCTION_LIST {
+            get {
+                return ResourceManager.GetString("MNU_SHOW_MB_FUNCTION_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show The &amp;Message Window.
         /// </summary>
         internal static string MNU_SHOW_MESSAGE_WINDOW {
@@ -1110,6 +1218,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_SHOW_WINDOW {
             get {
                 return ResourceManager.GetString("MNU_SHOW_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Static Theme.
+        /// </summary>
+        internal static string MNU_STATIC_THEME {
+            get {
+                return ResourceManager.GetString("MNU_STATIC_THEME", resourceCulture);
             }
         }
         
@@ -1267,6 +1384,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy.
+        /// </summary>
+        internal static string STR_COPY {
+            get {
+                return ResourceManager.GetString("STR_COPY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cosmetic layer in.
         /// </summary>
         internal static string STR_COSM_LAYER_IN {
@@ -1294,11 +1420,38 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exec() Expression copied to Clipboard: .
+        /// </summary>
+        internal static string STR_EXPRESSION_COPIED_TO_CLIPBOARD {
+            get {
+                return ResourceManager.GetString("STR_EXPRESSION_COPIED_TO_CLIPBOARD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Filter.
+        /// </summary>
+        internal static string STR_FILTER {
+            get {
+                return ResourceManager.GetString("STR_FILTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Friendly Name.
         /// </summary>
         internal static string STR_FRIENDLY_LAYER_NAME {
             get {
                 return ResourceManager.GetString("STR_FRIENDLY_LAYER_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Functions and Subprocedures.
+        /// </summary>
+        internal static string STR_FUNCTIONS_SUBPROCEDURES {
+            get {
+                return ResourceManager.GetString("STR_FUNCTIONS_SUBPROCEDURES", resourceCulture);
             }
         }
         
@@ -1389,6 +1542,15 @@ namespace WindowHelper.Properties {
         internal static string STR_OK {
             get {
                 return ResourceManager.GetString("STR_OK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open.
+        /// </summary>
+        internal static string STR_OPEN {
+            get {
+                return ResourceManager.GetString("STR_OPEN", resourceCulture);
             }
         }
         
@@ -1677,6 +1839,15 @@ namespace WindowHelper.Properties {
         internal static string TTIP_SELECT_WITHIN_MAP {
             get {
                 return ResourceManager.GetString("TTIP_SELECT_WITHIN_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create Theme from a Column and the Existing Object Styles.
+        /// </summary>
+        internal static string TTIP_STATIC_THEME {
+            get {
+                return ResourceManager.GetString("TTIP_STATIC_THEME", resourceCulture);
             }
         }
         
