@@ -1,4 +1,5 @@
 Declare Sub SELINFOSetControlIndex(ByVal nIndex As Integer)
+Declare Sub SELINFOSetSelInfoNumRowsControlIndex(ByVal nIndex As Integer)
 Declare Sub SELINFOSetImageFolder(ByVal sFolder As String)
 
 Declare Sub SELINFOSetConfigFile(ByVal sFile As String)
