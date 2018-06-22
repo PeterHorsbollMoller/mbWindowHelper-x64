@@ -120,7 +120,6 @@
 '						- Added Browse in floating window to Table List Table Context menu
 '						- Fixed issue: InfoSelHandler State wasn't saved correctly
 '3.5.3	18-05-2018 12:37:31	- Fixed ToolTip for Floating Browser window
-'3.5.4	22-06-2018 15:07:45	- Added a text showing the number of selected records in the Statusbar
 '*******************************************************************************
 
 '-------------------------------------
@@ -135,7 +134,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.5.4 Beta"
+Define xVersion 		"3.5.3 Beta"
 Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 
@@ -806,12 +805,6 @@ OnError GoTo ErrorOccured
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUOptions")
 	End If
-
-	'***************************************************************
-	'S T A T U S B A R
-	'***************************************************************
-	nCtrlIdx = RBNStatusbarAddControl("txtSelectionSize", GetResItemStrReplace("STR_SELECTED_RECORDS_X", FormatNumber$(SelectionInfo(SEL_INFO_NROWS))), ControlType_TextBlock)
-	Call SELINFOSetSelInfoNumRowsControlIndex(nCtrlIdx)
 
 	Exit Sub
 '-------------------------

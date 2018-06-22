@@ -26,7 +26,7 @@ Include "WindowHelper.Assembly.def"
 
 Dim	msIniFile, msImageFolder, msLastSelectionTable As String,
 	mbInfoSelChangedHandlerEnabled, mbShowInfoOnDeselect As Logical,
-	mnbtnSelInfoHandlerIdx, mntxtSelInfoNumRowsIdx As Integer
+	mnbtnSelInfoHandlerIdx As Integer
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -41,24 +41,6 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "SELINFOSetControlIndex")
-	Call ERRShow()
-
-End Sub
-
-'**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
-'Parameters:
-'
-'**********************************************************************************************''
-Sub SELINFOSetSelInfoNumRowsControlIndex(ByVal nIndex As Integer)
-
-OnError GoTo ErrorOccured
-
-	mntxtSelInfoNumRowsIdx = nIndex
-	Exit Sub
-'-------------------------
-ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "SELINFOSetSelInfoNumRowsControlIndex")
 	Call ERRShow()
 
 End Sub
@@ -180,8 +162,6 @@ OnError GoTo ErrorOccured
 		msLastSelectionTable = ""
 		Exit Sub
 	End If
-
-	Call RBNControlSetCaptionIdx(mntxtSelInfoNumRowsIdx, GetResItemStrReplace("STR_SELECTED_RECORDS_X", FormatNumber$(SelectionInfo(SEL_INFO_NROWS))))
 
  	If mbInfoSelChangedHandlerEnabled Then
  		Call DEBUGPrint("SELINFOSelChangedHandler: Action")

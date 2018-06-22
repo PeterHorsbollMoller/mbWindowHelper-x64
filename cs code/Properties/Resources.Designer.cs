@@ -1600,15 +1600,6 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Selected records: {0}.
-        /// </summary>
-        internal static string STR_SELECTED_RECORDS_X {
-            get {
-                return ResourceManager.GetString("STR_SELECTED_RECORDS_X", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Show Info when Deselecting Records.
         /// </summary>
         internal static string STR_SHOW_INFO_ON_DESELECT {
