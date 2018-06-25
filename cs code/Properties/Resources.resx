@@ -631,6 +631,9 @@
   <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
     <value>Save as default friendly name</value>
   </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>Selected records: {0}</value>
+  </data>
   <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
     <value>Show Info when Deselecting Records</value>
   </data>
