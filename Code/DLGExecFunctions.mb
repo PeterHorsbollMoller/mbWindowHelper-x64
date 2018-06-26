@@ -55,9 +55,9 @@ OnError GoTo ErrorOccured
 			Position 5,5
 			Title GetResItemStr("STR_FILTER")
 		Control EditText	ID CTRL_TXT_FILTER
-			Position 5,15		Width 300
+			Position 5,15		Width 400
 		Control OKButton	ID CTRL_CMD_FILTER
-			Position 310,15	Width 35	Height 12
+			Position 410,15	Width 35	Height 12
 			Title GetResItemStr("STR_FILTER")
 			Calling DLGEF_LoadFunctions
 
@@ -65,18 +65,18 @@ OnError GoTo ErrorOccured
 			Position 5,35
 			Title GetResItemStr("STR_FUNCTIONS_SUBPROCEDURES")
 		Control ListBox	ID CTRL_LST_FUNCTIONS
-			Position 5,45		Width 345	Height 150
+			Position 5,45		Width 445	Height 150
 			Calling DLGEF_OnFunctionsClicked
 
 		Control EditText	ID CTRL_TXT_DESCRIPTION
-			Position 5,210		Width 345	Height 45
+			Position 5,210		Width 445	Height 45
 
 		Control Button		ID CTRL_CMD_COPY
-			Position 260,260	Width 40
+			Position 360,260	Width 40
 			Title GetResItemStr("STR_COPY")
 			Calling DLGEF_OnCopyClicked
 		Control CancelButton
-			Position 305,260	Width 40
+			Position 405,260	Width 40
 			Title GetResItemStr("STR_CLOSE")
 
 	Exit Sub
@@ -161,7 +161,11 @@ OnError GoTo ErrorOccured
 		Alter Control CTRL_TXT_DESCRIPTION		Value ""
 	Else
 		Alter Control CTRL_CMD_COPY			Enable
-		Alter Control CTRL_TXT_DESCRIPTION		Value marrDescriptions(nItem)
+		Alter Control CTRL_TXT_DESCRIPTION		Value marrDescriptions(nItem) & lf & lf & marrExpressions(nItem)
+	End If
+
+	If CommandInfo(CMD_INFO_DLG_DBL) Then
+		Call DLGEF_OnCopyClicked
 	End If
 
 	Exit Sub

@@ -121,6 +121,7 @@
 '						- Fixed issue: InfoSelHandler State wasn't saved correctly
 '3.5.3	18-05-2018 12:37:31	- Fixed ToolTip for Floating Browser window
 '3.5.4	22-06-2018 15:07:45	- Added a text showing the number of selected records in the Statusbar
+'3.5.5	26-06-2018 10:05:54	- Adding Info and Ruler to Map Mini Toolbar is being ignored for MapInfo Pro 17.0 and newer
 '*******************************************************************************
 
 '-------------------------------------
@@ -355,38 +356,40 @@ OnError GoTo ErrorOccured
 	'***************************************************************
 	'M A P    M I N I    T O O L B A R
 	'***************************************************************
-	If DLGWHOGetAddInfoToolToMTB() OR DLGWHOGetAddRulerToolToMTB() Then
-		nCtrlIdx = RBNMapMTBInsertStackPanelAfter("stpWindowHelper", "Info", "MapTools2")
-		If nCtrlIdx > 0 Then
-			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+	If SystemInfo(SYS_INFO_MIVERSION) < 1700 Then
+		If DLGWHOGetAddInfoToolToMTB() OR DLGWHOGetAddRulerToolToMTB() Then
+			nCtrlIdx = RBNMapMTBInsertStackPanelAfter("stpWindowHelper", "Info", "MapTools2")
+			If nCtrlIdx > 0 Then
+				Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 
-			If DLGWHOGetAddInfoToolToMTB() Then
-				nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtInfoTool", "", ""
-											, ControlType_ToolButton, "stpWindowHelper")
-				If nCtrlIdx > 0 Then
-					'Create & Set the button tooltip
-					Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
-											, GetResItemStr("STR_TTIP_INFO_TOOL"), "")
-					'Set the button icon
-					Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
-											, MI_IMG_MAP_INFOTOOL_16, "")
-					'**Set the handler to match the handler of the first button
-					Call RBNControlSetCmdIDIdx(nCtrlIdx, 1707)
+				If DLGWHOGetAddInfoToolToMTB() Then
+					nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtInfoTool", "", ""
+												, ControlType_ToolButton, "stpWindowHelper")
+					If nCtrlIdx > 0 Then
+						'Create & Set the button tooltip
+						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
+												, GetResItemStr("STR_TTIP_INFO_TOOL"), "")
+						'Set the button icon
+						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
+												, MI_IMG_MAP_INFOTOOL_16, "")
+						'**Set the handler to match the handler of the first button
+						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1707)
+					End If
 				End If
-			End If
 
-			If DLGWHOGetAddRulerToolToMTB() Then
-				nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtRuler", "", ""
-											, ControlType_ToolButton, "stpWindowHelper")
-				If nCtrlIdx > 0 Then
-					'Create & Set the button tooltip
-					Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
-											, GetResItemStr("STR_TTIP_RULER_TOOL"), "")
-					'Set the button icon
-					Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
-											, MI_IMG_WIN_RULER_16, "")
-					'**Set the handler to match the handler of the first button
-					Call RBNControlSetCmdIDIdx(nCtrlIdx, 1710)
+				If DLGWHOGetAddRulerToolToMTB() Then
+					nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtRuler", "", ""
+												, ControlType_ToolButton, "stpWindowHelper")
+					If nCtrlIdx > 0 Then
+						'Create & Set the button tooltip
+						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
+												, GetResItemStr("STR_TTIP_RULER_TOOL"), "")
+						'Set the button icon
+						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
+												, MI_IMG_WIN_RULER_16, "")
+						'**Set the handler to match the handler of the first button
+						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1710)
+					End If
 				End If
 			End If
 		End If

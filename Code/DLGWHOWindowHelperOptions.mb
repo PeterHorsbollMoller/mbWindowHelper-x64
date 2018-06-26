@@ -24,6 +24,7 @@ Define	CTRL_CHK_SELINFO_ON_DESELECT	200
 Include "WindowHelper.Assembly.def"
 Include "DLGWHOWindowHelperOptions.def"
 
+Declare Sub DLGWHOHandler_OnLoad
 Declare Sub DLGWHOHandler_OKClicked
 
 Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical
@@ -40,6 +41,7 @@ OnError GoTo ErrorOccured
 
 	Dialog
 		Title GetResItemStr("DLG_OPTIONS")
+		Calling DLGWHOHandler_OnLoad
 
 		Control GroupBox
 			Position 5,5	Width 170		Height 45
@@ -77,6 +79,31 @@ ErrorOccured:
 	Call ERRShow()
 
 End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGWHOHandler_OnLoad
+
+OnError GoTo ErrorOccured
+
+	If SystemInfo(SYS_INFO_MIVERSION) >= 1700 Then
+		Alter Control CTRL_CHK_MTB_ADD_INFO_TOOL Disable
+		Alter Control CTRL_CHK_MTB_ADD_RULER_TOOL Disable
+	Else
+		Alter Control CTRL_CHK_MTB_ADD_INFO_TOOL Enable
+		Alter Control CTRL_CHK_MTB_ADD_RULER_TOOL Enable
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOHandler_OnLoad")
+	Call ERRShow()
+
+End Sub
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
