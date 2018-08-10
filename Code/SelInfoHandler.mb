@@ -181,7 +181,16 @@ OnError GoTo ErrorOccured
 		Exit Sub
 	End If
 
-	Call RBNControlSetCaptionIdx(mntxtSelInfoNumRowsIdx, GetResItemStrReplace("STR_SELECTED_RECORDS_X", FormatNumber$(SelectionInfo(SEL_INFO_NROWS))))
+	If SelectionInfo(SEL_INFO_NROWS) = 0 Then
+		Call RBNControlSetCaptionIdx(mntxtSelInfoNumRowsIdx, GetResItemStrReplace("STR_SELECTED_RECORDS_X", "0"))
+	Else
+		Call RBNControlSetCaptionIdx(mntxtSelInfoNumRowsIdx
+							, GetResItemStrReplace("STR_SELECTED_RECORDS_X_OF_Y"
+									, FormatNumber$(SelectionInfo(SEL_INFO_NROWS))
+										& ";" & FormatNumber$(TableInfo(SelectionInfo(SEL_INFO_TABLENAME), TAB_INFO_NROWS))
+									)
+							)
+	End If
 
  	If mbInfoSelChangedHandlerEnabled Then
  		Call DEBUGPrint("SELINFOSelChangedHandler: Action")

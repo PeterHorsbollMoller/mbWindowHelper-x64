@@ -122,6 +122,7 @@
 '3.5.3	18-05-2018 12:37:31	- Fixed ToolTip for Floating Browser window
 '3.5.4	22-06-2018 15:07:45	- Added a text showing the number of selected records in the Statusbar
 '3.5.5	26-06-2018 10:05:54	- Adding Info and Ruler to Map Mini Toolbar is being ignored for MapInfo Pro 17.0 and newer
+'3.5.6	09-08-2018 13:40:44	- Number of selected records now also shows the total number of records in the table
 '*******************************************************************************
 
 '-------------------------------------
@@ -136,7 +137,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.5.4 Beta"
+Define xVersion 		"3.5.6"
 Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 

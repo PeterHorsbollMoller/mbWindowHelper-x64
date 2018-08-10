@@ -634,6 +634,9 @@
   <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
     <value>Selected records: {0}</value>
   </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>Selected records: {0} of {1}</value>
+  </data>
   <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
     <value>Show Info when Deselecting Records</value>
   </data>
