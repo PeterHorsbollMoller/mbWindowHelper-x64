@@ -664,6 +664,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Group By Current Column.
+        /// </summary>
+        internal static string MNU_GROUP_BY_CURRENT_COLUMN {
+            get {
+                return ResourceManager.GetString("MNU_GROUP_BY_CURRENT_COLUMN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &amp;Help.
         /// </summary>
         internal static string MNU_HELP {
@@ -759,6 +768,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_FILTER_USING_CELL_VALUE {
             get {
                 return ResourceManager.GetString("MNU_HLP_FILTER_USING_CELL_VALUE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Run a Group By Query on the currently selected column..
+        /// </summary>
+        internal static string MNU_HLP_GROUP_BY_CURRENT_COLUMN {
+            get {
+                return ResourceManager.GetString("MNU_HLP_GROUP_BY_CURRENT_COLUMN", resourceCulture);
             }
         }
         
@@ -1096,7 +1114,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Within Map.
+        ///   Looks up a localized string similar to Map Extent Selection.
         /// </summary>
         internal static string MNU_SELECT_WITHIN_MAP {
             get {

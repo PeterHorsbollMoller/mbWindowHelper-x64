@@ -18,3 +18,4 @@ Declare Function MAPHGetCoordinate(  ByVal nMID As Integer
 							, ByVal sCoordinate As String
 							) As Float
 
+Declare Sub MAPHSelectWithinMap

@@ -123,6 +123,9 @@
 '3.5.4	22-06-2018 15:07:45	- Added a text showing the number of selected records in the Statusbar
 '3.5.5	26-06-2018 10:05:54	- Adding Info and Ruler to Map Mini Toolbar is being ignored for MapInfo Pro 17.0 and newer
 '3.5.6	09-08-2018 13:40:44	- Number of selected records now also shows the total number of records in the table
+'3.5.7	06-09-2018 10:33:56 - Added Browser Context Menu item to group a table based on the current column
+'						- Fixed an issue with "Map Extent Selection" which made the tool not appear
+'						- Added icon for "Map Extent Selection"
 '*******************************************************************************
 
 '-------------------------------------
@@ -137,7 +140,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.5.6"
+Define xVersion 		"3.5.7"
 Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 
@@ -200,8 +203,7 @@ Declare Sub MENUWriteIniFile
 Declare Sub MENUOptions
 
 Declare Sub MENUFilterBrowserCurrentCell
-
-Declare Sub MENUSelectWithinMap
+Declare Sub MENUGroupByCurrentColumn
 
 Dim	mbIgnoreTopLeftCell As Logical
 
@@ -450,6 +452,20 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuThemeUsingCurrentStyles")
 	End If
 
+	sTabName		= TAB_MAP
+	sGroupName	= TAB_GROUP_MAP_SELECTION
+
+	nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), "", ControlType_Button, sTabName, sGroupName, "MapSelectionToolsSplitButton", "SelectionDownMenuGroup")
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_SELECT_WITHIN_MAP"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, "", PATH_IMAGES & "SelectWithinMap_32x32.png")
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHSelectWithinMap")
+	End If
+
 '	nCtrlIdx = RBNGroupAddButton("MapAutolockWindows", GetResItemStr("MNU_AUTOLOCK_WINDOWS"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
 '		'Create & Set the button tooltip
@@ -509,20 +525,6 @@ OnError GoTo ErrorOccured
 '		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHZoomNextMapExtent")
 '	End If
-
-	'**************************************************************************************************
-	nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), ""
-				, ControlType_Button, sTabName, sGroupName, "MapSelectionToolsSplitButton", "SelectionDownMenuGroup")
-	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_SELECT_WITHIN_MAP"), "")
-		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, "", PATH_IMAGES & "SelectWithinMap_32x32.png")
-		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUSelectWithinMap")
-
-	End If
 
 
 	'********************************************************************************
@@ -630,6 +632,16 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUFilterBrowserCurrentCell")
+	End If
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "mapCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_GROUP_BY_CURRENT_COLUMN"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FINDMAPSELECTION_16, "")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUGroupByCurrentColumn")
 	End If
 
 	'***************************************************************
@@ -1154,7 +1166,7 @@ Dim	nWID, nRow, nCol As Integer,
 	sCmd = "Set Browse"
 			& " Window " & nWID
 			& " Filter " & sCmd
-	Print sCmd
+	Call DEBUGPrint(sCmd)
 	Run Command sCmd
 
 	Exit Sub
@@ -1170,49 +1182,37 @@ End Sub
 'Parameters:
 '
 '**********************************************************************************************''
-Sub MENUSelectWithinMap
-
-Dim	nMID, nLayer As Integer,
-	oExtent As Object,
-	sText, sLayer As String
+Sub MENUGroupByCurrentColumn
 
 OnError GoTo ErrorOccured
 
-	Call DEBUGPrint("MENUSelectWithinMap")
+Dim	nWID, nRow, nCol As Integer,
+	sTab, sCol, sCmd As String
 
-	nMID	= MAPFrontMostWindow()
-	If nMID = 0 Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_NO_MAP_WIN_OPEN"), Notify_Error, 10000)
+	nWID = FrontWindow()
+	nRow = BrowserInfo(nWID, BROWSER_INFO_CURRENT_ROW)
+	nCol = BrowserInfo(nWID, BROWSER_INFO_CURRENT_COLUMN)
+	If nRow = 1 AND nCol = 0 AND mbIgnoreTopLeftCell Then
+ 		Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED"), Notify_Error, 5000)
 		Exit Sub
 	End If
 
-	For nLayer = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
-		If LayerInfo(nMID, nLayer, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
-			If NOT LayerInfo(nMID, nLayer, LAYER_INFO_DISPLAY) = LAYER_INFO_DISPLAY_OFF Then
-				If LayerInfo(nMID, nLayer, LAYER_INFO_SELECTABLE) Then
-					sLayer = LayerInfo(nMID, nLayer, LAYER_INFO_NAME)
-				End If
-			End If
-		End If
-	Next
+	sTab	= WindowInfo(nWID, WIN_INFO_TABLE)
+	sCol	= ColumnInfo(sTab, "COL" & (nCol + 1), COL_INFO_NAME)
 
-	If sLayer = "" Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_NO_SELECTABLE_LAYER"), Notify_Error, 10000)
-		Exit Sub
-	End If
-
-'	sText = "Selecting from the table " & sLayer
-'		& lf & "Where the objects are within the extent of the map " & WindowInfo(nMID, WIN_INFO_NAME)
-'	Call RBNNotificationShow(xProgram, sText, Notify_Info, 10000)
-
-	oExtent	= MAPGetExtent(nMID)
-	Select * From sLayer
-		Where OBJ Within oExtent
+	sCmd = "Select " & sCol & ", Count(*) " & Chr$(34) & "NumRecords" & Chr$(34)
+			& " From " & sTab
+			& " Group By " & sCol
+			& " Order By " & sCol
+			& " Into " & sTab & "_GrpOn_" & sCol & " NoSelect"
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+	Browse * From sTab & "_GrpOn_" & sCol Floating
 
 	Exit Sub
 '-------------------------
 ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "MENUSelectWithinMap")
+	Call ERRCreate(Err(), Error$(), "MENUGroupByCurrentColumn")
 	Call ERRShow()
 
 End Sub

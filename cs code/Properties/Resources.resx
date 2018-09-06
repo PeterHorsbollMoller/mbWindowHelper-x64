@@ -319,6 +319,9 @@
   <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
     <value>Cell Value</value>
   </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Group By Current Column</value>
+  </data>
   <data name="MNU_HELP" xml:space="preserve">
     <value>&amp;Help</value>
   </data>
@@ -351,6 +354,9 @@
   </data>
   <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
     <value>This will filter the browser using the value in the currently selected cell</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Run a Group By Query on the currently selected column.</value>
   </data>
   <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Display a clone of the active layout</value>
@@ -464,7 +470,7 @@
     <value>Save Window To Workspace Without 'Open table ...' statements</value>
   </data>
   <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
-    <value>Within Map</value>
+    <value>Map Extent Selection</value>
   </data>
   <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
     <value>Setup Base Windows...</value>

@@ -18,6 +18,7 @@ Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
 Include "Library\LAYERLib.def"
 Include "Library\MAPPERLib.def"
+Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
 
@@ -512,3 +513,53 @@ ErrorOccured:
 	Call ERRShow()
 
 End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHSelectWithinMap
+
+Dim	nMID, nLayer As Integer,
+	oExtent As Object,
+	sText, sLayer As String
+
+OnError GoTo ErrorOccured
+
+	nMID	= MAPFrontMostWindow()
+	If nMID = 0 Then
+		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER"), Notify_Error, 10000)
+		Exit Sub
+	End If
+
+	For nLayer = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+		If LayerInfo(nMID, nLayer, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+			If NOT LayerInfo(nMID, nLayer, LAYER_INFO_DISPLAY) = LAYER_INFO_DISPLAY_OFF Then
+				If LayerInfo(nMID, nLayer, LAYER_INFO_SELECTABLE) Then
+					sLayer = LayerInfo(nMID, nLayer, LAYER_INFO_NAME)
+				End If
+			End If
+		End If
+	Next
+
+	If sLayer = "" Then
+		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_NO_SELECTABLE_LAYER"), Notify_Error, 10000)
+		Exit Sub
+	End If
+
+'	sText = "Selecting from the table " & sLayer
+'		& lf & "Where the objects are within the extent of the map " & WindowInfo(nMID, WIN_INFO_NAME)
+'	Call RBNNotificationShow(xProgram, sText, Notify_Info, 10000)
+
+	oExtent	= MAPGetExtent(nMID)
+	Select * From sLayer
+		Where OBJ Intersects oExtent
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHSelectWithinMap")
+	Call ERRShow()
+
+End Sub
