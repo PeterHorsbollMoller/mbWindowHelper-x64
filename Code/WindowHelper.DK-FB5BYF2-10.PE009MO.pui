@@ -2,23 +2,23 @@
 Active File Display Mode=1
 Active File Index=1
 Open File Line0=0
-Open File Line1=6950
+Open File Line1=43452
 Open File Line2=8893
 Open File Line3=0
 Open File Line4=0
 Open File Line5=0
 Open File Pos0=173
-Open File Pos1=10072
+Open File Pos1=45261
 Open File Pos2=6220
 Open File Pos3=614
 Open File Pos4=643
 Open File Pos5=658
-Open File Window Pos0=0,1,-1,-1,-1,-1,3,31,2624,1309
-Open File Window Pos1=0,1,-1,-1,-1,-1,3,31,2624,1309
-Open File Window Pos2=0,1,-1,-1,-1,-1,3,31,2624,1309
-Open File Window Pos3=0,1,-1,-1,-1,-1,3,31,2624,1309
-Open File Window Pos4=0,1,-1,-1,-1,-1,3,31,2624,1309
-Open File Window Pos5=0,1,-1,-1,-1,-1,3,31,2624,1309
+Open File Window Pos0=0,1,-1,-1,-1,-1,3,31,2391,1014
+Open File Window Pos1=0,1,-1,-1,-1,-1,3,31,2391,1014
+Open File Window Pos2=0,1,-1,-1,-1,-1,3,31,2391,1014
+Open File Window Pos3=0,1,-1,-1,-1,-1,3,31,2391,1014
+Open File Window Pos4=0,1,-1,-1,-1,-1,3,31,2391,1014
+Open File Window Pos5=0,1,-1,-1,-1,-1,3,31,2391,1014
 Open File0=D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\Code\WindowHelper.mbp
 Open File1=D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\Code\WindowHelperMenu.mb
 Open File2=D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\Code\SelInfoHandler.mb
@@ -30,4 +30,4 @@ Remember Files=1
 
 [Project Information]
 	Project Start=E107040001000A00080011001000000020
-	Working Time=329703
+	Working Time=337042
