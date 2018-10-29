@@ -126,7 +126,9 @@
 '3.5.7	06-09-2018 10:33:56 - Added Browser Context Menu item to group a table based on the current column
 '						- Fixed an issue with "Map Extent Selection" which made the tool not appear
 '						- Added icon for "Map Extent Selection"
-'5.5.8	11-09-2018 14:53:14	- Changed the text showing number of selected records  to appear after text showing name of table Selection is based on
+'3.5.8	11-09-2018 14:53:14	- Changed the text showing number of selected records  to appear after text showing name of table Selection is based on
+'3.5.9	18-09-2018 10:12:24	- Shortened a sub procedure to MAPHMenuStaticTheme
+'		29-10-2018 12:57:41	- Published a number of functions to the MapInfo Pro interface (only works from v17.0.1)
 '*******************************************************************************
 
 '-------------------------------------
@@ -141,7 +143,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.5.8"
+Define xVersion 		"3.5.9"
 Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 
@@ -152,14 +154,14 @@ Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
 Define FILE_HLP			ApplicationDirectory$() + "WindowHelper.pdf"
 Define PATH_IMAGES			ApplicationDirectory$() & "Images\"
 
-Declare Sub MENUSaveWindowToWorkspace
-
 '-------------------------------------
 Include "Library\DEBUGLib.def"
 Include "Library\CONFIGFILELib.def"
 Include "Library\ERRORLib.def"
 Include "Library\FILELib.def"
 Include "Library\MAPPERLib.def"
+Include "Library\MATHLib.def"
+Include "Library\OBJLib.def"
 Include "Library\ProgramInfo.def"
 Include "Library\RibbonElements.def"
 Include "Library\RESSTRNGLib.def"
@@ -185,6 +187,7 @@ Include "SelInfoHandler.def"
 
 '-----------------------------------------------------------------------------------------
 Declare Sub Main
+Declare Sub MENUPublishFunctionsToMapInfoProInterface
 Declare Sub MENUBuildRibbonInterface
 
 Declare Sub EndProgram
@@ -205,6 +208,8 @@ Declare Sub MENUOptions
 
 Declare Sub MENUFilterBrowserCurrentCell
 Declare Sub MENUGroupByCurrentColumn
+
+Declare Sub MENUSaveWindowToWorkspace
 
 Dim	mbIgnoreTopLeftCell As Logical
 
@@ -335,12 +340,95 @@ OnError GoTo ErrorOccured
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
 	End If
 
+'	Dim sInput, sPattern As String
+'	Print "-------------------------------------------"
+'	sInput	= "1486215-v1-509133 659698  106222  106223  11 Bamboo Street.TIF"
+'	sPattern	= "(([a-zA-z]{3}\s+)?\d+\s+([a-zA-z]+\s+)*[a-zA-z]+)\..*$"
+'	Print "Found: " & RegExIsMatch (sInput, sPattern)
+'	Print RegExReplace(sInput, sPattern, "[Address found here]")
+'	Print "Address: " & RegExFirstMatch(sInput, sPattern)
+'
+'	sPattern	= "^\d+-v1-\d+\s{2,}(\d+).*\s{1,2}.*$"
+'	Print "Found: " & RegExIsMatch (sInput, sPattern)
+'	Print RegExReplace(sInput, sPattern, "[PCL found here]")
+'	Print "PCL: " & RegExFirstMatch(sInput, sPattern)
+'
+'	Print "-------------------------------------------"
+'	sInput	= "1710751-v1-923508  4046  10 Kadan Cl.TIF"
+'	sPattern	= "(([a-zA-z]{3}\s+)?\d+\s+([a-zA-z]+\s+)*[a-zA-z]+)\..*$"
+'	Print "Found: " & RegExIsMatch (sInput, sPattern)
+'	Print RegExReplace(sInput, sPattern, "[Address found here]")
+'	Print "Address: " & RegExFirstMatch(sInput, sPattern)
+'
+'	sPattern	= "^\d+-v1-\d+\s{2,}(\d+).*\s{1,2}.*$"
+'	Print "Found: " & RegExIsMatch (sInput, sPattern)
+'	Print RegExReplace(sInput, sPattern, "[PCL found here]")
+'	Print "PCL: " & RegExFirstMatch(sInput, sPattern)
+
+	Call MENUPublishFunctionsToMapInfoProInterface
+
 	Exit Sub
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "Main")
 	Call ERRShow()
 	Resume Next
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENUPublishFunctionsToMapInfoProInterface
+
+Dim	nResult As Integer
+
+OnError GoTo ErrorOccured
+
+	If SystemInfo(SYS_INFO_MIFULLVERSION) < 1701 Then
+		'**Requires at least v17.0.1 to work
+		Exit Sub
+	End If
+
+	'**WindowHelper, specific functions
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WINHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper")
+
+	'**mbLibrary, general functions
+	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "STRINGReplace$", "Search for a substring and replace it with another substring")
+	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "STRINGExtractValueBetweenChars$", "Extract the value between the two given characters")
+	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "STRINGCombineWithSeparator$", "Combine the two values witht he separator given")
+	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "STRINGLeftWord$", "Extracts a specific word from a string of words separated by spaces")
+
+	nResult = RBNRegisterFunctionAsPublic("COLExists", "COLUMNExists", "Returns true/1 if the specified column exists in the specified table")
+	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "COLUMNTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')")
+	nResult = RBNRegisterFunctionAsPublic("TABIsOpen", "TABLEIsOpen", "Returns true/1 if the table is open")
+
+	nResult = RBNRegisterFunctionAsPublic("CONFIGReadKey", "CONFIGReadKey", "Returns the value read from the key specified, or '' if key wasn't found")
+	nResult = RBNRegisterFunctionAsPublic("CONFIGWriteKey", "CONFIGWriteKey", "Writes the specified value to the section and key in the file specifed")
+
+	nResult = RBNRegisterFunctionAsPublic("STLAlterPen", "STYLEAlterPen", "Return the input object (linear and surfaces only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterBrush", "STYLEAlterBrush", "Return the input object (surfaces only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterSymbol", "STYLEAlterSymbol", "Return the input object (points only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLSymbol2Text", "STYLESymbol2Text", "Returns a string illustrating the Symbol")
+	nResult = RBNRegisterFunctionAsPublic("STLBrush2Text", "STYLEBrush2Text", "Returns a Text illustrating the Brush")
+	nResult = RBNRegisterFunctionAsPublic("STLPen2Text", "STYLEPen2Text", "Returns a Text illustrating the Pen")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "STYLEText2Symbol", "Return the Symbol from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "STYLEText2Brush", "Return the Brush from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "STYLEText2Pen", "Return the Pen from the text")
+
+	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "OBJDirection", "Calculates the direction of the object")
+	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "OBJReverse", "Reverses the direction of lines and polylines")
+
+	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
+	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENUPublishFunctionsToMapInfoProInterface")
+	Call ERRShow()
 
 End Sub
 
@@ -450,7 +538,7 @@ OnError GoTo ErrorOccured
 		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
 		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuThemeUsingCurrentStyles")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuStaticTheme")
 	End If
 
 	sTabName		= TAB_MAP
@@ -884,6 +972,7 @@ Sub Endhandler
 
 OnError GoTo ErrorOccured
 
+	Print "WindowHelper EndHandler"
 	Call MENUWriteIniFile
 
 '	Call WHDEndHandler
