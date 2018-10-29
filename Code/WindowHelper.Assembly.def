@@ -10,6 +10,10 @@ Declare Method GetResItemStrReplace Class "WindowHelper.Controller" Lib "WindowH
 
 Declare Method GetScreenSize Class "WindowHelper.Controller" Lib "WindowHelper.dll" () As String
 
+Declare Method RegExReplace Class "WindowHelper.Controller" Lib "WindowHelper.dll" (ByVal sInput As String, ByVal sPattern As String, ByVal sReplace As String) As String
+Declare Method RegExIsMatch Class "WindowHelper.Controller" Lib "WindowHelper.dll" (ByVal sInput As String, ByVal sPattern As String) As Logical
+Declare Method RegExFirstMatch Class "WindowHelper.Controller" Lib "WindowHelper.dll" (ByVal sInput As String, ByVal sPattern As String) As String
+
 Declare Method WinHelpDlgShow Class "WindowHelper.Controller" Lib "WindowHelper.dll"
 	(ByVal nMainWnd As Integer)
 Declare Method WinHelpDlgClose Class "WindowHelper.Controller" Lib "WindowHelper.dll"
