@@ -938,3 +938,20 @@ ErrorOccured:
 
 End Sub	'WINHBrowserFloating
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHSetCoordsysUsingTable(ByVal sTable As String)
+
+OnError GoTo ErrorOccured
+
+	Set CoordSys Table sTable
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHSetCoordsysUsingTable")
+	Call ERRShow()
+
+End Sub

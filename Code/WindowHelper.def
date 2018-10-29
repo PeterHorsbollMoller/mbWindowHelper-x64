@@ -32,3 +32,5 @@ Declare Sub WINHZoomPreviousMapExtent
 Declare Sub WINHZoomNextMapExtent
 
 Declare Sub WINHBrowserFloating
+
+Declare Sub WINHSetCoordsysUsingTable(ByVal sTable As String)
