@@ -6,7 +6,7 @@ Declare Sub MAPHRenameLayerAdvancedLC
 Declare Sub MAPHRenameMultipleLayersLC
 Declare Sub MAPHCloneMapLC
 
-Declare Sub MAPHMenuThemeUsingCurrentStyles
+Declare Sub MAPHMenuStaticTheme
 Declare Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
 								, ByVal nMID As Integer
 								, ByVal sTab As String

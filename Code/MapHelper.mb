@@ -239,7 +239,7 @@ End Sub
 'Parameters:
 '
 '**********************************************************************************************''
-Sub MAPHMenuThemeUsingCurrentStyles
+Sub MAPHMenuStaticTheme
 
 Dim	nObjectTypes As Integer,
 	oFirst As Object,
@@ -319,7 +319,6 @@ OnError GoTo ErrorOccured
 			nLayer = 1
 		End If
 	End If
-
 
 	aCol = sTab & "." & sCol
 
