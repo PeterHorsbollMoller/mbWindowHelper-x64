@@ -5,6 +5,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Xml;
 using System.Threading;
+using System.Text.RegularExpressions;
+
 //using MapInfo.Types;
 
 namespace WindowHelper
@@ -95,7 +97,45 @@ namespace WindowHelper
             return size;
         }
 
-         ///****************************************************************************
+        #region RegEx
+        //<summary>RegEx function that does a search and replace
+        /// </summary>
+        /// <param name="input">Input string to search</param>
+        /// <param name="pattern">Pattern to look for in input string</param>
+        /// <param name="replace">String to insert as replacement for pattern</param>
+        /// <returns>string: input string where the pattern has been replaced with the replace string</returns>
+        public static string RegExReplace(string input, string pattern, string replace)
+        {
+            return Regex.Replace(input, pattern, replace);
+        }
+
+        //<summary>RegEx function that looks for a pattern in a string
+        /// </summary>
+        /// <param name="input">Input string to search</param>
+        /// <param name="pattern">Pattern to look for in input string</param>
+        /// <returns>bool: returns true if the pattern is found in the input string</returns>
+        public static bool RegExIsMatch(string input, string pattern)
+        {
+            return Regex.IsMatch(input, pattern);
+        }
+
+        //<summary>RegEx function that looks for a pattern in a string and returns the found pattern
+        /// </summary>
+        /// <param name="input">Input string to search</param>
+        /// <param name="pattern">Pattern to look for in input string</param>
+        /// <returns>string: returns the first found pattern in the input string</returns>
+        public static string RegExFirstMatch(string input, string pattern)
+        {
+            Match m = Regex.Match(input, pattern);
+            if (m.Success)
+                return m.Value;
+            else
+                return "";
+        }
+
+        #endregion RegEx
+
+        ///****************************************************************************
         ///lets you bind the new form to the MapInfo Pro window
         ///****************************************************************************
         #region WindowWrapper
@@ -136,7 +176,7 @@ namespace WindowHelper
             }
         }
         #endregion
-        
+ 
     }
 
 
