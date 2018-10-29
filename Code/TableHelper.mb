@@ -310,3 +310,63 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function TABHRegExReplace(ByVal sInput As String, ByVal sPattern As String, ByVal sReplace As String) As String
+
+OnError GoTo ErrorOccured
+
+	TABHRegExReplace = TABHRegExReplace(sInput, sPattern, sReplace)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHRegExReplace")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function TABHRegExIsMatch(ByVal sInput As String, ByVal sPattern As String) As Logical
+
+OnError GoTo ErrorOccured
+
+	TABHRegExIsMatch = RegExIsMatch(sInput, sPattern)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHRegExIsMatch")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function TABHRegExFirstMatch(ByVal sInput As String, ByVal sPattern As String) As String
+
+OnError GoTo ErrorOccured
+
+	TABHRegExFirstMatch = RegExFirstMatch(sInput, sPattern)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHRegExFirstMatch")
+	Call ERRShow()
+
+End Function

@@ -5,3 +5,7 @@ Declare Sub TABHOpenTabFileLC
 Declare Sub TABHCloseTableLC
 Declare Sub TABHSetTextEditor(ByVal sTextEditor As String)
 Declare Sub TABHBrowserFloatingTL
+
+Declare Function TABHRegExReplace(ByVal sInput As String, ByVal sPattern As String, ByVal sReplace As String) As String
+Declare Function TABHRegExIsMatch(ByVal sInput As String, ByVal sPattern As String) As Logical
+Declare Function TABHRegExFirstMatch(ByVal sInput As String, ByVal sPattern As String) As String

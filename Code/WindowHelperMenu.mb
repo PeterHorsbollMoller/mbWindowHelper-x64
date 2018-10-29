@@ -129,6 +129,7 @@
 '3.5.8	11-09-2018 14:53:14	- Changed the text showing number of selected records  to appear after text showing name of table Selection is based on
 '3.5.9	18-09-2018 10:12:24	- Shortened a sub procedure to MAPHMenuStaticTheme
 '		29-10-2018 12:57:41	- Published a number of functions to the MapInfo Pro interface (only works from v17.0.1)
+'						- Added RegEx wrappers to TableHelper to be able to publish these to the MapInfo Pro interface
 '*******************************************************************************
 
 '-------------------------------------
@@ -423,6 +424,10 @@ OnError GoTo ErrorOccured
 
 	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
 	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
+
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "RegExReplace", "Searches for a match and returns the string where the string has been replaced")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "RegExIsMatch", "Searches for a match and returns true if one was found")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExFirstMatch", "RegExFirstMatch", "Searches for a match and returns thr first match")
 
 	Exit Sub
 '-------------------------
