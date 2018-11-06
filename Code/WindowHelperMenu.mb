@@ -130,6 +130,7 @@
 '3.5.9	18-09-2018 10:12:24	- Shortened a sub procedure to MAPHMenuStaticTheme
 '		29-10-2018 12:57:41	- Published a number of functions to the MapInfo Pro interface (only works from v17.0.1)
 '						- Added RegEx wrappers to TableHelper to be able to publish these to the MapInfo Pro interface
+'3.6.0	06-11-2018 14:46:36	- Published OBJCartesianCreatPointAlong function
 '*******************************************************************************
 
 '-------------------------------------
@@ -144,7 +145,7 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.5.9"
+Define xVersion 		"3.6.0"
 Define xYear			"2018"
 Define xAddToMenuBar	FALSE
 
@@ -421,6 +422,7 @@ OnError GoTo ErrorOccured
 
 	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "OBJDirection", "Calculates the direction of the object")
 	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "OBJReverse", "Reverses the direction of lines and polylines")
+	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "OBJCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
 
 	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
 	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
@@ -977,7 +979,6 @@ Sub Endhandler
 
 OnError GoTo ErrorOccured
 
-	Print "WindowHelper EndHandler"
 	Call MENUWriteIniFile
 
 '	Call WHDEndHandler
