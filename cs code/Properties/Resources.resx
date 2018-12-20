@@ -196,6 +196,12 @@
   <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
     <value>Please enter a name of the new base window!</value>
   </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>Please enter a name for the window!</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>Please enter a size larger than 0!</value>
+  </data>
   <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
     <value>The active window must be a mapper window!</value>
   </data>
@@ -367,8 +373,11 @@
   <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
     <value>Lock window</value>
   </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Change size or title of window</value>
+  </data>
   <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
-    <value>Modify Window</value>
+    <value>Modify Title and Size of Active Window</value>
   </data>
   <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename all layers to match the tab file name</value>
@@ -447,6 +456,9 @@
   </data>
   <data name="MNU_LOCK_WINDOW" xml:space="preserve">
     <value>Lock window</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modify Window</value>
   </data>
   <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename Multiple Layers</value>
@@ -714,6 +726,12 @@
   </data>
   <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
     <value>Lock the window to prevent it from being closed</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modify Title and Size of Active Window</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>This control isn't enabled until you have a window open</value>
   </data>
   <data name="TTIP_OPTIONS" xml:space="preserve">
     <value>Open the Options dialog for the WindowHelper application</value>

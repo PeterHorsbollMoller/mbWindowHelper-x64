@@ -1,0 +1,3 @@
+Declare Function DLGModifyWindow(	ByVal nWID As Integer ) As Logical
+
+Declare Sub DLGMWApplyChanges(	ByVal nWID As Integer)

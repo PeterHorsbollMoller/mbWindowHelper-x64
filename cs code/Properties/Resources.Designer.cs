@@ -295,6 +295,24 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please enter a name for the window!.
+        /// </summary>
+        internal static string ERR_ENTER_NAME_FOR_WINDOW {
+            get {
+                return ResourceManager.GetString("ERR_ENTER_NAME_FOR_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please enter a size larger than 0!.
+        /// </summary>
+        internal static string ERR_ENTER_SIZE_LARGER_THAN_0 {
+            get {
+                return ResourceManager.GetString("ERR_ENTER_SIZE_LARGER_THAN_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The active window must be a mapper window!.
         /// </summary>
         internal static string ERR_FRONT_WIN_NOT_MAPPER {
@@ -808,7 +826,16 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Modify Window.
+        ///   Looks up a localized string similar to Change size or title of window.
+        /// </summary>
+        internal static string MNU_HLP_MODIFY_WINDOW {
+            get {
+                return ResourceManager.GetString("MNU_HLP_MODIFY_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify Title and Size of Active Window.
         /// </summary>
         internal static string MNU_HLP_MOFIFY_WINDOW {
             get {
@@ -1047,6 +1074,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_LOCK_WINDOW {
             get {
                 return ResourceManager.GetString("MNU_LOCK_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify Window.
+        /// </summary>
+        internal static string MNU_MODIFY_WINDOW {
+            get {
+                return ResourceManager.GetString("MNU_MODIFY_WINDOW", resourceCulture);
             }
         }
         
@@ -1848,6 +1884,24 @@ namespace WindowHelper.Properties {
         internal static string TTIP_LOCK_WINDOW {
             get {
                 return ResourceManager.GetString("TTIP_LOCK_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Modify Title and Size of Active Window.
+        /// </summary>
+        internal static string TTIP_MODIFY_WINDOW {
+            get {
+                return ResourceManager.GetString("TTIP_MODIFY_WINDOW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This control isn&apos;t enabled until you have a window open.
+        /// </summary>
+        internal static string TTIP_MODIFY_WINDOW_DISABLED {
+            get {
+                return ResourceManager.GetString("TTIP_MODIFY_WINDOW_DISABLED", resourceCulture);
             }
         }
         

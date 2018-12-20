@@ -20,7 +20,7 @@ Include "Library\TABLELib.def"
 Include "RibbonHelper.def"
 
 '**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Created by Peter Horsbøll Møller, Pitney Bowes
 'Parameters:
 '
 '**********************************************************************************************''

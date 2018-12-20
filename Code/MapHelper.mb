@@ -553,7 +553,7 @@ OnError GoTo ErrorOccured
 
 	oExtent	= MAPGetExtent(nMID)
 	Select * From sLayer
-		Where OBJ Intersects oExtent
+		Where OBJ Within oExtent
 
 	Exit Sub
 '-------------------------

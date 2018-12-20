@@ -1,0 +1,187 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "Library\MapBasic.def"
+Include "Library\Icons.def"
+Include "Library\Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\STRINGLib.def"
+
+Include "DLGModifyWindow.def"
+Include "WindowHelper.Assembly.def"
+
+Declare Sub DLGMWHandler_OKClicked
+
+Define	CTRL_TXT_TITLE			100
+Define	CTRL_TXT_HEIGHT		200
+Define	CTRL_TXT_WIDTH			300
+
+Dim	msPaperUnits As String,
+	mnWID As Integer,
+	msTitle, msTitleNew As String,
+	mfWidth, mfHeight, mfWidthNew, mfHeightNew As Float
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGModifyWindow(	ByVal nWID As Integer ) As Logical
+
+Dim	iRet As Integer
+
+OnError GoTo ErrorOccured
+
+DLGModifyWindow = FALSE
+
+	mnWID		= nWID
+
+	iRet	= GetPreference(0,9)	'Undocumented feature	'SessionInfo(SESSION_INFO_PAPER_UNITS)
+	Do Case iRet
+		Case 11
+			msPaperUnits = "pt"
+		Case 12
+			msPaperUnits = "pica"
+		Case 2
+			msPaperUnits = "in"
+		Case 5
+			msPaperUnits = "mm"
+		Case 6
+			msPaperUnits = "cm"
+		Case Else
+			msPaperUnits = "cm"	'UnitAbbr$("Units Unknown")
+	End Case
+
+	Set Paper Units msPaperUnits
+
+	msTitle	= WindowInfo(mnWID, WIN_INFO_NAME)
+	mfWidth	= WindowInfo(mnWID, WIN_INFO_WIDTH)
+	mfHeight	= WindowInfo(mnWID, WIN_INFO_HEIGHT)
+
+	Dialog
+		Title GetResItemStr("DLG_MODIFY_WINDOW")
+
+		Control StaticText	Position 5,5
+			Title GetResItemStr("STR_WINDOW_NAME")
+		Control EditText	Position 5,15		Width 185		ID CTRL_TXT_TITLE
+			Value msTitle
+
+		Control StaticText	Position 5,30
+			Title GetResItemStr("STR_HEIGHT") & ", " & msPaperUnits
+		Control EditText	Position 5,40		Width 90		ID CTRL_TXT_HEIGHT
+			Value FormatNumber$(mfHeight)
+		Control StaticText	Position 100,30
+			Title GetResItemStr("STR_WIDTH") & ", " & msPaperUnits
+		Control EditText	Position 100,40	Width 90		ID CTRL_TXT_WIDTH
+			Value FormatNumber$(mfWidth)
+
+		Control OKButton
+			Calling DLGMWHandler_OKClicked
+		Control CancelButton
+
+	If not CommandInfo(CMD_INFO_DLG_OK) Then
+		Exit Function
+	End If
+
+	DLGModifyWindow = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGModifyWindow")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGMWHandler_OKClicked
+
+OnError GoTo ErrorOccured
+
+	msTitleNew 	= ReadControlValue(CTRL_TXT_TITLE)
+	mfWidthNew 	= DeformatNumber$(ReadControlValue(CTRL_TXT_WIDTH))
+	mfHeightNew	= DeformatNumber$(ReadControlValue(CTRL_TXT_HEIGHT))
+
+	If msTitleNew = "" Then
+		Note GetResItemStr(ERR_ENTER_NAME_FOR_WINDOW)
+		Alter Control CTRL_TXT_TITLE Active
+		Dialog Preserve
+		Exit Sub
+	ElseIf mfWidthNew <= 0 Then
+		Note GetResItemStr(ERR_ENTER_SIZE_LARGER_THAN_0)
+		Alter Control CTRL_TXT_WIDTH Active
+		Dialog Preserve
+		Exit Sub
+	ElseIf mfHeightNew <= 0 Then
+		Note GetResItemStr(ERR_ENTER_SIZE_LARGER_THAN_0)
+		Alter Control CTRL_TXT_HEIGHT Active
+		Dialog Preserve
+		Exit Sub
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGMWHandler_OKClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGMWApplyChanges(	ByVal nWID As Integer)
+
+Dim	sCmd As String
+
+OnError GoTo ErrorOccured
+
+'	If nWID <> mnWID Then
+'		Exit Sub
+'	End If
+
+	If msTitleNew <> msTitle Then
+		sCmd = "Title " & Chr$(34) & msTitleNew & Chr$(34)
+	End If
+	If mfWidthNew <> mfWidth Then
+		sCmd = STRINGConcatenateWithSeparator(sCmd, "Width " & mfWidthNew & " Units " & Chr$(34) & msPaperUnits & Chr$(34), " ")
+	End If
+	If mfHeightNew <> mfHeight Then
+		sCmd = STRINGConcatenateWithSeparator(sCmd, "Height " & mfHeightNew & " Units " & Chr$(34) & msPaperUnits & Chr$(34), " ")
+	End If
+
+	If sCmd <> "" Then
+		sCmd = "Set Window " & nWID & " " & sCmd
+
+		Print sCmd
+		Run Command sCmd
+	End If
+
+'	[ Position ( x, y ) [ Units paper_units ] ]
+'	[ Min | Max | Restore | Floating | Docked | Tabbed | AutoHidden ]
+'	[ Title { new_title | Default } ]
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGMWApplyChanges")
+	Call ERRShow()
+
+End Sub

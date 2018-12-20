@@ -126,11 +126,31 @@
 '3.5.7	06-09-2018 10:33:56 - Added Browser Context Menu item to group a table based on the current column
 '						- Fixed an issue with "Map Extent Selection" which made the tool not appear
 '						- Added icon for "Map Extent Selection"
-'3.5.8	11-09-2018 14:53:14	- Changed the text showing number of selected records  to appear after text showing name of table Selection is based on
+'3.5.8	11-09-2018 14:53:14	- Changed the text showing number of selected records to appear after text showing name of table Selection is based on (doesn't work)
 '3.5.9	18-09-2018 10:12:24	- Shortened a sub procedure to MAPHMenuStaticTheme
-'		29-10-2018 12:57:41	- Published a number of functions to the MapInfo Pro interface (only works from v17.0.1)
-'						- Added RegEx wrappers to TableHelper to be able to publish these to the MapInfo Pro interface
-'3.6.0	06-11-2018 14:46:36	- Published OBJCartesianCreatPointAlong function
+'		29-10-2018 12:57:41	- Added RegEx wrappers to TableHelper to be able to publish these to the MapInfo Pro interface
+'						- Published functions to the MapInfo Pro interface (only works from v17.0.1):
+'							- WINHSetCoordsysUsingTable
+'							- STRINGReplace
+'							- STRINGGetValueBetweenChars
+'							- STRINGConcatenateWithSeparator
+'							- STRINGLeftWord
+'							- COLExists
+'							- COLTypeAsString
+'							- TABIsOpen
+'							- CONFIGReadKey, CONFIGWriteKey
+'							- STLAlterPen, STLAlterBrush, STLAlterSymbol
+'							- STLSymbol2Text, STLBrush2Text, STLPen2Text, STLText2Symbol, STLText2Brush, STLText2Pen
+'							- OBJDirection
+'							- OBJReverse
+'							- MAPGetExtent
+'							- MAPHGetCoordinate
+'							- TABHRegExReplace, TABHRegExIsMatch, TABHRegExFirstMatch
+'3.6.0	06-11-2018 14:46:36	- Published functions to the MapInfo Pro interface (only works from v17.0.1):
+'							- OBJCartesianCreatePointAlong
+'							- WINHSetCoordsysUsingMap
+'							- OBJCombineFromTable
+'						- Added a new module to Modify Window size and settings
 '*******************************************************************************
 
 '-------------------------------------
@@ -173,6 +193,7 @@ Include "Library\SYSTEMLib.def"
 Include "Library\TABLELib.def"
 Include "Library\TOOLBARLib.def"
 
+Include "DLGModifyWindow.def"
 Include "DLGWHOWindowHelperOptions.def"
 'Include "BaseWindows.def"
 Include "MapHelper.def"
@@ -335,6 +356,7 @@ OnError GoTo ErrorOccured
 '	Call WHDInitialize
 
 	Call SELINFOSwitchDisplay
+'	Call WinChangedHandler
 
 '	Call DLGExecFunctions
 
@@ -395,7 +417,8 @@ OnError GoTo ErrorOccured
 	End If
 
 	'**WindowHelper, specific functions
-	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WINHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WINHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WINHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window")
 
 	'**mbLibrary, general functions
 	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "STRINGReplace$", "Search for a substring and replace it with another substring")
@@ -423,8 +446,10 @@ OnError GoTo ErrorOccured
 	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "OBJDirection", "Calculates the direction of the object")
 	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "OBJReverse", "Reverses the direction of lines and polylines")
 	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "OBJCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
+	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "OBJCombineFromTable", "Combines objects from a table, optionally specify a column and a value")
 
 	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
+'	nResult = RBNRegisterFunctionAsPublic("MAPGetExtentCached", "MAPGetExtentCached", "Returns the Cached Extent of the specified map window as a spatial object")
 	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
 
 	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "RegExReplace", "Searches for a match and returns the string where the string has been replaced")
@@ -637,6 +662,16 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "WindowRestore_16x16.png", PATH_IMAGES & "WindowRestore_32x32.png")
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
+	End If
+
+	nCtrlIdx = RBNGroupAddButton("HomeModifyWindow", GetResItemStr("MNU_MODIFY_WINDOW"), "", sTabName, sGroupName)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_MODIFY_WINDOW"), GetResItemStr("TTIP_MODIFY_WINDOW_DISABLED"))
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "ModifyWindow_32x32.png", PATH_IMAGES & "ModifyWindow_32x32.png")
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHModifyWindow")
 	End If
 
 '	nCtrlIdx = RBNGroupAddButton("HomeAutolockWindows", GetResItemStr("MNU_AUTOLOCK_WINDOWS"), "", sTabName, sGroupName)
@@ -883,6 +918,19 @@ OnError GoTo ErrorOccured
 	End If
 
 	'***************************************************************
+	'**Adding a menu item to the Window List Context menu
+'	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_WindowListShortcut, "wlCntxtModifyWindow", GetResItemStr("MNU_MODIFY_WINDOW"), "")
+'	If nCtrlIdx > 0 Then
+'		'Create & Set the button tooltip
+'		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MODIFY_WINDOW"), "")
+'		'Set the button icon
+'		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ModifyWindow_32x32.png")
+'		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+'		'Set Custom MapBasic Handle to the button
+'		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHModifyWindowWL")
+'	End If
+
+	'***************************************************************
 	'A P P L I C A T I O N    C O N T E X T    M E N U S
 	'***************************************************************
 
@@ -1070,6 +1118,10 @@ OnError GoTo ErrorOccured
 	nWID = CommandInfo(CMD_INFO_WIN)
 	Call WINHWinChangedHandler(nWID)
 '	Call WHDWinChangedHandler(nWID)
+
+'	If WindowInfo(nWID, WIN_INFO_TYPE) = WIN_MAPPER Then
+'		Call MAPCacheMapExtent(nWID)
+'	End If
 
 	Set Handler WinFocusChangedHandler On
 	Set Event Processing On

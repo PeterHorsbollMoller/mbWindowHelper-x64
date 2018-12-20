@@ -21,6 +21,7 @@ Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
 
+Include "DLGModifyWindow.def"
 Include "WindowHelper.def"
 Include "WindowHelper.Assembly.def"
 
@@ -955,3 +956,72 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHSetCoordsysUsingMap(ByVal nMID As Integer)
+
+OnError GoTo ErrorOccured
+
+	Set CoordSys Window nMID
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHSetCoordsysUsingMap")
+	Call ERRShow()
+
+End Sub
+
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHModifyWindowWL
+
+OnError GoTo ErrorOccured
+
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHModifyWindowWL")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHModifyWindow
+
+Dim	nWID As Integer
+
+OnError GoTo ErrorOccured
+
+	nWID = FrontWindow()
+	If nWID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+
+	If not DLGModifyWindow(nWID) Then
+		Exit Sub
+	End If
+
+	Call DLGMWApplyChanges(nWID)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHModifyWindow")
+	Call ERRShow()
+
+End Sub
+

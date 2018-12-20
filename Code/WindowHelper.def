@@ -34,3 +34,7 @@ Declare Sub WINHZoomNextMapExtent
 Declare Sub WINHBrowserFloating
 
 Declare Sub WINHSetCoordsysUsingTable(ByVal sTable As String)
+Declare Sub WINHSetCoordsysUsingMap(ByVal nMID As Integer)
+
+Declare Sub WINHModifyWindowWL
+Declare Sub WINHModifyWindow

@@ -22,6 +22,7 @@ Module=Library\Dialogs\DLGSelectTableAndColumn.mbo
 Module=WindowHelperMenu.mbo
 Module=DLGAdvancedLayerRename.mbo
 Module=DLGExecFunctions.mbo
+Module=DLGModifyWindow.mbo
 Module=DLGMultipleLayersRename.mbo
 Module=DLGWHOWindowHelperOptions.mbo
 Module=MAPHelper.mbo

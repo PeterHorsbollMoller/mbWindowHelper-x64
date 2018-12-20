@@ -19,7 +19,7 @@ Include "Library\ERRORLib.def"
 Include "Library\MAPPERLib.def"
 Include "Library\TABLELib.def"
 
-Include "Resources.def"
+Include "WindowHelper.Assembly.def"
 Include "MAPEXTDCreateMapExtentDialog.def"
 
 Define CTRL_LST_EXTENT_FROM_MAPS		100
