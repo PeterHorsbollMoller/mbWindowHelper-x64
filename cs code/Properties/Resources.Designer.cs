@@ -484,6 +484,33 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Selected Record has no Spatial Object!.
+        /// </summary>
+        internal static string ERR_SELECTION_HAS_NO_SPATIAL_OBJECT {
+            get {
+                return ResourceManager.GetString("ERR_SELECTION_HAS_NO_SPATIAL_OBJECT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Select at least one Record!.
+        /// </summary>
+        internal static string ERR_SELECTION_NO_RECORDS {
+            get {
+                return ResourceManager.GetString("ERR_SELECTION_NO_RECORDS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please Select exactly one Record!.
+        /// </summary>
+        internal static string ERR_SELECTION_NOT_ONE_RECORD {
+            get {
+                return ResourceManager.GetString("ERR_SELECTION_NOT_ONE_RECORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The table holds object types not supported by this function {0}.
         /// </summary>
         internal static string ERR_UNSUPPORTED_OBJECT_TYPE {
@@ -862,6 +889,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pan to the Selected Record in the Front Most Map.
+        /// </summary>
+        internal static string MNU_HLP_PAN_TO_SELECTION_FRONT_MAP {
+            get {
+                return ResourceManager.GetString("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate Application at the Pitney Bowes Community Download Page.
         /// </summary>
         internal static string MNU_HLP_RATE_APPLICATION {
@@ -1051,6 +1087,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Zoom to the Extent of the Selection in the Front Most Map.
+        /// </summary>
+        internal static string MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP {
+            get {
+                return ResourceManager.GetString("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clone View.
         /// </summary>
         internal static string MNU_LAYOUT_CLONE_VIEW {
@@ -1110,6 +1155,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_OPTIONS {
             get {
                 return ResourceManager.GetString("MNU_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Pan to the Selected Record.
+        /// </summary>
+        internal static string MNU_PAN_TO_SELECTION_FRONT_MAP {
+            get {
+                return ResourceManager.GetString("MNU_PAN_TO_SELECTION_FRONT_MAP", resourceCulture);
             }
         }
         
@@ -1353,6 +1407,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_VIEW_ENTIRE_MAP {
             get {
                 return ResourceManager.GetString("MNU_VIEW_ENTIRE_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zoom to Extent of Selection.
+        /// </summary>
+        internal static string MNU_ZOOM_TO_SELECTION_FRONT_MAP {
+            get {
+                return ResourceManager.GetString("MNU_ZOOM_TO_SELECTION_FRONT_MAP", resourceCulture);
             }
         }
         

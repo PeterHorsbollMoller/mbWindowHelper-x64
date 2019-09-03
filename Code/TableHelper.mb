@@ -13,15 +13,19 @@ Include "Menu.def"
 Include "Library\Defaults.def"
 
 '-------------------------------------
+Include "Library\COLUMNLib.def"
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
+Include "Library\RIBBONLib.def"
 Include "Library\TABLELib.def"
 
 Include "TableHelper.def"
 Include "WindowHelper.Assembly.def"
 'Include "Resources.def"
 
-Dim	msTextEditor As String
+Dim	msTextEditor As String,
+	mbIgnoreTopLeftCell As Logical
+
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -367,6 +371,196 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "TABHRegExFirstMatch")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function TABHGetSelectionValue( ByVal nRowID As Integer
+						, ByVal sColName As String
+						) As String
+
+Dim	sValue, sQuery As String,
+	aCol As Alias
+
+OnError GoTo ErrorOccured
+
+TABHGetSelectionValue = ""
+
+	sValue	= ""
+	If SelectionInfo(SEL_INFO_NROWS) >= nRowID Then
+		sQuery = SelectionInfo(SEL_INFO_SELNAME)
+		If COLExists(sQuery, sColName) Then
+			Fetch Rec nRowID From Selection
+
+			aCol	= sQuery & "." & sColName
+			Do Case ColumnInfo(sQuery, sColName, COL_INFO_TYPE)
+				Case COL_TYPE_CHAR
+					sValue = aCol
+				Case COL_TYPE_INTEGER, COL_TYPE_SMALLINT, COL_TYPE_LOGICAL, COL_TYPE_LARGEINT
+					sValue = Str$(aCol)
+				Case COL_TYPE_FLOAT, COL_TYPE_DECIMAL
+					sValue = FormatNumber$(aCol)
+				Case COL_TYPE_DATE
+					If aCol Then
+						sValue = FormatDate$(aCol)
+					End If
+				Case COL_TYPE_TIME
+					If aCol Then
+						sValue = FormatTime$(acol, "HH:mm:ss")
+					End If
+				Case COL_TYPE_DATETIME
+					If aCol Then
+						sValue = FormatDate$(aCol) & " " & FormatTime$(GetTime(acol), "HH:mm:ss")
+					End If
+			End Case
+		End If
+		Close Table sQuery
+	End If
+
+TABHGetSelectionValue = sValue
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHGetSelectionValue: " & nRowID & " Column: " & sColName)
+	Call ERRPrint()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub TABHFilterBrowserCurrentCell
+
+OnError GoTo ErrorOccured
+
+Dim	nWID, nRow, nCol As Integer,
+	sTab, sCol, sCmd As String,
+	sValue As String,
+	fValue As Float,
+	nValue As Integer
+
+	nWID = FrontWindow()
+	nRow = BrowserInfo(nWID, BROWSER_INFO_CURRENT_ROW)
+	nCol = BrowserInfo(nWID, BROWSER_INFO_CURRENT_COLUMN)
+	If nRow = 1 AND nCol = 0 AND mbIgnoreTopLeftCell Then
+ 		Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED"), Notify_Error, 5000)
+		Exit Sub
+	End If
+
+	sTab	= WindowInfo(nWID, WIN_INFO_TABLE)
+	sCol	= ColumnInfo(sTab, "COL" & (nCol + 1), COL_INFO_NAME)
+
+	Do Case ColumnInfo(sTab, sCol, COL_INFO_TYPE)
+		Case COL_TYPE_CHAR
+			sValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
+			sCmd		= "Where (" & sCol & " = " & Chr$(34) & sValue & Chr$(34) & ")"
+
+		Case COL_TYPE_DECIMAL, COL_TYPE_FLOAT
+			fValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
+			sCmd		= "Where (" & sCol & " = " & DeformatNumber$(Format$(fValue, "#.##########")) & ")"
+
+		Case COL_TYPE_INTEGER, COL_TYPE_SMALLINT
+			nValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
+			sCmd		= "Where (" & sCol & " = " & Str$(nValue) & ")"
+
+  		Case Else
+  			Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED"), Notify_Error, 5000)
+  			Exit Sub
+
+  	End Case
+
+	sCmd = "Set Browse"
+			& " Window " & nWID
+			& " Filter " & sCmd
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHFilterBrowserCurrentCell")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub TABHGroupByCurrentColumn
+
+OnError GoTo ErrorOccured
+
+Dim	nWID, nRow, nCol As Integer,
+	sTab, sCol, sCmd As String
+
+	nWID = FrontWindow()
+	nRow = BrowserInfo(nWID, BROWSER_INFO_CURRENT_ROW)
+	nCol = BrowserInfo(nWID, BROWSER_INFO_CURRENT_COLUMN)
+	If nRow = 1 AND nCol = 0 AND mbIgnoreTopLeftCell Then
+ 		Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED"), Notify_Error, 5000)
+		Exit Sub
+	End If
+
+	sTab	= WindowInfo(nWID, WIN_INFO_TABLE)
+	sCol	= ColumnInfo(sTab, "COL" & (nCol + 1), COL_INFO_NAME)
+
+	sCmd = "Select " & sCol & ", Count(*) " & Chr$(34) & "NumRecords" & Chr$(34)
+			& " From " & sTab
+			& " Group By " & sCol
+			& " Order By " & sCol
+			& " Into " & sTab & "_GrpOn_" & sCol & " NoSelect"
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+	Browse * From sTab & "_GrpOn_" & sCol Floating
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHGroupByCurrentColumn")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub TABHSetIgnoreTopLeftCell(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbIgnoreTopLeftCell	= bValue
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHSetTextEditor")
+	Call ERRShow()
+
+End Sub
+'**********************************************************************************************''
+Function TABHGetIgnoreTopLeftCell() As Logical
+
+OnError GoTo ErrorOccured
+
+	TABHGetIgnoreTopLeftCell = mbIgnoreTopLeftCell
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHGetIgnoreTopLeftCell")
 	Call ERRShow()
 
 End Function

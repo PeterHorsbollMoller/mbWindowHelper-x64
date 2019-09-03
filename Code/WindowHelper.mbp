@@ -7,6 +7,7 @@ Module=Library\DATETIMELib.mbo
 Module=Library\DEBUGLib.mbo
 Module=Library\ERRORLib.mbo
 Module=Library\FILELib.mbo
+Module=Library\HEXAGONLib.mbo
 Module=Library\LAYERLib.mbo
 Module=Library\MATHLib.mbo
 Module=Library\MAPPERLib.mbo

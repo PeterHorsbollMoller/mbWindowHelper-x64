@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<MarketplaceProduct xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <ProductType>
+        <Type>Addin</Type>
+    </ProductType>
+    <ProductId>ade71fed-92de-4c68-bbda-668bf7c2a160</ProductId>
+    <Version>3.6.2.0</Version>
+    <IconUri>D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\Images\MapWindowAutoLock_32x32.png</IconUri>
+    <InstallationFolder>WindowHelper-64\</InstallationFolder>
+    <MbxName>WindowHelper.mbx</MbxName>
+</MarketplaceProduct>

@@ -562,3 +562,92 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomToSelectionInFrontMap
+
+Dim	nMID, nBID As Integer
+
+OnError GoTo ErrorOccured
+
+	If SelectionInfo(SEL_INFO_NROWS) = 0 Then
+		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_NO_RECORDS"), Notify_Error, 10000)
+		Exit Sub
+	End If
+
+	nBID	= FrontWindow()
+
+	nMID	= MAPFrontMostWindow()
+	If nMID = 0 Then
+		Exit Sub
+	End If
+
+	Set Window nMID Front
+	Run Menu Command M_VIEW_ZOOM_TO_SELECTED_OBJECTS
+
+	If nBID > 0 And nBID <> nMID Then
+		Set Window nMID Front
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomToSelectionInFrontMap")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHPanToSelectionInFrontMap
+
+Dim	nMID As Integer,
+	sQuery As String,
+	aObj As Alias,
+	fX, fY As Float
+
+OnError GoTo ErrorOccured
+
+	If SelectionInfo(SEL_INFO_NROWS) <> 1 Then
+		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_NOT_ONE_RECORD"), Notify_Error, 10000)
+		Exit Sub
+	End If
+
+	nMID	= MAPFrontMostWindow()
+	If nMID = 0 Then
+		Exit Sub
+	End If
+
+	sQuery	= SelectionInfo(SEL_INFO_SELNAME)
+	Fetch First From sQuery
+	aObj = sQuery & ".OBJ"
+	If not aObj Then
+		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_HAS_NO_SPATIAL_OBJECT"), Notify_Error, 10000)
+		Close Table sQuery
+		Exit Sub
+	End If
+
+	Set CoordSys Window nMID
+	fX	= CentroidX(MBR(aObj))
+	fY	= CentroidY(MBR(aObj))
+
+	Set Map
+		Window nMID
+		Center (fX, fY)
+
+	Close Table sQuery
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHPanToSelectionInFrontMap")
+	Call ERRShow()
+
+End Sub

@@ -235,6 +235,15 @@
   <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
     <value>Please open a window to save to a workspace!</value>
   </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>The Selected Record has no Spatial Object!</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>Please Select exactly one Record!</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>Please Select at least one Record!</value>
+  </data>
   <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
     <value>Please select the base window to update!</value>
   </data>
@@ -385,6 +394,9 @@
   <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open the selected tab file in</value>
   </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Pan to the Selected Record in the Front Most Map</value>
+  </data>
   <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application at the Pitney Bowes Community Download Page</value>
   </data>
@@ -448,6 +460,9 @@
   <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
     <value>Zoom to Previous</value>
   </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zoom to the Extent of the Selection in the Front Most Map</value>
+  </data>
   <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Clone View</value>
   </data>
@@ -468,6 +483,9 @@
   </data>
   <data name="MNU_OPTIONS" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Pan to the Selected Record</value>
   </data>
   <data name="MNU_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application</value>
@@ -549,6 +567,9 @@
   </data>
   <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>View Entire Map</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zoom to Extent of Selection</value>
   </data>
   <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
     <value>Select workspace to save window to...</value>

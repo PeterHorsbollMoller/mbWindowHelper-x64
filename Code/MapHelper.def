@@ -19,3 +19,6 @@ Declare Function MAPHGetCoordinate(  ByVal nMID As Integer
 							) As Float
 
 Declare Sub MAPHSelectWithinMap
+
+Declare Sub MAPHZoomToSelectionInFrontMap
+Declare Sub MAPHPanToSelectionInFrontMap

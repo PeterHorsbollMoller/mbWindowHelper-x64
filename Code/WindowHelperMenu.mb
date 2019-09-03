@@ -151,6 +151,17 @@
 '							- WINHSetCoordsysUsingMap
 '							- OBJCombineFromTable
 '						- Added a new module to Modify Window size and settings
+'3.6.1	01-02-2019 15:39:40	- Published some additional functions, mostly for testing purpose
+'							- OBJDirectionWtAvg
+'							- OBJDirectionMedian
+'3.6.2	26-02-2019 14:22:12	- Added a new function to the Browser Context Menu
+'							- Zoom to Selection in Front Most Map Window
+'						- Moved to function to the TABHelper module:
+'							- TABHFilterBrowserCurrentCell
+'							- TABHGroupByCurrentColumn
+'							- Added method to set IgnoreTopLeftCell: TABHSetIgnoreTopLeftCell(...)
+'3.6.3	26-04-2019 10:21:12	- Published a function to the MapInfo Pro interface (only works from v17.0.1):
+'							- STLChangeSymbolColour
 '*******************************************************************************
 
 '-------------------------------------
@@ -165,8 +176,8 @@ Include "Library\MI_ICONS_X64.def"
 Define xProgram 		"WindowHelper"
 Define xProgramMenu		"W&indowHelper"
 Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.6.0"
-Define xYear			"2018"
+Define xVersion 		"3.6.3"
+Define xYear			"2019"
 Define xAddToMenuBar	FALSE
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -234,8 +245,6 @@ Declare Sub MENUGroupByCurrentColumn
 
 Declare Sub MENUSaveWindowToWorkspace
 
-Dim	mbIgnoreTopLeftCell As Logical
-
 '**********************************************************************************************''
 '**   Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
 '
@@ -290,104 +299,11 @@ OnError GoTo ErrorOccured
 
 	Call MENUBuildRibbonInterface
 
-	'**Adding menu item to the Mapper window rightclick menu
-'	Alter Menu ID M_SHORTCUT_MAPPER add
-'		GetResItemStr("MNU_CREATE_MAP_EXTENT")
-'			HelpMsg GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT")
-'			Calling MAPEXTCreateMenu
-
-	'**Adding menu item to the LayerControl window rightclick menu for maps
-'	Alter Menu ID M_SHORTCUT_LC_MAPS Add
-'		"(-",
-'		GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS")
-'			HelpMsg GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS")
-'			Calling WINHSetDefaultViewAllLayers,
-'		GetResItemStr("MNU_VIEW_ENTIRE_MAP")					'"Zoom Entire Map"
-'			HelpMsg GetResItemStr("MNU_HLP_VIEW_ENTIRE_MAP")		'"Zooms to entire view in the map"
-'			Calling WINHZoomEntireAllLayers
-
-	'**Adding menu item to the TableList window rightclick menu for tables
-'	Alter Menu ID M_SHORTCUT_TLV_TABLES Add
-'		"(-",
-'		GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER")					'"Locate file in Explorer"
-'			HelpMsg GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER")	'"Finds a file in Windows Explorer related to the selected table"
-'			Calling TABHLocateTabFileTL
-
-	'**Adding menu item to the LayerControl window rightclick menu for layers
-'	Alter Menu ID M_SHORTCUT_LC_LAYERS Add
-'		"(-",
-'		GetResItemStr("MNU_CLOSE_TABLE")	'"Close table"
-'			HelpMsg GetResItemStr("MNU_HLP_CLOSE_TABLE")	'"Closes the selected table"
-'			Calling TABHCloseTableLC,
-'		"(-",
-'		GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER")
-'			HelpMsg GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER")
-'			Calling WINHSetDefaultViewSingleLayer,
-'		GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER")		'"Locate file in Explorer"
-'			HelpMsg GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER")	'"Finds a file in Windows Explorer related to the selected layer"
-'			Calling TABHLocateTabFileLC
-
-'	sTextEditorExe	= SYSFindTextEditor()
-'	If sTextEditorExe <> "" Then
-'		sTextEditor 	= PathToFileName$(sTextEditorExe)
-'		sTextEditor 	= Left$(sTextEditor, Len(sTextEditor) - 4)
-
-'		Call TABHSetTextEditor(sTextEditorExe)
-
-'		'**Adding menu item to the TableList window rightclick menu for tables
-'		Alter Menu ID M_SHORTCUT_TLV_TABLES Add
-'			GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor					'"Open tab file in " + sTextEditor
-'				HelpMsg GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor	'"Open the selected tab file in " + sTextEditor
-'				Calling TABHOpenTabFileTL
-
-'		'**Adding menu item to the LayerControl window rightclick menu for layers
-'		Alter Menu ID M_SHORTCUT_LC_LAYERS Add
-'			GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor					'"Open tab file in " + sTextEditor
-'				HelpMsg GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor	'"Open the selected tab file in " + sTextEditor
-'				Calling TABHOpenTabFileLC
-'	End If
-
-	'**Disabling restoring windows until a window has been closed
-'	Alter Menu Item WINHRestoreWindowMenu Disable
-'	Alter Button WINHRestoreWindowMenu Disable
-
-'	Call MENUInitializeMenuItems
-
-'	Call WHDInitialize
-
 	Call SELINFOSwitchDisplay
-'	Call WinChangedHandler
-
-'	Call DLGExecFunctions
 
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
 	End If
-
-'	Dim sInput, sPattern As String
-'	Print "-------------------------------------------"
-'	sInput	= "1486215-v1-509133 659698  106222  106223  11 Bamboo Street.TIF"
-'	sPattern	= "(([a-zA-z]{3}\s+)?\d+\s+([a-zA-z]+\s+)*[a-zA-z]+)\..*$"
-'	Print "Found: " & RegExIsMatch (sInput, sPattern)
-'	Print RegExReplace(sInput, sPattern, "[Address found here]")
-'	Print "Address: " & RegExFirstMatch(sInput, sPattern)
-'
-'	sPattern	= "^\d+-v1-\d+\s{2,}(\d+).*\s{1,2}.*$"
-'	Print "Found: " & RegExIsMatch (sInput, sPattern)
-'	Print RegExReplace(sInput, sPattern, "[PCL found here]")
-'	Print "PCL: " & RegExFirstMatch(sInput, sPattern)
-'
-'	Print "-------------------------------------------"
-'	sInput	= "1710751-v1-923508  4046  10 Kadan Cl.TIF"
-'	sPattern	= "(([a-zA-z]{3}\s+)?\d+\s+([a-zA-z]+\s+)*[a-zA-z]+)\..*$"
-'	Print "Found: " & RegExIsMatch (sInput, sPattern)
-'	Print RegExReplace(sInput, sPattern, "[Address found here]")
-'	Print "Address: " & RegExFirstMatch(sInput, sPattern)
-'
-'	sPattern	= "^\d+-v1-\d+\s{2,}(\d+).*\s{1,2}.*$"
-'	Print "Found: " & RegExIsMatch (sInput, sPattern)
-'	Print RegExReplace(sInput, sPattern, "[PCL found here]")
-'	Print "PCL: " & RegExFirstMatch(sInput, sPattern)
 
 	Call MENUPublishFunctionsToMapInfoProInterface
 
@@ -420,6 +336,8 @@ OnError GoTo ErrorOccured
 	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WINHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table")
 	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WINHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window")
 
+	nResult = RBNRegisterFunctionAsPublic("TABHGetSelectionValue", "TABHGetSelectionValue", "Returns the value from the specified column of the current selection")
+
 	'**mbLibrary, general functions
 	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "STRINGReplace$", "Search for a substring and replace it with another substring")
 	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "STRINGExtractValueBetweenChars$", "Extract the value between the two given characters")
@@ -442,15 +360,19 @@ OnError GoTo ErrorOccured
 	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "STYLEText2Symbol", "Return the Symbol from the text")
 	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "STYLEText2Brush", "Return the Brush from the text")
 	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "STYLEText2Pen", "Return the Pen from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLChangeSymbolColour", "STYLEChangeSymbolColor", "Change the color of a symbol style")
 
 	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "OBJDirection", "Calculates the direction of the object")
+	nResult = RBNRegisterFunctionAsPublic("OBJDirectionWtAvg", "OBJDirectionWtAvg", "Calculates the WtAvg direction of the object")
+	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "OBJDirectionMedian", "Calculates the Median direction of the object")
 	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "OBJReverse", "Reverses the direction of lines and polylines")
 	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "OBJCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
 	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "OBJCombineFromTable", "Combines objects from a table, optionally specify a column and a value")
 
+	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "DEBUGEnable", "Enables debug mode in WindowHelper")
+
 	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
-'	nResult = RBNRegisterFunctionAsPublic("MAPGetExtentCached", "MAPGetExtentCached", "Returns the Cached Extent of the specified map window as a spatial object")
-	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
+'	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
 
 	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "RegExReplace", "Searches for a match and returns the string where the string has been replaced")
 	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "RegExIsMatch", "Searches for a match and returns true if one was found")
@@ -729,7 +651,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUFilterBrowserCurrentCell")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
 
 
@@ -754,7 +676,7 @@ OnError GoTo ErrorOccured
 
 	'***************************************************************
 	'**Adding a menu item to the Browser Context menu
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "mapCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
@@ -762,9 +684,9 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUFilterBrowserCurrentCell")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "mapCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_GROUP_BY_CURRENT_COLUMN"), "")
@@ -772,8 +694,31 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FINDMAPSELECTION_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUGroupByCurrentColumn")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHGroupByCurrentColumn")
 	End If
+
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOEXTENTSEL_16, "")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectionInFrontMap")
+	End If
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, "")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
+	End If
+	nCtrlIdx	= RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSeparator", "(-", "" , 2)
+
 
 	'***************************************************************
 	'**Adding a menu item to the Layer Control Maps Context menu
@@ -1187,7 +1132,7 @@ OnError GoTo ErrorOccured
 	sState	= CONFIGReadKey(sFile, "MAPMINITOOLBAR", "ADDTOOL_RULER")
 	Call DLGWHOSetAddRulerToolToMTB(sState <> "0")
 	sState	= CONFIGReadKey(sFile, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
-	mbIgnoreTopLeftCell = (sState <> "0")
+	Call TABHSetIgnoreTopLeftCell(sState <> "0")
 
 	If FileExists(FILE_INI) Then
 '		msLanguage	= CONFIGReadKey(msIniFile, "SETTINGS", "LANGUAGE")
@@ -1199,7 +1144,7 @@ OnError GoTo ErrorOccured
 		Call DLGWHOSetAddRulerToolToMTB(sState <> "0")
 
 		sState	= CONFIGReadKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
-		mbIgnoreTopLeftCell = (sState <> "0")
+		Call TABHSetIgnoreTopLeftCell(sState <> "0")
 	End If
 
 	Call SELINFOReadConfigFile
@@ -1228,7 +1173,7 @@ OnError GoTo ErrorOccured
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_INFO", Int(DLGWHOGetAddInfoToolToMTB()))
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_RULER", Int(DLGWHOGetAddRulerToolToMTB()))
 
-	Call CONFIGWriteKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL", Int(mbIgnoreTopLeftCell))
+	Call CONFIGWriteKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL", Int(TABHGetIgnoreTopLeftCell()))
 
 	Call SELINFOWriteConfigFile
 	Call WINHWriteConfigFile
@@ -1263,105 +1208,6 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MENUOptions")
-	Call ERRShow()
-
-End Sub
-
-'**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
-'Parameters:
-'
-'**********************************************************************************************''
-Sub MENUFilterBrowserCurrentCell
-
-OnError GoTo ErrorOccured
-
-Dim	nWID, nRow, nCol As Integer,
-	sTab, sCol, sCmd As String,
-	sValue As String,
-	fValue As Float,
-	nValue As Integer
-
-	nWID = FrontWindow()
-	nRow = BrowserInfo(nWID, BROWSER_INFO_CURRENT_ROW)
-	nCol = BrowserInfo(nWID, BROWSER_INFO_CURRENT_COLUMN)
-	If nRow = 1 AND nCol = 0 AND mbIgnoreTopLeftCell Then
- 		Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED"), Notify_Error, 5000)
-		Exit Sub
-	End If
-
-	sTab	= WindowInfo(nWID, WIN_INFO_TABLE)
-	sCol	= ColumnInfo(sTab, "COL" & (nCol + 1), COL_INFO_NAME)
-
-	Do Case ColumnInfo(sTab, sCol, COL_INFO_TYPE)
-		Case COL_TYPE_CHAR
-			sValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
-			sCmd		= "Where (" & sCol & " = " & Chr$(34) & sValue & Chr$(34) & ")"
-
-		Case COL_TYPE_DECIMAL, COL_TYPE_FLOAT
-			fValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
-			sCmd		= "Where (" & sCol & " = " & DeformatNumber$(Format$(fValue, "#.##########")) & ")"
-
-		Case COL_TYPE_INTEGER, COL_TYPE_SMALLINT
-			nValue	= BrowserInfo(nWID, BROWSER_INFO_CURRENT_CELL_VALUE)
-			sCmd		= "Where (" & sCol & " = " & Str$(nValue) & ")"
-
-  		Case Else
-  			Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED"), Notify_Error, 5000)
-  			Exit Sub
-
-  	End Case
-
-	sCmd = "Set Browse"
-			& " Window " & nWID
-			& " Filter " & sCmd
-	Call DEBUGPrint(sCmd)
-	Run Command sCmd
-
-	Exit Sub
-'-------------------------
-ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "MENUFilterBrowserCurrentCell")
-	Call ERRShow()
-
-End Sub
-
-'**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
-'Parameters:
-'
-'**********************************************************************************************''
-Sub MENUGroupByCurrentColumn
-
-OnError GoTo ErrorOccured
-
-Dim	nWID, nRow, nCol As Integer,
-	sTab, sCol, sCmd As String
-
-	nWID = FrontWindow()
-	nRow = BrowserInfo(nWID, BROWSER_INFO_CURRENT_ROW)
-	nCol = BrowserInfo(nWID, BROWSER_INFO_CURRENT_COLUMN)
-	If nRow = 1 AND nCol = 0 AND mbIgnoreTopLeftCell Then
- 		Call RBNNotificationShow("WindowHelper", GetResItemStr("ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED"), Notify_Error, 5000)
-		Exit Sub
-	End If
-
-	sTab	= WindowInfo(nWID, WIN_INFO_TABLE)
-	sCol	= ColumnInfo(sTab, "COL" & (nCol + 1), COL_INFO_NAME)
-
-	sCmd = "Select " & sCol & ", Count(*) " & Chr$(34) & "NumRecords" & Chr$(34)
-			& " From " & sTab
-			& " Group By " & sCol
-			& " Order By " & sCol
-			& " Into " & sTab & "_GrpOn_" & sCol & " NoSelect"
-	Call DEBUGPrint(sCmd)
-	Run Command sCmd
-	Browse * From sTab & "_GrpOn_" & sCol Floating
-
-	Exit Sub
-'-------------------------
-ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "MENUGroupByCurrentColumn")
 	Call ERRShow()
 
 End Sub
