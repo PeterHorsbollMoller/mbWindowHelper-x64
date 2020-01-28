@@ -21,7 +21,6 @@ Include "Library\TABLELib.def"
 Include "Library\Types\T_WINDOW_SIZE_POSITION.def"
 
 Include "WindowPosition.def"
-Include "Resources.def"
 Include "WindowHelper.Assembly.def"
 
 

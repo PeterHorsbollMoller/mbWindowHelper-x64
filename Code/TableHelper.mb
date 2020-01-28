@@ -435,6 +435,100 @@ ErrorOccured:
 End Function
 
 '**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function TABHCGetColumnValue(	  ByVal sTab As String
+						, ByVal sCol As String
+						, ByVal nRowID As Integer
+						, ByVal bReturnError As Logical
+						) As String
+
+Dim	sValue As String,
+	aCol As Alias,
+	bCloseTable As Logical
+
+OnError GoTo ErrorOccured
+
+TABHCGetColumnValue = ""
+
+	If sTab = "Selection" Then
+		If SelectionInfo(SEL_INFO_NROWS) > 0 Then
+			sTab		= SelectionInfo(SEL_INFO_SELNAME)
+			bCloseTable	= TRUE
+		Else
+			If bReturnError Then
+				TABHCGetColumnValue = "Error: Selection holds no records"
+			End If
+			Exit Function
+		End If
+	End If
+	If NOT TABIsOpen(sTab) Then
+		If bReturnError Then
+			TABHCGetColumnValue = "Error: Table isn't open '" & sTab & "'"
+		End If
+		Exit Function
+	ElseIf NOT COLExists(sTab, sCol) Then
+		If bReturnError Then
+			TABHCGetColumnValue = "Error: Table '" & sTab & "' hasn't this column '" & sCol & "'"
+		End If
+		Exit Function
+	ElseIf nRowID > TableInfo(sTab, TAB_INFO_NROWS) Then
+		If bReturnError Then
+			TABHCGetColumnValue = "Error: RowID '" & FormatNumber$(nRowID) & "' is higher than number of records '" & FormatNumber$(TableInfo(sTab, TAB_INFO_NROWS)) & "'"
+		End If
+		Exit Function
+	End If
+
+	If nRowID > 0 Then
+		Fetch Rec nRowID From sTab
+	ElseIf EOT(sTab) Then
+		If bReturnError Then
+			TABHCGetColumnValue = "The cursor of the table '" & sTab & "' is at EOT"
+		End If
+		Exit Function
+	End If
+
+	aCol = sTab & "." & sCol
+
+	Do Case ColumnInfo(sTab, sCol, COL_INFO_TYPE)
+		Case COL_TYPE_CHAR
+			sValue = aCol
+		Case COL_TYPE_INTEGER, COL_TYPE_SMALLINT, COL_TYPE_LOGICAL, COL_TYPE_LARGEINT
+			sValue = Str$(aCol)
+		Case COL_TYPE_FLOAT, COL_TYPE_DECIMAL
+			sValue = FormatNumber$(aCol)
+		Case COL_TYPE_DATE
+			If aCol Then
+				sValue = FormatDate$(aCol)
+			End If
+		Case COL_TYPE_TIME
+			If aCol Then
+				sValue = FormatTime$(acol, "HH:mm:ss")
+			End If
+		Case COL_TYPE_DATETIME
+			If aCol Then
+				sValue = FormatDate$(aCol) & " " & FormatTime$(GetTime(acol), "HH:mm:ss")
+			End If
+	End Case
+
+	If bCloseTable Then
+		Close Table sTab
+	End If
+	TABHCGetColumnValue = sValue
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "TABHCGetColumnValue")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
 '

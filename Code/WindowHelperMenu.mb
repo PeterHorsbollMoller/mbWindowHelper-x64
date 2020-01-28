@@ -156,12 +156,20 @@
 '							- OBJDirectionMedian
 '3.6.2	26-02-2019 14:22:12	- Added a new function to the Browser Context Menu
 '							- Zoom to Selection in Front Most Map Window
-'						- Moved to function to the TABHelper module:
+'						- Moved two functions to the TABHelper module:
 '							- TABHFilterBrowserCurrentCell
 '							- TABHGroupByCurrentColumn
 '							- Added method to set IgnoreTopLeftCell: TABHSetIgnoreTopLeftCell(...)
 '3.6.3	26-04-2019 10:21:12	- Published a function to the MapInfo Pro interface (only works from v17.0.1):
 '							- STLChangeSymbolColour
+'3.7.0	27-01-2020 15:14:19	- Compiled with latest version of the Common MapBasic Libraries
+'						- Published a function to the MapInfo Pro interface (only works from v17.0.1):
+'							- WHGetColumnValue: can read the value from a specific column of a specific record of the specified table
+'							- Renamed the published functions to start with WH (WindowHelper)
+'							- Removed a few published functions that merely were for testing
+'						- Removed MenuItem that links to the "old" Community Download site
+'						- Reintroduced "Save Window to Workspace without 'Open Table' statements"
+'						- BaseMapHelper: Lets the user hide Base Map controls from the Open dropdown
 '*******************************************************************************
 
 '-------------------------------------
@@ -174,17 +182,12 @@ Include "Library\Defaults.def"
 Include "Library\MI_ICONS_X64.def"
 
 Define xProgram 		"WindowHelper"
-Define xProgramMenu		"W&indowHelper"
-Define xToolbarName		"WindowHelper"
-Define xVersion 		"3.6.3"
-Define xYear			"2019"
-Define xAddToMenuBar	FALSE
+Define xVersion 		"3.7.0"
+Define xYear			"2020"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
 Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
-'Define FILE_ICONS_DLL		ApplicationDirectory$() + "WinHelperIcons.DLL"
-'Define FILE_PAD			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".btp"
-Define FILE_HLP			ApplicationDirectory$() + "WindowHelper.pdf"
+Define FILE_HLP			ApplicationDirectory$() + xProgram 	'& ".pdf"
 Define PATH_IMAGES			ApplicationDirectory$() & "Images\"
 
 '-------------------------------------
@@ -192,29 +195,20 @@ Include "Library\DEBUGLib.def"
 Include "Library\CONFIGFILELib.def"
 Include "Library\ERRORLib.def"
 Include "Library\FILELib.def"
-Include "Library\MAPPERLib.def"
-Include "Library\MATHLib.def"
-Include "Library\OBJLib.def"
 Include "Library\ProgramInfo.def"
 Include "Library\RibbonElements.def"
-Include "Library\RESSTRNGLib.def"
 Include "Library\RIBBONLib.def"
-Include "Library\STRINGLib.def"
 Include "Library\SYSTEMLib.def"
 Include "Library\TABLELib.def"
-Include "Library\TOOLBARLib.def"
 
 Include "DLGModifyWindow.def"
 Include "DLGWHOWindowHelperOptions.def"
-'Include "BaseWindows.def"
 Include "MapHelper.def"
 Include "TableHelper.def"
 Include "WindowHelper.def"
-'Include "WindowPosition.def"
-'Include "WindowShow.def"
-'Include "WindowHelperDialog.def"
 Include "MAPEXTCreate.def"
 Include "DLGExecFunctions.def"
+Include "BaseMapsHelper.def"
 
 Include "WindowHelper.Assembly.def"
 Include "SelInfoHandler.def"
@@ -225,7 +219,6 @@ Declare Sub MENUPublishFunctionsToMapInfoProInterface
 Declare Sub MENUBuildRibbonInterface
 
 Declare Sub EndProgram
-Declare Sub MENUGoToCommunityDownloads
 
 Declare Sub Endhandler
 Declare Sub WinClosedHandler
@@ -251,9 +244,6 @@ Declare Sub MENUSaveWindowToWorkspace
 '**********************************************************************************************''
 Sub Main
 
-Dim	sToolbar, sTextEditorExe, sTextEditor As String,
-	mapinfoApplication As This
-
 OnError GoTo ErrorOccured
 
 	If NOT SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_RIBBON Then
@@ -261,29 +251,34 @@ OnError GoTo ErrorOccured
 		End Program
 	End If
 
+	'***Reading configuration file
+	Call MENUReadIniFile
+
+'	Currently WindowHelper is using resources in a DLL, not in a String file
+'	Call RESSTRNGSetCharSet("UTF-8")
+'	Call RESSTRNGSetStringFilesFolder(ApplicationDirectory$() & "Strings\")
+'	Call PRGISetApplicationUseLanguageCode(TRUE)
+'	Call PRGILoadLanguageStrings(msLanguage)
+
 	'***Initializing ApplicationInfo
 	Call PRGISetApplicationName(xProgram)
 	Call PRGISetApplicationVersion(xVersion)
 	Call PRGISetApplicationCopyrightYear(xYear)
-	Call PRGISetApplicationHelpFile(FILE_HLP)
 	Call PRGISetApplicationImageUri(PATH_IMAGES & "MapWindowAutoLock_32x32.png")
 	Call PRGISetApplicationDevelopedBy("Peter Horsbøll Møller")
 	Call PRGISetDescription(GetResItemStr("STR_APPLICATION_DESCRIPTION"))
-
-	'***Enabling Debug if file exists
-	Call DEBUGEnableByFile(FILE_DBG)
-	Call DEBUGPrint("----------------------------------------------------------------------------------------------")
-	Call DEBUGPrint("Application " & PRGIGetApplicationName() & " " & xVersion & " started")
-
-	Call RESSTRNGSetStringFilesFolder(ApplicationDirectory$())
-'	Call RESSTRNGSetStringFilesFolder(ApplicationDirectory$() & "Strings\")
-'	Call PRGILoadLanguageStrings(msLanguage)
 
 '	If FileExists(FILE_HLP & " " & msLanguage & ".PDF") Then
 '		Call PRGISetApplicationHelpFile(FILE_HLP & " " & msLanguage & ".PDF")
 '	Else
 '		Call PRGISetApplicationHelpFile(FILE_HLP & ".PDF")
 '	End If
+	Call PRGISetApplicationHelpFile(FILE_HLP & ".PDF")
+
+	'***Enabling Debug if file exists
+	Call DEBUGEnableByFile(FILE_DBG)
+	Call DEBUGPrint("----------------------------------------------------------------------------------------------")
+	Call DEBUGPrint("Application " & PRGIGetApplicationName() & " " & xVersion & " started")
 
 	'***Initializing BaseWindows module
 '	Call BWINSetIniFile(FILE_INI)
@@ -294,13 +289,13 @@ OnError GoTo ErrorOccured
 	Call SELINFOSetImageFolder(PATH_IMAGES)
 	Call WINHSetImageFolder(PATH_IMAGES)
 
-	'***Reading configuration file
-	Call MENUReadIniFile
-
 	Call MENUBuildRibbonInterface
+
+	Call BMHELPInitialise(FILE_INI)
 
 	Call SELINFOSwitchDisplay
 
+	'***Subscribing to events
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
 	End If
@@ -333,50 +328,51 @@ OnError GoTo ErrorOccured
 	End If
 
 	'**WindowHelper, specific functions
-	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WINHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table")
-	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WINHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window")
 
-	nResult = RBNRegisterFunctionAsPublic("TABHGetSelectionValue", "TABHGetSelectionValue", "Returns the value from the specified column of the current selection")
+	nResult = RBNRegisterFunctionAsPublic("TABHGetSelectionValue", "WHGetSelectionValue", "Returns the value from the specified column of the current selection")
+	nResult = RBNRegisterFunctionAsPublic("TABHCGetColumnValue", "WHGetColumnValue", "Returns the value from the specified column of the specified table")
 
 	'**mbLibrary, general functions
-	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "STRINGReplace$", "Search for a substring and replace it with another substring")
-	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "STRINGExtractValueBetweenChars$", "Extract the value between the two given characters")
-	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "STRINGCombineWithSeparator$", "Combine the two values witht he separator given")
-	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "STRINGLeftWord$", "Extracts a specific word from a string of words separated by spaces")
+	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "WHReplace$", "Search for a substring and replace it with another substring")
+	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "WHExtractValueBetweenChars$", "Extract the value between the two given characters")
+	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "WHCombineWithSeparator$", "Combine the two values witht he separator given")
+	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "WHLeftWord$", "Extracts a specific word from a string of words separated by spaces")
 
-	nResult = RBNRegisterFunctionAsPublic("COLExists", "COLUMNExists", "Returns true/1 if the specified column exists in the specified table")
-	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "COLUMNTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')")
-	nResult = RBNRegisterFunctionAsPublic("TABIsOpen", "TABLEIsOpen", "Returns true/1 if the table is open")
+	nResult = RBNRegisterFunctionAsPublic("COLExists", "WHColumnExists", "Returns true/1 if the specified column exists in the specified table")
+	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "WHColumnTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')")
+	nResult = RBNRegisterFunctionAsPublic("TABIsOpen", "WHTableIsOpen", "Returns true/1 if the table is open")
 
-	nResult = RBNRegisterFunctionAsPublic("CONFIGReadKey", "CONFIGReadKey", "Returns the value read from the key specified, or '' if key wasn't found")
-	nResult = RBNRegisterFunctionAsPublic("CONFIGWriteKey", "CONFIGWriteKey", "Writes the specified value to the section and key in the file specifed")
+	nResult = RBNRegisterFunctionAsPublic("CONFIGReadKey", "WHConfigReadKey", "Returns the value read from the key specified, or '' if key wasn't found")
+	nResult = RBNRegisterFunctionAsPublic("CONFIGWriteKey", "WHConfigWriteKey", "Writes the specified value to the section and key in the file specifed")
 
-	nResult = RBNRegisterFunctionAsPublic("STLAlterPen", "STYLEAlterPen", "Return the input object (linear and surfaces only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLAlterBrush", "STYLEAlterBrush", "Return the input object (surfaces only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLAlterSymbol", "STYLEAlterSymbol", "Return the input object (points only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLSymbol2Text", "STYLESymbol2Text", "Returns a string illustrating the Symbol")
-	nResult = RBNRegisterFunctionAsPublic("STLBrush2Text", "STYLEBrush2Text", "Returns a Text illustrating the Brush")
-	nResult = RBNRegisterFunctionAsPublic("STLPen2Text", "STYLEPen2Text", "Returns a Text illustrating the Pen")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "STYLEText2Symbol", "Return the Symbol from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "STYLEText2Brush", "Return the Brush from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "STYLEText2Pen", "Return the Pen from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLChangeSymbolColour", "STYLEChangeSymbolColor", "Change the color of a symbol style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterPen", "WHAlterPen", "Return the input object (linear and surfaces only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterBrush", "WHAlterBrush", "Return the input object (surfaces only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterSymbol", "WHAlterSymbol", "Return the input object (points only) with a different style")
+	nResult = RBNRegisterFunctionAsPublic("STLSymbol2Text", "WHSymbol2Text", "Returns a string illustrating the Symbol")
+	nResult = RBNRegisterFunctionAsPublic("STLBrush2Text", "WHBrush2Text", "Returns a Text illustrating the Brush")
+	nResult = RBNRegisterFunctionAsPublic("STLPen2Text", "WHPen2Text", "Returns a Text illustrating the Pen")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "WHText2Symbol", "Return the Symbol from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "WHText2Brush", "Return the Brush from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "WHText2Pen", "Return the Pen from the text")
+	nResult = RBNRegisterFunctionAsPublic("STLChangeSymbolColour", "WHChangeSymbolColor", "Change the color of a symbol style")
 
-	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "OBJDirection", "Calculates the direction of the object")
-	nResult = RBNRegisterFunctionAsPublic("OBJDirectionWtAvg", "OBJDirectionWtAvg", "Calculates the WtAvg direction of the object")
-	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "OBJDirectionMedian", "Calculates the Median direction of the object")
-	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "OBJReverse", "Reverses the direction of lines and polylines")
-	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "OBJCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
-	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "OBJCombineFromTable", "Combines objects from a table, optionally specify a column and a value")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "WHOBJDirection", "Calculates the direction of the object")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionWtAvg", "WHOBJDirectionWtAvg", "Calculates the WtAvg direction of the object")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "WHOBJDirectionMedian", "Calculates the Median direction of the object")
+	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "WHObjectReverse", "Reverses the direction of lines and polylines")
+	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "WHCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
+'	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "WHCombineFromTable", "Combines objects from a table, optionally specify a column and a value")
 
-	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "DEBUGEnable", "Enables debug mode in WindowHelper")
+	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "WHDebugEnable", "Enables debug mode in WindowHelper")
 
-	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "MAPGetExtent", "Returns the Extent of the specified map window as a spatial object")
-'	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "MAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
+	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "WHMapGetExtent", "Returns the Extent of the specified map window as a spatial object")
+	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "WHMAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
 
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "RegExReplace", "Searches for a match and returns the string where the string has been replaced")
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "RegExIsMatch", "Searches for a match and returns true if one was found")
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExFirstMatch", "RegExFirstMatch", "Searches for a match and returns thr first match")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "WHRegExReplace", "Searches for a match and returns the string where the string has been replaced")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "WHRegExIsMatch", "Searches for a match and returns true if one was found")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExFirstMatch", "WHRegExFirstMatch", "Searches for a match and returns thr first match")
 
 	Exit Sub
 '-------------------------
@@ -573,8 +569,8 @@ OnError GoTo ErrorOccured
 	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    H O M E
 	'********************************************************************************
-	sTabName				= TAB_HOME
-	sGroupName			= TAB_GROUP_HOME_RECOVER_WINDOWS
+	sTabName		= TAB_HOME
+	sGroupName	= TAB_GROUP_HOME_RECOVER_WINDOWS
 
 	nCtrlIdx = RBNGroupAddButton("HomeRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
@@ -626,10 +622,24 @@ OnError GoTo ErrorOccured
 '	End If
 
 	'********************************************************************************
+	sTabName		= TAB_HOME
+	sGroupName	= TAB_GROUP_HOME_OUTPUT
+
+	nCtrlIdx = RBNGroupAddButton("HomeSaveWindowToWorkspace", GetResItemStr("MNU_SAVE_WINDOW_TO_WOR"), "", sTabName, sGroupName)
+	If nCtrlIdx > 0 Then
+		'Create & Set the button tooltip
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SAVE_WINDOW_TO_WOR"), "")
+		'Set the button icon
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_WIN_EXPORTIMAGE_16, MI_IMG_WIN_EXPORTIMAGE_32)
+		'Set Custom MapBasic Handle to the button
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSaveWindowToWorkspace")
+	End If
+
+	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    T A B L E
 	'********************************************************************************
-	sTabName				= TAB_TABLE
-	sGroupName			= TAB_GROUP_TABLE_DATA
+	sTabName		= TAB_TABLE
+	sGroupName	= TAB_GROUP_TABLE_DATA
 	nCtrlIdx = RBNGroupInsertButton("tabBrowserFloating", GetResItemStr("MNU_BROWSER_FLOATING"), "", sTabName, sGroupName, 1)
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
@@ -641,7 +651,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetKeyGestureIdx(nCtrlIdx, "Ctrl+Shift+F4")
 	End If
 
-	sGroupName			= TAB_GROUP_TABLE_SORTFILTER
+	sGroupName	= TAB_GROUP_TABLE_SORTFILTER
 	nCtrlIdx = RBNDropDButtonGroupAddControl("tabdbgFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE_SHORT"), ""
 				, ControlType_Button, sTabName, sGroupName, "FilterDropDown", "FilterDropDownMenuGroup")
 	If nCtrlIdx > 0 Then
@@ -653,11 +663,6 @@ OnError GoTo ErrorOccured
 		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
-
-
-'	GetResItemStr("MNU_SAVE_WINDOW_TO_WOR")							'"Save window to workspace without 'Open table ...' statements"
-'		HelpMsg GetResItemStr("MNU_HLP_SAVE_WINDOW_TO_WOR")			'"Saves the active window to a workspace without the 'Open Table ...' statements"
-'		Calling WINHSaveWindowToWorkspace,
 
 	'***************************************************************
 	'C O N T E X T   M E N U S
@@ -890,17 +895,6 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "DLGExecFunctions")
 	End If
 
-	nCtrlIdx	= RBNToolContextMenuAddMenuItem("rateApplication", GetResItemStr("MNU_RATE_APPLICATION"), "")
-	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_RATE_APPLICATION"), "")
-		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "CommunityDownloads_16.png", "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUGoToCommunityDownloads")
-	End If
-
 	nCtrlIdx	= RBNToolContextMenuAddMenuItem("windowHelperOptions", GetResItemStr("MNU_OPTIONS"), "")
 	If nCtrlIdx > 0 Then
 		'Create & Set the button tooltip
@@ -946,24 +940,6 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
-'Parameters:
-'
-'**********************************************************************************************''
-Sub MENUGoToCommunityDownloads
-
-OnError GoTo ErrorOccured
-
-	Call FILELaunch("http://communitydownloads.pbinsight.com")
-	Exit Sub
-'-------------------------
-ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "MENUGoToCommunityDownloads")
-	Call ERRShow()
-
-End Sub
-
-'**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
 'Parameters:
 '
@@ -973,8 +949,8 @@ Sub Endhandler
 OnError GoTo ErrorOccured
 
 	Call MENUWriteIniFile
-
 '	Call WHDEndHandler
+	Call BMHELPWriteConfigFile
 
 	If SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_RIBBON Then
 		Call RBNEndHandler
@@ -1200,7 +1176,6 @@ OnError GoTo ErrorOccured
 	Call DLGWHOSetShowInfoOnDeselect(SELINFOGetShowInfoOnDeselect())
 
 	If DLGWHOWindowHelperOptions() Then
-
 		Call SELINFOSetShowInfoOnDeselect(DLGWHOGetShowInfoOnDeselect())
 	End If
 

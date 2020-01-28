@@ -23,17 +23,21 @@ Define	CTRL_CHK_SELINFO_ON_DESELECT	200
 
 Include "WindowHelper.Assembly.def"
 Include "DLGWHOWindowHelperOptions.def"
+Include "BaseMapsHelper.def"
 
 Declare Sub DLGWHOHandler_OnLoad
 Declare Sub DLGWHOHandler_OKClicked
 
-Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical
+Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
+	marrBaseMaps(6) As Logical
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
 '
 '**********************************************************************************************''
 Function DLGWHOWindowHelperOptions() As Logical
+
+Dim i As Integer
 
 OnError GoTo ErrorOccured
 
@@ -44,31 +48,71 @@ OnError GoTo ErrorOccured
 		Calling DLGWHOHandler_OnLoad
 
 		Control GroupBox
-			Position 5,5	Width 170		Height 45
+			Position 5,5		Width 170		Height 45
 			Title GetResItemStr("STR_MAP_MINI_TOOLBAR")
 		Control CheckBox		ID CTRL_CHK_MTB_ADD_INFO_TOOL
-			Position 15,20	Width 150
+			Position 15,20		Width 150
 			Title GetResItemStr("STR_MTB_ADD_INFO_TOOL")
 			Value DLGWHOGetAddInfoToolToMTB()
 		Control CheckBox		ID CTRL_CHK_MTB_ADD_RULER_TOOL
-			Position 15,35	Width 150
+			Position 15,35		Width 150
 			Title GetResItemStr("STR_MTB_ADD_RULER_TOOL")
 			Value DLGWHOGetAddRulerToolToMTB()
 
 		Control GroupBox
-			Position 5,60	Width 170		Height 30
+			Position 5,60		Width 170		Height 30
 			Title GetResItemStr("STR_SHOW_INFO_ON_SELECTION")
 		Control CheckBox		ID CTRL_CHK_SELINFO_ON_DESELECT
-			Position 15,75	Width 150
+			Position 15,75		Width 150
 			Title GetResItemStr("STR_SHOW_INFO_ON_DESELECT")
 			Value DLGWHOGetShowInfoOnDeselect()
 
+		Control GroupBox
+			Position 5,100		Width 170		Height 60
+			Title GetResItemStr("STR_HIDE_BASE_MAP_CONTROL")
+		Control CheckBox
+			Position 15,115	Width 70
+			Title "Bing Aerial"
+			Value BMHELPHideBaseMap(BASEMAP_BING_AERIAL)
+			Into marrBaseMaps(BASEMAP_BING_AERIAL)
+		Control CheckBox
+			Position 15,130	Width 70
+			Title "Bing Roads"
+			Value BMHELPHideBaseMap(BASEMAP_BING_ROADS)
+			Into marrBaseMaps(BASEMAP_BING_ROADS)
+		Control CheckBox
+			Position 15,145	Width 70
+			Title "Bing Hybrid"
+			Value BMHELPHideBaseMap(BASEMAP_BING_HYBRID)
+			Into marrBaseMaps(BASEMAP_BING_HYBRID)
+
+		Control CheckBox
+			Position 90,115	Width 70
+			Title "GeoMap Bronze"
+			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_BRONZE)
+			Into marrBaseMaps(BASEMAP_GEOMAP_BRONZE)
+		Control CheckBox
+			Position 90,130	Width 70
+			Title "GeoMap Steel"
+			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_STEEL)
+			Into marrBaseMaps(BASEMAP_GEOMAP_STEEL)
+		Control CheckBox
+			Position 90,145	Width 70
+			Title "GeoMap Iron"
+			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_IRON)
+			Into marrBaseMaps(BASEMAP_GEOMAP_IRON)
+
 		Control OKButton
+			Calling DLGWHOHandler_OKClicked
 		Control CancelButton
 
 	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
 		Exit Sub
 	End If
+
+	For i = 1 To Ubound(marrBaseMaps)
+		Call BMHELPSetHideBaseMap(i, marrBaseMaps(i))
+	Next
 
 	DLGWHOWindowHelperOptions = TRUE
 

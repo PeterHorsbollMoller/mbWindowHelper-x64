@@ -9,6 +9,7 @@
 Include "MapBasic.def"
 Include "Icons.def"
 Include "Menu.def"
+Include "Enums.def"
 '**default constants...
 Include "Library\Defaults.def"
 
@@ -18,6 +19,7 @@ Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
 Include "Library\LAYERLib.def"
 Include "Library\MAPPERLib.def"
+Include "Library\ProgramInfo.def"
 Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
@@ -528,7 +530,7 @@ OnError GoTo ErrorOccured
 
 	nMID	= MAPFrontMostWindow()
 	If nMID = 0 Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER"), Notify_Error, 10000)
+		Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER"), Notify_Error, 10000)
 		Exit Sub
 	End If
 
@@ -543,13 +545,13 @@ OnError GoTo ErrorOccured
 	Next
 
 	If sLayer = "" Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_NO_SELECTABLE_LAYER"), Notify_Error, 10000)
+		Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("ERR_NO_SELECTABLE_LAYER"), Notify_Error, 10000)
 		Exit Sub
 	End If
 
 '	sText = "Selecting from the table " & sLayer
 '		& lf & "Where the objects are within the extent of the map " & WindowInfo(nMID, WIN_INFO_NAME)
-'	Call RBNNotificationShow(xProgram, sText, Notify_Info, 10000)
+'	Call RBNNotificationShow(PRGIGetApplicationName(), sText, Notify_Info, 10000)
 
 	oExtent	= MAPGetExtent(nMID)
 	Select * From sLayer
@@ -575,7 +577,7 @@ Dim	nMID, nBID As Integer
 OnError GoTo ErrorOccured
 
 	If SelectionInfo(SEL_INFO_NROWS) = 0 Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_NO_RECORDS"), Notify_Error, 10000)
+		Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("ERR_SELECTION_NO_RECORDS"), Notify_Error, 10000)
 		Exit Sub
 	End If
 
@@ -616,7 +618,7 @@ Dim	nMID As Integer,
 OnError GoTo ErrorOccured
 
 	If SelectionInfo(SEL_INFO_NROWS) <> 1 Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_NOT_ONE_RECORD"), Notify_Error, 10000)
+		Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("ERR_SELECTION_NOT_ONE_RECORD"), Notify_Error, 10000)
 		Exit Sub
 	End If
 
@@ -629,7 +631,7 @@ OnError GoTo ErrorOccured
 	Fetch First From sQuery
 	aObj = sQuery & ".OBJ"
 	If not aObj Then
-		Call RBNNotificationShow(xProgram, GetResItemStr("ERR_SELECTION_HAS_NO_SPATIAL_OBJECT"), Notify_Error, 10000)
+		Call RBNNotificationShow(PRGIGetApplicationName(), GetResItemStr("ERR_SELECTION_HAS_NO_SPATIAL_OBJECT"), Notify_Error, 10000)
 		Close Table sQuery
 		Exit Sub
 	End If

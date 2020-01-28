@@ -7,6 +7,18 @@ Define 	HEX_CALC_TYPE_SPHERICAL		2
 Define 	HEX_TYPE_POINTY			1
 Define 	HEX_TYPE_FLAT				2
 
+Declare Sub HEXSetUseBaseForHexagon(ByVal bValue As Logical)
+Declare Function HEXUseBaseForHexagon() As Logical
+
+Declare Function HEXTimeSpent() As Integer	'in seconds
+Declare Function HEXNumCreated() As Integer
+Declare Function HEXNumHexagonColumns() As Integer
+Declare Function HEXNumHexagonRows() As Integer
+Declare Function HEXNumHexagonsEstimated() As Integer
+Declare Function HEXNumHexagonColumnsEstimated() As Integer
+Declare Function HEXNumHexagonRowsEstimated() As Integer
+
+
 Declare Function HEXGetCorner(  ByVal oCenter As Object
 						, ByVal fSize As Float
 						, ByVal sUnit As String
@@ -130,6 +142,36 @@ Declare Function HEXCreateForObject(		  ByVal sTab As String
 									, ByVal nCalculationType As Integer
 									, ByVal nHexagonType As Integer
 									) As Integer				'Returns the number of hexagons created
+Declare Function HEXEstimateForMap(		  ByVal fSize As Float
+									, ByVal sUnit As String
+									, ByVal nMID As Integer
+									, ByVal nCalculationType As Integer
+									, ByVal nHexagonType As Integer
+									) As Integer				'Returns the number of hexagons created
+Declare Function HEXEstimateForObject(		  ByVal fSize As Float
+									, ByVal sUnit As String
+									, ByVal oInput As Object
+									, ByVal nCalculationType As Integer
+									, ByVal nHexagonType As Integer
+									) As Integer				'Returns the number of hexagons created
+Declare Function HEXEstimateColumns( ByVal fSize As Float
+							, ByVal sUnit As String
+							, ByVal fMinX As Float
+							, ByVal fMinY As Float
+							, ByVal fMaxX As Float
+							, ByVal fMaxY As Float
+							, ByVal nCalculationType As Integer
+							, ByVal nHexagonType As Integer
+							) As Integer				'Returns the number of columns estiamted
+Declare Function HEXEstimateRows(	  ByVal fSize As Float
+							, ByVal sUnit As String
+							, ByVal fMinX As Float
+							, ByVal fMinY As Float
+							, ByVal fMaxX As Float
+							, ByVal fMaxY As Float
+							, ByVal nCalculationType As Integer
+							, ByVal nHexagonType As Integer
+							) As Integer				'Returns the number of rows estiamted
 
 
 Declare Function HEXCreateForMap(		  ByVal sTab As String

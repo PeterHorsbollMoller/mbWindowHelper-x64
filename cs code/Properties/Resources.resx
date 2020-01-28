@@ -497,7 +497,7 @@
     <value>Restore Window Positions Now</value>
   </data>
   <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
-    <value>Save Window To Workspace Without 'Open table ...' statements</value>
+    <value>Save To Workspace</value>
   </data>
   <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
     <value>Map Extent Selection</value>
@@ -627,6 +627,9 @@
   </data>
   <data name="STR_HEIGHT" xml:space="preserve">
     <value>Height</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>Hide Base Map Controls</value>
   </data>
   <data name="STR_MAP" xml:space="preserve">
     <value>Map</value>

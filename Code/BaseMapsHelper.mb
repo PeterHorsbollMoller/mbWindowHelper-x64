@@ -1,0 +1,235 @@
+'*******************************************************************************
+'**   Created by Peter Horsbøll Møller, Pitney Bowes
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "Enums.def"
+Include "Icons.def"
+Include "MapBasic.def"
+Include "IMapInfoPro.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\MI_ICONS_X64.def"
+Include "Library\Defaults.def"
+Include "Library\RibbonElements.def"
+
+'-------------------------------------
+Include "Library\CONFIGFILELib.def"
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\ProgramInfo.def"
+Include "Library\RIBBONLib.def"
+Include "Library\TABLELib.def"
+
+Include "BaseMapsHelper.def"
+
+'-----------------------------------------------------------------------------------------
+Declare Sub BMHELPHideBaseMapControls( ByVal sTabName As String
+							, ByVal sGroupName As String
+							, ByVal sSplitButtonName As String
+							, ByVal sSplitButtonGroupName As String
+							)
+
+Dim	msIniFile As String,
+	marrHideBaseMaps() As Logical
+'**********************************************************************************************''
+'**   Created by Peter Horsbøll Møller, Pitney Bowes
+'
+'**********************************************************************************************''
+Sub BMHELPInitialise(ByVal sIniFile As String)
+
+Dim	sTabName, sGroupName, sSplitButtonName, sSplitButtonGroupName As string
+
+OnError GoTo ErrorOccured
+
+	msIniFile = sIniFile
+
+	Call BMHELPSetHideBaseMap(BASEMAP_BING_AERIAL, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "BING_AERIAL") = "1")
+	Call BMHELPSetHideBaseMap(BASEMAP_BING_ROADS, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "BING_ROADS") = "1")
+	Call BMHELPSetHideBaseMap(BASEMAP_BING_HYBRID, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "BING_HYBRID") = "1")
+	Call BMHELPSetHideBaseMap(BASEMAP_GEOMAP_BRONZE, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_BRONZE") = "1")
+	Call BMHELPSetHideBaseMap(BASEMAP_GEOMAP_STEEL, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_STEEL") = "1")
+	Call BMHELPSetHideBaseMap(BASEMAP_GEOMAP_IRON, CONFIGReadKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_IRON") = "1")
+
+	'**HOME tab
+	sTabName				= TAB_HOME
+	sGroupName			= TAB_GROUP_HOME_FILE
+	sSplitButtonName		= "HomeFileOpenGallerySplitButton"
+	sSplitButtonGroupName	= "BaseMaps"
+	Call BMHELPHideBaseMapControls(sTabName, sGroupName, sSplitButtonName, sSplitButtonGroupName)
+
+	'**TABLE tab
+	sTabName				= TAB_TABLE
+	sGroupName			= TAB_GROUP_TABLE_DATA
+	sSplitButtonName		= "TableFileOpenGallerySplitButton"
+	sSplitButtonGroupName	= "BaseMaps"
+	Call BMHELPHideBaseMapControls(sTabName, sGroupName, sSplitButtonName, sSplitButtonGroupName)
+
+	'**MAP tab
+	sTabName				= TAB_MAP
+	sGroupName			= TAB_GROUP_MAP_FILE
+	sSplitButtonName		= "MapFileOpenGallerySplitButton"
+	sSplitButtonGroupName	= "BaseMaps"
+	Call BMHELPHideBaseMapControls(sTabName, sGroupName, sSplitButtonName, sSplitButtonGroupName)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "Main")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub BMHELPHideBaseMapControls(  ByVal sTabName As String
+						, ByVal sGroupName As String
+						, ByVal sSplitButtonName As String
+						, ByVal sSplitButtonGroupName As String
+						)
+
+Dim	rbnTab As This,
+	rbnGroup As This,
+	rbnSplitButton As This,
+	rbnSplitButtonGroup As This,
+	rbnControlsColl as This,
+	rbnControlItem As This,
+	rbnTabFound As RefPtr,
+	rbnGroupFound As RefPtr,
+	rbnControlFound As RefPtr,
+	rbnControlGroupFound As RefPtr,
+	nItem, nCtrl, nNumCntrls As Integer
+
+OnError GoTo ErrorOccured
+
+	Call RBNInitiate
+
+	If RBNGetTab(sTabName, rbnTabFound) Then
+		rbnTab = rbnTabFound
+
+		If RBNTabGetGroupThs(rbnTab, sGroupName, rbnGroupFound) Then
+			rbnGroup = rbnGroupFound
+
+			If RBNGroupGetControlThs(rbnGroup, sSplitButtonName, rbnControlFound) Then
+				rbnSplitButton = rbnControlFound
+
+				If RBNSplitButtonGetGroupThs(rbnSplitButton, sSplitButtonGroupName, rbnControlGroupFound) Then
+					rbnSplitButtonGroup	= rbnControlGroupFound
+
+					'Get Group controls collection
+					rbnControlsColl	= GetCtrlGrpCtrls(rbnSplitButtonGroup)
+					nNumCntrls 		= GetMICtrlCollCount(rbnControlsColl)
+
+					For nItem = (nNumCntrls - 1) To 0 Step -1
+						rbnControlItem	= GetMICtrlCollItemInt(rbnControlsColl, nItem)
+						Do Case GetMICtrlName(rbnControlItem)
+							Case "AddBasemapAerialButton"
+								If marrHideBaseMaps(BASEMAP_BING_AERIAL) Then
+									Call DEBUGPrint("Removing Bing Aerial")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+							Case "AddBasemapRoadsButton"
+								If marrHideBaseMaps(BASEMAP_BING_ROADS) Then
+									Call DEBUGPrint("Removing Bing Roads")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+							Case "AddBasemapHybridButton"
+								If marrHideBaseMaps(BASEMAP_BING_HYBRID) Then
+									Call DEBUGPrint("Removing Bing Hybrid")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+
+							Case "AddBasemapGeoMapBronze"
+								If marrHideBaseMaps(BASEMAP_GEOMAP_BRONZE) Then
+									Call DEBUGPrint("Removing GeoMap Bronze")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+							Case "AddBasemapGeoMapSteel"
+								If marrHideBaseMaps(BASEMAP_GEOMAP_STEEL) Then
+									Call DEBUGPrint("Removing GeoMap Steel")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+							Case "AddGeoMapIronButton"
+								If marrHideBaseMaps(BASEMAP_GEOMAP_IRON) Then
+									Call DEBUGPrint("Removing GeoMap Iron")
+									Call RBNControlSetVisibilityThs(rbnControlItem, FALSE)
+								End If
+						End Case
+					Next
+				End If
+			End If
+		End If
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "BMHELPHideBaseMapControls")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+' Property
+'**********************************************************************************************''
+Sub BMHELPSetHideBaseMap(ByVal nBaseMap As Integer, ByVal bHide As Logical)
+
+OnError GoTo ErrorOccured
+
+	If Ubound(marrHideBaseMaps) < nBaseMap Then
+		ReDim marrHideBaseMaps(nBaseMap)
+	End If
+
+	marrHideBaseMaps(nBaseMap) = bHide
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "Set____")
+
+End Sub
+'**********************************************************************************************''
+Function BMHELPHideBaseMap(ByVal nBaseMap As Integer) As Logical
+
+OnError GoTo ErrorOccured
+
+	If Ubound(marrHideBaseMaps) < nBaseMap Then
+		ReDim marrHideBaseMaps(nBaseMap)
+	End If
+
+	BMHELPHideBaseMap = marrHideBaseMaps(nBaseMap)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "BMHELPHideBaseMap")
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes
+'Parameters:
+'
+'**********************************************************************************************''
+Sub BMHELPWriteConfigFile
+
+OnError GoTo ErrorOccured
+
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "BING_AERIAL", Int(BMHELPHideBaseMap(BASEMAP_BING_AERIAL)))
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "BING_ROADS", Int(BMHELPHideBaseMap(BASEMAP_BING_ROADS)))
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "BING_HYBRID", Int(BMHELPHideBaseMap(BASEMAP_BING_HYBRID)))
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_BRONZE", Int(BMHELPHideBaseMap(BASEMAP_GEOMAP_BRONZE)))
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_STEEL", Int(BMHELPHideBaseMap(BASEMAP_GEOMAP_STEEL)))
+	Call CONFIGWriteKey(msIniFile, "HIDEBASEMAPS", "GEOMAP_IRON", Int(BMHELPHideBaseMap(BASEMAP_GEOMAP_IRON)))
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "BMHELPWriteConfigFile")
+	Call ERRShow()
+
+End Sub

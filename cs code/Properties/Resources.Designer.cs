@@ -1195,7 +1195,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Save Window To Workspace Without &apos;Open table ...&apos; statements.
+        ///   Looks up a localized string similar to Save To Workspace.
         /// </summary>
         internal static string MNU_SAVE_WINDOW_TO_WOR {
             get {
@@ -1587,6 +1587,15 @@ namespace WindowHelper.Properties {
         internal static string STR_HEIGHT {
             get {
                 return ResourceManager.GetString("STR_HEIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Hide Base Map Controls.
+        /// </summary>
+        internal static string STR_HIDE_BASE_MAP_CONTROL {
+            get {
+                return ResourceManager.GetString("STR_HIDE_BASE_MAP_CONTROL", resourceCulture);
             }
         }
         

@@ -32,3 +32,4 @@ Module=WindowHelper.mbo
 Module=MAPEXTCreate.mbo
 Module=MAPEXTDCreateMapExtentDialog.mbo
 Module=SelInfoHandler.mbo
+Module=BaseMapsHelper.mbo

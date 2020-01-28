@@ -14,6 +14,12 @@ Declare Function TABHGetSelectionValue(	  ByVal nRowID As Integer
 								, ByVal sColName As String
 								) As String
 
+Declare Function TABHCGetColumnValue(	  ByVal sTab As String
+								, ByVal sCol As String
+								, ByVal nRowID As Integer
+								, ByVal bReturnError As Logical
+								) As String
+
 Declare Sub TABHFilterBrowserCurrentCell
 Declare Sub TABHGroupByCurrentColumn
 Declare Sub TABHSetIgnoreTopLeftCell(ByVal bValue As Logical)

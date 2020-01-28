@@ -1,0 +1,13 @@
+Define	BASEMAP_BING_AERIAL		1
+Define	BASEMAP_BING_ROADS		2
+Define	BASEMAP_BING_HYBRID		3
+Define	BASEMAP_GEOMAP_BRONZE	4
+Define	BASEMAP_GEOMAP_STEEL	5
+Define	BASEMAP_GEOMAP_IRON		6
+
+Declare Sub BMHELPInitialise(ByVal sIniFile As String)
+
+Declare Sub BMHELPSetHideBaseMap(ByVal nBaseMap As Integer, ByVal bHide As Logical)
+Declare Function BMHELPHideBaseMap(ByVal nBaseMap As Integer) As Logical
+
+Declare Sub BMHELPWriteConfigFile

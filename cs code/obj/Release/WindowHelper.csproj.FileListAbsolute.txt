@@ -28,4 +28,4 @@ D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper.pdb
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.dll
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.pdb
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.CoreCompileInputs.cache
-D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csprojResolveAssemblyReference.cache
+D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csprojAssemblyReference.cache

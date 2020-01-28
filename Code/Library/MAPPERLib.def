@@ -27,6 +27,3 @@ Declare Function MAPFrontWindow() As Integer		'Returns the ID of the FrontWindow
 Declare Function MAPFrontMostWindow() As Integer	'Returns the ID of the FrontWindow, if it is a map, or the most recently opened Map, if no maps are found, it returns 0
 
 Declare Sub MAPRefresh(	ByVal nMID As Integer)
-
-Declare Sub MAPCacheMapExtent(ByVal nMID As Integer)
-Declare Function MAPGetExtentCached(ByVal nMID As Integer) As Object

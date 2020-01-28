@@ -405,23 +405,12 @@ OnError GoTo ErrorOccured
 		Exit Sub
 	End If
 
-'	Call DEBUGPrint("Len of Windows statement: " & Len(marrWinStatements(nItem)))
-'	Call DEBUGPrint("Windows statement: " & marrWinStatements(nItem	))
 	If NOT (Len(marrWinStatements(nItem)) Between 1 AND 32000) Then
-'		If Ask("This window might have been to complex to cature in a string. Do you want to run the workspace holding all windows open, when this window was closed?", "Yes", "No") Then
-'			Run Command "Run Application " & eye & marrWorkspaces(nItem) & eye
-'		Else
-			Run Command marrWinStatements(nItem)
-'			If WindowInfo(FrontWindow(), WIN_INFO_TYPE) = WIN_MAPPER Then
-'				Call DEBUGPrint("Comparing number of layers: Before: " & marrNumLayers(nItem) & " New window: " & MapperInfo(FrontWindow(), MAPPER_INFO_LAYERS))
-'			End If
-'		End If
+		Run Command marrWinStatements(nItem)
 	Else
 		Run Command marrWinStatements(nItem)
-'		If WindowInfo(FrontWindow(), WIN_INFO_TYPE) = WIN_MAPPER Then
-'			Call DEBUGPrint("Comparing number of layers: Before: " & marrNumLayers(nItem) & " New window: " & MapperInfo(FrontWindow(), MAPPER_INFO_LAYERS))
-'		End If
 	End If
+
 	Exit Sub
 '-------------------------
 ErrorOccured:
