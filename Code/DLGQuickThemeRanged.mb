@@ -1,0 +1,748 @@
+'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Pitney Bowes Software
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\ARRAYLib.def"
+Include "Library\COLUMNLib.def"
+Include "Library\CONFIGFILELib.def"
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\LAYERLib.def"
+Include "Library\STRINGLib.def"
+Include "Library\TABLELib.def"
+
+Include "DLGQuickThemeRanged.def"
+Include "WindowHelper.Assembly.def"
+
+Define	CTRL_LST_LAYERS		100
+Define	CTRL_LST_COLUMNS		200
+Define	CTRL_LST_COLORRANGES	300
+Define	CTRL_LST_RANGECOUNT		400
+Define	CTRL_CMD_OK			1000
+
+Declare Sub DLGQTR_OnLoad
+Declare Sub DLGQTR_OKClicked
+Declare Sub DLGQTR_LayerListClicked
+Declare Sub DLGQTR_ColumnListClicked
+Declare Sub DLGQTR_ColorRangeListClicked
+Declare Sub DLGQTR_LoadLayerList
+Declare Sub DLGQTR_LoadColumnList
+
+Declare Sub DLGQTRLoadColorRanges
+Declare Function DLGQTRGetColorValue(ByVal sColor As String) As Integer
+
+Type T_COLOR_RANGES
+	sName		As String
+	arrColors()	As Integer
+End Type
+
+Dim	msLayerName, msColumnName, msDefaultColumnName As String,
+	mbUserDoubleClickedOnColumn, mbInitiatingDialog As Logical,
+	marrLayerDescription(), marrLayerNames(), marrColumnNames(), marrColorRangeNames() As String,
+	marrColorRanges() As T_COLOR_RANGES,
+	mnMID, marrLayerIDs(), mnLayerID, mnDefaultLayerID, mnLayerTypesToUse, mnColumnTypesToUse, mnColorRange, mnRangeCount As Integer
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQuickThemeRanged(	  ByVal nMID As Integer				'**ID of Map Window to load layers from
+						, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
+						, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
+						) As Logical
+
+OnError GoTo ErrorOccured
+
+DLGQuickThemeRanged = FALSE
+
+	mnMID					= nMID
+	mnLayerTypesToUse			= LAYER_USE_NORMAL + LAYER_USE_TEMP	' + LAYER_USE_ONLY_SELECTABLE	'+ LAYER_USE_ONLY_VISIBLE
+	mnLayerID					= 0
+	msLayerName				= ""
+	mnDefaultLayerID			= nDefaultLayerID
+	mnColumnTypesToUse			= CRITERIA_USE_NUMERICAL
+	msColumnName				= ""
+	msDefaultColumnName			= sDefaultColumnName
+	mbUserDoubleClickedOnColumn	= FALSE
+	mnRangeCount				= IIf(mnRangeCount=0, 5, mnRangeCount)
+
+	Call DLGQTRLoadColorRanges
+
+	Dialog
+		Title GetResItemStr("DLG_TITLE_QUICK_THEME_RANGED")
+		Calling DLGQTR_OnLoad
+
+		Control StaticText		Position 5,5
+			Title GetResItemStr("DLG_THEME_SELECT_LAYER")
+		Control PopupMenu		Position 5,15		ID CTRL_LST_LAYERS
+			Width 200
+			Calling DLGQTR_LayerListClicked
+
+		Control StaticText		Position 5,35
+			Title GetResItemStr("DLG_THEME_SELECT_COLUMN")
+		Control Listbox		Position 5,45		ID CTRL_LST_COLUMNS
+			Width 200	Height 80
+			Calling DLGQTR_ColumnListClicked
+
+		Control StaticText		Position 5,130
+			Title GetResItemStr("DLG_THEME_SELECT_COLOR_RANGE")
+		Control PopupMenu		Position 5,140		ID CTRL_LST_COLORRANGES
+			Width 140
+			Title From Variable marrColorRangeNames
+			Value Maximum(1, mnColorRange)
+			Calling DLGQTR_ColorRangeListClicked
+			Into mnColorRange
+
+		Control StaticText		Position 150,130
+			Title GetResItemStr("DLG_THEME_NUM_COLOR_RANGES")
+		Control PopupMenu		Position 150,140	ID CTRL_LST_RANGECOUNT
+			Width 55
+			Title "1;2;3;4;5;6;7;8;9;10"
+			Value Maximum(1, mnRangeCount)
+			Into mnRangeCount
+
+		Control OKButton		Position 120,160	ID CTRL_CMD_OK
+			Width 40
+			Calling DLGQTR_OKClicked
+		Control CancelButton	Position 165,160
+			Width 40
+
+	If not CommandInfo(CMD_INFO_DLG_OK) Then
+		If NOT mbUserDoubleClickedOnColumn Then
+			mnLayerID		= 0
+			msLayerName	= ""
+			msColumnName	= ""
+			Exit Function
+		End If
+	End If
+
+'	Print "DLGQuickThemeRanged: " & msLayerName & " (" & msColumnName & ")"
+	DLGQuickThemeRanged = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQuickThemeRanged")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_OnLoad
+
+Dim	nLayer As Integer
+
+OnError GoTo ErrorOccured
+
+	mbInitiatingDialog	= TRUE
+
+	Alter Control CTRL_CMD_OK	Disable
+
+	Call DLGQTR_LoadLayerList
+
+	If mnDefaultLayerID > 0 Then
+		nLayer = ARRAYFindValueInteger(marrLayerIDs, mnDefaultLayerID)
+		If nLayer > 0 Then
+			Alter Control CTRL_LST_LAYERS	Value nLayer
+			Call DLGQTR_LayerListClicked
+		End If
+	End If
+	If nLayer = 0 Then
+		If Ubound(marrLayerNames) > 0 Then
+			Alter Control CTRL_LST_LAYERS	Value 1
+			Call DLGQTR_LayerListClicked
+		End If
+	End If
+
+	Call DLGQTR_ColorRangeListClicked
+
+	mbInitiatingDialog = FALSE
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_OnLoad")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_OKClicked
+
+Dim	nLayer, nCol As Integer
+
+OnError GoTo ErrorOccured
+
+	nLayer	= ReadControlValue(CTRL_LST_LAYERS)
+	If nLayer = 0 Then
+		Dialog Preserve
+		Exit Sub
+	End If
+
+	msLayerName	= marrLayerNames(nLayer)
+	mnLayerID		= marrLayerIDs(nLayer)
+
+	nCol	= ReadControlValue(CTRL_LST_COLUMNS)
+	If nCol = 0 Then
+		Dialog Preserve
+		Exit Sub
+	End If
+
+	msColumnName	= marrColumnNames(nCol)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_OKClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_LoadLayerList
+
+Dim nLayer As Integer
+
+OnError GoTo ErrorOccured
+
+	Redim marrLayerNames(0)
+	Redim marrLayerDescription(0)
+	Redim marrLayerIDs(0)
+	If LAYERGetListOfNames(mnMID, mnLayerTypesToUse, marrLayerIDs(), marrLayerNames()) = 0 Then
+		ReDim marrLayerNames(0)
+	End If
+
+	Redim marrLayerDescription(Ubound(marrLayerNames))
+	For nLayer = 1 To Ubound(marrLayerNames)
+		If LayerInfo(mnMID, marrLayerIDs(nLayer), LAYER_INFO_FRIENDLYNAME) <> "" Then
+			marrLayerDescription(nLayer) = LayerInfo(mnMID, marrLayerIDs(nLayer), LAYER_INFO_FRIENDLYNAME) & " (" & marrLayerNames(nLayer) & ")"
+		Else
+			marrLayerDescription(nLayer) = marrLayerNames(nLayer)
+		End If
+	Next
+
+	Alter Control CTRL_LST_LAYERS	Title From Variable marrLayerDescription
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_LoadLayerList")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_LoadColumnList
+
+OnError GoTo ErrorOccured
+
+	Redim marrColumnNames(0)
+	If COLGetListOfNames(msLayerName, mnColumnTypesToUse, marrColumnNames()) Then
+
+	End If
+
+	Alter Control CTRL_LST_COLUMNS Title From Variable marrColumnNames
+'	Call DLGQTR_ColumnListClicked
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_LoadColumnList")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_LayerListClicked
+
+Dim	nColumn As Integer
+
+OnError GoTo ErrorOccured
+
+	mbInitiatingDialog = TRUE
+
+	msLayerName	= marrLayerNames(ReadControlValue(CTRL_LST_LAYERS))
+	mnLayerID		= marrLayerIDs(ReadControlValue(CTRL_LST_LAYERS))
+	Call DLGQTR_LoadColumnList
+
+	If msDefaultColumnName > "" Then
+		nColumn = ARRAYFindValueString(marrColumnNames, msDefaultColumnName)
+		If nColumn > 0 Then
+			Alter Control CTRL_LST_COLUMNS	Value nColumn
+			Call DLGQTR_ColumnListClicked
+		End If
+	End If
+
+	mbInitiatingDialog = FALSE
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_LayerListClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_ColumnListClicked
+
+Dim	nCol As Integer
+
+OnError GoTo ErrorOccured
+
+	nCol	= ReadControlValue(CTRL_LST_COLUMNS)
+	If nCol = 0 Then
+		Alter Control CTRL_CMD_OK	Disable
+	Else
+		Alter Control CTRL_CMD_OK	Enable
+	End If
+
+	msColumnName = marrColumnNames(ReadControlValue(CTRL_LST_COLUMNS))
+	If NOT mbInitiatingDialog Then
+		If CommandInfo(CMD_INFO_DLG_DBL) Then
+			mbUserDoubleClickedOnColumn = TRUE
+'			Call DLGQTR_OKClicked
+			Dialog Remove
+		End If
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_ColumnListClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTR_ColorRangeListClicked
+
+Dim	nItem, nCount As Integer
+
+OnError GoTo ErrorOccured
+
+	nItem	= ReadControlValue(CTRL_LST_COLORRANGES)
+	If nItem = 0 Then
+		Alter Control CTRL_CMD_OK	Disable
+	Else
+		Alter Control CTRL_CMD_OK	Enable
+	End If
+
+	nCount	= Ubound(marrColorRanges(nItem).arrColors)
+	If nCount = 2 Then
+		Alter Control CTRL_LST_RANGECOUNT Enable
+	Else
+		Alter Control CTRL_LST_RANGECOUNT Disable
+		Alter Control CTRL_LST_RANGECOUNT Value nCount
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTR_ColorRangeListClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGQTRLoadColorRanges
+
+Dim	i, nTheme, nColor, nNotFoundCount As Integer,
+	sName, sColor, sFile As String
+
+OnError GoTo ErrorOccured
+
+	sFile = ApplicationDirectory$() & "QuickThematic.ini"
+	If FileExists(sFile) Then
+		nNotFoundCount = 0
+		nTheme		= 0
+		Do
+			nTheme = nTheme + 1
+			sName = CONFIGReadKey(sFile, "RANGED THEMATICS", "THEME" & nTheme)
+'			Call DEBUGPrint(nTheme & ": " & sName & ".")
+			If sName <> "" Then
+				i = i + 1
+				Redim marrColorRanges(i)
+				marrColorRanges(i).sName		= sName
+
+				For nColor = 1 To 99
+					sColor = CONFIGReadKey(sFile, "THEME" & nTheme, "COLOR" & nColor)
+'					Call DEBUGPrint(nColor & ". Color : " & sColor)
+					If sColor = "" Then
+						Exit For
+					End If
+					Redim marrColorRanges(i).arrColors(nColor)
+					marrColorRanges(i).arrColors(nColor)	= DLGQTRGetColorValue(sColor)
+				Next
+
+'				Call DEBUGPrint(sName & ": " & Ubound(marrColorRanges(i).arrColors) & " colors")
+				If Ubound(marrColorRanges(i).arrColors) = 0 Then
+					Redim marrColorRanges(i).arrColors(2)
+					marrColorRanges(i).arrColors(1)	= RED
+					marrColorRanges(i).arrColors(2)	= BLUE
+				End If
+
+				nNotFoundCount = 0
+			Else
+				nNotFoundCount = nNotFoundCount + 1
+			End If
+
+			sName = ""
+
+		Loop While nNotFoundCount < 4
+	End If
+
+	If Ubound(marrColorRanges) = 0 Then
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Red"
+		marrColorRanges(i).arrColors(1)	= RGB(255,160,160)
+		marrColorRanges(i).arrColors(2)	= RGB(224,0,0)
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Green"
+		marrColorRanges(i).arrColors(1)	= RGB(176,255,176)
+		marrColorRanges(i).arrColors(2)	= RGB(0,80,0)
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Blue"
+		marrColorRanges(i).arrColors(1)	= RGB(192,213,255)
+		marrColorRanges(i).arrColors(2)	= RGB(0,27,80)
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Orange"
+		marrColorRanges(i).arrColors(1)	= RGB(255,192,128)
+		marrColorRanges(i).arrColors(2)	= RGB(224,112,0)
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Purple"
+		marrColorRanges(i).arrColors(1)	= 16752895
+		marrColorRanges(i).arrColors(2)	= 12583104
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Rainbow - 8 colors"
+		Redim marrColorRanges(i).arrColors(8)
+		marrColorRanges(i).arrColors(1)	= RGB(255,0,0)		'E1
+		marrColorRanges(i).arrColors(2)	= RGB(255,128,0)	'D9
+		marrColorRanges(i).arrColors(3)	= RGB(255,168,80)	'D7
+		marrColorRanges(i).arrColors(4)	= RGB(255,255,64)	'F6
+		marrColorRanges(i).arrColors(5)	= RGB(179,255,64)	'G7
+		marrColorRanges(i).arrColors(6)	= RGB(0,224,0)		'H10
+		marrColorRanges(i).arrColors(7)	= RGB(0,171,255)	'K10
+		marrColorRanges(i).arrColors(8)	= RGB(0,0,160)		'M14
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Rainbow - 6 colors"
+		Redim marrColorRanges(i).arrColors(6)
+		marrColorRanges(i).arrColors(1)	= RGB(255,0,0)		'E1
+		marrColorRanges(i).arrColors(2)	= RGB(255,128,0)	'D9
+		marrColorRanges(i).arrColors(3)	= RGB(255,255,64)	'F6
+		marrColorRanges(i).arrColors(4)	= RGB(0,224,0)		'H10
+		marrColorRanges(i).arrColors(5)	= RGB(0,171,255)	'K10
+		marrColorRanges(i).arrColors(6)	= RGB(0,0,160)		'M14
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Rainbow (Line 6) - 8 colors"
+		Redim marrColorRanges(i).arrColors(8)
+		marrColorRanges(i).arrColors(1)	= RGB(255,128,128)	'B6
+		marrColorRanges(i).arrColors(2)	= RGB(255,176,96)	'D6
+		marrColorRanges(i).arrColors(3)	= RGB(255,255,64)	'F6
+		marrColorRanges(i).arrColors(4)	= RGB(112,255,112)	'H6
+		marrColorRanges(i).arrColors(5)	= RGB(112,255,255)	'J6
+		marrColorRanges(i).arrColors(6)	= RGB(128,171,255)	'L6
+		marrColorRanges(i).arrColors(7)	= RGB(192,128,255)	'N6
+		marrColorRanges(i).arrColors(8)	= RGB(255,128,192)	'P6
+
+		i = i + 1
+		Redim marrColorRanges(i)
+		marrColorRanges(i).sName			= "Rainbow (Line 9) - 8 colors"
+		Redim marrColorRanges(i).arrColors(8)
+		marrColorRanges(i).arrColors(1)	= RGB(255,64,64)	'B9
+		marrColorRanges(i).arrColors(2)	= RGB(255,128,0)	'D9
+		marrColorRanges(i).arrColors(3)	= RGB(224,224,0)	'F9
+		marrColorRanges(i).arrColors(4)	= RGB(0,255,0)		'H9
+		marrColorRanges(i).arrColors(5)	= RGB(0,240,240)	'J9
+		marrColorRanges(i).arrColors(6)	= RGB(64,128,255)	'L9
+		marrColorRanges(i).arrColors(7)	= RGB(160,64,255)	'N9
+		marrColorRanges(i).arrColors(8)	= RGB(255,64,160)	'P9
+	End If
+
+	Redim marrColorRangeNames(Ubound(marrColorRanges))
+	For i = 1 To Ubound(marrColorRanges)
+		marrColorRangeNames(i) = marrColorRanges(i).sName
+	Next
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRLoadColorRanges")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter HorsbÃ¸ll MÃ¸ller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetColorValue(ByVal sColor As String) As Integer
+
+Dim	nColor As Integer,
+	arrColors() As String
+
+OnError GoTo ErrorOccured
+
+DLGQTRGetColorValue = RED
+
+	Do Case STRINGSplitAndTrim(sColor, ",", arrColors)
+		Case 1
+			nColor = Val(sColor)
+		Case 3
+			nColor = RGB(Val(arrColors(1)), Val(arrColors(2)), Val(arrColors(3)))
+		Case Else
+			nColor = RED
+	End Case
+
+	DLGQTRGetColorValue = nColor
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetColorValue")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetLayerID() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetLayerID = mnLayerID
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetLayerID")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetLayerName() As String
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetLayerName = msLayerName
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetLayerName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetColumnName() As String
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetColumnName = msColumnName
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetColumnName")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetRangeCount() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetRangeCount = IIf(DLGQTRCountFixedColors()>0, DLGQTRCountFixedColors(), mnRangeCount)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetRangeCount")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetFromColor() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetFromColor = marrColorRanges(mnColorRange).arrColors(1)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetFromColor")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetToColor() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetToColor = marrColorRanges(mnColorRange).arrColors(2)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetToColor")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRUseFixedColors() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRUseFixedColors = (DLGQTRCountFixedColors() > 0)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRUseFixedColors")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRCountFixedColors() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRCountFixedColors = IIf(Ubound(marrColorRanges(mnColorRange).arrColors()) = 2, 0, Ubound(marrColorRanges(mnColorRange).arrColors()))
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRCountFixedColors")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetFixedColor( ByVal nColor As Integer) As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetFixedColor = marrColorRanges(mnColorRange).arrColors(nColor)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetFixedColor")
+	Call ERRShow()
+
+End Function

@@ -178,6 +178,7 @@ OnError GoTo ErrorOccured
 
 	If NumTables() = 0 Then
 		msLastSelectionTable = ""
+		Call RBNControlSetCaptionIdx(mntxtSelInfoNumRowsIdx, GetResItemStrReplace("STR_SELECTED_RECORDS_X", "0"))
 		Exit Sub
 	End If
 
@@ -234,7 +235,7 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "SELINFOSelChangedHandler")
-	If NOT ERRGetLatestErrorNo() IN (689) Then
+	If NOT ERRGetLatestErrorNo() IN (689, 644) Then
 		Call ERRShow()
 	End If
 	Resume Next

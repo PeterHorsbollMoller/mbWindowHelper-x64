@@ -29,8 +29,25 @@
 '	06-11-2018 16:58:41	- Added:
 '						- OBJDirection(...) As Float
 '						- OBJCartesianCreatePointAlong(...) As Object
+'	03-09-2021 08:16:17	- Added:
+'						- OBJCreateTrapez(...) As Object
+'						- OBJCartesianCreateArrowHead(...) As Object
+'	04-03-2022 15:49:52	- Added:
+'						- OBJCreatePlineFromPoints(...) As Object
+'						- OBJPlineAddNode(...) As Object
+'						- OBJCreateAnnulus(...) As Object
+'						- OBJCreateCircularSector(...) As Object
+'	25-03-2022 07:43:39	- Added:
+'						- OBJCartesianCreateArrow(...) As Object
 '**************************************************************
 'Requires MapInfo Pro 4.0
+
+Define	CALC_METHOD_CARTESIAN		1
+Define	CALC_METHOD_SPERICAL		2
+
+Define	OBJ_ARROW_END_TYPE_ROUNDED	1
+Define	OBJ_ARROW_END_TYPE_FLAT		2
+Define	OBJ_ARROW_END_TYPE_ARROW		3
 
 Declare Function OBJIsInitialized(ByVal oObj As Object) As Logical
 
@@ -98,4 +115,63 @@ Declare Function OBJCombineFromTable(	  ByVal sTab As String
 								, ByVal sID As String
 								) As Object
 
+'In MapInfo 360 degrees. 0 towards east and counter clockwise
+Declare Function OBJCreateTrapez(	  ByVal oStartPoint As Object			'Start point using current session coordinate system
+							, ByVal fDirection As Float			'Direction from the start point
+							, ByVal fLength As Float				'Width at starting point, if zero geometry will be a triangle
+							, ByVal fWidthAtStart As Float		'Width at start point, if zero geometry will be a triangle
+							, ByVal fWidthAtEnd As Float			'Width at end point, if zero geometry will be a triangle
+							, ByVal bCreateMidpoint As Logical		'Determines if the trapez should have a node at the mid point on the two parallel sides
+							, ByVal nCalculationMethod As Integer	'CALC_METHOD_CARTESIAN / CALC_METHOD_SPERICAL: Use Offset or CartesianOffset
+							) As Object
+'In MapInfo 360 degrees. 0 towards east and counter clockwise
+Declare Function OBJCreateTriangle(  ByVal oStartPoint As Object			'Start point using current session coordinate system
+							, ByVal fDirection As Float			'Direction from the start point
+							, ByVal fLength As Float				'Width at starting point, if zero geometry will be a triangle
+							, ByVal fWidthAtEnd As Float			'Width at end point
+							, ByVal bCreateMidpoint As Logical		'Determines if the triangle should have a node at the mid point on the end side
+							, ByVal nCalculationMethod As Integer	'CALC_METHOD_CARTESIAN / CALC_METHOD_SPERICAL: Use Offset or CartesianOffset
+							) As Object
 
+Declare Function OBJCartesianCreateArrowHead(  ByVal oPline As Object
+									, ByVal nArrowType As Integer		'1: Pointy, 2: Flat, 3: Rounded
+									, ByVal fWidth As Float			'in meters
+									, ByVal fLength As Float			'in meters
+									, ByVal nResolution As Integer	'Only used for rounded arrow heads
+									) As Object
+
+Declare Function OBJCreatePlineFromPoints(	  ByVal oPoint1 As Object
+									, ByVal oPoint2 As Object
+									) As Object
+Declare Function OBJPlineAddNode(	  ByVal oPline As Object
+							, ByVal oPoint As Object
+							) As Object
+
+'In MapInfo 360 degrees. 0 towards east and counter clockwise
+Declare Function OBJCreateAnnulus(	  ByVal oCenter As Object
+							, ByVal fDirection As Float			'360 degrees
+							, ByVal fRadiusInner As Float			'meters
+							, ByVal fRadiusOuter As Float			'meters
+							, ByVal fAngleWidth As Float			' > 0 AND < 360
+							, ByVal nResolution As Integer		'A value between 3 and 500, number of nodes to describe a 360 full circle
+							, ByVal nCalculationMethod As Integer	'CALC_METHOD_CARTESIAN / CALC_METHOD_SPERICAL
+							) As Object
+Declare Function OBJCreateCircularSector( ByVal oCenter As Object
+								, ByVal fDirection As Float			'360 degrees
+								, ByVal fRadius As Float				'meters
+								, ByVal fAngleWidth As Float			' > 0 AND < 360
+								, ByVal nResolution As Integer		'A value between 3 and 500, number of nodes to describe a 360 full circle
+								, ByVal nCalculationMethod As Integer	'CALC_METHOD_CARTESIAN / CALC_METHOD_SPERICAL
+								) As Object
+
+Declare Function OBJCartesianCreateArrow( ByVal oInput As Object				'Input polyline to draw arrow based on
+								, ByVal fNodeDensity As Float			'Density for removing duplicate points on input line, 0 for not removing
+								, ByVal nBufferResolution As Integer	'Buffer resolution for arrow line
+								, ByVal fArrowWidth As Float			'Width of arrow, in meters
+								, ByVal nArrowHeadType As Integer		'Arrow Head Type, 1: OBJ_ARROW_END_TYPE_ROUNDED, 2: OBJ_ARROW_END_TYPE_FLAT, 3: OBJ_ARROW_END_TYPE_ARROW
+								, ByVal fArrowHeadLengthPct As Float	'Length of Arrow Head in % of arrow width, given as a decimal value where 1.0 is 100%, typical value is around 2.0, for flat and rounded set it to 1.0
+								, ByVal fArrowHeadWidthPct As Float	'Width of Arrow Head in % of arrow width, given as a decimal value where 1.0 is 100%, typical value is around 2.0, for flat and rounded set it to 1.0
+								, ByVal nArrowTailType As Integer		'Arrow Tail Type, 1: OBJ_ARROW_END_TYPE_ROUNDED, 2: OBJ_ARROW_END_TYPE_FLAT, 3: OBJ_ARROW_END_TYPE_ARROW
+								, ByVal fArrowTailLengthPct As Float	'Length of Arrow Tail in % of arrow width, given as a decimal value where 1.0 is 100%, typical value is around 2.0, for flat and rounded set it to 1.0
+								, ByVal fArrowTailWidthPct As Float	'Width of Arrow Tail in % of arrow width, given as a decimal value where 1.0 is 100%, typical value is around 2.0, for flat and rounded set it to 1.0
+								) As Object

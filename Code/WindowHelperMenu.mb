@@ -170,6 +170,20 @@
 '						- Removed MenuItem that links to the "old" Community Download site
 '						- Reintroduced "Save Window to Workspace without 'Open Table' statements"
 '						- BaseMapHelper: Lets the user hide Base Map controls from the Open dropdown
+'3.7.1	30-01-2020 10:19:36	- Added additional information to the Description of the published functions
+'3.8.0	26-01-2022 10:35:48	- Removing commands that have been added to MapInfo Pro v2019/v2021 (Find in Folder)
+'						- Fixed issue with Selection Count in Statusbar not showing correct string on load
+'						- Images have been made translucent
+'						- Menu item in context menus are now ordered using the existing menu item names
+'3.9.0	25/10/2022 08.53.38 - Fixing positions of menu item sin context menus
+'						- Adding options to insert Smart Text Adornments into map window - for MapInfo Pro v2021 and newer
+'							- Map Title, Coordsys Name & Cartographic Scale
+'						- Create Quick Ranged Theme via Layer context menu
+'*******************************************************************************
+'Potential new features:
+'	- Rename table via Layer context menu
+'	- Create Individual Theme via Layer context menu
+'	- Add default Smart Text adornments to the map window, such as copyright
 '*******************************************************************************
 
 '-------------------------------------
@@ -177,13 +191,16 @@ Include "MapBasic.def"
 Include "Enums.def"
 Include "Icons.def"
 Include "Menu.def"
+Include "RibbonControls.def"
+
 '**default constants...
 Include "Library\Defaults.def"
-Include "Library\MI_ICONS_X64.def"
+'Include "Library\MI_ICONS_X64.def"
+'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"3.7.0"
-Define xYear			"2020"
+Define xVersion 		"3.9.0"
+Define xYear			"2022"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
 Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
@@ -196,10 +213,11 @@ Include "Library\CONFIGFILELib.def"
 Include "Library\ERRORLib.def"
 Include "Library\FILELib.def"
 Include "Library\ProgramInfo.def"
-Include "Library\RibbonElements.def"
 Include "Library\RIBBONLib.def"
 Include "Library\SYSTEMLib.def"
+Include "Library\STYLELib.def"
 Include "Library\TABLELib.def"
+Include "Library\WINAPI 1522.def"
 
 Include "DLGModifyWindow.def"
 Include "DLGWHOWindowHelperOptions.def"
@@ -268,11 +286,6 @@ OnError GoTo ErrorOccured
 	Call PRGISetApplicationDevelopedBy("Peter Horsbøll Møller")
 	Call PRGISetDescription(GetResItemStr("STR_APPLICATION_DESCRIPTION"))
 
-'	If FileExists(FILE_HLP & " " & msLanguage & ".PDF") Then
-'		Call PRGISetApplicationHelpFile(FILE_HLP & " " & msLanguage & ".PDF")
-'	Else
-'		Call PRGISetApplicationHelpFile(FILE_HLP & ".PDF")
-'	End If
 	Call PRGISetApplicationHelpFile(FILE_HLP & ".PDF")
 
 	'***Enabling Debug if file exists
@@ -328,51 +341,51 @@ OnError GoTo ErrorOccured
 	End If
 
 	'**WindowHelper, specific functions
-	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table")
-	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingTable", "WHSetCoordsysUsingTable", "Set the coordinatesystem to use in WindowHelper using a table." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("WINHSetCoordsysUsingMap", "WHSetCoordsysUsingMap", "Set the coordinatesystem to use in WindowHelper using a map window." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("TABHGetSelectionValue", "WHGetSelectionValue", "Returns the value from the specified column of the current selection")
-	nResult = RBNRegisterFunctionAsPublic("TABHCGetColumnValue", "WHGetColumnValue", "Returns the value from the specified column of the specified table")
+	nResult = RBNRegisterFunctionAsPublic("TABHGetSelectionValue", "WHGetSelectionValue", "Returns the value from the specified column of the current selection." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("TABHCGetColumnValue", "WHGetColumnValue", "Returns the value from the specified column of the specified table." & lf & "Function published from the " & xProgram & " application.")
 
 	'**mbLibrary, general functions
-	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "WHReplace$", "Search for a substring and replace it with another substring")
-	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "WHExtractValueBetweenChars$", "Extract the value between the two given characters")
-	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "WHCombineWithSeparator$", "Combine the two values witht he separator given")
-	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "WHLeftWord$", "Extracts a specific word from a string of words separated by spaces")
+	nResult = RBNRegisterFunctionAsPublic("STRINGReplace", "WHReplace$", "Search for a substring and replace it with another substring." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "WHExtractValueBetweenChars$", "Extract the value between the two given characters." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "WHCombineWithSeparator$", "Combine the two values witht he separator given." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "WHLeftWord$", "Extracts a specific word from a string of words separated by spaces." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("COLExists", "WHColumnExists", "Returns true/1 if the specified column exists in the specified table")
-	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "WHColumnTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')")
-	nResult = RBNRegisterFunctionAsPublic("TABIsOpen", "WHTableIsOpen", "Returns true/1 if the table is open")
+	nResult = RBNRegisterFunctionAsPublic("COLExists", "WHColumnExists", "Returns true/1 if the specified column exists in the specified table." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "WHColumnTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("TABIsOpen", "WHTableIsOpen", "Returns true/1 if the table is open." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("CONFIGReadKey", "WHConfigReadKey", "Returns the value read from the key specified, or '' if key wasn't found")
-	nResult = RBNRegisterFunctionAsPublic("CONFIGWriteKey", "WHConfigWriteKey", "Writes the specified value to the section and key in the file specifed")
+	nResult = RBNRegisterFunctionAsPublic("CONFIGReadKey", "WHConfigReadKey", "Returns the value read from the key specified, or '' if key wasn't found." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("CONFIGWriteKey", "WHConfigWriteKey", "Writes the specified value to the section and key in the file specifed." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("STLAlterPen", "WHAlterPen", "Return the input object (linear and surfaces only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLAlterBrush", "WHAlterBrush", "Return the input object (surfaces only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLAlterSymbol", "WHAlterSymbol", "Return the input object (points only) with a different style")
-	nResult = RBNRegisterFunctionAsPublic("STLSymbol2Text", "WHSymbol2Text", "Returns a string illustrating the Symbol")
-	nResult = RBNRegisterFunctionAsPublic("STLBrush2Text", "WHBrush2Text", "Returns a Text illustrating the Brush")
-	nResult = RBNRegisterFunctionAsPublic("STLPen2Text", "WHPen2Text", "Returns a Text illustrating the Pen")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "WHText2Symbol", "Return the Symbol from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "WHText2Brush", "Return the Brush from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "WHText2Pen", "Return the Pen from the text")
-	nResult = RBNRegisterFunctionAsPublic("STLChangeSymbolColour", "WHChangeSymbolColor", "Change the color of a symbol style")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterPen", "WHAlterPen", "Return the input object (linear and surfaces only) with a different style." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterBrush", "WHAlterBrush", "Return the input object (surfaces only) with a different style." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLAlterSymbol", "WHAlterSymbol", "Return the input object (points only) with a different style." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLSymbol2Text", "WHSymbol2Text", "Returns a string illustrating the Symbol." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLBrush2Text", "WHBrush2Text", "Returns a Text illustrating the Brush." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLPen2Text", "WHPen2Text", "Returns a Text illustrating the Pen." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Symbol", "WHText2Symbol", "Return the Symbol from the text." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Brush", "WHText2Brush", "Return the Brush from the text." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLText2Pen", "WHText2Pen", "Return the Pen from the text." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STLChangeSymbolColour", "WHChangeSymbolColor", "Change the color of a symbol style." & lf & "Function published from the " & xProgram & " application.")
 
-'	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "WHOBJDirection", "Calculates the direction of the object")
-'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionWtAvg", "WHOBJDirectionWtAvg", "Calculates the WtAvg direction of the object")
-'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "WHOBJDirectionMedian", "Calculates the Median direction of the object")
-	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "WHObjectReverse", "Reverses the direction of lines and polylines")
-	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "WHCartesianCreatePointAlong", "Creates a point along a line or single segment polyline")
-'	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "WHCombineFromTable", "Combines objects from a table, optionally specify a column and a value")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirection", "WHOBJDirection", "Calculates the direction of the object." & lf & "Function published from the " & xProgram & " application.")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionWtAvg", "WHOBJDirectionWtAvg", "Calculates the WtAvg direction of the object." & lf & "Function published from the " & xProgram & " application.")
+'	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "WHOBJDirectionMedian", "Calculates the Median direction of the object." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "WHObjectReverse", "Reverses the direction of lines and polylines." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "WHCartesianCreatePointAlong", "Creates a point along a line or single segment polyline." & lf & "Function published from the " & xProgram & " application.")
+'	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "WHCombineFromTable", "Combines objects from a table, optionally specify a column and a value." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "WHDebugEnable", "Enables debug mode in WindowHelper")
+	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "WHDebugEnable", "Enables debug mode in WindowHelper." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "WHMapGetExtent", "Returns the Extent of the specified map window as a spatial object")
-	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "WHMAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified")
+	nResult = RBNRegisterFunctionAsPublic("MAPGetExtent", "WHMapGetExtent", "Returns the Extent of the specified map window as a spatial object." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("MAPHGetCoordinate", "WHMAPGetCoordinate", "Returns MINX/MAXX/MINY/MAXY/CENTERX/CENTERY coordinate from map window specified." & lf & "Function published from the " & xProgram & " application.")
 
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "WHRegExReplace", "Searches for a match and returns the string where the string has been replaced")
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "WHRegExIsMatch", "Searches for a match and returns true if one was found")
-	nResult = RBNRegisterFunctionAsPublic("TABHRegExFirstMatch", "WHRegExFirstMatch", "Searches for a match and returns thr first match")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExReplace", "WHRegExReplace", "Searches for a match and returns the string where the string has been replaced." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExIsMatch", "WHRegExIsMatch", "Searches for a match and returns true if one was found." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("TABHRegExFirstMatch", "WHRegExFirstMatch", "Searches for a match and returns thr first match." & lf & "Function published from the " & xProgram & " application.")
 
 	Exit Sub
 '-------------------------
@@ -408,13 +421,8 @@ OnError GoTo ErrorOccured
 					nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtInfoTool", "", ""
 												, ControlType_ToolButton, "stpWindowHelper")
 					If nCtrlIdx > 0 Then
-						'Create & Set the button tooltip
-						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
-												, GetResItemStr("STR_TTIP_INFO_TOOL"), "")
-						'Set the button icon
-						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
-												, MI_IMG_MAP_INFOTOOL_16, "")
-						'**Set the handler to match the handler of the first button
+						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_INFO_TOOL"), "")
+						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_INFOTOOL_16, "")
 						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1707)
 					End If
 				End If
@@ -423,13 +431,8 @@ OnError GoTo ErrorOccured
 					nCtrlIdx	= RBNMapMTBStackPanelAddControl("stptbtRuler", "", ""
 												, ControlType_ToolButton, "stpWindowHelper")
 					If nCtrlIdx > 0 Then
-						'Create & Set the button tooltip
-						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName()
-												, GetResItemStr("STR_TTIP_RULER_TOOL"), "")
-						'Set the button icon
-						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL
-												, MI_IMG_WIN_RULER_16, "")
-						'**Set the handler to match the handler of the first button
+						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_RULER_TOOL"), "")
+						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_WIN_RULER_16, "")
 						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1710)
 					End If
 				End If
@@ -441,15 +444,12 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    M A P
 	'********************************************************************************
 	sTabName		= TAB_MAP
-	sGroupName	= TAB_GROUP_MAP_OPTIONS
+	sGroupName	= TAB_MAP_FILE_GRP
 
 	nCtrlIdx = RBNGroupAddButton("btnMapMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "MapWindowExtent_32x32.png")
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
 	End If
 
@@ -458,79 +458,86 @@ OnError GoTo ErrorOccured
 	nCtrlIdx	= RBNGroupAddButton("btnSelInfoHandler", GetResItemStr("STR_BTN_SEL_INFO_HANDLER"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
 		Call SELINFOSetControlIndex(nCtrlIdx)
-		'Specify that this is a toggle button
 		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "InfoSelHandler_32x32.png")
-		'**Set the handler to match the handler of the first button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "SELINFOSwitchDisplay")
 	End If
 
 	nCtrlIdx = RBNGroupAddButton("btnMapRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_RESTORE_CLOSED_WINDOWS"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "WindowRestore_32x32.png")
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
 	End If
 
 	sTabName		= TAB_MAP
-	sGroupName	= TAB_GROUP_MAP_FILE
+	sGroupName	= TAB_MAP_FILE_GRP
 
 	nCtrlIdx = RBNGroupInsertControlAfter("btnMapStaticTheme", GetResItemStr("MNU_STATIC_THEME"), "", ControlType_Button, sTabName, sGroupName, "MapAddThematicButton")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_STATIC_THEME"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuStaticTheme")
 	End If
 
 	sTabName		= TAB_MAP
-	sGroupName	= TAB_GROUP_MAP_SELECTION
+	sGroupName	= TAB_MAP_SELECTION_GRP
 
 	nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), "", ControlType_Button, sTabName, sGroupName, "MapSelectionToolsSplitButton", "SelectionDownMenuGroup")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_SELECT_WITHIN_MAP"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, "", PATH_IMAGES & "SelectWithinMap_32x32.png")
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHSelectWithinMap")
 	End If
 
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+		sTabName		= TAB_MAP
+		sGroupName	= TAB_MAP_FILE_GRP
+
+		nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSmartTextMapTitle", GetResItemStr("MNU_ADD_SMARTTEXT_MAP_TITLE"), "", ControlType_Button, sTabName, sGroupName, "AddToMapSplitButton", "AddToMapDropDownMenuGroup")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_ADD_SMARTTEXT_MAPTITLE"), GetResItemStr("TTIP_NO_MAPPER_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_SMARTTEXT_ADORN_16, MI_IMG_MAP_SMARTTEXT_ADORN_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHAddSmartTextMapTitle")
+		End If
+
+		nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSmartTextCartoScale", GetResItemStr("MNU_ADD_SMARTTEXT_CART_SCALE"), "", ControlType_Button, sTabName, sGroupName, "AddToMapSplitButton", "AddToMapDropDownMenuGroup")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_ADD_SMARTTEXT_CART_SCALE"), GetResItemStr("TTIP_NO_MAPPER_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_SMARTTEXT_ADORN_16, MI_IMG_MAP_SMARTTEXT_ADORN_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHAddSmartTextMapCartoScale")
+		End If
+
+		nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSmartTextCoordsys", GetResItemStr("MNU_ADD_SMARTTEXT_COORSYS"), "", ControlType_Button, sTabName, sGroupName, "AddToMapSplitButton", "AddToMapDropDownMenuGroup")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_ADD_SMARTTEXT_COORSYS"), GetResItemStr("TTIP_NO_MAPPER_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_SMARTTEXT_ADORN_16, MI_IMG_MAP_SMARTTEXT_ADORN_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0.0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHAddSmartTextMapCoordsys")
+		End If
+	End If
+
 '	nCtrlIdx = RBNGroupAddButton("MapAutolockWindows", GetResItemStr("MNU_AUTOLOCK_WINDOWS"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_AUTOLOCK_WINDOWS_OFF"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowAutoLockOff_16x16.png", PATH_IMAGES & "WindowAutoLockOff_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHAutoLockWindowSwitchMenu")
 '		Call WINHSetAutoLockWindowsIndex(nCtrlIdx)
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("MapLockWindow", GetResItemStr("MNU_LOCK_WINDOW"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_LOCK_WINDOW"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowLock_16x16.png", PATH_IMAGES & "WindowLock_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLockWindowMenu")
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("MapUnlockWindow", GetResItemStr("MNU_UNLOCK_WINDOW"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_UNLOCK_WINDOW"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowUnlock_16x16.png", PATH_IMAGES & "WindowUnlock_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHUnlockWindowMenu")
 '	End If
 
@@ -539,29 +546,20 @@ OnError GoTo ErrorOccured
 '	sGroupName			= TAB_GROUP_MAP_NAVIGATE
 '	nCtrlIdx = RBNGroupAddButton("MENUZoomFirstExtent", GetResItemStr("MNU_HLP_ZOOM_TO_FIRST"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), "Initial View", "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "MapWindowZoomFirst_16x16.png", "")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHZoomFirstMapExtent")
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("MENUZoomFirstPrevios", "Previous", "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_PREVIOUS"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "MapWindowZoomPrev_16x16.png", "")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHZoomPreviousMapExtent")
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("MENUZoomFirstPrevios", "Next", "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_NEXT"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "MapWindowZoomNext_16x16.png", "")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHZoomNextMapExtent")
 '	End If
 
@@ -570,68 +568,50 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    H O M E
 	'********************************************************************************
 	sTabName		= TAB_HOME
-	sGroupName	= TAB_GROUP_HOME_RECOVER_WINDOWS
+	sGroupName	= TAB_HOME_RECOVER_GRP
 
 	nCtrlIdx = RBNGroupAddButton("HomeRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_RESTORE_CLOSED_WINDOWS"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "WindowRestore_16x16.png", PATH_IMAGES & "WindowRestore_32x32.png")
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
 	End If
 
 	nCtrlIdx = RBNGroupAddButton("HomeModifyWindow", GetResItemStr("MNU_MODIFY_WINDOW"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_MODIFY_WINDOW"), GetResItemStr("TTIP_MODIFY_WINDOW_DISABLED"))
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "ModifyWindow_32x32.png", PATH_IMAGES & "ModifyWindow_32x32.png")
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHModifyWindow")
 	End If
 
 '	nCtrlIdx = RBNGroupAddButton("HomeAutolockWindows", GetResItemStr("MNU_AUTOLOCK_WINDOWS"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_AUTOLOCK_WINDOWS_OFF"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowAutoLockOff_16x16.png", PATH_IMAGES & "WindowAutoLockOff_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHAutoLockWindowSwitchMenu")
 '		Call WINHSetAutoLockWindowsIndex(nCtrlIdx)
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("HomeLockWindow", GetResItemStr("MNU_LOCK_WINDOW"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_LOCK_WINDOW"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowLock_16x16.png", PATH_IMAGES & "WindowLock_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLockWindowMenu")
 '	End If
 '	nCtrlIdx = RBNGroupAddButton("HomeUnlockWindow", GetResItemStr("MNU_UNLOCK_WINDOW"), "", sTabName, sGroupName)
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_UNLOCK_WINDOW"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "WindowUnlock_16x16.png", PATH_IMAGES & "WindowUnlock_32x32.png")
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHUnlockWindowMenu")
 '	End If
 
 	'********************************************************************************
 	sTabName		= TAB_HOME
-	sGroupName	= TAB_GROUP_HOME_OUTPUT
+	sGroupName	= TAB_HOME_OUTPUT_GRP
 
 	nCtrlIdx = RBNGroupAddButton("HomeSaveWindowToWorkspace", GetResItemStr("MNU_SAVE_WINDOW_TO_WOR"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SAVE_WINDOW_TO_WOR"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_WIN_EXPORTIMAGE_16, MI_IMG_WIN_EXPORTIMAGE_32)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSaveWindowToWorkspace")
 	End If
 
@@ -639,199 +619,193 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    T A B L E
 	'********************************************************************************
 	sTabName		= TAB_TABLE
-	sGroupName	= TAB_GROUP_TABLE_DATA
+	sGroupName	= TAB_TABLE_DATA_GRP
 	nCtrlIdx = RBNGroupInsertButton("tabBrowserFloating", GetResItemStr("MNU_BROWSER_FLOATING"), "", sTabName, sGroupName, 1)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName() & " (Ctrl+Shift+F4)", GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHBrowserFloating")
 		Call RBNControlSetKeyGestureIdx(nCtrlIdx, "Ctrl+Shift+F4")
 	End If
 
-	sGroupName	= TAB_GROUP_TABLE_SORTFILTER
+	sGroupName	= TAB_TABLE_SORT_GRP
 	nCtrlIdx = RBNDropDButtonGroupAddControl("tabdbgFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE_SHORT"), ""
 				, ControlType_Button, sTabName, sGroupName, "FilterDropDown", "FilterDropDownMenuGroup")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
 
 	'***************************************************************
-	'C O N T E X T   M E N U S
+	'M A P P E R   C O N T E X T   M E N U
 	'***************************************************************
-	'**Adding a menu item to the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_MapperShortcut, "mapCntxtMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "")
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_MapperShortcut, "mapCntxtMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT") & "...", "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CREATE_MAP_EXTENT"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "MapWindowExtent_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
 	End If
 
 	'***************************************************************
-	'**Adding a menu item to the Browser Context menu
+	' B R O W S E R   C O N T E X T   M E N U
+	'***************************************************************
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_GROUP_BY_CURRENT_COLUMN"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FINDMAPSELECTION_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHGroupByCurrentColumn")
 	End If
 
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOEXTENTSEL_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectionInFrontMap")
 	End If
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
 	End If
 	nCtrlIdx	= RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSeparator", "(-", "" , 2)
 
-
 	'***************************************************************
-	'**Adding a menu item to the Layer Control Maps Context menu
+	' L A Y E R   L I S T   M A P   C O N T E X T   M E N U
+	'***************************************************************
 	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "lcmCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewAllLayers")
 	End If
-	'**Adding a menu item as the third menu item on the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME"), "", 2)
+
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		'**Adding a menu item as the third menu item on the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", 2)
+	Else
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "lcmRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", "MenuItem_LcRenameMap")
+	End If
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MULTIPLE_LAYERS_RENAME"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_RENAMETABLE_16, MI_IMG_TAB_RENAMETABLE_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameMultipleLayersLC")
 	End If
-	'**Adding a menu item as the fourth menu item on the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", 3)
+
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		'**Adding a menu item as the fourth menu item on the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", 3)
+	Else
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", "lcmRenameLayers")
+	End If
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLONE_MAP"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLONEMAP_16, MI_IMG_MAP_CLONEMAP_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHCloneMapLC")
 	End If
 
 	'***************************************************************
-	'**Adding a menu item to the Layer Control Layers Context menu
+	' L A Y E R   L I S T   L A Y E R S   C O N T E X T   M E N U
+	'***************************************************************
+	'**Adding a menu item to the Mapper Context menu
 	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_CLOSE_TABLE"), "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLOSE_TABLE"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "Close Table 24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHCloseTableLC")
 	End If
-	'**Adding a menu item to the Layer Control Layers Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
+
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		'**Adding a menu item to the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
+	Else
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "", "MenuItem_LcRenameToFriendlyName")
+	End If
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewSingleLayer")
 	End If
+
 	'**Adding a menu item to the Layer Control Layers Context menu
 	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileLC")
 	End If
 
-	'**Adding a menu item as the first menu item on the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME"), "", "MenuItem_81")
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		'**Adding a menu item as the fourth menu item on the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "layRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", 3)
+	Else
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", "MenuItem_LcRenameToFriendlyName")
+	End If
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ADVANCED_RENAME"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_RENAMETABLE_16, MI_IMG_TAB_RENAMETABLE_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameLayerAdvancedLC")
 	End If
 
-
-	'***************************************************************
-	'**Adding a separator to the Table List Context menu
-'	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tlCntxtShowMapperInfo", "(-", "")
-	'**Adding a menu item to the Table List Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tlCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
-	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
-		'Set the button icon
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileTL")
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layQuickTheme", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "SampleDensity")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
+		End If
 	End If
 
-	'**Adding a menu item to the Table List Context menu
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
+	'***************************************************************
+	' T A B L E   L I S T   T A B L E S   C O N T E X T   M E N U
+	'***************************************************************
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		'**Adding a menu item to the Table List Context menu
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tlCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileTL")
+		End If
+	End If
+
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
+	Else
+		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", "MenuItem_TlvBrowseTable")
+	End If
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHBrowserFloatingTL")
 	End If
 
@@ -842,27 +816,26 @@ OnError GoTo ErrorOccured
 
 		Call TABHSetTextEditor(sTextEditorExe)
 
-		'**Adding a menu item to the Table List Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tlCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "")
+		If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+			'**Adding a menu item to the Table List Context menu
+			nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tlCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "")
+		Else
+			'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+			nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "tlCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "", "MenuItem_TlvOpenInFolder")
+		End If
 		If nCtrlIdx > 0 Then
-			'Create & Set the button tooltip
 			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR"), "")
-			'Set the button icon
 			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-			'Set Custom MapBasic Handle to the button
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileTL")
 		End If
 
 		'**Adding a menu item to the Layer Control Layer Context menu
 		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "")
 		If nCtrlIdx > 0 Then
-			'Create & Set the button tooltip
 			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR"), "")
-			'Set the button icon
 			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-			'Set Custom MapBasic Handle to the button
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileLC")
 		End If
 	End If
@@ -871,38 +844,28 @@ OnError GoTo ErrorOccured
 	'**Adding a menu item to the Window List Context menu
 '	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_WindowListShortcut, "wlCntxtModifyWindow", GetResItemStr("MNU_MODIFY_WINDOW"), "")
 '	If nCtrlIdx > 0 Then
-'		'Create & Set the button tooltip
 '		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MODIFY_WINDOW"), "")
-'		'Set the button icon
 '		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ModifyWindow_32x32.png")
 '		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-'		'Set Custom MapBasic Handle to the button
 '		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHModifyWindowWL")
 '	End If
 
 	'***************************************************************
 	'A P P L I C A T I O N    C O N T E X T    M E N U S
 	'***************************************************************
-
 	nCtrlIdx	= RBNToolContextMenuAddMenuItem("showFunctionList", GetResItemStr("MNU_SHOW_MB_FUNCTION_LIST"), "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SHOW_MB_FUNCTION_LIST"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_APP_RUNMAPBASIC_16, MI_IMG_APP_RUNMAPBASIC_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "DLGExecFunctions")
 	End If
 
-	nCtrlIdx	= RBNToolContextMenuAddMenuItem("windowHelperOptions", GetResItemStr("MNU_OPTIONS"), "")
+	nCtrlIdx	= RBNToolContextMenuAddMenuItem("windowHelperOptions", GetResItemStr("MNU_OPTIONS") & "...", "")
 	If nCtrlIdx > 0 Then
-		'Create & Set the button tooltip
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_OPTIONS"), "")
-		'Set the button icon
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_APP_OPTSYSTEMSETTINGS_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		'Set Custom MapBasic Handle to the button
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MENUOptions")
 	End If
 
@@ -910,8 +873,10 @@ OnError GoTo ErrorOccured
 	'S T A T U S B A R
 	'***************************************************************
 '	nCtrlIdx = RBNStatusbarAddControl("txtSelectionSize", GetResItemStrReplace("STR_SELECTED_RECORDS_X", FormatNumber$(SelectionInfo(SEL_INFO_NROWS))), ControlType_TextBlock)
-	nCtrlIdx = RBNStatusbarInsertControlBefore("txtSelectionSize", GetResItemStrReplace("STR_SELECTED_RECORDS_X", FormatNumber$(SelectionInfo(SEL_INFO_NROWS))), ControlType_TextBlock, "StSelected")
+	nCtrlIdx = RBNStatusbarInsertControlBefore("txtSelectionSize", GetResItemStrReplace("STR_SELECTED_RECORDS_X", "0"), ControlType_TextBlock, "StSelected")
+
 	Call SELINFOSetSelInfoNumRowsControlIndex(nCtrlIdx)
+	Call SELINFOSelChangedHandler
 
 	Exit Sub
 '-------------------------
@@ -920,7 +885,6 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
-
 
 '****************************************
 '**   Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
@@ -1097,7 +1061,9 @@ End Sub
 '**********************************************************************************************''
 Sub MENUReadIniFile
 
-Dim	sFile, sState As String
+Dim	sFile, sState, sFontName, sFont As String,
+	fntCurrent As Font,
+	nFontStyle, nFontSize, nFontFColor, nFontBColor As Integer
 
 OnError GoTo ErrorOccured
 
@@ -1110,6 +1076,15 @@ OnError GoTo ErrorOccured
 	sState	= CONFIGReadKey(sFile, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
 	Call TABHSetIgnoreTopLeftCell(sState <> "0")
 
+	fntCurrent 	= CurrentFont()
+	sFontName		= StyleAttr(fntCurrent, FONT_NAME)
+	nFontStyle	= 1 + 256
+	nFontSize		= 18	'StyleAttr(fntCurrent, FONT_POINTSIZE)
+	nFontFColor	= BLACK	'StyleAttr(fntCurrent, FONT_FORECOLOR)
+	nFontBColor	= WHITE	'StyleAttr(fntCurrent, FONT_BACKCOLOR)
+	fntCurrent	= MakeFont(sFontName, nFontStyle, nFontSize, nFontFColor, nFontBColor)
+	Call DLGWHOSetSmartTextFont(fntCurrent)
+
 	If FileExists(FILE_INI) Then
 '		msLanguage	= CONFIGReadKey(msIniFile, "SETTINGS", "LANGUAGE")
 '		Call DEBUGPrint("Found '" & msLanguage & "' in " & msIniFile)
@@ -1121,6 +1096,12 @@ OnError GoTo ErrorOccured
 
 		sState	= CONFIGReadKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
 		Call TABHSetIgnoreTopLeftCell(sState <> "0")
+
+		sFont	= CONFIGReadKey(FILE_INI, "SMARTEXT", "FONT")
+		If sFont <> "" Then
+			fntCurrent	= STLText2Font(sFont)
+			Call DLGWHOSetSmartTextFont(fntCurrent)
+		End If
 	End If
 
 	Call SELINFOReadConfigFile
@@ -1150,6 +1131,8 @@ OnError GoTo ErrorOccured
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_RULER", Int(DLGWHOGetAddRulerToolToMTB()))
 
 	Call CONFIGWriteKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL", Int(TABHGetIgnoreTopLeftCell()))
+
+	Call CONFIGWriteKey(FILE_INI, "SMARTEXT", "FONT", STLFont2Text(DLGWHOGetSmartTextFont()))
 
 	Call SELINFOWriteConfigFile
 	Call WINHWriteConfigFile

@@ -166,11 +166,29 @@
   <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
     <value>Select Table for Theme</value>
   </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value># of Ranges</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>Select Color Range</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Select Column for Thematic Map</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>Select Layer for Thematic Map</value>
+  </data>
   <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
     <value>Advanced Layer Rename</value>
   </data>
   <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename Multiple Layers</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Quick Individual Theme</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Quick Ranged Theme</value>
   </data>
   <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Create Map Extent</value>
@@ -247,6 +265,9 @@
   <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
     <value>Please select the base window to update!</value>
   </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>Please select a table with at least one numeric column!</value>
+  </data>
   <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select a non temporal layer in the Layer Control! </value>
   </data>
@@ -303,6 +324,15 @@
   </data>
   <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
     <value>&amp;About {0}...</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Cartographic Scale</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Projection Name</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>Map Title</value>
   </data>
   <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
     <value>Advanced Rename</value>
@@ -397,6 +427,12 @@
   <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Pan to the Selected Record in the Front Most Map</value>
   </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Create a Individual Thematic Map from the First Character Column</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Create a Ranged Thematic Map from the First Numeric Column</value>
+  </data>
   <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application at the Pitney Bowes Community Download Page</value>
   </data>
@@ -486,6 +522,12 @@
   </data>
   <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Pan to the Selected Record</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Quick Individual Theme</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Quick Ranged Theme</value>
   </data>
   <data name="MNU_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application</value>
@@ -688,6 +730,9 @@
   <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
     <value>Skip Layer with Friendly Name</value>
   </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>Smart Text Font</value>
+  </data>
   <data name="STR_TABLE" xml:space="preserve">
     <value>Table</value>
   </data>
@@ -742,6 +787,15 @@
   <data name="TAB_SPECIAL" xml:space="preserve">
     <value>Special</value>
   </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Add Smart Text for Cartographic Scale to the Map</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Add Smart Text for Projection Name to the Map</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>Add Smart Text for Map Title to the Map</value>
+  </data>
   <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
     <value>Windows are not automatically locked which would prevent them from being closed. Click here to enable automatically locking of windows</value>
   </data>
@@ -756,6 +810,9 @@
   </data>
   <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
     <value>This control isn't enabled until you have a window open</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>Activate a Map Window to enable this feature.</value>
   </data>
   <data name="TTIP_OPTIONS" xml:space="preserve">
     <value>Open the Options dialog for the WindowHelper application</value>

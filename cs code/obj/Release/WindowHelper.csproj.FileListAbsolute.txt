@@ -29,3 +29,11 @@ D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHe
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.pdb
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.CoreCompileInputs.cache
 D:\Dropbox (Horsboll-Moller)\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csprojAssemblyReference.cache
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.AssemblyReference.cache
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.GenerateResource.cache
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.csproj.CoreCompileInputs.cache
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.pdb
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.pdb

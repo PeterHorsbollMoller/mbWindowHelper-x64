@@ -1,0 +1,15 @@
+Declare Function DLGQuickThemeRanged(	  ByVal nMID As Integer				'**ID of Map Window to load layers from
+								, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
+								, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
+								) As Logical						'**Returns TRUE if a Table and Column was selected or FALSE if dialog was cancelled
+
+Declare Function DLGQTRGetLayerID() As Integer
+Declare Function DLGQTRGetLayerName() As String
+Declare Function DLGQTRGetColumnName() As String
+
+Declare Function DLGQTRGetRangeCount() As Integer
+Declare Function DLGQTRGetFromColor() As Integer
+Declare Function DLGQTRGetToColor() As Integer
+Declare Function DLGQTRUseFixedColors() As Integer
+Declare Function DLGQTRCountFixedColors() As Integer
+Declare Function DLGQTRGetFixedColor( ByVal nColor As Integer) As Integer

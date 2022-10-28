@@ -8,3 +8,5 @@ Declare Function DLGWHOGetAddRulerToolToMTB() As Logical
 Declare Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
 Declare Function DLGWHOGetShowInfoOnDeselect() As Logical
 
+Declare Sub DLGWHOSetSmartTextFont(ByVal fntValue As Font)
+Declare Function DLGWHOGetSmartTextFont() As Font

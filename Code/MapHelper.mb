@@ -23,10 +23,11 @@ Include "Library\ProgramInfo.def"
 Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
-
 Include "Library\Dialogs\DLGSelectTableAndColumn.def"
 
+Include "DLGQuickThemeRanged.def"
 Include "MapHelper.def"
+Include "DLGWHOWindowHelperOptions.def"
 Include "WindowHelper.Assembly.def"
 
 Include "DLGAdvancedLayerRename.def"
@@ -434,6 +435,147 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuQuickThemeRangedLC
+
+Dim	nMID, nLayerID, nCol, nColor As Integer,
+	nLayerTypesToUse As Integer,
+	sTab, sCol As String,
+	aCol As Alias,
+	arrRanges() As Float,
+	arrBrushes() As Brush,
+	arrPens() As Pen,
+	arrSymbols() As Symbol
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+'	nLayerTypesToUse	= LAYER_USE_NORMAL + LAYER_USE_TEMP	' + LAYER_USE_ONLY_SELECTABLE	'+ LAYER_USE_ONLY_VISIBLE
+'	If Not DLGSelectLayerAndColumn(nMID, nLayerTypesToUse, GetResItemStr("DLG_TITLE_QUICK_THEME_RANGED"), GetResItemStr("DLG_THEME_SELECT_LAYER")
+'								, nLayerID, "", CRITERIA_USE_NUMERICAL, GetResItemStr("DLG_THEME_SELECT_COLUMN"), "") Then
+'		Exit Sub
+'	End If
+
+	If Not DLGQuickThemeRanged(nMID, nLayerID, "") Then
+		Exit Sub
+	End If
+
+	nLayerID	= DLGQTRGetLayerID()
+	sTab		= DLGQTRGetLayerName()
+	sCol		= DLGQTRGetColumnName()
+
+	aCol = sTab & "." & sCol
+
+	Create Ranges
+		From sTab
+		With aCol
+		Use "Natural Break"
+		Number DLGQTRGetRangeCount()
+		'Round rounding_factor
+		Into Variable arrRanges
+
+	Do Case TableInfo(sTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
+		Case TAB_AREA_OBJECTS
+			If Not DLGQTRUseFixedColors() Then
+				Create Styles
+					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
+					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
+					Vary Color By "RGB"
+					Number DLGQTRGetRangeCount()
+					Into Variable arrBrushes
+			Else
+				Redim arrBrushes(DLGQTRGetRangeCount())
+				For nColor = 1 To DLGQTRGetRangeCount()
+					arrBrushes(nColor) = MakeBrush(2,DLGQTRGetFixedColor(nColor),16777215)
+				Next
+			End If
+
+			Shade Window nMID
+				nLayerID
+				with aCol
+				Ranges From Variable arrRanges
+				Style Variable arrBrushes
+'				Pen (1,1,0)
+
+		Case TAB_POINT_OBJECTS
+			If Not DLGQTRUseFixedColors() Then
+				Create Styles
+					From Symbol MakeFontSymbol(57,DLGQTRGetFromColor(),10,"MapInfo Symbols",0,0) 'style for LOW range,
+					To Symbol MakeFontSymbol(57,DLGQTRGetToColor(),10,"MapInfo Symbols",0,0) 'style for HIGH range
+					Vary Color By "RGB"
+					Number DLGQTRGetRangeCount()
+					Into Variable arrSymbols
+			Else
+				Redim arrSymbols(DLGQTRGetRangeCount())
+				For nColor = 1 To DLGQTRGetRangeCount()
+					arrSymbols(nColor) = MakeFontSymbol(57,DLGQTRGetFixedColor(nColor),10,"MapInfo Symbols",0,0)
+				Next
+			End If
+
+			Shade Window nMID
+				nLayerID
+				with aCol
+				Ranges From Variable arrRanges
+				Style Variable arrSymbols
+
+		Case TAB_POINT_OBJECTS
+			If Not DLGQTRUseFixedColors() Then
+				Create Styles
+					From Pen MakePen(2,2,DLGQTRGetFromColor()) 'style for LOW range,
+					To Pen MakePen (2,2,DLGQTRGetToColor()) 'style for HIGH range
+					Vary Color By "RGB"
+					Number DLGQTRGetRangeCount()
+					Into Variable arrPens()
+			Else
+				Redim arrPens(DLGQTRGetRangeCount())
+				For nColor = 1 To DLGQTRGetRangeCount()
+					arrPens(nColor) =  MakePen (2,2,DLGQTRGetFixedColor(nColor))
+				Next
+			End If
+
+			Shade Window nMID
+				nLayerID
+				with aCol
+				Ranges From Variable arrRanges
+				Style Variable arrPens()
+
+	End Case
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuQuickThemeRangedLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
 'Parameters:
 '	:
@@ -650,6 +792,150 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHPanToSelectionInFrontMap")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHAddSmartTextMapTitle
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+'	ADORNMENT_INFO_MAP_POS_TL (0)
+'	ADORNMENT_INFO_MAP_POS_TC (1)
+'	ADORNMENT_INFO_MAP_POS_TR (2)
+'	ADORNMENT_INFO_MAP_POS_CL (3)
+'	ADORNMENT_INFO_MAP_POS_CC (4)
+'	ADORNMENT_INFO_MAP_POS_CR (5)
+'	ADORNMENT_INFO_MAP_POS_BL (6)
+'	ADORNMENT_INFO_MAP_POS_BC (7)
+'	ADORNMENT_INFO_MAP_POS_BR (8)
+
+	nMID = FrontWindow()
+	If nMID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+	If Not WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+		Note GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER")
+		Exit Sub
+	End If
+
+	Create Adornment
+		Window nMID
+		Type SmartTextAdornment
+		Position ADORNMENT_INFO_MAP_POS_TL
+		Background Brush (1,16777215,16777215)  Pen (1,1,0)
+		Text "$mb{WindowInfo(CurContext(4), WIN_INFO_NAME)}"
+		Font DLGWHOGetSmartTextFont()
+		Justify Left	'Left | Center | Right
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHAddSmartTextMapTitle")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHAddSmartTextMapCartoScale
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+'	ADORNMENT_INFO_MAP_POS_TL (0)
+'	ADORNMENT_INFO_MAP_POS_TC (1)
+'	ADORNMENT_INFO_MAP_POS_TR (2)
+'	ADORNMENT_INFO_MAP_POS_CL (3)
+'	ADORNMENT_INFO_MAP_POS_CC (4)
+'	ADORNMENT_INFO_MAP_POS_CR (5)
+'	ADORNMENT_INFO_MAP_POS_BL (6)
+'	ADORNMENT_INFO_MAP_POS_BC (7)
+'	ADORNMENT_INFO_MAP_POS_BR (8)
+
+	nMID = FrontWindow()
+	If nMID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+	If Not WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+		Note GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER")
+		Exit Sub
+	End If
+
+	Create Adornment
+		Window nMID
+		Type SmartTextAdornment
+		Position ADORNMENT_INFO_MAP_POS_BL
+		Background Brush (1,16777215,16777215)  Pen (1,1,0)
+		Text "$mb{MapperInfo(CurContext(4), MAPPER_INFO_CARTO_SCALE_EXPR)}"
+		Font DLGWHOGetSmartTextFont()
+		Justify Left	'Left | Center | Right
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHAddSmartTextMapCartoScale")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHAddSmartTextMapCoordsys
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+'	ADORNMENT_INFO_MAP_POS_TL (0)
+'	ADORNMENT_INFO_MAP_POS_TC (1)
+'	ADORNMENT_INFO_MAP_POS_TR (2)
+'	ADORNMENT_INFO_MAP_POS_CL (3)
+'	ADORNMENT_INFO_MAP_POS_CC (4)
+'	ADORNMENT_INFO_MAP_POS_CR (5)
+'	ADORNMENT_INFO_MAP_POS_BL (6)
+'	ADORNMENT_INFO_MAP_POS_BC (7)
+'	ADORNMENT_INFO_MAP_POS_BR (8)
+
+	nMID = FrontWindow()
+	If nMID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+	If Not WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+		Note GetResItemStr("ERR_FRONT_WIN_NOT_MAPPER")
+		Exit Sub
+	End If
+
+	Create Adornment
+		Window nMID
+		Type SmartTextAdornment
+		Position ADORNMENT_INFO_MAP_POS_BR
+		Background Brush (1,16777215,16777215)  Pen (1,1,0)
+		Text "$mb{MapperInfo(CurContext(4), MAPPER_INFO_COORDSYS_NAME)}"
+		Font DLGWHOGetSmartTextFont()
+		Justify Right	'Left | Center | Right
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHAddSmartTextMapCoordsys")
 	Call ERRShow()
 
 End Sub

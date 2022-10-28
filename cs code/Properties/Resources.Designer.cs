@@ -19,7 +19,7 @@ namespace WindowHelper.Properties {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Resources {
@@ -205,6 +205,42 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to # of Ranges.
+        /// </summary>
+        internal static string DLG_THEME_NUM_COLOR_RANGES {
+            get {
+                return ResourceManager.GetString("DLG_THEME_NUM_COLOR_RANGES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Color Range.
+        /// </summary>
+        internal static string DLG_THEME_SELECT_COLOR_RANGE {
+            get {
+                return ResourceManager.GetString("DLG_THEME_SELECT_COLOR_RANGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Column for Thematic Map.
+        /// </summary>
+        internal static string DLG_THEME_SELECT_COLUMN {
+            get {
+                return ResourceManager.GetString("DLG_THEME_SELECT_COLUMN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select Layer for Thematic Map.
+        /// </summary>
+        internal static string DLG_THEME_SELECT_LAYER {
+            get {
+                return ResourceManager.GetString("DLG_THEME_SELECT_LAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Advanced Layer Rename.
         /// </summary>
         internal static string DLG_TITLE_ADVANCED_LAYER_RENAME {
@@ -219,6 +255,24 @@ namespace WindowHelper.Properties {
         internal static string DLG_TITLE_MULTIPLE_LAYERS_RENAME {
             get {
                 return ResourceManager.GetString("DLG_TITLE_MULTIPLE_LAYERS_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Individual Theme.
+        /// </summary>
+        internal static string DLG_TITLE_QUICK_THEME_INDIVIDUAL {
+            get {
+                return ResourceManager.GetString("DLG_TITLE_QUICK_THEME_INDIVIDUAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Ranged Theme.
+        /// </summary>
+        internal static string DLG_TITLE_QUICK_THEME_RANGED {
+            get {
+                return ResourceManager.GetString("DLG_TITLE_QUICK_THEME_RANGED", resourceCulture);
             }
         }
         
@@ -421,6 +475,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select a table with at least one numeric column!.
+        /// </summary>
+        internal static string ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select a non temporal layer in the Layer Control! .
         /// </summary>
         internal static string ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL {
@@ -615,6 +678,33 @@ namespace WindowHelper.Properties {
         internal static string MNU_ABOUT_PROGRAM_X {
             get {
                 return ResourceManager.GetString("MNU_ABOUT_PROGRAM_X", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cartographic Scale.
+        /// </summary>
+        internal static string MNU_ADD_SMARTTEXT_CART_SCALE {
+            get {
+                return ResourceManager.GetString("MNU_ADD_SMARTTEXT_CART_SCALE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Projection Name.
+        /// </summary>
+        internal static string MNU_ADD_SMARTTEXT_COORSYS {
+            get {
+                return ResourceManager.GetString("MNU_ADD_SMARTTEXT_COORSYS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map Title.
+        /// </summary>
+        internal static string MNU_ADD_SMARTTEXT_MAP_TITLE {
+            get {
+                return ResourceManager.GetString("MNU_ADD_SMARTTEXT_MAP_TITLE", resourceCulture);
             }
         }
         
@@ -898,6 +988,24 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create a Individual Thematic Map from the First Character Column.
+        /// </summary>
+        internal static string MNU_HLP_QUICK_THEME_INDIVIDUAL {
+            get {
+                return ResourceManager.GetString("MNU_HLP_QUICK_THEME_INDIVIDUAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Create a Ranged Thematic Map from the First Numeric Column.
+        /// </summary>
+        internal static string MNU_HLP_QUICK_THEME_RANGED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_QUICK_THEME_RANGED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Rate Application at the Pitney Bowes Community Download Page.
         /// </summary>
         internal static string MNU_HLP_RATE_APPLICATION {
@@ -1164,6 +1272,24 @@ namespace WindowHelper.Properties {
         internal static string MNU_PAN_TO_SELECTION_FRONT_MAP {
             get {
                 return ResourceManager.GetString("MNU_PAN_TO_SELECTION_FRONT_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Individual Theme.
+        /// </summary>
+        internal static string MNU_QUICK_THEME_INDIVIDUAL {
+            get {
+                return ResourceManager.GetString("MNU_QUICK_THEME_INDIVIDUAL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quick Ranged Theme.
+        /// </summary>
+        internal static string MNU_QUICK_THEME_RANGED {
+            get {
+                return ResourceManager.GetString("MNU_QUICK_THEME_RANGED", resourceCulture);
             }
         }
         
@@ -1771,6 +1897,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Smart Text Font.
+        /// </summary>
+        internal static string STR_SMART_TEXT_FONT {
+            get {
+                return ResourceManager.GetString("STR_SMART_TEXT_FONT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Tab File.
         /// </summary>
         internal static string STR_TAB_FILE {
@@ -1933,6 +2068,33 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Smart Text for Cartographic Scale to the Map.
+        /// </summary>
+        internal static string TTIP_ADD_SMARTTEXT_CART_SCALE {
+            get {
+                return ResourceManager.GetString("TTIP_ADD_SMARTTEXT_CART_SCALE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Smart Text for Projection Name to the Map.
+        /// </summary>
+        internal static string TTIP_ADD_SMARTTEXT_COORSYS {
+            get {
+                return ResourceManager.GetString("TTIP_ADD_SMARTTEXT_COORSYS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add Smart Text for Map Title to the Map.
+        /// </summary>
+        internal static string TTIP_ADD_SMARTTEXT_MAPTITLE {
+            get {
+                return ResourceManager.GetString("TTIP_ADD_SMARTTEXT_MAPTITLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Windows are not automatically locked which would prevent them from being closed. Click here to enable automatically locking of windows.
         /// </summary>
         internal static string TTIP_AUTOLOCK_WINDOWS_OFF {
@@ -1974,6 +2136,15 @@ namespace WindowHelper.Properties {
         internal static string TTIP_MODIFY_WINDOW_DISABLED {
             get {
                 return ResourceManager.GetString("TTIP_MODIFY_WINDOW_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Activate a Map Window to enable this feature..
+        /// </summary>
+        internal static string TTIP_NO_MAPPER_DISABLED {
+            get {
+                return ResourceManager.GetString("TTIP_NO_MAPPER_DISABLED", resourceCulture);
             }
         }
         

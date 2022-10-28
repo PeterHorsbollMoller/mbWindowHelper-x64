@@ -29,7 +29,8 @@ Declare Sub DLGWHOHandler_OnLoad
 Declare Sub DLGWHOHandler_OKClicked
 
 Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
-	marrBaseMaps(6) As Logical
+	marrBaseMaps(6) As Logical,
+	mfntSmartText As Font
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -102,9 +103,19 @@ OnError GoTo ErrorOccured
 			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_IRON)
 			Into marrBaseMaps(BASEMAP_GEOMAP_IRON)
 
+		Control StaticText
+			Position 15,170	Width 40	Height 25
+			Title GetResItemStr("STR_SMART_TEXT_FONT") & ":"
+		Control FontPicker
+			Position 60,170	Width 25	Height 25
+			Value mfntSmartText
+			Into mfntSmartText
+
 		Control OKButton
+			Position 135,170		Width 40
 			Calling DLGWHOHandler_OKClicked
 		Control CancelButton
+			Position 135,185		Width 40
 
 	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
 		Exit Sub
@@ -247,5 +258,32 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "DLGWHOGetShowInfoOnDeselect")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'AddRulerToolToMapMiniToolbar
+'**********************************************************************************************''
+Sub DLGWHOSetSmartTextFont(ByVal fntValue As Font)
+
+OnError GoTo ErrorOccured
+
+	mfntSmartText = fntValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetSmartTextFont")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetSmartTextFont() As Font
+
+OnError GoTo ErrorOccured
+
+	DLGWHOGetSmartTextFont = mfntSmartText
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetSmartTextFont")
 
 End Function

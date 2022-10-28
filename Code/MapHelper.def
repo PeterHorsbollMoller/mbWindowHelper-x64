@@ -12,6 +12,8 @@ Declare Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
 								, ByVal sTab As String
 								, ByVal sCol As String
 								)
+Declare Sub MAPHMenuQuickThemeRangedLC
+
 
 Declare Function MAPHGetCartographicScale(ByVal nMID As Integer) As Integer
 Declare Function MAPHGetCoordinate(  ByVal nMID As Integer
@@ -22,3 +24,7 @@ Declare Sub MAPHSelectWithinMap
 
 Declare Sub MAPHZoomToSelectionInFrontMap
 Declare Sub MAPHPanToSelectionInFrontMap
+
+Declare Sub MAPHAddSmartTextMapTitle
+Declare Sub MAPHAddSmartTextMapCartoScale
+Declare Sub MAPHAddSmartTextMapCoordsys
