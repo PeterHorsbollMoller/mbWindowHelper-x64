@@ -2,3 +2,11 @@
 09:03:24 17: .
 09:03:24 18: .
 09:48:57 RBNGroupRemoveControl: Tab not found: CONTEXTMENU=34
+16:24:40 ----------------------------------------------------------------------------------------------
+16:24:40 Application WindowHelper 3.9.0 started
+16:24:41 SELINFOSelChangedHandler: Action
+16:24:41    One row was added to the selection
+07:57:05 Closing window (Mapper): 3010 Elevation Map
+07:57:05 Saving settings for window Elevation Map to array
+07:57:05 Comparing statements: Array: 1081 chars. WIN_INFO_CLONE: 1081 chars.
+09:26:45 RBNGroupRemoveControl: Tab not found: CONTEXTMENU=34
