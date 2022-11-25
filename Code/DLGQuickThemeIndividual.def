@@ -1,0 +1,14 @@
+﻿Declare Function DLGQuickThemeIndividual( ByVal nMID As Integer				'**ID of Map Window to load layers from
+								, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
+								, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
+								) As Logical						'**Returns TRUE if a Table and Column was selected or FALSE if dialog was cancelled
+
+Declare Function DLGQTIGetLayerID() As Integer
+Declare Function DLGQTIGetLayerName() As String
+Declare Function DLGQTIGetColumnName() As String
+
+Declare Function DLGQTIGetBinCount() As Integer
+Declare Function DLGQTIGetBinValue( ByVal nBin As Integer) As String
+Declare Function DLGQTIGetBinColor( ByVal nBin As Integer) As Integer
+Declare Function DLGQTIPrepareColors() As Integer
+

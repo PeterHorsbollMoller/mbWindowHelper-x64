@@ -169,11 +169,83 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Number of bins has been limited to {0}..
+        /// </summary>
+        internal static string DLG_NUM_BINS_LIMITED_TO {
+            get {
+                return ResourceManager.GetString("DLG_NUM_BINS_LIMITED_TO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Options.
         /// </summary>
         internal static string DLG_OPTIONS {
             get {
                 return ResourceManager.GetString("DLG_OPTIONS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste All Properties.
+        /// </summary>
+        internal static string DLG_PASTE_ALL {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_ALL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Label Settings.
+        /// </summary>
+        internal static string DLG_PASTE_LABEL {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_LABEL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Label Overrides.
+        /// </summary>
+        internal static string DLG_PASTE_LABEL_OBERRIDES {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_LABEL_OBERRIDES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Layer Filters.
+        /// </summary>
+        internal static string DLG_PASTE_LAYER_FILTERS {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_LAYER_FILTERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Layer Styles.
+        /// </summary>
+        internal static string DLG_PASTE_LAYER_STYLES {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_LAYER_STYLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Style Overrides.
+        /// </summary>
+        internal static string DLG_PASTE_STYLE_OVERRIDES {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_STYLE_OVERRIDES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Time Properties.
+        /// </summary>
+        internal static string DLG_PASTE_TIME_PROPERTIES {
+            get {
+                return ResourceManager.GetString("DLG_PASTE_TIME_PROPERTIES", resourceCulture);
             }
         }
         
@@ -201,6 +273,15 @@ namespace WindowHelper.Properties {
         internal static string DLG_STATIC_THEME_SELECT_TABLE {
             get {
                 return ResourceManager.GetString("DLG_STATIC_THEME_SELECT_TABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Number of Bins.
+        /// </summary>
+        internal static string DLG_THEME_NUM_BINS {
+            get {
+                return ResourceManager.GetString("DLG_THEME_NUM_BINS", resourceCulture);
             }
         }
         
@@ -282,6 +363,15 @@ namespace WindowHelper.Properties {
         internal static string DLG_TTL_CREATE_MAP_EXTENT {
             get {
                 return ResourceManager.GetString("DLG_TTL_CREATE_MAP_EXTENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Layer Properties.
+        /// </summary>
+        internal static string DLG_TTL_PASTE_LAYER_PROPERTIES {
+            get {
+                return ResourceManager.GetString("DLG_TTL_PASTE_LAYER_PROPERTIES", resourceCulture);
             }
         }
         
@@ -763,6 +853,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy Layer Properties.
+        /// </summary>
+        internal static string MNU_COPY_LAYER_PROPERTIES {
+            get {
+                return ResourceManager.GetString("MNU_COPY_LAYER_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Map Extent.
         /// </summary>
         internal static string MNU_CREATE_MAP_EXTENT {
@@ -880,6 +979,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy All Settings from Selected Layer.
+        /// </summary>
+        internal static string MNU_HLP_COPY_LAYER_PROPERTIES {
+            get {
+                return ResourceManager.GetString("MNU_HLP_COPY_LAYER_PROPERTIES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create a Map Extent into a map or table..
         /// </summary>
         internal static string MNU_HLP_CREATE_MAP_EXTENT {
@@ -984,6 +1092,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_PAN_TO_SELECTION_FRONT_MAP {
             get {
                 return ResourceManager.GetString("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Layer Settings onto Selected Layer.
+        /// </summary>
+        internal static string MNU_HLP_PASTE_LAYER_PROPERTIES {
+            get {
+                return ResourceManager.GetString("MNU_HLP_PASTE_LAYER_PROPERTIES", resourceCulture);
             }
         }
         
@@ -1272,6 +1389,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_PAN_TO_SELECTION_FRONT_MAP {
             get {
                 return ResourceManager.GetString("MNU_PAN_TO_SELECTION_FRONT_MAP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Paste Layer Properties.
+        /// </summary>
+        internal static string MNU_PASTE_LAYER_PROPERTIES {
+            get {
+                return ResourceManager.GetString("MNU_PASTE_LAYER_PROPERTIES", resourceCulture);
             }
         }
         

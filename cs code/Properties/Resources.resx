@@ -153,8 +153,32 @@
   <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
   </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>Number of bins has been limited to {0}.</value>
+  </data>
   <data name="DLG_OPTIONS" xml:space="preserve">
     <value>Options</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>Paste All Properties</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>Paste Label Settings</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>Paste Label Overrides</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>Paste Layer Filters</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>Paste Layer Styles</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>Paste Style Overrides</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>Paste Time Properties</value>
   </data>
   <data name="DLG_STATIC_THEME" xml:space="preserve">
     <value>Static Theme</value>
@@ -165,6 +189,9 @@
   </data>
   <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
     <value>Select Table for Theme</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>Number of Bins</value>
   </data>
   <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
     <value># of Ranges</value>
@@ -192,6 +219,9 @@
   </data>
   <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Create Map Extent</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Paste Layer Properties</value>
   </data>
   <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
     <value>Restore windows</value>
@@ -352,6 +382,9 @@
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Close Table</value>
   </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Copy Layer Properties</value>
+  </data>
   <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Map Extent</value>
   </data>
@@ -391,6 +424,9 @@
   <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
     <value>Close window</value>
   </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Copy All Settings from Selected Layer</value>
+  </data>
   <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
     <value>Create a Map Extent into a map or table.</value>
   </data>
@@ -426,6 +462,9 @@
   </data>
   <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Pan to the Selected Record in the Front Most Map</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Paste Layer Settings onto Selected Layer</value>
   </data>
   <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
     <value>Create a Individual Thematic Map from the First Character Column</value>
@@ -522,6 +561,9 @@
   </data>
   <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Pan to the Selected Record</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Paste Layer Properties</value>
   </data>
   <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
     <value>Quick Individual Theme</value>

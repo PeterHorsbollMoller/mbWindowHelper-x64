@@ -13,6 +13,7 @@ Declare Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
 								, ByVal sCol As String
 								)
 Declare Sub MAPHMenuQuickThemeRangedLC
+Declare Sub MAPHMenuQuickThemeIndividualLC
 
 
 Declare Function MAPHGetCartographicScale(ByVal nMID As Integer) As Integer
@@ -28,3 +29,6 @@ Declare Sub MAPHPanToSelectionInFrontMap
 Declare Sub MAPHAddSmartTextMapTitle
 Declare Sub MAPHAddSmartTextMapCartoScale
 Declare Sub MAPHAddSmartTextMapCoordsys
+
+Declare Sub MAPHMenuCopyLayerSettingsLC
+Declare Sub MAPHMenuPasteLayerSettingsLC

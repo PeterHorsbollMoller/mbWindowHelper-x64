@@ -24,8 +24,12 @@ Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
 Include "Library\Dialogs\DLGSelectTableAndColumn.def"
+Include "Library\Types\T_LABEL_SETTINGS.def"
+Include "Library\Types\T_LAYER_SETTINGS.def"
+Include "Library\Types\T_LAYER_INFO.def"
 
 Include "DLGQuickThemeRanged.def"
+Include "DLGQuickThemeIndividual.def"
 Include "MapHelper.def"
 Include "DLGWHOWindowHelperOptions.def"
 Include "WindowHelper.Assembly.def"
@@ -33,6 +37,8 @@ Include "WindowHelper.Assembly.def"
 Include "DLGAdvancedLayerRename.def"
 Include "DLGMultipleLayersRename.def"
 
+Dim	mtli As T_LAYER_INFO,
+	mbLayerInfoRead As Logical
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -544,7 +550,7 @@ OnError GoTo ErrorOccured
 				Ranges From Variable arrRanges
 				Style Variable arrSymbols
 
-		Case TAB_POINT_OBJECTS
+		Case TAB_LINE_OBJECTS
 			If Not DLGQTRUseFixedColors() Then
 				Create Styles
 					From Pen MakePen(2,2,DLGQTRGetFromColor()) 'style for LOW range,
@@ -571,6 +577,88 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHMenuQuickThemeRangedLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuQuickThemeIndividualLC
+
+Dim	nMID, nLayerID, nCol, nBins, nBin, nColors, nLayerTypesToUse As Integer,
+	sTab, sCol, sCmd As String
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+	If Not DLGQuickThemeIndividual(nMID, nLayerID, "") Then
+		Exit Sub
+	End If
+
+	nLayerID	= DLGQTIGetLayerID()
+	sTab		= DLGQTIGetLayerName()
+	sCol		= DLGQTIGetColumnName()
+
+	nColors	= DLGQTIPrepareColors()
+	nBins	= DLGQTIGetBinCount()
+
+	sCmd = "Shade Window " & nMID & " " & nLayerID & " With " & sCol & " Values"
+'		[ , const [ Pen... ] [ Line...] [ Brush... ] [ Symbol... ] ... ]
+'		[ Vary { Color | All } ]
+'		[ Style Replace { On | Off } ]
+'		[ Default [ Pen... ] [ Brush... ] [ Symbol... ] ]
+
+
+	For nBin = 1 To nBins
+		If ColumnInfo(sTab, sCol, COL_INFO_TYPE) = COL_TYPE_CHAR Then
+			sCmd = sCmd & " " & IIf(nBin = 1,"",",") & Chr$(34) & DLGQTIGetBinValue(nBin) & Chr$(34)
+		Else
+			sCmd = sCmd & " " & IIf(nBin = 1,"",",") & DeformatNumber$(DLGQTIGetBinValue(nBin))
+		End If
+
+		Do Case TableInfo(sTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
+			Case TAB_AREA_OBJECTS
+				sCmd = sCmd & " Brush MakeBrush(2, " & DLGQTIGetBinColor(nBin) & ", 16777215) Pen(1,1,0)"
+			Case TAB_LINE_OBJECTS
+				sCmd = sCmd & " Pen MakePen(2, 2, " & DLGQTIGetBinColor(nBin) & ")"
+			Case TAB_POINT_OBJECTS
+				sCmd = sCmd & " Symbol MakeFontSymbol(57, " & DLGQTIGetBinColor(nBin) & ", 10, " & Chr$(34) & "MapInfo Symbols" & Chr$(34) & ", 0, 0)"
+		End Case
+	Next
+
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuQuickThemeIndividualLC")
 	Call ERRShow()
 
 End Sub
@@ -936,6 +1024,103 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHAddSmartTextMapCoordsys")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter HorsbÃ¸ll MÃ¸ller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuCopyLayerSettingsLC
+
+Dim	nMID, nLayerID As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+'	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+'		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
+'		Exit Sub
+'	End If
+
+	Call tliGetInfo(nMID, nLayerID, mtli)
+	mbLayerInfoRead	= TRUE
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuCopyLayerSettingsLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter HorsbÃ¸ll MÃ¸ller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuPasteLayerSettingsLC
+
+Dim	nMID, nLayerID As Integer
+
+OnError GoTo ErrorOccured
+
+	If Not mbLayerInfoRead Then
+		Exit Sub
+	End If
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+'	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+'		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
+'		Exit Sub
+'	End If
+
+	If tliApplyInfo(nMID, nLayerID, mtli) Then
+
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuPasteLayerSettingsLC")
 	Call ERRShow()
 
 End Sub
