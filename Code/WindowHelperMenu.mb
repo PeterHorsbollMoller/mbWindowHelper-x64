@@ -186,16 +186,23 @@
 '						- Fixed an issue using numeric values in Quick Individual Theme
 '3.9.5	25/11/2022 10.32.37	- Released version
 '						- Renamed some of the Quick Ranged thematics
+'3.9.6	30/11/2022 09.36.50	- Added menu item on Layer context menu to refresh filtered layer
+'						- Fixed an issue with menu items not getting removed when tool ends
+'						- Reordered some controls in the context menus
 '*******************************************************************************
 'Potential new features:
 '	- Rename table via Layer context menu
 '	- Add more default Smart Text adornments to the map window, such as copyright
-'	- Support for default brush, line, pen and symbol for quick individual & ranged theme
-'	- Add option to refresh layer that has Layer filter turned on (refresh hidden query table)
+'	- Support for default brush, line, pen and symbol for quick individual theme
+'	- Support for default brush, line, pen and symbol for quick ranged theme
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
 '	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
 '	- Add support for editing the text from a frame in a layout in a dialog
+'	- Add Unselect to Layout tab: Set Layout Selection Clear
+'	- Add Replace image to Layout
+'	- Add zoom to the extent of a selected frame in the layout (make the frame fit in the view).
+'	- Incorporate BorderGrid capabilty, see BorderGrid.mb
 '*******************************************************************************
 
 '-------------------------------------
@@ -203,6 +210,7 @@ Include "MapBasic.def"
 Include "Enums.def"
 Include "Icons.def"
 Include "Menu.def"
+Include "IMapInfoPro.def"
 Include "RibbonControls.def"
 
 '**default constants...
@@ -211,7 +219,7 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"3.9.5"
+Define xVersion 		"3.9.6"
 Define xYear			"2022"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -267,7 +275,9 @@ Declare Sub MENUFilterBrowserCurrentCell
 Declare Sub MENUGroupByCurrentColumn
 
 Declare Sub MENUSaveWindowToWorkspace
+Declare Sub MENUMapDrawHandler(ByVal arg as This)
 
+Dim	dtStart as DateTime
 '**********************************************************************************************''
 '**   Created by Peter Horsbøll Møller, Pitney Bowes MapInfo
 '
@@ -324,6 +334,12 @@ OnError GoTo ErrorOccured
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
 	End If
+	Call DEBUGPrint("Subscribing to MapDraw...")
+'	If NOT RBNEventSubscribe(AddInEvents_MapDraw, "MENUMapDrawHandler") Then
+'		Call DEBUGPrint("MENUMapDrawHandler was not subscribed!")
+'	Else
+'		Call DEBUGPrint("MENUMapDrawHandler was successfully subscribed!")
+'	End If
 
 	Call MENUPublishFunctionsToMapInfoProInterface
 
@@ -408,7 +424,7 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Created by Peter Horsbøll Møller, Precisely
 'Parameters:
 '
 '**********************************************************************************************''
@@ -679,26 +695,44 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHGroupByCurrentColumn")
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOEXTENTSEL_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectionInFrontMap")
 	End If
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtPanToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
 	End If
-	nCtrlIdx	= RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSeparator", "(-", "" , 2)
+'	nCtrlIdx	= RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSeparator", "(-", "" , 2)
 
 	'***************************************************************
 	' L A Y E R   L I S T   M A P   C O N T E X T   M E N U
 	'***************************************************************
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "lcmCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+'		'**Adding a menu item as the third menu item on the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "exmapCntxtRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", 2)
+	Else
+'		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "exmapCntxtRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", "MenuItem_LcRenameMap")
+	End If
+'	Call DEBUGPrint("MENUBuildRibbonInterface: mapRenameLayers 1 = " & RBNControlGetCaptionIdx(nCtrlIdx))
+'	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "mapRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME"), "")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MULTIPLE_LAYERS_RENAME"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_RENAMETABLE_16, MI_IMG_TAB_RENAMETABLE_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameMultipleLayersLC")
+	End If
+'	Call DEBUGPrint("MENUBuildRibbonInterface: mapRenameLayers 2 = " & RBNControlGetCaptionIdx(nCtrlIdx))
+
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "exmapCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
+'	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "lcmCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "", "exmapCntxtRenameLayers")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
@@ -706,27 +740,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewAllLayers")
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		'**Adding a menu item as the third menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "mapRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", 2)
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "mapRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", "MenuItem_LcRenameMap")
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MULTIPLE_LAYERS_RENAME"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_RENAMETABLE_16, MI_IMG_TAB_RENAMETABLE_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameMultipleLayersLC")
-	End If
-
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		'**Adding a menu item as the fourth menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", 3)
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "lcmCloneMap", GetResItemStr("MNU_CLONE_MAP"), "", "lcmRenameLayers")
-	End If
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "exmapCntxtCloneMap", GetResItemStr("MNU_CLONE_MAP"), "")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLONE_MAP"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLONEMAP_16, MI_IMG_MAP_CLONEMAP_32)
@@ -737,8 +751,8 @@ OnError GoTo ErrorOccured
 	'***************************************************************
 	' L A Y E R   L I S T   L A Y E R S   C O N T E X T   M E N U
 	'***************************************************************
-	'**Adding a menu item to the Mapper Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_CLOSE_TABLE"), "")
+	'**Adding a menu item to the Layers Context menu
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCntxtCloseTable", GetResItemStr("MNU_CLOSE_TABLE"), "")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLOSE_TABLE"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "Close Table 24x24.png")
@@ -746,22 +760,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHCloseTableLC")
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		'**Adding a menu item to the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "lclCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "", "MenuItem_LcRenameToFriendlyName")
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewSingleLayer")
-	End If
-
-	'**Adding a menu item to the Layer Control Layers Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "layLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
@@ -769,12 +768,13 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileLC")
 	End If
 
+
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
 		'**Adding a menu item as the fourth menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "layRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", 3)
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", 3)
 	Else
 		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", "MenuItem_LcRenameToFriendlyName")
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtRenameLayer", GetResItemStr("MNU_ADVANCED_RENAME") & "...", "", "MenuItem_LcRenameToFriendlyName")
 	End If
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ADVANCED_RENAME"), "")
@@ -783,26 +783,20 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameLayerAdvancedLC")
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		'**Adding a menu item as the fourth menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "layQuickTheme", GetResItemStr("MNU_QUICK_THEME_RANGED"), "")
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layQuickTheme", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "SampleDensity")
-	End If
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "", "exlyrCntxtRenameLayer")
 	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewSingleLayer")
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
 		'**Adding a menu item as the fourth menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "layQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL"), "")
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL"), "")
 	Else
 		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL") & "...", "", "SampleDensity")
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL") & "...", "", "SampleDensity")
 	End If
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_INDIVIDUAL"), "")
@@ -811,21 +805,20 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeIndividualLC")
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
-		nCtrlIdx	= RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layLayerPropSeparator", "(-", "", "MenuItem_LcLayerTimeProperties")
-	Else
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "layLayerPropSeparator", "(-", "", )
-	End If
-
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layPasteProperties", GetResItemStr("MNU_PASTE_LAYER_PROPERTIES") & "...", "", "layLayerPropSeparator")
+	'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeRanged", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "exlyrCntxtQuickThemeIndividual")
 	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PASTE_LAYER_PROPERTIES"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_PASTE_16, MI_IMG_MAP_PASTE_32)
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuPasteLayerSettingsLC")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "layCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES") & "...", "", "layLayerPropSeparator")
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "", "MenuItem_LcLayerTimeProperties")
+	Else
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "")
+	End If
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_COPY_LAYER_PROPERTIES"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_COPY_16, MI_IMG_MAP_COPY_32)
@@ -833,12 +826,30 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuCopyLayerSettingsLC")
 	End If
 
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtPasteProperties", GetResItemStr("MNU_PASTE_LAYER_PROPERTIES"), "", "exlyrCntxtCopyProperties")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PASTE_LAYER_PROPERTIES"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_PASTE_16, MI_IMG_MAP_PASTE_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuPasteLayerSettingsLC")
+	End If
+
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtRefreshFilteredLayer", GetResItemStr("MNU_REFRESH_FILTERED__LAYER"), "", "MenuItem_LcZoomToTileServer")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_REFRESH_FILTERED__LAYER"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_REFRESHCONNECTION_16, MI_IMG_TAB_REFRESHCONNECTION_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuRefreshFilteredLayerLC")
+		End If
+	End If
+
 	'***************************************************************
 	' T A B L E   L I S T   T A B L E S   C O N T E X T   M E N U
 	'***************************************************************
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
 		'**Adding a menu item to the Table List Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "tabLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "extabCntxLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
 		If nCtrlIdx > 0 Then
 			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
 			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
@@ -848,10 +859,10 @@ OnError GoTo ErrorOccured
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
 	Else
 		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "tlCntxtBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", "MenuItem_TlvBrowseTable")
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", "MenuItem_TlvBrowseTable")
 	End If
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
@@ -1071,7 +1082,7 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Created by Peter Horsbøll Møller, Precisely
 'Parameters:
 '
 '**********************************************************************************************''
@@ -1199,7 +1210,7 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbøll Møller, Pitney Bowes Software
+'Created by Peter Horsbøll Møller, Precisely
 'Parameters:
 '
 '**********************************************************************************************''
@@ -1220,3 +1231,26 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENUMapDrawHandler(ByVal arg as This)
+
+Dim	dtEnd as DateTime,
+	fElapsedTime as Float
+
+	Print "MENUMapDrawHandler: " & GetMapDrawEventArgsDrawEventType(arg)
+	Do Case GetMapDrawEventArgsDrawEventType(arg)
+		Case 0	'DrawStarted
+			dtStart = CurDateTime()
+			Print "Begin Drawing" & WindowInfo(CommandInfo(CMD_INFO_WIN), WIN_INFO_NAME)
+		Case 1	'DrawEnded
+			dtEnd		= CurDateTime()
+			fElapsedTime	= ((dtEnd - dtStart) * 100000)
+			Print "End Drawing: " & WindowInfo(CommandInfo(CMD_INFO_WIN), WIN_INFO_NAME) & ": " & FormatNumber$(fElapsedTime) & " secs"
+	End Case
+
+End Sub 'WinEndDrawHandler

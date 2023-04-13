@@ -475,6 +475,9 @@
   <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application at the Pitney Bowes Community Download Page</value>
   </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Refresh the layer using the specified filter</value>
+  </data>
   <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
     <value>Restore one or more windows closed during this session</value>
   </data>
@@ -573,6 +576,9 @@
   </data>
   <data name="MNU_RATE_APPLICATION" xml:space="preserve">
     <value>Rate Application</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Refresh Filtered Layer</value>
   </data>
   <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
     <value>Restore Windows</value>

@@ -1132,6 +1132,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Refresh the layer using the specified filter.
+        /// </summary>
+        internal static string MNU_HLP_REFRESH_FILTERED__LAYER {
+            get {
+                return ResourceManager.GetString("MNU_HLP_REFRESH_FILTERED__LAYER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore one or more windows closed during this session.
         /// </summary>
         internal static string MNU_HLP_RESTORE_CLOSED_WINDOWS {
@@ -1425,6 +1434,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_RATE_APPLICATION {
             get {
                 return ResourceManager.GetString("MNU_RATE_APPLICATION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh Filtered Layer.
+        /// </summary>
+        internal static string MNU_REFRESH_FILTERED__LAYER {
+            get {
+                return ResourceManager.GetString("MNU_REFRESH_FILTERED__LAYER", resourceCulture);
             }
         }
         

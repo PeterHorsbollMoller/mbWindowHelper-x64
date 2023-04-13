@@ -1,0 +1,232 @@
+﻿Include "MapBasic.def"
+Include "Menu.def"
+
+Declare Sub Main
+Declare Sub CreateBorderGridForMap
+Declare Function TABIsOpen(ByVal sTab As String) as Logical
+Declare Function GetColumnsExpression(ByVal sTab As String) As String
+
+Sub Main
+
+	Alter Buttonpad "MapOptions" Add
+		PushButton
+			Calling CreateBorderGridForMap
+			HelpMsg "Create Border Grid\nBorder Grid"
+			Large Icon -1 File "pack://application:,,,/MapInfo.StyleResources;component/Images/Spatial/enclose_32x32.png"
+		Tab "TabMap"
+
+End Sub
+
+
+Sub CreateBorderGridForMap
+
+Dim	oPointLL, oPointUR, oMapExtent, oCenterExtent, oBorder As Object,
+	fX1, fY1, fX2, fY2, fOffset As Float,
+	nMID, nPercent As Integer,
+	sPath, sTabGrid, sTabBorder, sTabBorderGrid, sTabFile, sCmd As String
+
+	nMID	= FrontWindow()
+	If nMID = 0 Then
+		Note "Please open a map window beforeu using this tool!"
+		Exit Sub
+	End If
+
+	sTabGrid		= "Grid"
+	sPath		= PathToDirectory$(TempFileName$(""))
+	sTabBorder	= "Border"
+	sTabBorderGrid	= "BorderGrid"
+
+	If Not TABIsOpen(sTabGrid) Then
+		Note "Please open a table named 'Grid' containing gridlines before using this tool!"
+		Exit Sub
+	End If
+
+	nPercent		= 2
+
+	Set CoordSys Window nMID
+	fX1	= MapperInfo(nMID, MAPPER_INFO_MINX)
+	fY1	= MapperInfo(nMID, MAPPER_INFO_MINY)
+	fX2	= MapperInfo(nMID, MAPPER_INFO_MAXX)
+	fY2	= MapperInfo(nMID, MAPPER_INFO_MAXY)
+
+	Create Pline
+		Into Variable oMapExtent
+		4 (fX1, fY1) (fX2, fY1) (fX2, fY2) (fX1, fY2)
+		Pen MakePen(1, 1, WHITE)
+	oMapExtent = ConvertToRegion(oMapExtent)
+	Alter Object oMapExtent Info OBJ_INFO_BRUSH, MakeBrush(2, WHITE, WHITE)
+
+	fOffset	= (Distance(fX1, fY1, fX2, fY1, "m") / 100) * nPercent
+
+	oPointLL = OffsetXY(CreatePoint(fX1, fY1), fOffset, fOffset, "m")
+	oPointUR = OffsetXY(CreatePoint(fX2, fY2), -1 * fOffset, -1 * fOffset, "m")
+
+	fX1	= CentroidX(oPointLL)
+	fY1	= CentroidY(oPointLL)
+	fX2	= CentroidX(oPointUR)
+	fY2	= CentroidY(oPointUR)
+
+	Create Pline
+		Into Variable oCenterExtent
+		4 (fX1, fY1) (fX2, fY1) (fX2, fY2) (fX1, fY2)
+		Pen MakePen(1, 1, WHITE)
+	oCenterExtent = ConvertToRegion(oCenterExtent)
+	Alter Object oCenterExtent Info OBJ_INFO_BRUSH, MakeBrush(2, WHITE, WHITE)
+
+	oBorder	= Erase(oMapExtent, oCenterExtent)
+
+	Set Progressbars Off
+	If TABIsOpen(sTabBorder) Then
+		Set Table sTabBorder FastEdit On Undo Off
+		Delete From sTabBorder
+	Else
+		Create Table sTabBorder
+			Using sTabGrid
+			File sPath & sTabBorder & ".tab"
+		Open Table sPath & sTabBorder & ".tab"
+		Set Table sTabBorder Persist Off
+
+		Create Map
+			For sTabBorder
+			CoordSys Table sTabGrid
+		Add Map
+			Window nMID
+			Layer sTabBorder
+
+		Set Map Window nMID
+			Layer sTabBorder
+			Display Global Global Pen (1,2,0) Global Brush (2,16777215,16777215)
+		Set Table sTabBorder FastEdit On Undo Off
+	End If
+	Insert Into sTabBorder
+		(OBJ) Values (oBorder)
+	Commit Table sTabBorder
+
+	Select * From sTabGrid
+		Where OBJ Intersects oMapExtent
+		Into TO__USE NoSelect	'Hide
+
+	If TABIsOpen(sTabBorderGrid) Then
+		Set Table sTabBorderGrid FastEdit On Undo Off
+		Delete From sTabBorderGrid
+		Insert Into sTabBorderGrid
+			Select * From TO__USE
+	Else
+		Commit Table TO__USE
+			As sPath & sTabBorderGrid & ".tab"
+		Open Table sPath & sTabBorderGrid & ".tab"
+		Set Table sTabBorder Persist Off
+
+		Add Map
+			Window nMID
+			Layer sTabBorderGrid
+		Set Map Window nMID
+			Layer sTabBorderGrid
+			Display Global Global Line (2,1,16728064)
+		Set Map Window nMID
+			Layer sTabBorderGrid
+			Label Auto On Duplicates On Position Center PartialSegments On Parallel On Position Center
+		Set Table sTabBorderGrid FastEdit On Undo Off
+	End If
+
+	Close Table TO__USE
+
+'	Select *
+'		From sTabBorderGrid
+'		Where Not OBJ Intersects oMapExtent
+'		Into TO__DELETE NoSelect
+'	Delete From TO__DELETE
+'	Close Table TO__DELETE
+	Update sTabBorderGrid
+		Set OBJ = Overlap(OBJ, oBorder)
+
+	Select *
+		From sTabBorderGrid
+		Into TO_SPLIT
+	sCmd = "Objects Disaggregate Into Table " & sTabBorderGrid
+			& " All"
+			& " Data " & GetColumnsExpression(sTabBorderGrid)
+'	Print sCmd
+	Run Command sCmd
+	Close Table TO_SPLIT
+	Run Menu Command M_QUERY_UNSELECT
+
+	Select * From sTabBorderGrid
+		Where ObjectLen(OBJ, "m") - fOffset > 1
+		Into TO__DELETE NoSelect Hide
+	Delete From TO__DELETE
+	Close Table TO__DELETE
+	Commit Table sTabBorderGrid
+
+	Update sTabBorderGrid
+		Set OBJ = RotateAtPoint(OBJ, 90, Centroid(OBJ))
+	Commit Table sTabBorderGrid
+	Set Progressbars On
+
+End Sub
+
+'**********************************************************************************************''
+Function TABIsOpen(ByVal sTab As String) as Logical
+
+Dim	nType As Integer
+
+OnError GoTo ErrorOccured
+
+TABIsOpen = FALSE
+
+	If NumTables() = 0 Then
+		Exit Function
+	End if
+
+	If sTab = "Selection" Then
+		If SelectionInfo(SEL_INFO_NROWS) = 0 Then
+			Exit Function
+		End if
+	Else
+		OnError GoTo ErrorNoSuchTable
+		nType = TableInfo(sTab, TAB_INFO_TYPE)
+
+		OnError GoTo ErrorOccured
+	End If
+
+	TABIsOpen = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Exit Function
+
+'-------------------------
+ErrorNoSuchTable:
+	Exit Function
+
+End Function
+
+'**********************************************************************************************''
+Function GetColumnsExpression(ByVal sTab As String) As String
+
+Dim	nCol As Integer,
+	sExpr As String
+
+OnError GoTo ErrorOccured
+
+GetColumnsExpression = ""
+
+	For nCol = 1 To TableInfo(sTab, TAB_INFO_NCOLS)
+		If ColumnInfo(sTab, "COL" + nCol, COL_INFO_EDITABLE) Then
+			If sExpr = "" Then
+				sExpr = ColumnInfo(sTab, "COL" + nCol, COL_INFO_NAME) & "=" & ColumnInfo(sTab, "COL" + nCol, COL_INFO_NAME)
+			Else
+				sExpr = sExpr & ", " & ColumnInfo(sTab, "COL" + nCol, COL_INFO_NAME) & "=" & ColumnInfo(sTab, "COL" + nCol, COL_INFO_NAME)
+			End If
+		End If
+	Next
+
+	GetColumnsExpression = sExpr
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Note Err() & " " & Error$() & " GetColumnsExpression: Table: " & sTab
+
+End Function

@@ -1124,3 +1124,50 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuRefreshFilteredLayerLC
+
+Dim	nMID, nLayerID As Integer,
+	sQueryName As String
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
+		Exit Sub
+	End If
+
+	sQueryName = LayerInfo(nMID, nLayerID, LAYER_INFO_FILTER_TABLE_ALIAS)
+	If sQueryName <> "" Then
+		Select Update For sQueryName Refresh All	'NoSelect not supported
+		Select * From sQueryName Where 1 = 0
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuRefreshFilteredLayerLC")
+	Call ERRShow()
+
+End Sub
+

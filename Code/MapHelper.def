@@ -32,3 +32,5 @@ Declare Sub MAPHAddSmartTextMapCoordsys
 
 Declare Sub MAPHMenuCopyLayerSettingsLC
 Declare Sub MAPHMenuPasteLayerSettingsLC
+
+Declare Sub MAPHMenuRefreshFilteredLayerLC
