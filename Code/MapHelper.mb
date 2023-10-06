@@ -22,6 +22,7 @@ Include "Library\MAPPERLib.def"
 Include "Library\ProgramInfo.def"
 Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
+Include "Library\STYLELib.def"
 Include "Library\TABLELib.def"
 Include "Library\Dialogs\DLGSelectTableAndColumn.def"
 Include "Library\Types\T_LABEL_SETTINGS.def"
@@ -449,10 +450,10 @@ Sub MAPHMenuQuickThemeRangedLC
 
 Dim	nMID, nLayerID, nCol, nColor As Integer,
 	nLayerTypesToUse As Integer,
-	sTab, sCol As String,
+	sTab, sCol, sCmd As String,
 	aCol As Alias,
 	arrRanges() As Float,
-	arrBrushes() As Brush,
+	brsFrom, brsTo, arrBrushes() As Brush,
 	arrPens() As Pen,
 	arrSymbols() As Symbol
 
@@ -509,38 +510,78 @@ OnError GoTo ErrorOccured
 	Do Case TableInfo(sTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
 		Case TAB_AREA_OBJECTS
 			If Not DLGQTRUseFixedColors() Then
-				Create Styles
-					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
-					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
-					Vary Color By "RGB"
-					Number DLGQTRGetRangeCount()
-					Into Variable arrBrushes
+				If DLGQTRGetChangeBrushColorType() = RANGE_CHANGE_FOREGROUND_COLOR Then
+					Create Styles
+	'					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
+	'					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
+						From Brush STLChangeBrushFGColour(DLGQTRGetBrush(), DLGQTRGetFromColor())	'Brush MakeBrush(..) 'style for LOW range,
+						To Brush STLChangeBrushFGColour(DLGQTRGetBrush(), DLGQTRGetToColor())		'Brush MakeBrush (..) 'style for HIGH range
+						Vary Color By "RGB"
+						Number DLGQTRGetRangeCount()
+						Into Variable arrBrushes
+				Else
+					Create Styles
+	'					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
+	'					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
+						From Brush STLChangeBrushBGColour(DLGQTRGetBrush(), DLGQTRGetFromColor())	'Brush MakeBrush(..) 'style for LOW range,
+						To Brush STLChangeBrushBGColour(DLGQTRGetBrush(), DLGQTRGetToColor())	'Brush MakeBrush (..) 'style for HIGH range
+						Vary Color By "RGB"
+						Number DLGQTRGetRangeCount()
+						Into Variable arrBrushes
+				End If
 			Else
 				Redim arrBrushes(DLGQTRGetRangeCount())
-				For nColor = 1 To DLGQTRGetRangeCount()
-					arrBrushes(nColor) = MakeBrush(2,DLGQTRGetFixedColor(nColor),16777215)
-				Next
+				If DLGQTRGetChangeBrushColorType() = RANGE_CHANGE_FOREGROUND_COLOR Then
+					For nColor = 1 To DLGQTRGetRangeCount()
+						'arrBrushes(nColor) = MakeBrush(2,DLGQTRGetFixedColor(nColor),16777215)
+						arrBrushes(nColor) = STLChangeBrushFGColour(DLGQTRGetBrush(), DLGQTRGetFixedColor(nColor))
+					Next
+				Else
+					For nColor = 1 To DLGQTRGetRangeCount()
+						'arrBrushes(nColor) = MakeBrush(2,DLGQTRGetFixedColor(nColor),16777215)
+						arrBrushes(nColor) = STLChangeBrushBGColour(DLGQTRGetBrush(), DLGQTRGetFixedColor(nColor))
+					Next
+				End If
 			End If
 
-			Shade Window nMID
-				nLayerID
-				with aCol
-				Ranges From Variable arrRanges
-				Style Variable arrBrushes
-'				Pen (1,1,0)
+'			Shade Window nMID
+'				nLayerID
+'				with aCol
+'				Ranges From Variable arrRanges
+'				Style Variable arrBrushes
+''				Pen (1,1,0)
+''				Pen DLGQTRGetBorderPen()
+
+			For nColor = 1 To DLGQTRGetRangeCount()
+				'nColor 1: 1 : 2
+				'nColor 2: 3 : 4
+				'nColor 3: 5 : 6
+				If sCmd = "" Then
+					sCmd = arrRanges((nColor * 2) - 1) & " : " & arrRanges(nColor * 2) & " " & DLGQTRGetBorderPen() & " " & arrBrushes(nColor)
+				Else
+					sCmd = sCmd & ", " & arrRanges((nColor * 2) - 1) & " : " & arrRanges(nColor * 2) & " " & DLGQTRGetBorderPen() & " " & arrBrushes(nColor)
+				End If
+			Next
+
+			sCmd	= "Shade Window " & nMID & " " & nLayerID & " With " & sCol & " Ranges " & sCmd
+			Print sCmd
+			Run Command sCmd
 
 		Case TAB_POINT_OBJECTS
 			If Not DLGQTRUseFixedColors() Then
 				Create Styles
-					From Symbol MakeFontSymbol(57,DLGQTRGetFromColor(),10,"MapInfo Symbols",0,0) 'style for LOW range,
-					To Symbol MakeFontSymbol(57,DLGQTRGetToColor(),10,"MapInfo Symbols",0,0) 'style for HIGH range
+'					From Symbol MakeFontSymbol(57,DLGQTRGetFromColor(),10,"MapInfo Symbols",0,0) 'style for LOW range,
+'					To Symbol MakeFontSymbol(57,DLGQTRGetToColor(),10,"MapInfo Symbols",0,0) 'style for HIGH range
+					From Symbol STLChangeSymbolColour(DLGQTRGetSymbol(), DLGQTRGetFromColor())		'Symbol MakeFontSymbol(..) 'style for LOW range,
+					To Symbol STLChangeSymbolColour(DLGQTRGetSymbol(), DLGQTRGetToColor())		'Symbol MakeFontSymbol(..) 'style for HIGH range
 					Vary Color By "RGB"
 					Number DLGQTRGetRangeCount()
 					Into Variable arrSymbols
 			Else
 				Redim arrSymbols(DLGQTRGetRangeCount())
 				For nColor = 1 To DLGQTRGetRangeCount()
-					arrSymbols(nColor) = MakeFontSymbol(57,DLGQTRGetFixedColor(nColor),10,"MapInfo Symbols",0,0)
+					'arrSymbols(nColor) = MakeFontSymbol(57,DLGQTRGetFixedColor(nColor),10,"MapInfo Symbols",0,0)
+					arrSymbols(nColor) = STLChangeSymbolColour(DLGQTRGetSymbol(), DLGQTRGetToColor())
 				Next
 			End If
 
@@ -553,15 +594,18 @@ OnError GoTo ErrorOccured
 		Case TAB_LINE_OBJECTS
 			If Not DLGQTRUseFixedColors() Then
 				Create Styles
-					From Pen MakePen(2,2,DLGQTRGetFromColor()) 'style for LOW range,
-					To Pen MakePen (2,2,DLGQTRGetToColor()) 'style for HIGH range
+'					From Pen MakePen(2,2,DLGQTRGetFromColor()) 'style for LOW range,
+'					To Pen MakePen (2,2,DLGQTRGetToColor()) 'style for HIGH range
+					From Pen STLChangePenColour(DLGQTRGetLinePen(), DLGQTRGetFromColor())	'Pen MakePen(..) 'style for LOW range,
+					To Pen STLChangePenColour(DLGQTRGetLinePen(), DLGQTRGetToColor())	'Pen MakePen (..) 'style for HIGH range
 					Vary Color By "RGB"
 					Number DLGQTRGetRangeCount()
 					Into Variable arrPens()
 			Else
 				Redim arrPens(DLGQTRGetRangeCount())
 				For nColor = 1 To DLGQTRGetRangeCount()
-					arrPens(nColor) =  MakePen (2,2,DLGQTRGetFixedColor(nColor))
+					'arrPens(nColor) =  MakePen (2,2,DLGQTRGetFixedColor(nColor))
+					arrPens(nColor) =  STLChangePenColour(DLGQTRGetLinePen(), DLGQTRGetFixedColor(nColor))
 				Next
 			End If
 
@@ -634,7 +678,6 @@ OnError GoTo ErrorOccured
 '		[ Style Replace { On | Off } ]
 '		[ Default [ Pen... ] [ Brush... ] [ Symbol... ] ]
 
-
 	For nBin = 1 To nBins
 		If ColumnInfo(sTab, sCol, COL_INFO_TYPE) = COL_TYPE_CHAR Then
 			sCmd = sCmd & " " & IIf(nBin = 1,"",",") & Chr$(34) & DLGQTIGetBinValue(nBin) & Chr$(34)
@@ -644,11 +687,14 @@ OnError GoTo ErrorOccured
 
 		Do Case TableInfo(sTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
 			Case TAB_AREA_OBJECTS
-				sCmd = sCmd & " Brush MakeBrush(2, " & DLGQTIGetBinColor(nBin) & ", 16777215) Pen(1,1,0)"
+				'sCmd = sCmd & " Brush MakeBrush(2, " & DLGQTIGetBinColor(nBin) & ", 16777215) Pen(1,1,0)"
+				sCmd = sCmd & " " & DLGQTIGetBinBrush(nBin) & " " & DLGQTIGetBorderPen()
 			Case TAB_LINE_OBJECTS
-				sCmd = sCmd & " Pen MakePen(2, 2, " & DLGQTIGetBinColor(nBin) & ")"
+				'sCmd = sCmd & " Pen MakePen(2, 2, " & DLGQTIGetBinColor(nBin) & ")"
+				sCmd = sCmd & " " & DLGQTIGetBinLine(nBin)
 			Case TAB_POINT_OBJECTS
-				sCmd = sCmd & " Symbol MakeFontSymbol(57, " & DLGQTIGetBinColor(nBin) & ", 10, " & Chr$(34) & "MapInfo Symbols" & Chr$(34) & ", 0, 0)"
+				'sCmd = sCmd & " Symbol MakeFontSymbol(57, " & DLGQTIGetBinColor(nBin) & ", 10, " & Chr$(34) & "MapInfo Symbols" & Chr$(34) & ", 0, 0)"
+				sCmd = sCmd & " " & DLGQTIGetBinSymbol(nBin)
 		End Case
 	Next
 

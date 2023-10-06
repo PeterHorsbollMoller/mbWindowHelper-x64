@@ -1,3 +1,6 @@
+Define	RANGE_CHANGE_FOREGROUND_COLOR	1
+Define	RANGE_CHANGE_BACKGROUND_COLOR	2
+
 Declare Function DLGQuickThemeRanged(	  ByVal nMID As Integer				'**ID of Map Window to load layers from
 								, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
 								, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
@@ -13,3 +16,9 @@ Declare Function DLGQTRGetToColor() As Integer
 Declare Function DLGQTRUseFixedColors() As Integer
 Declare Function DLGQTRCountFixedColors() As Integer
 Declare Function DLGQTRGetFixedColor( ByVal nColor As Integer) As Integer
+
+Declare Function DLGQTRGetBorderPen() As Pen
+Declare Function DLGQTRGetBrush() As Brush
+Declare Function DLGQTRGetChangeBrushColorType() As Integer
+Declare Function DLGQTRGetLinePen() As Pen
+Declare Function DLGQTRGetSymbol() As Symbol

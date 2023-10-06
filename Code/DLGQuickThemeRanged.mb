@@ -20,16 +20,22 @@ Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
 Include "Library\LAYERLib.def"
 Include "Library\STRINGLib.def"
+Include "Library\STYLELib.def"
 Include "Library\TABLELib.def"
 
 Include "DLGQuickThemeRanged.def"
 Include "WindowHelper.Assembly.def"
 
-Define	CTRL_LST_LAYERS		100
-Define	CTRL_LST_COLUMNS		200
-Define	CTRL_LST_COLORRANGES	300
-Define	CTRL_LST_RANGECOUNT		400
-Define	CTRL_CMD_OK			1000
+Define	CTRL_LST_LAYERS			100
+Define	CTRL_LST_COLUMNS			200
+Define	CTRL_LST_COLORRANGES		300
+Define	CTRL_LST_RANGECOUNT			400
+Define	CTRL_CMD_STYLE_LINE			601
+Define	CTRL_CMD_STYLE_SYMBOL		611
+Define	CTRL_CMD_STYLE_BRUSH		621
+Define	CTRL_CMD_STYLE_PEN			622
+Define	CTRL_LST_STYLE_BRUSH_FG_BG	623
+Define	CTRL_CMD_OK				1000
 
 Declare Sub DLGQTR_OnLoad
 Declare Sub DLGQTR_OKClicked
@@ -48,10 +54,14 @@ Type T_COLOR_RANGES
 End Type
 
 Dim	msLayerName, msColumnName, msDefaultColumnName As String,
-	mbUserDoubleClickedOnColumn, mbInitiatingDialog As Logical,
+	mbUserDoubleClickedOnColumn, mbInitiatingDialog, mbStylesInitialized As Logical,
 	marrLayerDescription(), marrLayerNames(), marrColumnNames(), marrColorRangeNames() As String,
 	marrColorRanges() As T_COLOR_RANGES,
-	mnMID, marrLayerIDs(), mnLayerID, mnDefaultLayerID, mnLayerTypesToUse, mnColumnTypesToUse, mnColorRange, mnRangeCount As Integer
+	mnMID, marrLayerIDs(), mnLayerID, mnDefaultLayerID, mnLayerTypesToUse, mnColumnTypesToUse, mnColorRange, mnRangeCount As Integer,
+	mnChangeBrushColorType As Integer,
+	mpenDefaultBorder, mpenDefaultLine As Pen,
+	mbrsDefaultFill As Brush,
+	msymDefaultSymbol As Symbol
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -63,6 +73,8 @@ Function DLGQuickThemeRanged(	  ByVal nMID As Integer				'**ID of Map Window to 
 						, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
 						, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
 						) As Logical
+
+Dim	penCurrentBorderPen, penCurrentLinePen, penCurrentPen As Pen
 
 OnError GoTo ErrorOccured
 
@@ -78,6 +90,36 @@ DLGQuickThemeRanged = FALSE
 	msDefaultColumnName			= sDefaultColumnName
 	mbUserDoubleClickedOnColumn	= FALSE
 	mnRangeCount				= IIf(mnRangeCount=0, 5, mnRangeCount)
+
+	penCurrentBorderPen		= CurrentBorderPen()
+	penCurrentLinePen		= CurrentLinePen()
+	penCurrentPen			= CurrentPen()
+'	Set Style BorderPen MakePen(1,1,0)
+'	Set Style LinePen 	MakePen(1,1,0)
+	Set Style Pen 		MakePen(1,1,0)
+
+	If Not mbStylesInitialized Then
+		mpenDefaultLine	= penCurrentLinePen
+		If StyleAttr(mpenDefaultLine, PEN_PATTERN) = 1 Then
+			mpenDefaultLine	= STLChangePenPattern(mpenDefaultLine, 2)
+		End If
+
+		msymDefaultSymbol	= CurrentSymbol()
+		If StyleAttr(msymDefaultSymbol, SYMBOL_CODE) = 31 Then
+			msymDefaultSymbol	= STLChangeSymbolSymbolCode(msymDefaultSymbol, 32)
+		End If
+
+		mpenDefaultBorder	= penCurrentBorderPen
+		If StyleAttr(mpenDefaultBorder, PEN_PATTERN) = 1 Then
+			mpenDefaultBorder	= STLChangePenPattern(mpenDefaultBorder, 2)
+		End If
+		mbrsDefaultFill	= CurrentBrush()
+		If StyleAttr(mbrsDefaultFill, BRUSH_PATTERN) = 1 Then
+			mbrsDefaultFill	= STLChangeBrushPattern(mbrsDefaultFill, 2)
+		End If
+
+		mbStylesInitialized	= TRUE
+	End If
 
 	Call DLGQTRLoadColorRanges
 
@@ -114,19 +156,48 @@ DLGQuickThemeRanged = FALSE
 			Value Maximum(1, mnRangeCount)
 			Into mnRangeCount
 
-		Control OKButton		Position 120,160	ID CTRL_CMD_OK
+		Control PenPicker		Position 5,175		ID CTRL_CMD_STYLE_LINE
+			Width 20	Height 20
+			Value mpenDefaultLine
+			Into mpenDefaultLine
+		Control SymbolPicker	Position 5,175		ID CTRL_CMD_STYLE_SYMBOL
+			Width 20	Height 20
+			Value msymDefaultSymbol
+			Into msymDefaultSymbol
+		Control PenPicker		Position 5,175		ID CTRL_CMD_STYLE_PEN
+			Width 20	Height 20
+			Value mpenDefaultBorder
+			Into mpenDefaultBorder
+		Control BrushPicker		Position 30,175	ID CTRL_CMD_STYLE_BRUSH
+			Width 20	Height 20
+			Value mbrsDefaultFill
+			Into mbrsDefaultFill
+
+		Control RadioGroup		Position 60, 175	ID CTRL_LST_STYLE_BRUSH_FG_BG
+			Title "Foreground;Background"
+			Value DLGQTRGetChangeBrushColorType()
+			Into mnChangeBrushColorType
+
+		Control OKButton		Position 120,175	ID CTRL_CMD_OK
 			Width 40
 			Calling DLGQTR_OKClicked
-		Control CancelButton	Position 165,160
+		Control CancelButton	Position 165,175
 			Width 40
 
 	If not CommandInfo(CMD_INFO_DLG_OK) Then
+'		Set Style BorderPen penCurrentBorderPen
+'		Set Style LinePen 	penCurrentLinePen
+		Set Style Pen 		penCurrentPen
 		If NOT mbUserDoubleClickedOnColumn Then
 			mnLayerID		= 0
 			msLayerName	= ""
 			msColumnName	= ""
 			Exit Function
 		End If
+	Else
+'		Set Style BorderPen penCurrentBorderPen
+'		Set Style LinePen 	penCurrentLinePen
+		Set Style Pen 		penCurrentPen
 	End If
 
 '	Print "DLGQuickThemeRanged: " & msLayerName & " (" & msColumnName & ")"
@@ -305,6 +376,31 @@ OnError GoTo ErrorOccured
 			Call DLGQTR_ColumnListClicked
 		End If
 	End If
+
+	Alter Control CTRL_CMD_OK Enable
+	Do Case TableInfo(msLayerName, TAB_INFO_DOMINANT_OBJECT_TYPE)
+		Case TAB_POINT_OBJECTS
+			Alter Control CTRL_CMD_STYLE_LINE			Hide
+			Alter Control CTRL_CMD_STYLE_SYMBOL		Show
+			Alter Control CTRL_CMD_STYLE_PEN			Hide
+			Alter Control CTRL_CMD_STYLE_BRUSH			Hide
+			Alter Control CTRL_LST_STYLE_BRUSH_FG_BG	Hide
+		Case TAB_LINE_OBJECTS
+			Alter Control CTRL_CMD_STYLE_LINE			Show
+			Alter Control CTRL_CMD_STYLE_SYMBOL		Hide
+			Alter Control CTRL_CMD_STYLE_PEN			Hide
+			Alter Control CTRL_CMD_STYLE_BRUSH			Hide
+			Alter Control CTRL_LST_STYLE_BRUSH_FG_BG	Hide
+		Case TAB_AREA_OBJECTS
+			Alter Control CTRL_CMD_STYLE_LINE			Hide
+			Alter Control CTRL_CMD_STYLE_SYMBOL		Hide
+			Alter Control CTRL_CMD_STYLE_PEN			Show
+			Alter Control CTRL_CMD_STYLE_BRUSH			Show
+			Alter Control CTRL_LST_STYLE_BRUSH_FG_BG	Show
+		Case Else
+			Print "Uh uh, a layer with predominant object types different to point, lines and areas!"
+		Alter Control CTRL_CMD_OK Disable
+	End Case
 
 	mbInitiatingDialog = FALSE
 
@@ -743,6 +839,106 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "DLGQTRGetFixedColor")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetBorderPen() As Pen
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetBorderPen = mpenDefaultBorder
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetBorderPen")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetBrush() As Brush
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetBrush = mbrsDefaultFill
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetBrush")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetChangeBrushColorType() As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetChangeBrushColorType = Maximum(mnChangeBrushColorType, RANGE_CHANGE_FOREGROUND_COLOR)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetChangeBrushColorType")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetLinePen() As Pen
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetLinePen = mpenDefaultLine
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetLinePen")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGQTRGetSymbol() As Symbol
+
+OnError GoTo ErrorOccured
+
+	DLGQTRGetSymbol = msymDefaultSymbol
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGQTRGetSymbol")
 	Call ERRShow()
 
 End Function

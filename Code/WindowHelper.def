@@ -38,3 +38,4 @@ Declare Sub WINHSetCoordsysUsingMap(ByVal nMID As Integer)
 
 Declare Sub WINHModifyWindowWL
 Declare Sub WINHModifyWindow
+Declare Sub WINHLayoutClearSelection

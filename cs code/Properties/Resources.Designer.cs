@@ -835,6 +835,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clear Selection.
+        /// </summary>
+        internal static string MNU_CLEAR_SELECTION {
+            get {
+                return ResourceManager.GetString("MNU_CLEAR_SELECTION", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clone Map.
         /// </summary>
         internal static string MNU_CLONE_MAP {
@@ -939,6 +948,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_BROWSER_FLOATING {
             get {
                 return ResourceManager.GetString("MNU_HLP_BROWSER_FLOATING", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unselect all layout objects and frames.
+        /// </summary>
+        internal static string MNU_HLP_CLEAR_SELECTION {
+            get {
+                return ResourceManager.GetString("MNU_HLP_CLEAR_SELECTION", resourceCulture);
             }
         }
         

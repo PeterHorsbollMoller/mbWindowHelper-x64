@@ -376,6 +376,9 @@
   <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
     <value>Browse in Floating Window</value>
   </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>Clear Selection</value>
+  </data>
   <data name="MNU_CLONE_MAP" xml:space="preserve">
     <value>Clone Map</value>
   </data>
@@ -411,6 +414,9 @@
   </data>
   <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
     <value>Display and Manipulate data in a floating browser window</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>Unselect all layout objects and frames</value>
   </data>
   <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
     <value>Clone the selected Map Window</value>

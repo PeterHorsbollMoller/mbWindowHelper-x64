@@ -1014,3 +1014,36 @@ ErrorOccured:
 
 End Sub
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHLayoutClearSelection
+
+Dim	nWID As Integer
+
+OnError GoTo ErrorOccured
+
+	nWID = FrontWindow()
+	If nWID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+	If Not WindowInfo(nWID, WIN_INFO_TYPE) = WIN_LAYOUT_DESIGNER Then
+		Note GetResItemStr("ERR_FRONT_WIN_NOT_LAYOUT")
+		Exit Sub
+	End If
+
+	Set Layout
+		Window nWID
+		Selection Clear
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHLayoutClearSelection")
+	Call ERRShow()
+
+End Sub
+

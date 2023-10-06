@@ -189,20 +189,22 @@
 '3.9.6	30/11/2022 09.36.50	- Added menu item on Layer context menu to refresh filtered layer
 '						- Fixed an issue with menu items not getting removed when tool ends
 '						- Reordered some controls in the context menus
+'4.0.0	29-09-2023 12:01:26	- Now using TAB_GROUP_HOME_WINDOW in stead of TAB_HOME_RECOVER_GRP
+'						- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear
+'						- Support for default brush, line, pen and symbol for quick individual theme
+'						- Support for default brush, line, pen and symbol for quick ranged theme
 '*******************************************************************************
 'Potential new features:
 '	- Rename table via Layer context menu
 '	- Add more default Smart Text adornments to the map window, such as copyright
-'	- Support for default brush, line, pen and symbol for quick individual theme
-'	- Support for default brush, line, pen and symbol for quick ranged theme
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
 '	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
 '	- Add support for editing the text from a frame in a layout in a dialog
-'	- Add Unselect to Layout tab: Set Layout Selection Clear
 '	- Add Replace image to Layout
 '	- Add zoom to the extent of a selected frame in the layout (make the frame fit in the view).
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
+'	- ...
 '*******************************************************************************
 
 '-------------------------------------
@@ -219,8 +221,8 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"3.9.6"
-Define xYear			"2022"
+Define xVersion 		"4.0.0"
+Define xYear			"2023"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
 Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
@@ -596,7 +598,7 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    H O M E
 	'********************************************************************************
 	sTabName		= TAB_HOME
-	sGroupName	= TAB_HOME_RECOVER_GRP
+	sGroupName	= TAB_HOME_WINDOW_GRP	'TAB_HOME_RECOVER_GRP
 
 	nCtrlIdx = RBNGroupAddButton("HomeRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
@@ -664,6 +666,18 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
+	End If
+
+	'********************************************************************************
+	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    L A Y O U T
+	'********************************************************************************
+	sTabName		= TAB_LAYOUT
+	sGroupName	= "LayoutArrange"	'TAB_LAYOUT_EDIT_GRP
+	nCtrlIdx = RBNGroupInsertControlAfter("tabLayoutClearSelection", GetResItemStr("MNU_CLEAR_SELECTION"), "", ControlType_Button, sTabName, sGroupName, BTN_LAYOUT_SELECT)	'"LayoutSelectButton"
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLEAR_SELECTION"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_CLEAR_16, MI_IMG_MAP_CLEAR_32)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLayoutClearSelection")
 	End If
 
 	'***************************************************************

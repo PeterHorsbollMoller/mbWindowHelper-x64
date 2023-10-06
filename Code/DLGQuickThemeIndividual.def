@@ -1,4 +1,7 @@
-﻿Declare Function DLGQuickThemeIndividual( ByVal nMID As Integer				'**ID of Map Window to load layers from
+﻿Define	INDI_CHANGE_FOREGROUND_COLOR	1
+Define	INDI_CHANGE_BACKGROUND_COLOR	2
+
+Declare Function DLGQuickThemeIndividual( ByVal nMID As Integer				'**ID of Map Window to load layers from
 								, ByVal nDefaultLayerID As String		'**Preselected Layer if found in nthe List of Layer IDs
 								, ByVal sDefaultColumnName As String	'**Preselected Column if found in nthe List of Columns
 								) As Logical						'**Returns TRUE if a Table and Column was selected or FALSE if dialog was cancelled
@@ -7,8 +10,17 @@ Declare Function DLGQTIGetLayerID() As Integer
 Declare Function DLGQTIGetLayerName() As String
 Declare Function DLGQTIGetColumnName() As String
 
-Declare Function DLGQTIGetBinCount() As Integer
-Declare Function DLGQTIGetBinValue( ByVal nBin As Integer) As String
-Declare Function DLGQTIGetBinColor( ByVal nBin As Integer) As Integer
-Declare Function DLGQTIPrepareColors() As Integer
+Declare Function DLGQTIGetBinCount(	  ) As Integer
+Declare Function DLGQTIGetBinValue(	ByVal nBin As Integer) As String
+Declare Function DLGQTIGetBinColor(	ByVal nBin As Integer) As Integer
+Declare Function DLGQTIPrepareColors(	  ) As Integer
+Declare Function DLGQTIGetBinBrush(	ByVal nBin As Integer) As Brush
+Declare Function DLGQTIGetBinLine( 	ByVal nBin As Integer) As Pen
+Declare Function DLGQTIGetBinSymbol(	ByVal nBin As Integer) As Symbol
+
+Declare Function DLGQTIGetBorderPen() As Pen
+Declare Function DLGQTIGetBrush() As Brush
+Declare Function DLGQTIGetChangeBrushColorType() As Integer
+Declare Function DLGQTIGetLinePen() As Pen
+Declare Function DLGQTIGetSymbol() As Symbol
 
