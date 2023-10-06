@@ -564,7 +564,6 @@ OnError GoTo ErrorOccured
 			Next
 
 			sCmd	= "Shade Window " & nMID & " " & nLayerID & " With " & sCol & " Ranges " & sCmd
-			Print sCmd
 			Run Command sCmd
 
 		Case TAB_POINT_OBJECTS
