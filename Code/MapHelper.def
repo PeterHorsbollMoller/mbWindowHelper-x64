@@ -34,3 +34,6 @@ Declare Sub MAPHMenuCopyLayerSettingsLC
 Declare Sub MAPHMenuPasteLayerSettingsLC
 
 Declare Sub MAPHMenuRefreshFilteredLayerLC
+
+Declare Sub MAPHMenuMoveLayerToTopLC
+Declare Sub MAPHMenuMoveLayerToBottomLC

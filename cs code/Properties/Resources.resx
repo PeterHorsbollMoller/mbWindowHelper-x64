@@ -445,6 +445,18 @@
   <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
     <value>Run a Group By Query on the currently selected column.</value>
   </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Move the selected layer to the bottom of layer list in the map</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that isn't the cosmetic, a thematic layer, or the last layer.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Move the selected layer to the top of layer list in the map</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that isn't the cosmetic, a thematic layer, or the first layer.</value>
+  </data>
   <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Display a clone of the active layout</value>
   </data>
@@ -462,6 +474,15 @@
   </data>
   <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename all layers to match the tab file name</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that isn't the cosmetic layer.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that isn't the cosmetic or a thematic layer.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that has a TAB File on disk.</value>
   </data>
   <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open the selected tab file in</value>
@@ -547,6 +568,12 @@
   <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Zoom to the Extent of the Selection in the Front Most Map</value>
   </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Move Layer to the Bottom</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Move Layer to the Top</value>
+  </data>
   <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Clone View</value>
   </data>
@@ -554,7 +581,7 @@
     <value>Locate File In Windows Explorer</value>
   </data>
   <data name="MNU_LOCK_WINDOW" xml:space="preserve">
-    <value>Lock window</value>
+    <value>Lock Window</value>
   </data>
   <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>

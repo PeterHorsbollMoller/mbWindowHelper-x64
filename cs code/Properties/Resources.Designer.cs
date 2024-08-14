@@ -1042,6 +1042,42 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move the selected layer to the bottom of layer list in the map.
+        /// </summary>
+        internal static string MNU_HLP_LAYER_MOVE_TO_BOTTOM {
+            get {
+                return ResourceManager.GetString("MNU_HLP_LAYER_MOVE_TO_BOTTOM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that isn&apos;t the cosmetic, a thematic layer, or the last layer..
+        /// </summary>
+        internal static string MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move the selected layer to the top of layer list in the map.
+        /// </summary>
+        internal static string MNU_HLP_LAYER_MOVE_TO_TOP {
+            get {
+                return ResourceManager.GetString("MNU_HLP_LAYER_MOVE_TO_TOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that isn&apos;t the cosmetic, a thematic layer, or the first layer..
+        /// </summary>
+        internal static string MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Display a clone of the active layout.
         /// </summary>
         internal static string MNU_HLP_LAYOUT_CLONE_VIEW {
@@ -1092,6 +1128,33 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_MULTIPLE_LAYERS_RENAME {
             get {
                 return ResourceManager.GetString("MNU_HLP_MULTIPLE_LAYERS_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that isn&apos;t the cosmetic layer..
+        /// </summary>
+        internal static string MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that isn&apos;t the cosmetic or a thematic layer..
+        /// </summary>
+        internal static string MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that has a TAB File on disk..
+        /// </summary>
+        internal static string MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED", resourceCulture);
             }
         }
         
@@ -1348,6 +1411,24 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Move Layer to the Bottom.
+        /// </summary>
+        internal static string MNU_LAYER_MOVE_TO_BOTTOM {
+            get {
+                return ResourceManager.GetString("MNU_LAYER_MOVE_TO_BOTTOM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Move Layer to the Top.
+        /// </summary>
+        internal static string MNU_LAYER_MOVE_TO_TOP {
+            get {
+                return ResourceManager.GetString("MNU_LAYER_MOVE_TO_TOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clone View.
         /// </summary>
         internal static string MNU_LAYOUT_CLONE_VIEW {
@@ -1366,7 +1447,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Lock window.
+        ///   Looks up a localized string similar to Lock Window.
         /// </summary>
         internal static string MNU_LOCK_WINDOW {
             get {

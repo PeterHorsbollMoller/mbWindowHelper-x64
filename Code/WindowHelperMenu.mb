@@ -193,18 +193,30 @@
 '						- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear
 '						- Support for default brush, line, pen and symbol for quick individual theme
 '						- Support for default brush, line, pen and symbol for quick ranged theme
+'4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
+'						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
+'						- Add Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12
+'4.0.2	14-08-2024 14:59:53	- Add menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13
 '*******************************************************************************
 'Potential new features:
+'	- Add a option to the Layer context menu to move layer to a specific location in the layer list
 '	- Rename table via Layer context menu
+'	- Rename Layer: Option to specify character(s) to replace underscore with and not jut a space
 '	- Add more default Smart Text adornments to the map window, such as copyright
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
 '	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
 '	- Add support for editing the text from a frame in a layout in a dialog
-'	- Add Replace image to Layout
-'	- Add zoom to the extent of a selected frame in the layout (make the frame fit in the view).
+'	- Add 'Replace Image' to Layout
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
+'	- Add Open LayerList or Explorer Window to Mapper Context menu
+'	- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8
+'	- View Entire Layer for multiple layer, see https://ideas.precisely.com/ideas/?page=93&project=MIPRO&sort=recent&status=6617794376932183945
+'	- Save theme as object style on table/copy of table for individual theme and ranged theme
 '	- ...
+'
+'	Not that easy to implemted currently
+'	- Add zoom to the extent of a selected frame in the layout (make the frame fit in the view).
 '*******************************************************************************
 
 '-------------------------------------
@@ -221,8 +233,8 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.0.0"
-Define xYear			"2023"
+Define xVersion 		"4.0.2"
+Define xYear			"2024"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
 Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
@@ -265,6 +277,9 @@ Declare Sub WinClosedHandler
 Declare Sub WinFocusChangedHandler
 Declare Sub WinChangedHandler
 Declare Sub SelChangedHandler
+Declare Sub MENULayerSelectionChanged(ByVal args As This)
+
+Declare Sub MENURefreshLayerListControls
 
 Declare Sub MENUInitializeMenuItems
 
@@ -334,7 +349,10 @@ OnError GoTo ErrorOccured
 
 	'***Subscribing to events
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
-		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed!")
+		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed to the 'TableClosed' event!")
+	End If
+	If NOT RBNEventSubscribe(AddInEvents_LayerSelectionChanged, "MENULayerSelectionChanged") Then
+		Call DEBUGPrint("MENULayerSelectionChanged was not subscribed to the 'LayerSelectionChanged' event !")
 	End If
 	Call DEBUGPrint("Subscribing to MapDraw...")
 '	If NOT RBNEventSubscribe(AddInEvents_MapDraw, "MENUMapDrawHandler") Then
@@ -723,7 +741,13 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
 	End If
-'	nCtrlIdx	= RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsZoomToSeparator", "(-", "" , 2)
+	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_BrowserShortcut, "brwsCntxtClearSelection", GetResItemStr("MNU_CLEAR_SELECTION"), "")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLEAR_SELECTION"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLEAR_16, "")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCmdIDIdx(nCtrlIdx, M_QUERY_UNSELECT)
+	End If
 
 	'***************************************************************
 	' L A Y E R   L I S T   M A P   C O N T E X T   M E N U
@@ -803,6 +827,21 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewSingleLayer")
+	End If
+
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToBottom", GetResItemStr("MNU_LAYER_MOVE_TO_BOTTOM"), "", "exlyrCntxtRenameLayer")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED"))
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowDown_15x15.png")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToBottomLC")
+	End If
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToTop", GetResItemStr("MNU_LAYER_MOVE_TO_TOP"), "", "exlyrCntxtRenameLayer")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED"))
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowUp_15x15.png")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToTopLC")
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
@@ -1112,6 +1151,136 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENULayerSelectionChanged(ByVal args As This)
+
+OnError GoTo ErrorOccured
+
+	Call MENURefreshLayerListControls
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENULayerSelectionChanged")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENURefreshLayerListControls
+
+Dim	nMID, nLayerID, nNumLayersSelected As Integer
+
+OnError GoTo ErrorOccured
+
+	nNumLayersSelected = LayerControlInfo(LC_INFO_SEL_COUNT)
+
+	Do Case nNumLayersSelected
+		Case 0
+			'**No item selected which will mena that the context menu can't be shown
+
+		Case 1
+			nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
+			nLayerID	= LayerControlSelectionInfo(1, LC_SEL_INFO_LAYER_ID)
+			If nLayerID <= 0 Then
+				'**No layer has been selected, so the 'Layer List Layer Context Menu' isn't shown
+				Exit Sub
+			End If
+
+			Alter Menu Item TABHLocateTabFileLC 			Enable	'exlyrCntxtLocateInExplore
+			Alter Menu Item TABHOpenTabFileLC	 			Enable	'lclCntxtOpenInTextEditor
+			Alter Menu Item WINHSetDefaultViewSingleLayer 	Enable	'exlyrCntxtDefaultView
+			Alter Menu Item TABHCloseTableLC 				Enable	'exlyrCntxtCntxtCloseTable
+			Alter Menu Item MAPHRenameLayerAdvancedLC 		Enable	'exlyrCntxtRenameLayer
+			Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Enable	'exlyrCntxtQuickThemeIndividual
+			Alter Menu Item MAPHMenuQuickThemeRangedLC 		Enable	'exlyrCntxtQuickThemeRanged
+			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Enable	'exlyrCntxtCopyProperties
+			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Enable	'exlyrCntxtPasteProperties
+			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Enable	'exlyrCntxtRefreshFilteredLayer
+			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Enable
+			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Enable
+
+			If nLayerID = 1 Then
+				Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+			ElseIf nLayerID = MapperInfo(nMID, MAPPER_INFO_LAYERS) Then
+				Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+			End If
+
+			Do Case LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE)
+				Case LAYER_INFO_TYPE_NORMAL
+					'Call RBNGroupEnableControls("", "", exlyrCntxtCntxtCloseTable, TRUE)
+					If TableInfo(LayerInfo(nMID, nLayerID, LAYER_INFO_NAME), TAB_INFO_TEMP) Then
+						Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
+						Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
+						Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
+					End If
+
+				Case LAYER_INFO_TYPE_IMAGE, LAYER_INFO_TYPE_GRID, LAYER_INFO_TYPE_WMS, LAYER_INFO_TYPE_TILESERVER
+					Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
+					Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
+					Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
+					Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+
+				Case LAYER_INFO_TYPE_THEMATIC
+					Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+					Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
+					Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
+					Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
+					Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
+					Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
+'					Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
+'					Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+					Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+					Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+					Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+
+				Case LAYER_INFO_TYPE_COSMETIC, LAYER_INFO_TYPE_GRIDLINE
+					Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+					Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
+					Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
+					Alter Menu Item MAPHRenameLayerAdvancedLC 		Disable	'exlyrCntxtRenameLayer
+					Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
+					Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
+					Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
+					Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
+					Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+					Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+					Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+					Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+			End Case
+
+		Case Else
+			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+			Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
+			Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
+			Alter Menu Item MAPHRenameLayerAdvancedLC 		Disable	'exlyrCntxtRenameLayer
+			Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
+			Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
+			Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
+			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
+			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+
+	End Case
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENURefreshLayerListControls")
+	Call ERRShow()
+
+End Sub
+
+
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes MapInfo

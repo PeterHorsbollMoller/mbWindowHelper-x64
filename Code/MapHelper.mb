@@ -690,7 +690,7 @@ OnError GoTo ErrorOccured
 				sCmd = sCmd & " " & DLGQTIGetBinBrush(nBin) & " " & DLGQTIGetBorderPen()
 			Case TAB_LINE_OBJECTS
 				'sCmd = sCmd & " Pen MakePen(2, 2, " & DLGQTIGetBinColor(nBin) & ")"
-				sCmd = sCmd & " " & DLGQTIGetBinLine(nBin)
+				sCmd = sCmd & " " & STRINGReplace(DLGQTIGetBinLine(nBin), "Pen", "Line")
 			Case TAB_POINT_OBJECTS
 				'sCmd = sCmd & " Symbol MakeFontSymbol(57, " & DLGQTIGetBinColor(nBin) & ", 10, " & Chr$(34) & "MapInfo Symbols" & Chr$(34) & ", 0, 0)"
 				sCmd = sCmd & " " & DLGQTIGetBinSymbol(nBin)
@@ -727,7 +727,7 @@ MAPHGetCartographicScale = "0"
 '	fMapWidth = Distance(MapperInfo(nMID, MAPPER_INFO_MINX), MapperInfo(nMID, MAPPER_INFO_MINY), MapperInfo(nMID, MAPPER_INFO_MAXX), MapperInfo(nMID, MAPPER_INFO_MINY), "m")
 	fMapWidth = MapperInfo(nMID, MAPPER_INFO_ZOOM)
 
-	Print "Map Zoom, cm: " & fMapWidth
+'	Print "Map Zoom, cm: " & fMapWidth
 
 	Set Paper Units "cm"
 	If SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_CLASSICMENU Then
@@ -736,7 +736,7 @@ MAPHGetCartographicScale = "0"
 		fWinWidth = WindowInfo(nMID, WIN_INFO_CLIENTWIDTH)
 	End if
 
-	Print "Win Width, cm: " & fWinWidth
+'	Print "Win Width, cm: " & fWinWidth
 
 '	MAPHGetCartographicScale = fMapWidth / fWinWidth
 	MAPHGetCartographicScale = Round(fMapWidth / fWinWidth, 1)
@@ -1216,3 +1216,84 @@ ErrorOccured:
 
 End Sub
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuMoveLayerToTopLC
+
+Dim	nMID, nLayerID As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+
+	Set Map Window nMID Order Layers nLayerID Position 1
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuMoveLayerToTopLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuMoveLayerToBottomLC
+
+Dim	nMID, nLayerID As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Exit Sub
+	End If
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+
+	Set Map Window nMID Order Layers nLayerID Position MapperInfo(nMID, MAPPER_INFO_LAYERS)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuMoveLayerToBottomLC")
+	Call ERRShow()
+
+End Sub

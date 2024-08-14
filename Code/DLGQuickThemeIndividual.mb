@@ -882,6 +882,8 @@ Function DLGQTIGetBinLine( 	ByVal nBin As Integer) As Pen
 
 OnError GoTo ErrorOccured
 
+'	Call DEBUGPrint("DLGQTIGetBinLine: Default Line Pen" & mpenDefaultLine )
+'	Call DEBUGPrint("DLGQTIGetBinLine: Changed Line Pen" & STLChangePenColour(mpenDefaultLine, DLGQTIGetBinColor(nBin)) )
 
 	DLGQTIGetBinLine = STLChangePenColour(mpenDefaultLine, DLGQTIGetBinColor(nBin))
 	Exit Function
