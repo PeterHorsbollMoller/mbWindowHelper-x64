@@ -367,6 +367,9 @@
   <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
     <value>Advanced Rename</value>
   </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>Apply Styles</value>
+  </data>
   <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
     <value>Autolock Windows</value>
   </data>
@@ -408,6 +411,9 @@
   </data>
   <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
     <value>This will let you rename the selected layer and let you save the new name as the default name</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>Toggle the Override Styles on or off</value>
   </data>
   <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
     <value>Autolock all windows</value>
@@ -553,6 +559,9 @@
   <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>Zooms to the entire view of the layers map</value>
   </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Bring up the Workspace Explorer Window</value>
+  </data>
   <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
     <value>Zoom to First</value>
   </data>
@@ -591,6 +600,9 @@
   </data>
   <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open Tab File In</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Workspace Explorer</value>
   </data>
   <data name="MNU_OPTIONS" xml:space="preserve">
     <value>Options</value>

@@ -808,6 +808,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply Styles.
+        /// </summary>
+        internal static string MNU_APPLY_STYLES {
+            get {
+                return ResourceManager.GetString("MNU_APPLY_STYLES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Autolock Windows.
         /// </summary>
         internal static string MNU_AUTOLOCK_WINDOWS {
@@ -930,6 +939,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_HLP_ADVANCED_RENAME {
             get {
                 return ResourceManager.GetString("MNU_HLP_ADVANCED_RENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Toggle the Override Styles on or off.
+        /// </summary>
+        internal static string MNU_HLP_APPLY_STYLES {
+            get {
+                return ResourceManager.GetString("MNU_HLP_APPLY_STYLES", resourceCulture);
             }
         }
         
@@ -1366,6 +1384,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bring up the Workspace Explorer Window.
+        /// </summary>
+        internal static string MNU_HLP_WORKSPACE_EXPLORER {
+            get {
+                return ResourceManager.GetString("MNU_HLP_WORKSPACE_EXPLORER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Zoom to First.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_FIRST {
@@ -1479,6 +1506,15 @@ namespace WindowHelper.Properties {
         internal static string MNU_OPEN_TABFILE_IN_TEXT_EDITOR {
             get {
                 return ResourceManager.GetString("MNU_OPEN_TABFILE_IN_TEXT_EDITOR", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Workspace Explorer.
+        /// </summary>
+        internal static string MNU_OPEN_WORKSPACE_EXPLORER {
+            get {
+                return ResourceManager.GetString("MNU_OPEN_WORKSPACE_EXPLORER", resourceCulture);
             }
         }
         

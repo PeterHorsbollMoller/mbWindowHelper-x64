@@ -195,8 +195,10 @@
 '						- Support for default brush, line, pen and symbol for quick ranged theme
 '4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
 '						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
-'						- Add Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12
-'4.0.2	14-08-2024 14:59:53	- Add menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13
+'						- Add Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
+'4.0.2	14-08-2024 14:59:53	- Add menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
+'4.0.3	15-08-2024 11:56:51	- Add Open LayerList or Explorer Window to Mapper Context menu
+'						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 - 5 votes
 '*******************************************************************************
 'Potential new features:
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
@@ -206,12 +208,10 @@
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
 '	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
-'	- Add support for editing the text from a frame in a layout in a dialog
-'	- Add 'Replace Image' to Layout
+'	- Add support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569
+'	- Add 'Replace Image' to Layout, see https://ideas.precisely.com/ideas/MIPRO-I-1224
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
-'	- Add Open LayerList or Explorer Window to Mapper Context menu
-'	- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8
-'	- View Entire Layer for multiple layer, see https://ideas.precisely.com/ideas/?page=93&project=MIPRO&sort=recent&status=6617794376932183945
+'	- View Entire Layer for multiple layer, see https://ideas.precisely.com/ideas/MIPRO-I-96
 '	- Save theme as object style on table/copy of table for individual theme and ranged theme
 '	- ...
 '
@@ -233,7 +233,7 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.0.2"
+Define xVersion 		"4.0.3"
 Define xYear			"2024"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -471,7 +471,7 @@ OnError GoTo ErrorOccured
 					If nCtrlIdx > 0 Then
 						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_INFO_TOOL"), "")
 						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_INFOTOOL_16, "")
-						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1707)
+						Call RBNControlSetCmdIDIdx(nCtrlIdx, M_TOOLS_PNT_QUERY)
 					End If
 				End If
 
@@ -481,7 +481,7 @@ OnError GoTo ErrorOccured
 					If nCtrlIdx > 0 Then
 						Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_RULER_TOOL"), "")
 						Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_WIN_RULER_16, "")
-						Call RBNControlSetCmdIDIdx(nCtrlIdx, 1710)
+						Call RBNControlSetCmdIDIdx(nCtrlIdx, M_TOOLS_RULER)
 					End If
 				End If
 			End If
@@ -709,13 +709,25 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
 	End If
 
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtExplorerWindow", GetResItemStr("MNU_OPEN_WORKSPACE_EXPLORER"), "", 0)
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_WORKSPACE_EXPLORER"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_WIN_WOREXPLORERWIN_16, MI_IMG_WIN_WOREXPLORERWIN_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCmdIDIdx(nCtrlIdx, M_VIEW_WORKSPACE_EXPLORER)
+	End If
+
+	'*Adding a separator that will appear under Open Workspace Explorer
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtMapSeparator1", "(-", "", 1)
+
+
 	'***************************************************************
 	' B R O W S E R   C O N T E X T   M E N U
 	'***************************************************************
 	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, MI_IMG_TAB_FILTER_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
@@ -895,6 +907,15 @@ OnError GoTo ErrorOccured
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuRefreshFilteredLayerLC")
 		End If
+	End If
+
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemBefore(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", "MenuItem_LcLayerProperties") ' MenuItem_LcLayerProperties or MenuItem_LcAddDisplayOverride
+	If nCtrlIdx > 0 Then
+		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_APPLY_STYLES"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LYR_APPLYSTYLES_16, MI_IMG_LYR_APPLYSTYLES_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCmdIDIdx(nCtrlIdx, 2528)	'Apply Styles
 	End If
 
 	'***************************************************************
