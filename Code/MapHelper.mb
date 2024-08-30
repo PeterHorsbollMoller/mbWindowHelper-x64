@@ -24,6 +24,7 @@ Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\STYLELib.def"
 Include "Library\TABLELib.def"
+Include "Library\THEMELib.def"
 Include "Library\Dialogs\DLGSelectTableAndColumn.def"
 Include "Library\Types\T_LABEL_SETTINGS.def"
 Include "Library\Types\T_LAYER_SETTINGS.def"
@@ -39,7 +40,10 @@ Include "DLGAdvancedLayerRename.def"
 Include "DLGMultipleLayersRename.def"
 
 Dim	mtli As T_LAYER_INFO,
-	mbLayerInfoRead As Logical
+	mbLayerInfoRead As Logical,
+	mnNumBins, mnCurrentBin As Integer,
+	msThemeBaseTab As String,
+	marrItems() As T_INDIVIDUAL_ITEMS
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -52,10 +56,10 @@ Dim	nMID, nLayerID, nWin As Integer
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -63,7 +67,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -460,10 +464,10 @@ Dim	nMID, nLayerID, nCol, nColor As Integer,
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -471,7 +475,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -637,10 +641,10 @@ Dim	nMID, nLayerID, nCol, nBins, nBin, nColors, nLayerTypesToUse As Integer,
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -648,7 +652,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -1085,10 +1089,10 @@ Dim	nMID, nLayerID As Integer
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -1096,7 +1100,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -1135,10 +1139,10 @@ OnError GoTo ErrorOccured
 	End If
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -1146,7 +1150,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -1183,10 +1187,10 @@ Dim	nMID, nLayerID As Integer,
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -1194,7 +1198,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
@@ -1228,10 +1232,10 @@ Dim	nMID, nLayerID As Integer
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -1239,7 +1243,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -1269,10 +1273,10 @@ Dim	nMID, nLayerID As Integer
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -1280,7 +1284,7 @@ OnError GoTo ErrorOccured
 	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
 	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LC")
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
@@ -1297,3 +1301,213 @@ ErrorOccured:
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHMenuSaveThemeStylesToTable
+
+Dim	nMID, nLayerID As Integer,
+	sCol As String
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+
+	If nLayerID = -1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+		Exit Sub
+	End If
+	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_THEMATIC Then
+		Note GetResItemStr("ERR_SELECT_THEME_LAYER_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	msThemeBaseTab		= ThemeInfo(nMID, nLayerID, THEME_INFO_TABLE_ALIAS)
+
+	Do Case TableInfo(msThemeBaseTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
+		Case TAB_MISC_OBJECTS
+			Note GetResItemStr("ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED")
+			Exit Sub
+		Case TAB_RASTER_OBJECTS
+			Note GetResItemStr("ERR_TAB_WITH_RASTER_NOT_SUPPORTED")
+			Exit Sub
+		Case TAB_UNKNOWN_OBJECTS
+			Note GetResItemStr("ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE")
+			Exit Sub
+	End Case
+
+	Do Case ThemeInfo (nMID, nLayerID, THEME_INFO_TYPE)
+		Case THEME_TYPE_UNIQUE
+			'This type is supported
+'		Case THEME_TYPE_RANGES
+			'This type is not yet supported - under consideration
+'		Case THEME_TYPE_GRADUATED
+			'This type is not yet supported - under consideration
+'		Case THEME_TYPE_BARS
+			'This type will not be supported
+'		Case THEME_TYPE_PIES
+			'This type will not be supported
+'		Case THEME_TYPE_DOTDENSITY
+			'This type will not be supported
+'		Case THEME_TYPE_GRID
+			'This type will not be supported
+		Case Else
+			Note GetResItemStr("ERR_THEME_TYPE_NOT_SUPPORTED")
+			Exit Sub
+	End Case
+
+	mnNumBins 	= THEMEGetIndividualItems(nMID, nLayerID, marrItems())
+	mnCurrentBin	= 1
+
+	Set Progressbars Off
+
+	Progressbar GetResItemStr("STR_APPLYING_THEME_STYLE_TO_OBJS") & "..."
+		Calling MAPHSaveThemeStyleToTab_Single
+		Range mnNumBins
+
+	Set Progressbars On
+
+'	For nThemeItem = 1 to mnNumBins
+'
+'		If marrItems(nThemeItem).nExprType = EXPRESSION_TYPE_CHAR Then
+'			sCmd = "Select * From " & msThemeBaseTab & " Where " & marrItems(nThemeItem).sExpr & " = "
+'		Else
+'			sCmd = "Select * From " & msThemeBaseTab & " Where " & " Str$(" & marrItems(nThemeItem).sExpr & ") = "
+'		End If
+'
+'		Do Case marrItems(nThemeItem).nExprType
+'			Case EXPRESSION_TYPE_INTEGER, EXPRESSION_TYPE_SMALLINT, 39	', EXPRESSION_TYPE_LARGEINT = 39?
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).nValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_DECIMAL, EXPRESSION_TYPE_FLOAT
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).fValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_CHAR
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).sValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_DATE
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).dValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_TIME
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).tValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_DATETIME
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).dtValue) & Chr$(34)
+'			Case EXPRESSION_TYPE_LOGICAL
+'				sCmd = sCmd & Chr$(34) & Str$(marrItems(nThemeItem).bValue) & Chr$(34)
+'		End Case
+'
+'		sCmd = sCmd & " Into __theme__apply_style NoSelect Hide"
+'		Print sCmd
+'
+'		Run Command sCmd
+'
+'		If TableInfo(__theme__apply_style, TAB_INFO_NROWS) > 0 Then
+'			Do Case TableInfo(msThemeBaseTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
+'				Case TAB_POINT_OBJECTS
+'					Update __theme__apply_style
+'						Set OBJ = STLAlterSymbol(OBJ, marrItems(nThemeItem).symStyle)
+'						Where STLObjectHasSymbol(OBJ) = TRUE
+'				Case TAB_LINE_OBJECTS
+'					Update __theme__apply_style
+'						Set OBJ = STLAlterPen(OBJ, marrItems(nThemeItem).penLine)
+'						Where STLObjectHasPen(OBJ) = TRUE
+'				Case TAB_AREA_OBJECTS
+'					Update __theme__apply_style
+'						Set OBJ = STLAlterPen(STLAlterBrush(OBJ, marrItems(nThemeItem).brsFill), marrItems(nThemeItem).penBorder)
+'						Where STLObjectHasBrush(OBJ) = TRUE
+'			End Case
+'		End If
+'		Call TABClose("__theme__apply_style")
+'	Next
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHMenuSaveThemeStylesToTable")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHSaveThemeStyleToTab_Single
+
+Dim	sCmd As String
+
+OnError GoTo ErrorOccured
+
+	If marrItems(mnCurrentBin).nExprType = EXPRESSION_TYPE_CHAR Then
+		sCmd = "Select * From " & msThemeBaseTab & " Where " & marrItems(mnCurrentBin).sExpr & " = "
+	Else
+		sCmd = "Select * From " & msThemeBaseTab & " Where " & " Str$(" & marrItems(mnCurrentBin).sExpr & ") = "
+	End If
+
+	Do Case marrItems(mnCurrentBin).nExprType
+		Case EXPRESSION_TYPE_INTEGER, EXPRESSION_TYPE_SMALLINT, 39	', EXPRESSION_TYPE_LARGEINT = 39?
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).nValue) & Chr$(34)
+		Case EXPRESSION_TYPE_DECIMAL, EXPRESSION_TYPE_FLOAT
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).fValue) & Chr$(34)
+		Case EXPRESSION_TYPE_CHAR
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).sValue) & Chr$(34)
+		Case EXPRESSION_TYPE_DATE
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).dValue) & Chr$(34)
+		Case EXPRESSION_TYPE_TIME
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).tValue) & Chr$(34)
+		Case EXPRESSION_TYPE_DATETIME
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).dtValue) & Chr$(34)
+		Case EXPRESSION_TYPE_LOGICAL
+			sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).bValue) & Chr$(34)
+	End Case
+
+	sCmd = sCmd & " Into __theme__apply_style NoSelect Hide"
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+
+	If TableInfo(__theme__apply_style, TAB_INFO_NROWS) > 0 Then
+		Do Case TableInfo(msThemeBaseTab, TAB_INFO_DOMINANT_OBJECT_TYPE)
+			Case TAB_POINT_OBJECTS
+				Update __theme__apply_style
+					Set OBJ = STLAlterSymbol(OBJ, marrItems(mnCurrentBin).symStyle)
+					Where STLObjectHasSymbol(OBJ) = TRUE
+			Case TAB_LINE_OBJECTS
+				Update __theme__apply_style
+					Set OBJ = STLAlterPen(OBJ, marrItems(mnCurrentBin).penLine)
+					Where STLObjectHasPen(OBJ) = TRUE
+			Case TAB_AREA_OBJECTS
+				Update __theme__apply_style
+					Set OBJ = STLAlterPen(STLAlterBrush(OBJ, marrItems(mnCurrentBin).brsFill), marrItems(mnCurrentBin).penBorder)
+					Where STLObjectHasBrush(OBJ) = TRUE
+		End Case
+	End If
+	Call TABClose("__theme__apply_style")
+
+'-------------------------
+NextBin:
+	mnCurrentBin = mnCurrentBin + 1
+	If mnCurrentBin > mnNumBins Then
+		ProgressBar = -1
+	Else
+		ProgressBar = mnCurrentBin
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHSaveThemeStyleToTab_Single")
+	Call ERRPrint()
+	GoTo NextBin
+
+End Sub
+
+

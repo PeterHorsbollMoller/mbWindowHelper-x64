@@ -301,14 +301,26 @@
   <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select a non temporal layer in the Layer Control! </value>
   </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select a non temporal layer in the Layer List! </value>
+  </data>
   <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
-    <value>Please select a normal layer!</value>
+    <value>Please select a normal layer in the Layer Control!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select a normal layer in the Layer List!</value>
   </data>
   <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
-    <value>Please select a normal or raster/grid layer!</value>
+    <value>Please select a normal or raster/grid layer in the Layer Control!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select a normal or raster/grid layer in the Layer List!</value>
   </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one layer in the Layer Control!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select one layer in the Layer List</value>
   </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
     <value>Please select a single layer in the layer control!</value>
@@ -316,8 +328,26 @@
   <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one map in the Layer Control!</value>
   </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select one map in the Layer List!</value>
+  </data>
   <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
     <value>Please select one table in the TableList window!</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select a thematic layer in the Layer List!</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>The table contains mostly text object type which isn't supported.</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>The table contains raster type which isn't supported.</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>The table has an unknown dominant object type.</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>Unfortunately, this thematic type isn't supported!</value>
   </data>
   <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
     <value>The table holds object types not supported by this function {0}</value>
@@ -419,7 +449,7 @@
     <value>Autolock all windows</value>
   </data>
   <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
-    <value>Display and Manipulate data in a floating browser window</value>
+    <value>Display and manipulate data in a floating browser window</value>
   </data>
   <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
     <value>Unselect all layout objects and frames</value>
@@ -437,10 +467,10 @@
     <value>Close window</value>
   </data>
   <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
-    <value>Copy All Settings from Selected Layer</value>
+    <value>Copy all settings from selected layer</value>
   </data>
   <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
-    <value>Create a Map Extent into a map or table.</value>
+    <value>Create a map extent into a map or table.</value>
   </data>
   <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
     <value>Make window dockable</value>
@@ -449,7 +479,7 @@
     <value>This will filter the browser using the value in the currently selected cell</value>
   </data>
   <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
-    <value>Run a Group By Query on the currently selected column.</value>
+    <value>Run a Group By query on the currently selected column.</value>
   </data>
   <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
     <value>Move the selected layer to the bottom of layer list in the map</value>
@@ -476,7 +506,7 @@
     <value>Change size or title of window</value>
   </data>
   <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
-    <value>Modify Title and Size of Active Window</value>
+    <value>Modify title and size of active window</value>
   </data>
   <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename all layers to match the tab file name</value>
@@ -487,26 +517,29 @@
   <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
     <value>Select one layer from the Layer List that isn't the cosmetic or a thematic layer.</value>
   </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Select one layer from the Layer List that is a thematic layer.</value>
+  </data>
   <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
-    <value>Select one layer from the Layer List that has a TAB File on disk.</value>
+    <value>Select one layer from the Layer List that has a TAB file on disk.</value>
   </data>
   <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
     <value>Open the selected tab file in</value>
   </data>
   <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
-    <value>Pan to the Selected Record in the Front Most Map</value>
+    <value>Pan to the selected record in the front most map</value>
   </data>
   <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
     <value>Paste Layer Settings onto Selected Layer</value>
   </data>
   <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
-    <value>Create a Individual Thematic Map from the First Character Column</value>
+    <value>Create an individual thematic map from a column</value>
   </data>
   <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
-    <value>Create a Ranged Thematic Map from the First Numeric Column</value>
+    <value>Create a ranged thematic map from a column</value>
   </data>
   <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
-    <value>Rate Application at the Pitney Bowes Community Download Page</value>
+    <value>Rate application at the Precisely Community Download Page</value>
   </data>
   <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
     <value>Refresh the layer using the specified filter</value>
@@ -518,7 +551,7 @@
     <value>Restore closed window</value>
   </data>
   <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
-    <value>Restore Window Positions To The Saved State</value>
+    <value>Restore window positions po phe saved state</value>
   </data>
   <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
     <value>Saves the active window to a workspace without the 'Open Table ...' statements</value>
@@ -540,6 +573,9 @@
   </data>
   <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
     <value>Specify which windows automatically to store positions of</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Save the styles from the theme as the object styles</value>
   </data>
   <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
     <value>Restore window positions when the program starts</value>
@@ -563,19 +599,19 @@
     <value>Bring up the Workspace Explorer Window</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
-    <value>Zoom to First</value>
+    <value>Zoom to first</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
-    <value>Zoom to Last</value>
+    <value>Zoom to last</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
-    <value>Zoom to Next</value>
+    <value>Zoom to next</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
-    <value>Zoom to Previous</value>
+    <value>Zoom to previous</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
-    <value>Zoom to the Extent of the Selection in the Front Most Map</value>
+    <value>Zoom to the extent of the selection in the front most map</value>
   </data>
   <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
     <value>Move Layer to the Bottom</value>
@@ -685,6 +721,9 @@
   <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
     <value>&amp;Auto Store Position Of Windows</value>
   </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Save Styles to Table</value>
+  </data>
   <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
     <value>Restore Window Positions On Startup</value>
   </data>
@@ -720,6 +759,9 @@
   </data>
   <data name="STR_APPLY" xml:space="preserve">
     <value>Apply</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>Updating objects with thematic style</value>
   </data>
   <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
     <value>Show Info</value>

@@ -197,8 +197,9 @@
 '						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
 '						- Add Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
 '4.0.2	14-08-2024 14:59:53	- Add menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
-'4.0.3	15-08-2024 11:56:51	- Add Open LayerList or Explorer Window to Mapper Context menu
+'4.0.3	15-08-2024 11:56:51	- Add Open Explorer Window to Mapper Context menu
 '						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 - 5 votes
+'4.0.4	16-08-2024 15:30:33	- Save theme as object style on table for individual theme theme
 '*******************************************************************************
 'Potential new features:
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
@@ -212,7 +213,7 @@
 '	- Add 'Replace Image' to Layout, see https://ideas.precisely.com/ideas/MIPRO-I-1224
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
 '	- View Entire Layer for multiple layer, see https://ideas.precisely.com/ideas/MIPRO-I-96
-'	- Save theme as object style on table/copy of table for individual theme and ranged theme
+'	- Save theme as object style on table for ranged theme
 '	- ...
 '
 '	Not that easy to implemted currently
@@ -233,7 +234,7 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.0.3"
+Define xVersion 		"4.0.4"
 Define xYear			"2024"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -527,6 +528,13 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_STATIC_THEME"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuStaticTheme")
+	End If
+
+	nCtrlIdx = RBNGroupInsertControlAfter("btnMapThemeSaveToTable", GetResItemStr("MNU_THEME_SAVE_TO_TABLE"), "", ControlType_Button, sTabName, sGroupName, "btnMapStaticTheme")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_THEME_SAVE_TO_TABLE"), GetResItemStr("MNU_HLP_ONE_LAYER_THEMATIC_DISABLED"))
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "ThemeSave_16x16.png", PATH_IMAGES & "ThemeSave_32x32.png")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuSaveThemeStylesToTable")
 	End If
 
 	sTabName		= TAB_MAP
@@ -870,13 +878,33 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeIndividualLC")
 	End If
 
-	'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
 	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeRanged", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "exlyrCntxtQuickThemeIndividual")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
+	End If
+
+	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtThemeSaveToTable", GetResItemStr("MNU_THEME_SAVE_TO_TABLE"), "", "exlyrCntxtQuickThemeRanged")
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_THEME_SAVE_TO_TABLE"), GetResItemStr("MNU_HLP_ONE_LAYER_THEMATIC_DISABLED"))
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "ThemeSave_16x16.png", PATH_IMAGES & "ThemeSave_32x32.png")
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuSaveThemeStylesToTable")
+	End If
+
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemBefore(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", "MenuItem_LcLayerProperties") ' MenuItem_LcLayerProperties or MenuItem_LcAddDisplayOverride
+	Else
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", 6)
+	End If
+	If nCtrlIdx > 0 Then
+		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_APPLY_STYLES"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LYR_APPLYSTYLES_16, MI_IMG_LYR_APPLYSTYLES_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCmdIDIdx(nCtrlIdx, 2528)	'Apply Styles
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
@@ -907,15 +935,6 @@ OnError GoTo ErrorOccured
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuRefreshFilteredLayerLC")
 		End If
-	End If
-
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemBefore(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", "MenuItem_LcLayerProperties") ' MenuItem_LcLayerProperties or MenuItem_LcAddDisplayOverride
-	If nCtrlIdx > 0 Then
-		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_APPLY_STYLES"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LYR_APPLYSTYLES_16, MI_IMG_LYR_APPLYSTYLES_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCmdIDIdx(nCtrlIdx, 2528)	'Apply Styles
 	End If
 
 	'***************************************************************
@@ -1229,6 +1248,7 @@ OnError GoTo ErrorOccured
 			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Enable	'exlyrCntxtRefreshFilteredLayer
 			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Enable
 			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Enable
+			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Enable
 
 			If nLayerID = 1 Then
 				Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
@@ -1244,12 +1264,14 @@ OnError GoTo ErrorOccured
 						Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
 						Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
 					End If
+					Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
 
 				Case LAYER_INFO_TYPE_IMAGE, LAYER_INFO_TYPE_GRID, LAYER_INFO_TYPE_WMS, LAYER_INFO_TYPE_TILESERVER
 					Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
 					Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
 					Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
 					Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+					Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
 
 				Case LAYER_INFO_TYPE_THEMATIC
 					Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
@@ -1277,6 +1299,7 @@ OnError GoTo ErrorOccured
 					Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
 					Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
 					Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+					Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
 			End Case
 
 		Case Else
@@ -1290,6 +1313,9 @@ OnError GoTo ErrorOccured
 			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
 			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
 			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
+			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
 
 	End Case
 

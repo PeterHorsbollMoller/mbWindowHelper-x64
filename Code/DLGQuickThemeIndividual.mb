@@ -825,14 +825,14 @@ OnError GoTo ErrorOccured
 			Into Variable arrBrushes
 
 		Redim marrColors(nColors)
-		Print "Looping through " & nColors & " brushes"
+'		Print "Looping through " & nColors & " brushes"
 		For nColor = 1 To nColors
 			marrColors(nColor) = StyleAttr(arrBrushes(nColor), BRUSH_FORECOLOR)
 		Next
 	Else
 
 		Redim marrColors(nColors)
-		Print "Looping through " & nColors & " colors"
+'		Print "Looping through " & nColors & " colors"
 		For nColor = 1 To nColors
 			marrColors(nColor) =  marrColorRanges(mnColorRange).arrColors(nColor)
 		Next

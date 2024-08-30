@@ -583,7 +583,16 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select a normal layer!.
+        ///   Looks up a localized string similar to Please select a non temporal layer in the Layer List! .
+        /// </summary>
+        internal static string ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a normal layer in the Layer Control!.
         /// </summary>
         internal static string ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL {
             get {
@@ -592,11 +601,29 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select a normal or raster/grid layer!.
+        ///   Looks up a localized string similar to Please select a normal layer in the Layer List!.
+        /// </summary>
+        internal static string ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a normal or raster/grid layer in the Layer Control!.
         /// </summary>
         internal static string ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL {
             get {
                 return ResourceManager.GetString("ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a normal or raster/grid layer in the Layer List!.
+        /// </summary>
+        internal static string ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST", resourceCulture);
             }
         }
         
@@ -606,6 +633,15 @@ namespace WindowHelper.Properties {
         internal static string ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL {
             get {
                 return ResourceManager.GetString("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select one layer in the Layer List.
+        /// </summary>
+        internal static string ERR_SELECT_ONE_LAYER_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST", resourceCulture);
             }
         }
         
@@ -628,11 +664,29 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please select one map in the Layer List!.
+        /// </summary>
+        internal static string ERR_SELECT_ONE_MAP_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_ONE_MAP_IN_LAYER_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please select one table in the TableList window!.
         /// </summary>
         internal static string ERR_SELECT_ONE_TABLE_IN_TABLE_LIST {
             get {
                 return ResourceManager.GetString("ERR_SELECT_ONE_TABLE_IN_TABLE_LIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a thematic layer in the Layer List!.
+        /// </summary>
+        internal static string ERR_SELECT_THEME_LAYER_IN_LAYER_LIST {
+            get {
+                return ResourceManager.GetString("ERR_SELECT_THEME_LAYER_IN_LAYER_LIST", resourceCulture);
             }
         }
         
@@ -660,6 +714,42 @@ namespace WindowHelper.Properties {
         internal static string ERR_SELECTION_NOT_ONE_RECORD {
             get {
                 return ResourceManager.GetString("ERR_SELECTION_NOT_ONE_RECORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The table contains mostly text object type which isn&apos;t supported..
+        /// </summary>
+        internal static string ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED {
+            get {
+                return ResourceManager.GetString("ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The table contains raster type which isn&apos;t supported..
+        /// </summary>
+        internal static string ERR_TAB_WITH_RASTER_NOT_SUPPORTED {
+            get {
+                return ResourceManager.GetString("ERR_TAB_WITH_RASTER_NOT_SUPPORTED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The table has an unknown dominant object type..
+        /// </summary>
+        internal static string ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE {
+            get {
+                return ResourceManager.GetString("ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unfortunately, this thematic type isn&apos;t supported!.
+        /// </summary>
+        internal static string ERR_THEME_TYPE_NOT_SUPPORTED {
+            get {
+                return ResourceManager.GetString("ERR_THEME_TYPE_NOT_SUPPORTED", resourceCulture);
             }
         }
         
@@ -961,7 +1051,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Display and Manipulate data in a floating browser window.
+        ///   Looks up a localized string similar to Display and manipulate data in a floating browser window.
         /// </summary>
         internal static string MNU_HLP_BROWSER_FLOATING {
             get {
@@ -1015,7 +1105,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Copy All Settings from Selected Layer.
+        ///   Looks up a localized string similar to Copy all settings from selected layer.
         /// </summary>
         internal static string MNU_HLP_COPY_LAYER_PROPERTIES {
             get {
@@ -1024,7 +1114,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create a Map Extent into a map or table..
+        ///   Looks up a localized string similar to Create a map extent into a map or table..
         /// </summary>
         internal static string MNU_HLP_CREATE_MAP_EXTENT {
             get {
@@ -1051,7 +1141,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Run a Group By Query on the currently selected column..
+        ///   Looks up a localized string similar to Run a Group By query on the currently selected column..
         /// </summary>
         internal static string MNU_HLP_GROUP_BY_CURRENT_COLUMN {
             get {
@@ -1132,7 +1222,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Modify Title and Size of Active Window.
+        ///   Looks up a localized string similar to Modify title and size of active window.
         /// </summary>
         internal static string MNU_HLP_MOFIFY_WINDOW {
             get {
@@ -1168,7 +1258,16 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select one layer from the Layer List that has a TAB File on disk..
+        ///   Looks up a localized string similar to Select one layer from the Layer List that is a thematic layer..
+        /// </summary>
+        internal static string MNU_HLP_ONE_LAYER_THEMATIC_DISABLED {
+            get {
+                return ResourceManager.GetString("MNU_HLP_ONE_LAYER_THEMATIC_DISABLED", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Select one layer from the Layer List that has a TAB file on disk..
         /// </summary>
         internal static string MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED {
             get {
@@ -1186,7 +1285,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Pan to the Selected Record in the Front Most Map.
+        ///   Looks up a localized string similar to Pan to the selected record in the front most map.
         /// </summary>
         internal static string MNU_HLP_PAN_TO_SELECTION_FRONT_MAP {
             get {
@@ -1204,7 +1303,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create a Individual Thematic Map from the First Character Column.
+        ///   Looks up a localized string similar to Create an individual thematic map from a column.
         /// </summary>
         internal static string MNU_HLP_QUICK_THEME_INDIVIDUAL {
             get {
@@ -1213,7 +1312,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create a Ranged Thematic Map from the First Numeric Column.
+        ///   Looks up a localized string similar to Create a ranged thematic map from a column.
         /// </summary>
         internal static string MNU_HLP_QUICK_THEME_RANGED {
             get {
@@ -1222,7 +1321,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Rate Application at the Pitney Bowes Community Download Page.
+        ///   Looks up a localized string similar to Rate application at the Precisely Community Download Page.
         /// </summary>
         internal static string MNU_HLP_RATE_APPLICATION {
             get {
@@ -1258,7 +1357,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Restore Window Positions To The Saved State.
+        ///   Looks up a localized string similar to Restore window positions po phe saved state.
         /// </summary>
         internal static string MNU_HLP_RESTORE_WINDOWS_NOW {
             get {
@@ -1330,6 +1429,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save the styles from the theme as the object styles.
+        /// </summary>
+        internal static string MNU_HLP_THEME_SAVE_TO_TABLE {
+            get {
+                return ResourceManager.GetString("MNU_HLP_THEME_SAVE_TO_TABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore window positions when the program starts.
         /// </summary>
         internal static string MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START {
@@ -1393,7 +1501,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to First.
+        ///   Looks up a localized string similar to Zoom to first.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_FIRST {
             get {
@@ -1402,7 +1510,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to Last.
+        ///   Looks up a localized string similar to Zoom to last.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_LAST {
             get {
@@ -1411,7 +1519,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to Next.
+        ///   Looks up a localized string similar to Zoom to next.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_NEXT {
             get {
@@ -1420,7 +1528,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to Previous.
+        ///   Looks up a localized string similar to Zoom to previous.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_PREVIOUS {
             get {
@@ -1429,7 +1537,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Zoom to the Extent of the Selection in the Front Most Map.
+        ///   Looks up a localized string similar to Zoom to the extent of the selection in the front most map.
         /// </summary>
         internal static string MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP {
             get {
@@ -1762,6 +1870,15 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save Styles to Table.
+        /// </summary>
+        internal static string MNU_THEME_SAVE_TO_TABLE {
+            get {
+                return ResourceManager.GetString("MNU_THEME_SAVE_TO_TABLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Restore Window Positions On Startup.
         /// </summary>
         internal static string MNU_TOGGLE_RESTORE_WINDOWS_ON_START {
@@ -1866,6 +1983,15 @@ namespace WindowHelper.Properties {
         internal static string STR_APPLY {
             get {
                 return ResourceManager.GetString("STR_APPLY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Updating objects with thematic style.
+        /// </summary>
+        internal static string STR_APPLYING_THEME_STYLE_TO_OBJS {
+            get {
+                return ResourceManager.GetString("STR_APPLYING_THEME_STYLE_TO_OBJS", resourceCulture);
             }
         }
         

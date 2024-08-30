@@ -20,6 +20,7 @@ Module=Library\STRINGLib.mbo
 Module=Library\SystemLib 1251.mbo
 Module=Library\STYLELib.mbo
 Module=Library\TABLELib.mbo
+Module=Library\THEMELib.mbo
 Module=Library\Dialogs\DLGSelectTableAndColumn.mbo
 Module=Library\Dialogs\DLGSelectLayerAndColumn.mbo
 Module=Library\Types\T_LABEL_SETTINGS.mbo

@@ -37,3 +37,6 @@ Declare Sub MAPHMenuRefreshFilteredLayerLC
 
 Declare Sub MAPHMenuMoveLayerToTopLC
 Declare Sub MAPHMenuMoveLayerToBottomLC
+
+Declare Sub MAPHMenuSaveThemeStylesToTable
+Declare Sub MAPHSaveThemeStyleToTab_Single

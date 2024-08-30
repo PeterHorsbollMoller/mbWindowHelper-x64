@@ -1,1 +1,19 @@
-13:06:56 Comparing statements: Array: 0 chars. WIN_INFO_CLONE: 0 chars.
+14:00:14 Select * From Parcels Where SOGNNAVN = "Sønderholm" Into __theme__apply_style NoSelect Hide
+14:00:15 Select * From Parcels Where SOGNNAVN = "Sønderup" Into __theme__apply_style NoSelect Hide
+14:00:15 Select * From Parcels Where SOGNNAVN = "Sørup" Into __theme__apply_style NoSelect Hide
+14:00:16 Select * From Parcels Where SOGNNAVN = "Terndrup" Into __theme__apply_style NoSelect Hide
+14:00:17 Select * From Parcels Where SOGNNAVN = "Torup" Into __theme__apply_style NoSelect Hide
+14:00:17 Select * From Parcels Where SOGNNAVN = "Ulsted" Into __theme__apply_style NoSelect Hide
+14:00:18 Select * From Parcels Where SOGNNAVN = "Vadum" Into __theme__apply_style NoSelect Hide
+14:00:19 Select * From Parcels Where SOGNNAVN = "Veggerby" Into __theme__apply_style NoSelect Hide
+14:00:20 Select * From Parcels Where SOGNNAVN = "Vejgård" Into __theme__apply_style NoSelect Hide
+14:00:21 Select * From Parcels Where SOGNNAVN = "Vester Hassing" Into __theme__apply_style NoSelect Hide
+14:00:21 Select * From Parcels Where SOGNNAVN = "Vesterkær" Into __theme__apply_style NoSelect Hide
+14:00:22 Select * From Parcels Where SOGNNAVN = "Vodskov" Into __theme__apply_style NoSelect Hide
+14:00:23 Select * From Parcels Where SOGNNAVN = "Vokslev" Into __theme__apply_style NoSelect Hide
+14:00:24 Select * From Parcels Where SOGNNAVN = "Volsted" Into __theme__apply_style NoSelect Hide
+14:00:24 Select * From Parcels Where SOGNNAVN = "Vor Frelser" Into __theme__apply_style NoSelect Hide
+14:00:25 Select * From Parcels Where SOGNNAVN = "Vor Frue" Into __theme__apply_style NoSelect Hide
+14:00:26 Select * From Parcels Where SOGNNAVN = "Øster Hassing-Gåser" Into __theme__apply_style NoSelect Hide
+14:00:27 Select * From Parcels Where SOGNNAVN = "Øster Hornum" Into __theme__apply_style NoSelect Hide
+14:00:27 Select * From Parcels Where SOGNNAVN = "Årestrup" Into __theme__apply_style NoSelect Hide
