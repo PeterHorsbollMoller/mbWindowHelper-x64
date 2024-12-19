@@ -195,6 +195,28 @@
 '						- Support for default brush, line, pen and symbol for quick ranged theme
 '4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
 '						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
+'						- Added Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
+'4.0.2	14-08-2024 14:59:53	- Added menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
+'4.0.3	15-08-2024 11:56:51	- Added Open Explorer Window to Mapper Context menu
+'						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 (5 votes) and https://ideas.precisely.com/ideas/MIPRO-I-549 (51 votes)
+'4.0.4	16-08-2024 15:30:33	- Added Save theme as object style on table for individual theme
+'4.0.5	24-10-2024 11:58:33	- Layout Clear Selection now gets disabled/enabled
+'						- Added Support for Ignore 0 or Blanks for Quick Ranged Theme
+'						- Added support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569
+'							- Added to Layout tab and to the Layout Frame context menu
+'						- Hiding the standard Rename menu in the Layer context menu in the Layer List
+'						- These support multiple selected layers: MAPHMenuMoveLayerToTopLC, MAPHMenuMoveLayerToBottomLC, TABHCloseTableLC & MAPHMenuPasteLayerSettingsLC
+'						- Most context menu controls can now be shown or hidden via an Options setting
+'						- Added Zoom to Normal Layers - https://ideas.precisely.com/ideas/MIPRO-I-64 (8 votes)
+'							- Hidden option control if not visible layers should be used or not
+'						- Zoom to the extent of a few layers - https://ideas.precisely.com/ideas/MIPRO-I-96 (2 votes)
+'						- Hiding the standard View Entire Layer menu in the Layer context menu in the Layer List
+'						- Custom Zoom Entire Map let's you pick what layers to include by type (replacing Zoom to Normal Layers):
+'							- Normal Vector, Local Raster, Local Grid, WMS, Tile Server and Only Visible
+'						- Published OBJSetCentroidXY as WHSetCentroid
+'		25-11-2024 09:28:58	- Updated the FunctionList.txt file with samples to match the published functions
+'		18-12-2024 07:46:29 - Fixed an issue in MAPHSelectWithinMap: It will now use the topmost normal layer that is visible and selectable.
+'4.1.0	19-12-2024 13:27:05	- Release Build
 '*******************************************************************************
 'Potential new features:
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
@@ -1364,7 +1386,7 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbï¿½ll Mï¿½ller, Precisely
+'Created by Peter Horsbøll Møller, Precisely
 'Parameters:
 '
 '**********************************************************************************************''
@@ -1385,7 +1407,7 @@ ErrorOccured:
 End Sub
 
 '**********************************************************************************************''
-'Created by Peter Horsbï¿½ll Mï¿½ller, Precisely
+'Created by Peter Horsbøll Møller, Precisely
 'Parameters:
 '
 '**********************************************************************************************''
