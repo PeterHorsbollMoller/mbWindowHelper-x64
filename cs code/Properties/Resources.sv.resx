@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>   <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
+    <value>Vill du hitta TAB-filen eller rutnätsfilen?</value>
+  </data>
+  <data name="ASK_LOCATE_TAB_FILE_OR_RASTER_FILE" xml:space="preserve">
+    <value>Vill du hitta TAB-filen eller rutnätsfilen?</value>
+  </data>
+  <data name="BTN_HLP_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Slå på/av automatisk låsning av fönster\nLås fönster automatiskt</value>
+  </data>
+  <data name="BTN_HLP_CLONE_FRONT_WINDOW" xml:space="preserve">
+    <value>Klona aktivt fönster\nKlona fönster</value>
+  </data>
+  <data name="BTN_HLP_CLOSE_FRONT_WINDOW" xml:space="preserve">
+    <value>Stäng aktivt fönster\nStäng fönster</value>
+  </data>
+  <data name="BTN_HLP_LOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Lås aktivt fönster från att stängas\nLås fönster</value>
+  </data>
+  <data name="BTN_HLP_RESTORE_CLOSED_WINDOW" xml:space="preserve">
+    <value>Återställ stängt fönster\nÅterställ stängt fönster</value>
+  </data>
+  <data name="BTN_HLP_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Ange önskad storlek och placering på främre fönstret\nAnge önskad storlek och placering</value>
+  </data>
+  <data name="BTN_HLP_UNLOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Lås upp aktivt fönster från att stängas\nLås upp fönster</value>
+  </data>
+  <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
+    <value>Basfönster ({0})</value>
+  </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>Anpassade funktioner och underprocedurer</value>
+  </data>
+  <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modifiera fönster</value>
+  </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>Antalet lagerplatser har begränsats till {0}.</value>
+  </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>Alternativ</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>Klistra in alla egenskaper</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>Klistra in etikettinställningar</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>Klistra in åsidosättningar av etiketter</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>Klistra in lagerfilter</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>Klistra in lagerformat</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>Klistra in åsidosättningar av format</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>Klistra in tidsegenskaper</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>Statiskt tema</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Välj kolumn med kategorier</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>Välj tabell för tema</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>Antal lagerplatser</value>
+  </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value>Antal intervall</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>Välj färgintervall</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Välj kolumn för tematisk karta</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>Välj lager för tematisk karta</value>
+  </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>Ändra namn på avancerat lager</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Ändra namn på flera lager</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Snabbt individuellt tema</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Snabbt intervallbaserat tema</value>
+  </data>
+  <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Skapa kartutbredning</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Klistra in lageregenskaper</value>
+  </data>
+  <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
+    <value>Återställ fönster</value>
+  </data>
+  <data name="DLG_TXT_CREATE_EXTENT_OF" xml:space="preserve">
+    <value>Skapa kartutbredning av</value>
+  </data>
+  <data name="DLG_TXT_EXTENT_STYLE" xml:space="preserve">
+    <value>Format för kartutbredning</value>
+  </data>
+  <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
+    <value>Välj fönster att återställa</value>
+  </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>Det grafiska lagret stöds inte!</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>En tom sträng kan inte användas som ett lagers läsvänliga namn!</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Ange ett namn för det nya basfönstret!</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>Ange ett namn för fönstret!</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>Ange en storlek som är större än 0!</value>
+  </data>
+  <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
+    <value>Det aktiva fönstret måste vara ett kartfönster!</value>
+  </data>
+  <data name="ERR_INVALID_XML" xml:space="preserve">
+    <value>XML är ogiltigt!</value>
+  </data>
+  <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
+    <value>Minst ett kartfönster måste vara öppet!</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>Kartan har inte ett valbart lager</value>
+  </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>Klicka i cellen för att läsa värdet från! Programmet ignorerar den första raden i den första kolumnen</value>
+  </data>
+  <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
+    <value>Det finns inga fönster att återställa!</value>
+  </data>
+  <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
+    <value>Minst ett fönster måste vara öppet!</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>Endast tecken och numeriska kolumner stöds</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
+    <value>Öppna ett fönster för att läsa storlek och position från!</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_RESIZE_REPOSITION" xml:space="preserve">
+    <value>Öppna ett fönster för att ändra storlek och flytta!</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
+    <value>Öppna ett fönster för att spara till en arbetsyta!</value>
+  </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>Den valda posten har inget rumsobjekt!</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>Välj exakt en post!</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>Välj minst en post!</value>
+  </data>
+  <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
+    <value>Välj basfönstret för att uppdatera!</value>
+  </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>Välj en tabell med minst en numerisk kolumn!</value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Välj ett icke temporärt lager i Lagerstyrning! </value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj ett icke temporärt lager i Lagerlista! </value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Välj ett normalt lager i Lagerstyrning!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj ett normalt lager i Lagerlista!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Välj ett normalt lager eller raster/rutnäts-lager i Lagerstyrning!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj ett normalt lager eller raster/rutnäts-lager i Lagerlista!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Välj ett lager i Lagerstyrning!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj ett lager i Lagerlista</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>Välj ett enda lager i Lagerstyrning!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Välj en karta i Lagerstyrning!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj en karta i Lagerlista!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
+    <value>Välj en tabell i tabellistfönstret!</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Välj ett tematiskt lager i lagerlistan!</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>Tabellen innehåller mestadels textobjekttyper som inte stöds.</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>Tabellen innehåller rastertyper som inte stöds.</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>Tabellen har en okänd dominant objekttyp.</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>Tyvärr stöds inte denna tematiska typ!</value>
+  </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>Tabellen innehåller objekttyper som inte stöds av den här funktionen {0}</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
+    <value>Alla stängda fönster</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Stängda webbläsarfönster</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Stängda layoutfönster</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_MAPS" xml:space="preserve">
+    <value>Stängda kartfönster</value>
+  </data>
+  <data name="LST_WINDOWS_ALL" xml:space="preserve">
+    <value>Alla fönster</value>
+  </data>
+  <data name="LST_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Webbläsarfönster</value>
+  </data>
+  <data name="LST_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Layoutfönster</value>
+  </data>
+  <data name="LST_WINDOWS_LEGENDS" xml:space="preserve">
+    <value>Legend Designer-fönster</value>
+  </data>
+  <data name="LST_WINDOWS_MAPS" xml:space="preserve">
+    <value>Kartfönster</value>
+  </data>
+  <data name="LST_WINDOWS_SPECIAL" xml:space="preserve">
+    <value>Speciella fönster</value>
+  </data>
+  <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
+    <value>&amp;Om {0} ...</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Kartografisk skala</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Projektionsnamn</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>Kartrubrik</value>
+  </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>Ändra namn på avancerat</value>
+  </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>Tillämpa inställningar</value>
+  </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Lås fönster automatiskt</value>
+  </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>Flytande webbläsare</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>Bläddra i flytande fönster</value>
+  </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>Rensa markering</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>Klona karta</value>
+  </data>
+  <data name="MNU_CLOSE_TABLE" xml:space="preserve">
+    <value>Stäng tabell</value>
+  </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Kopiera lageregenskaper</value>
+  </data>
+  <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Kartomfattning</value>
+  </data>
+  <data name="MNU_END_PROGRAM" xml:space="preserve">
+    <value>&amp;Avsluta program</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Filtrera med hjälp av cellvärde</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>Cellvärde</value>
+  </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Gruppera efter aktuell kolumn</value>
+  </data>
+  <data name="MNU_HELP" xml:space="preserve">
+    <value>&amp;Hjälp</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>Detta låter dig byta namn på det valda lagret och låter dig spara det nya namnet som standardnamn</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>Slå på och av åsidosättning av format</value>
+  </data>
+  <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
+    <value>Lås alla fönster automatiskt</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>Visa och manipulera data i ett flytande webbläsarfönster</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>Avmarkera alla layoutobjekt och ramar</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>Klona det valda kartfönstret</value>
+  </data>
+  <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
+    <value>Klona fönster</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_TABLE" xml:space="preserve">
+    <value>Stänger den markerade tabellen</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
+    <value>Stäng fönster</value>
+  </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Kopiera alla inställningar från det valda lagret</value>
+  </data>
+  <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Skapa en kartutbredning till en karta eller tabell.</value>
+  </data>
+  <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
+    <value>Gör fönstret dockbart</value>
+  </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Detta kommer att filtrera webbläsaren med värdet i den valda cellen</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Kör en Gruppera efter-fråga för aktuellt vald kolumn.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Flytta det valda lagret till botten av lagerlistan på kartan</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från Lagerlistan som inte är det kosmetiska lagret, ett tematiskt lager eller det sista lagret.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Flytta det valda lagret högst upp på lagerlistan på kartan</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från Lagerlistan som inte är det kosmetiska lagret, ett tematiskt lager eller det första lagret.</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Visa en klon av den aktiva layouten.</value>
+  </data>
+  <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Hittar en fil i Windows Explorer som är relaterad till den valda tabellen</value>
+  </data>
+  <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
+    <value>Lås fönster</value>
+  </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Ändra storlek eller rubrik på fönstret</value>
+  </data>
+  <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
+    <value>Ändra rubrik eller storlek på aktivt fönster</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Ändra namn på att lager så att de matchar TAB-filens namn</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från lagerlistan som inte är det kosmetiska lagret.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från lagerlistan som inte är det kosmetiska lagret eller ett tematiskt lager.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från lagerlistan som är ett tematiskt lager.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>Välj ett lager från lagerlistan som har en TAB-fil på disk.</value>
+  </data>
+  <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Öppna den valda TAB-filen i</value>
+  </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Panorera till den valda posten i den främre kartan</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Klistra in lagerinställningar till markerat lager</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Skapa en individuell tematisk karta från en kolumn</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Skapa en intervallbaserad karta från en kolumn</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>Bedöm programmet på Precisely-communityns nedladdningssida</value>
+  </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Uppdatera lagret med hjälp av det angivna filtret</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Återställ ett eller flera fönster som stängts under denna session</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOW" xml:space="preserve">
+    <value>Återställ stängt fönster</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Återställ fönsterpositioner till sparad status</value>
+  </data>
+  <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Sparar det aktiva fönstret till en arbetsyta utan "Öppna tabell ..."-satser</value>
+  </data>
+  <data name="MNU_HLP_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Konfigurera basfönster med storlek och position</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Ange standardvy för alla lager på kartan</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Ange standardvy för markerat lager</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Visa lista över funktioner och underprocedurer som ska användas med Exec()-funktionen</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Lagra den aktuella positionen för fönstren</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>Ange för vilka fönster positioner ska lagras automatiskt</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Spara formaten från temat som objektformaten</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Återställ fönsterpositioner när programmet startar</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>Visa fönstret Lagerkontroll automatiskt vid start</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>Visa tabellistfönstret automatiskt vid start</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Lagra fönsterpositioner när programmet avslutas</value>
+  </data>
+  <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Lås upp fönster</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Zoomar till hela vyn av lagerkartan</value>
+  </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Öppna fönstret Programutforskaren</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
+    <value>Zooma till första</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
+    <value>Zooma till sista</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
+    <value>Zooma till nästa</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
+    <value>Zooma till föregående</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zooma till omfattningen av urvalet på den främre kartan</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Flytta lager till botten</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Flytta lager till topp</value>
+  </data>
+  <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Klona vy</value>
+  </data>
+  <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Hitta filen i Windows Explorer</value>
+  </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>Lås fönster</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modifiera fönster</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Ändra namn på flera lager</value>
+  </data>
+  <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Öppna TAB-fil i</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Workspace Explorer</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>Alternativ</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Panorera till den valda posten</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Klistra in lageregenskaper</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Snabbt individuellt tema</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Snabbt intervallbaserat tema</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>Utvärdera program</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Uppdatera filtrerat lager</value>
+  </data>
+  <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Återställ fönster</value>
+  </data>
+  <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Återställ fönsterpositioner nu</value>
+  </data>
+  <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Spara till arbetsyta</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Val av kartutbredning</value>
+  </data>
+  <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Konfigurera basfönster ...</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Ange standardvy för alla lager</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Ange standardvy ...</value>
+  </data>
+  <data name="MNU_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Ställ in önskad storlek och position på främre fönstret</value>
+  </data>
+  <data name="MNU_SHOW_ALL_WINDOWS" xml:space="preserve">
+    <value>Visa &amp;alla fönster</value>
+  </data>
+  <data name="MNU_SHOW_INFO_WINDOW" xml:space="preserve">
+    <value>Visa &amp;Info-fönster</value>
+  </data>
+  <data name="MNU_SHOW_LEGEND_WINDOW" xml:space="preserve">
+    <value>Visa teckenförklaringsfönster</value>
+  </data>
+  <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
+    <value>Visa Map Basic-fönstret</value>
+  </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Visa lista över funktioner och underprocedurer</value>
+  </data>
+  <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
+    <value>Visa meddelandefönstret</value>
+  </data>
+  <data name="MNU_SHOW_RULER_WINDOW" xml:space="preserve">
+    <value>Visa linjalfönstret</value>
+  </data>
+  <data name="MNU_SHOW_STATISTICS_WINDOW" xml:space="preserve">
+    <value>Visa statistikfönstret</value>
+  </data>
+  <data name="MNU_SHOW_WINDOW" xml:space="preserve">
+    <value>Visa fönster</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>Statiskt tema</value>
+  </data>
+  <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Lagra fönsterpositioner nu</value>
+  </data>
+  <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>Lagra fönsterpositioner automatiskt</value>
+  </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Spara format till tabell</value>
+  </data>
+  <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Återställ fönsterpositioner vid uppstart</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>Visa Lagerkontroll vid uppstart</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>Visa tabellista vid uppstart</value>
+  </data>
+  <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Lagra fönsterpositioner vid avslut</value>
+  </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Lås upp fönster</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Visa hela kartan</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zooma till urvalsutbredning</value>
+  </data>
+  <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
+    <value>Välj arbetsyta att spara fönstret till ...</value>
+  </data>
+  <data name="QUEST_AUTOSTORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>WindowHelper kan lagra storlek och position för fönster vid avslut och återställa dessa fönster när det startar nästa gång. {\n}{\n}Vill du aktivera detta?</value>
+  </data>
+  <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
+    <value>Är du säker på att du vill stänga detta fönster: {0}?</value>
+  </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>Detta program utökar MapInfo Pro med ett antal användbara funktioner när du ska arbeta med fönster</value>
+  </data>
+  <data name="STR_APPLY" xml:space="preserve">
+    <value>Tillämpa</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>Uppdatera objekt med tematiskt format</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>Visa info</value>
+  </data>
+  <data name="STR_CHANGE" xml:space="preserve">
+    <value>Ändra</value>
+  </data>
+  <data name="STR_CLOSE" xml:space="preserve">
+    <value>Stäng</value>
+  </data>
+  <data name="STR_CLOSE_WINDOW" xml:space="preserve">
+    <value>Stäng fönster</value>
+  </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>Kopiera</value>
+  </data>
+  <data name="STR_COSM_LAYER_IN" xml:space="preserve">
+    <value>Kosmetiskt lager i</value>
+  </data>
+  <data name="STR_CREATE" xml:space="preserve">
+    <value>Skapa</value>
+  </data>
+  <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
+    <value>Redigerbart lager i</value>
+  </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Exec() Uttryck kopierat till Urklipp: </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>Filtrera</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Läsvänligt namn</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>Funktioner och underprocedurer</value>
+  </data>
+  <data name="STR_GRID_FILE" xml:space="preserve">
+    <value>Rutnätsfil</value>
+  </data>
+  <data name="STR_HEIGHT" xml:space="preserve">
+    <value>Höjd</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>Dölj kontroller för bakgrundskarta</value>
+  </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>Karta</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>Miniverktygsfält för karta</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>Lägg till infoverktyg till kartans miniverktygsfält</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>Lägg till linjalverktyg till kartans miniverktygsfält</value>
+  </data>
+  <data name="STR_NAME" xml:space="preserve">
+    <value>Namn</value>
+  </data>
+  <data name="STR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Nytt basfönster</value>
+  </data>
+  <data name="STR_NO" xml:space="preserve">
+    <value>Nej</value>
+  </data>
+  <data name="STR_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>Öppna</value>
+  </data>
+  <data name="STR_POSITION" xml:space="preserve">
+    <value>Position</value>
+  </data>
+  <data name="STR_RASTER_FILE" xml:space="preserve">
+    <value>Rasterfil</value>
+  </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>Byt namn på denna tabell/detta lager i alla kartfönster</value>
+  </data>
+  <data name="STR_RESTORE" xml:space="preserve">
+    <value>Återställ</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Spara som förvalt läsvänligt namn</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>Valda poster: {0}</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>Valda poster: {0} av {1}</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>Visa info när du avmarkerar poster</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>Visa info vid urval</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>Hoppa över lager med läsvänligt namn</value>
+  </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>Typsnittet smart text</value>
+  </data>
+  <data name="STR_TABLE" xml:space="preserve">
+    <value>Tabell</value>
+  </data>
+  <data name="STR_TAB_FILE" xml:space="preserve">
+    <value>TAB-fil</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>Information om urval är inaktiverat. Klicka för att aktivera information om urval</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>Information om urval är aktiverat. Klicka för att inaktivera information om urval</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>Visa information om kartobjekt i tabellform</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>Visa avståndet mellan två kartpunkter</value>
+  </data>
+  <data name="STR_UPDATE" xml:space="preserve">
+    <value>Uppdatera</value>
+  </data>
+  <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
+    <value>Använd förvalt fönsternamn</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>Använd befintlig tabellbeskrivning</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>Använd filnamn som läsvänligt lagernamn</value>
+  </data>
+  <data name="STR_WIDTH" xml:space="preserve">
+    <value>Bredd</value>
+  </data>
+  <data name="STR_WINDOW_NAME" xml:space="preserve">
+    <value>Fönsterrubrik</value>
+  </data>
+  <data name="STR_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="STR_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="STR_YES" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="TAB_CLOSED" xml:space="preserve">
+    <value>Slutna objekt</value>
+  </data>
+  <data name="TAB_CURRENT" xml:space="preserve">
+    <value>Aktuell</value>
+  </data>
+  <data name="TAB_SPECIAL" xml:space="preserve">
+    <value>Special</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Lägg till smart text för kartografisk skala på kartan</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Lägg till smart text för projektionsnamn på kartan</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>Lägg till smart text för kartrubrik på kartan</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>Fönster låses inte automatiskt, vilket skulle hindra dem från att stängas. Klicka här för att aktivera automatisk låsning av fönster</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>Fönster låses automatiskt, vilket hindrar dem från att stängas. Klicka här för att inaktivera automatisk låsning av fönster</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>Lås fönstret för att förhindra att det stängs</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Ändra rubrik eller storlek på aktivt fönster</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>Den här kontrollen är inte aktiverad förrän du har ett fönster öppet</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>Aktivera ett kartfönster för att aktivera den här funktionen.</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>Öppna dialogrutan Alternativ för programmet WindowHelper</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Återställ fönster som stängts under denna session</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Välj objekt som har sin tyngdpunkt inom den aktuella kartutbredningen</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>Skapa tema från en kolumn och befintliga objektformat</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Lås upp fönstret för att göra det möjligt att stänga fönstret</value>
+  </data>
+  <data name="VIEW_OF_VIEWS" xml:space="preserve">
+    <value>{0} av {1}</value>
+  </data>
+</root>

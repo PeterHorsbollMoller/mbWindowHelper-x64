@@ -1,0 +1,5 @@
+﻿Declare Function DLGLayoutTextEditor(   ByVal nLayoutWID As Integer
+								, ByVal nFrameID As Integer
+								) As Logical
+
+Declare Function DLGLTEGetChangedText() As String

@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>   <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
+    <value>您是想找 TAB 文件还是格网文件？</value>
+  </data>
+  <data name="ASK_LOCATE_TAB_FILE_OR_RASTER_FILE" xml:space="preserve">
+    <value>您是想找 TAB 文件还是栅格文件？</value>
+  </data>
+  <data name="BTN_HLP_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>开启/关闭窗口自动锁定\n自动锁定窗口</value>
+  </data>
+  <data name="BTN_HLP_CLONE_FRONT_WINDOW" xml:space="preserve">
+    <value>克隆活动窗口\n克隆窗口</value>
+  </data>
+  <data name="BTN_HLP_CLOSE_FRONT_WINDOW" xml:space="preserve">
+    <value>关闭活动窗口\n关闭窗口</value>
+  </data>
+  <data name="BTN_HLP_LOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>锁定活动窗口以防止关闭\n锁定窗口</value>
+  </data>
+  <data name="BTN_HLP_RESTORE_CLOSED_WINDOW" xml:space="preserve">
+    <value>恢复已关闭的窗口\n恢复已关闭的窗口</value>
+  </data>
+  <data name="BTN_HLP_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>设置前端窗口的首选大小和位置\n设置首选大小和位置</value>
+  </data>
+  <data name="BTN_HLP_UNLOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>解锁活动窗口以防止关闭\n解锁窗口</value>
+  </data>
+  <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
+    <value>基础窗口 ({0})</value>
+  </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>自定义函数和子程序</value>
+  </data>
+  <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
+    <value>修改窗口</value>
+  </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>条形数已被限制为 {0}。</value>
+  </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>粘贴所有属性</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>粘贴标注设置</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>粘贴标注覆盖</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>粘贴图层筛选器</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>粘贴图层样式</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>粘贴样式替换</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>粘贴时间属性</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>静态专题</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>选择包含类别的列</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>为专题选择表格</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>条形数</value>
+  </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value>范围编号</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>选择颜色范围</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>为专题地图选择列</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>为专题地图选择图层</value>
+  </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>高级图层重命名</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>重命名多个图层</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>快速独立值专题图</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>快速范围专题图</value>
+  </data>
+  <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>创建地图范围</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>粘贴图层属性</value>
+  </data>
+  <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
+    <value>恢复窗口</value>
+  </data>
+  <data name="DLG_TXT_CREATE_EXTENT_OF" xml:space="preserve">
+    <value>创建地图范围</value>
+  </data>
+  <data name="DLG_TXT_EXTENT_STYLE" xml:space="preserve">
+    <value>地图范围样式</value>
+  </data>
+  <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
+    <value>选择要恢复的窗口</value>
+  </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>不支持装饰图层!</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>空字符串不能用作图层的友好名称！</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>请输入新基础窗口的名称！</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>请为窗口输入名称！</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>请输入一个大于 0 的尺寸！</value>
+  </data>
+  <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
+    <value>活动窗口必须是一个地图窗口！</value>
+  </data>
+  <data name="ERR_INVALID_XML" xml:space="preserve">
+    <value>XML 无效！</value>
+  </data>
+  <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
+    <value>必须至少打开一个地图窗口！</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>该地图没有可选图层</value>
+  </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>请单击单元格以读取其中的值！应用程序忽略第一列的第一行</value>
+  </data>
+  <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
+    <value>没有可以恢复的窗口！</value>
+  </data>
+  <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
+    <value>必须至少打开一个窗口！</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>仅支持字符和数字列</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
+    <value>请打开一个窗口以读取其大小和位置！</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_RESIZE_REPOSITION" xml:space="preserve">
+    <value>请打开一个窗口以调整大小和位置！</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
+    <value>请打开一个窗口以保存到工作空间！</value>
+  </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>选中的记录没有空间对象！</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>请选择正好一个记录！</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>请选择至少一个记录！</value>
+  </data>
+  <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
+    <value>请选择要更新的基础窗口！</value>
+  </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>请选择一个至少包含一个数字列的表！</value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>请在图层控制中选择一个非时间图层！ </value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层列表中选择一个非时间图层！ </value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>请在图层控制中选择一个普通图层！</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层列表中选择一个普通图层！</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>请在图层控制中选择一个普通或栅格/格网图层！</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层控制中选择一个时间图层！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>请在图层控制中选择一个图层！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层列表中选择一个图层！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>请在图层控制中选择单个图层！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>请在图层控制中选择一个地图！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层列表中选择一个地图！</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
+    <value>请在表列表窗口中选择一个表！</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>请在图层列表中选择一个专题图层！</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>该表主要包含不支持的文本对象类型。</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>该表主要包含不支持的栅格类型。</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>该表具有未知的主要对象类型。</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>遗憾的是，该专题类型不受支持！</value>
+  </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>该表包含此函数不支持的对象类型 {0}</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
+    <value>所有关闭的窗口</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>关闭的浏览窗口</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>关闭的布局窗口</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_MAPS" xml:space="preserve">
+    <value>关闭的地图窗口</value>
+  </data>
+  <data name="LST_WINDOWS_ALL" xml:space="preserve">
+    <value>所有窗口</value>
+  </data>
+  <data name="LST_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>浏览窗口</value>
+  </data>
+  <data name="LST_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>布局窗口</value>
+  </data>
+  <data name="LST_WINDOWS_LEGENDS" xml:space="preserve">
+    <value>图例设计器窗口</value>
+  </data>
+  <data name="LST_WINDOWS_MAPS" xml:space="preserve">
+    <value>地图窗口</value>
+  </data>
+  <data name="LST_WINDOWS_SPECIAL" xml:space="preserve">
+    <value>特殊窗口</value>
+  </data>
+  <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
+    <value>关于 {0}...[&amp;A]</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>制图比例</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>投影名称</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>地图标题</value>
+  </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>高级重命名</value>
+  </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>应用样式</value>
+  </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>自动锁定窗口</value>
+  </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>浮动浏览器</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>在浮动窗口中浏览</value>
+  </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>清除选择</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>克隆地图</value>
+  </data>
+  <data name="MNU_CLOSE_TABLE" xml:space="preserve">
+    <value>关闭表</value>
+  </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>复制图层属性</value>
+  </data>
+  <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>地图范围</value>
+  </data>
+  <data name="MNU_END_PROGRAM" xml:space="preserve">
+    <value>结束程序[&amp;E]</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>使用单元值进行过滤</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>单元值</value>
+  </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>按当前列分组</value>
+  </data>
+  <data name="MNU_HELP" xml:space="preserve">
+    <value>帮助[&amp;H]</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>这将让您重命名所选图层，并将新名称保存为默认名称</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>打开或关闭覆盖样式</value>
+  </data>
+  <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
+    <value>自动锁定所有窗口</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>在浮动浏览窗口中显示和操作数据</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>取消选择所有布局对象和框架</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>克隆选定地图窗口</value>
+  </data>
+  <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
+    <value>克隆窗口</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_TABLE" xml:space="preserve">
+    <value>关闭选定表</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
+    <value>关闭窗口</value>
+  </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>复制所选图层的所有设置</value>
+  </data>
+  <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>在地图或表格中创建地图范围。</value>
+  </data>
+  <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
+    <value>使窗口可停靠</value>
+  </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>这将使用当前选定单元格中的值过滤浏览器</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>在当前选定的列上运行分组依据查询。</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>将所选图层移至地图图层列表的底部</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个不是装饰图层、专题图层或最后一个图层的图层。</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>将所选图层移至地图图层列表的顶部</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个不是装饰图层、专题图层或第一个图层的图层。</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>显示活动布局的副本</value>
+  </data>
+  <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>在 Windows 资源管理器中查找与所选表相关的文件</value>
+  </data>
+  <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
+    <value>锁定窗口</value>
+  </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>更改窗口的大小或标题</value>
+  </data>
+  <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
+    <value>修改活动窗口的标题和大小</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>重命名所有图层以匹配 TAB 文件名</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个非装饰图层的图层。</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个不是装饰图层或专题图层的图层。</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个专题图层的图层。</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>从图层列表中选择一个磁盘上有 TAB 文件的图层。</value>
+  </data>
+  <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>在以下位置中打开所选 TAB 文件</value>
+  </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>平移到地图最前端的选定记录</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>将图层设置粘贴到所选图层上</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>从列中创建单个专题地图</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>从列中创建一个范围专题地图</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>在 Precisely 社区下载页面上为应用程序评分</value>
+  </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>使用指定的过滤器刷新图层</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>恢复此会话期间关闭的一个或多个窗口</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOW" xml:space="preserve">
+    <value>恢复已关闭的窗口</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>恢复保存状态下的窗口位置</value>
+  </data>
+  <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>将活动窗口保存到工作空间，而不显示“Open Table...”语句</value>
+  </data>
+  <data name="MNU_HLP_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>设置基础窗口的大小和位置</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>在地图的所有图层上设置默认视图</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>在选定图层上设置默认视图</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>显示与 Exec() 函数一起使用的函数和子程序列表</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>存储窗口的当前位置</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>指定自动存储位置的窗口</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>将专题中的样式另存为对象样式</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>程序启动时恢复窗口位置</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>启动时自动显示“图层控制”窗口</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>启动时自动显示“表列表”窗口</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>程序结束时恢复窗口位置</value>
+  </data>
+  <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>解锁窗口</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>缩放到图层地图的整个视图</value>
+  </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>打开工作空间资源管理器窗口</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
+    <value>缩放到第一</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
+    <value>缩放到最后</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
+    <value>缩放到下一个</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
+    <value>缩放到上一个</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>缩放到地图最前端的选择范围</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>将图层移动到底部</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>将图层移动到顶部</value>
+  </data>
+  <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>克隆视图</value>
+  </data>
+  <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>在 Windows 资源管理器中查找文件</value>
+  </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>锁定窗口</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>修改窗口</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>重命名多个图层</value>
+  </data>
+  <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>在以下位置中打开 TAB 文件</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>工作空间资源管理器</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>选项</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>平移到所选记录</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>粘贴图层属性</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>快速独立值专题图</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>快速范围专题图</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>为应用程序评分</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>刷新过滤的图层</value>
+  </data>
+  <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>恢复窗口</value>
+  </data>
+  <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>立即恢复窗口位置</value>
+  </data>
+  <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>保存到工作空间</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>地图范围选择</value>
+  </data>
+  <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>设置基础窗口...</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>在所有图层上设置默认视图</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>设置默认视图</value>
+  </data>
+  <data name="MNU_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>在前端窗口上设置首选尺寸和位置</value>
+  </data>
+  <data name="MNU_SHOW_ALL_WINDOWS" xml:space="preserve">
+    <value>显示所有窗口[&amp;A]</value>
+  </data>
+  <data name="MNU_SHOW_INFO_WINDOW" xml:space="preserve">
+    <value>显示信息窗口[&amp;I]</value>
+  </data>
+  <data name="MNU_SHOW_LEGEND_WINDOW" xml:space="preserve">
+    <value>显示图例窗口[&amp;L]</value>
+  </data>
+  <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
+    <value>显示 MapBasic 窗口</value>
+  </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>显示函数和子程序列表</value>
+  </data>
+  <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
+    <value>打开消息窗口[&amp;M]</value>
+  </data>
+  <data name="MNU_SHOW_RULER_WINDOW" xml:space="preserve">
+    <value>显示标尺窗口[&amp;R]</value>
+  </data>
+  <data name="MNU_SHOW_STATISTICS_WINDOW" xml:space="preserve">
+    <value>显示统计窗口[&amp;S]</value>
+  </data>
+  <data name="MNU_SHOW_WINDOW" xml:space="preserve">
+    <value>显示窗口[&amp;S]</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>静态专题</value>
+  </data>
+  <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>立即存储窗口位置</value>
+  </data>
+  <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>自动存储窗口位置[&amp;A]</value>
+  </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>将样式保存到表格</value>
+  </data>
+  <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>启动时恢复窗口位置</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>启动时显示图层控制[&amp;L]</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>启动时显示表列表[&amp;T]</value>
+  </data>
+  <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>退出时存储窗口位置</value>
+  </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>解锁窗口</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>查看整个地图</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>缩放到所选范围</value>
+  </data>
+  <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
+    <value>选择要将窗口保存到...的工作空间</value>
+  </data>
+  <data name="QUEST_AUTOSTORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>WindowHelper 可以在退出时存储窗口的大小和位置，并在下次启动时恢复这些窗口。 {\n}{\n}您想开启这个功能吗？</value>
+  </data>
+  <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
+    <value>是否确定要关闭此窗口：{0}？</value>
+  </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>此应用程序可扩展 MapInfo Pro，为其提供许多在窗口中进行操作的有用功能</value>
+  </data>
+  <data name="STR_APPLY" xml:space="preserve">
+    <value>应用</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>用专题样式更新对象</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>显示信息</value>
+  </data>
+  <data name="STR_CHANGE" xml:space="preserve">
+    <value>更改</value>
+  </data>
+  <data name="STR_CLOSE" xml:space="preserve">
+    <value>关闭</value>
+  </data>
+  <data name="STR_CLOSE_WINDOW" xml:space="preserve">
+    <value>关闭窗口</value>
+  </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>复制</value>
+  </data>
+  <data name="STR_COSM_LAYER_IN" xml:space="preserve">
+    <value>装饰图层位于</value>
+  </data>
+  <data name="STR_CREATE" xml:space="preserve">
+    <value>创建</value>
+  </data>
+  <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
+    <value>可编辑图层位于</value>
+  </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Exec() 表达式已复制到剪贴板： </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>过滤器</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>友好名称</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>函数和子程序</value>
+  </data>
+  <data name="STR_GRID_FILE" xml:space="preserve">
+    <value>格网文件</value>
+  </data>
+  <data name="STR_HEIGHT" xml:space="preserve">
+    <value>高度</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>隐藏基础地图控件</value>
+  </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>地图</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>地图迷你工具栏</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>将信息工具添加到地图迷你工具栏</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>将标尺工具添加到地图迷你工具栏</value>
+  </data>
+  <data name="STR_NAME" xml:space="preserve">
+    <value>名称</value>
+  </data>
+  <data name="STR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>新基础窗口</value>
+  </data>
+  <data name="STR_NO" xml:space="preserve">
+    <value>否</value>
+  </data>
+  <data name="STR_OK" xml:space="preserve">
+    <value>确定</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>打开</value>
+  </data>
+  <data name="STR_POSITION" xml:space="preserve">
+    <value>位置</value>
+  </data>
+  <data name="STR_RASTER_FILE" xml:space="preserve">
+    <value>栅格文件</value>
+  </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>在所有地图窗口中重命名此表/图层</value>
+  </data>
+  <data name="STR_RESTORE" xml:space="preserve">
+    <value>还原</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>保存为默认友好名称</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>所选记录：{0}</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>所选记录：{0} / {1}</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>取消选择记录时显示信息</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>显示选择信息</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>跳过有友好名称的图层</value>
+  </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>智能文本字体</value>
+  </data>
+  <data name="STR_TABLE" xml:space="preserve">
+    <value>表</value>
+  </data>
+  <data name="STR_TAB_FILE" xml:space="preserve">
+    <value>TAB 文件</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>选择信息已禁用。单击以启用选择信息</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>选择信息已启用。单击以禁用选择信息</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>显示有关地图对象的表格信息</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>显示两个地图点之间的距离</value>
+  </data>
+  <data name="STR_UPDATE" xml:space="preserve">
+    <value>更新</value>
+  </data>
+  <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
+    <value>使用默认窗口名称</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>使用现有表描述</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>使用文件名作为友好图层名称</value>
+  </data>
+  <data name="STR_WIDTH" xml:space="preserve">
+    <value>宽度</value>
+  </data>
+  <data name="STR_WINDOW_NAME" xml:space="preserve">
+    <value>窗口标题</value>
+  </data>
+  <data name="STR_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="STR_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="STR_YES" xml:space="preserve">
+    <value>是</value>
+  </data>
+  <data name="TAB_CLOSED" xml:space="preserve">
+    <value>已关闭</value>
+  </data>
+  <data name="TAB_CURRENT" xml:space="preserve">
+    <value>当前</value>
+  </data>
+  <data name="TAB_SPECIAL" xml:space="preserve">
+    <value>特殊</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>为地图添加图面比例尺的智能文本</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>为地图添加投影名称的智能文本</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>为地图添加地图标题的智能文本</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>窗户不会自动锁定，可以阻止它们被关闭。单击此处启用自动锁定窗口</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>窗户会自动锁定，阻止它们被关闭。单击此处禁用自动锁定窗口</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>锁定窗户，阻止其关闭</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>修改活动窗口的标题和大小</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>在打开窗口之前，此控件不会启用</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>激活地图窗口以启用此功能。</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>打开 WindowHelper 应用程序的“选项”对话框</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>恢复在此会话期间关闭的窗口</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>选择中心在当前地图范围内的对象</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>从列和现有对象样式中创建专题</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>解锁窗口，以便关闭窗口</value>
+  </data>
+  <data name="VIEW_OF_VIEWS" xml:space="preserve">
+    <value>{0} / {1}</value>
+  </data>
+</root>

@@ -37,3 +37,45 @@ C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64
 C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.dll
 C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.pdb
 C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\WindowHelper.pdb
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\da\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.da.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\da\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\de\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\es\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\fi\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\fr\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\he\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\it\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\ja\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\nl\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\pl\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\pt\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\sv\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\tr\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\WindowHelper\zh\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.de.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.es.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.fi.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.fr.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.he.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.it.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.ja.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.nl.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.pl.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.pt.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.sv.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.tr.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\WindowHelper.Properties.Resources.zh.resources
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\de\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\es\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\fi\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\fr\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\he\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\it\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\ja\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\nl\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\pl\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\pt\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\sv\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\tr\WindowHelper.resources.dll
+C:\Horsboll-Moller Dropbox\Peter Horsbøll Møller\3. MB_Kode\mbWindowHelper-x64\cs code\obj\Release\zh\WindowHelper.resources.dll

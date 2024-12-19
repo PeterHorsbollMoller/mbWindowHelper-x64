@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>   <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
+    <value>¿Desea buscar el archivo de tabulaciones o el archivo de cuadrícula?</value>
+  </data>
+  <data name="ASK_LOCATE_TAB_FILE_OR_RASTER_FILE" xml:space="preserve">
+    <value>¿Desea buscar el archivo de tabulaciones o el archivo ráster?</value>
+  </data>
+  <data name="BTN_HLP_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Activar/desactivar bloqueo automático de ventanas\nBloquear automáticamente la ventana</value>
+  </data>
+  <data name="BTN_HLP_CLONE_FRONT_WINDOW" xml:space="preserve">
+    <value>Clonar ventana activa\nClonar ventana</value>
+  </data>
+  <data name="BTN_HLP_CLOSE_FRONT_WINDOW" xml:space="preserve">
+    <value>Cerrar ventana activa\nCerrar ventana</value>
+  </data>
+  <data name="BTN_HLP_LOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Bloquear ventana activa para que no se cierre\nBloquear ventana</value>
+  </data>
+  <data name="BTN_HLP_RESTORE_CLOSED_WINDOW" xml:space="preserve">
+    <value>Restablecer ventana cerrada\nRestablecer ventana cerrada</value>
+  </data>
+  <data name="BTN_HLP_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Establecer tamaño y posición preferidos en la ventana delantera\nEstablecer tamaño y posición preferidos</value>
+  </data>
+  <data name="BTN_HLP_UNLOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Desbloquear ventana activa para que no se cierre\nDesbloquear ventana</value>
+  </data>
+  <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
+    <value>Ventanas base ({0})</value>
+  </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>Personalizar funciones y subprocedimientos</value>
+  </data>
+  <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modificar ventana</value>
+  </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>La cantidad de bins se ha limitado a {0}.</value>
+  </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>Pegar todas las propiedades</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>Pegar configuración de rótulo</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>Pegar anulaciones de rótulo</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>Pegar filtros de capa</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>Pegar estilos de capa</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>Pegar anulaciones de estilo</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>Pegar propiedades de tiempo</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>Tema estático</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Seleccionar columna con categorías</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>Seleccionar tabla para tema</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>Cantidad de bins</value>
+  </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value>Nº de rangos</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>Seleccionar rango de color</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Seleccionar columna para mapa temático</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>Seleccionar capa para mapa temático</value>
+  </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>Cambio de nombre de capa avanzado</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Cambiar nombre de capas múltiples</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Tema individual rápido</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Tema de rango rápido</value>
+  </data>
+  <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Crear extensión de mapa</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Pegar propiedades de capa</value>
+  </data>
+  <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
+    <value>Restablecer ventanas</value>
+  </data>
+  <data name="DLG_TXT_CREATE_EXTENT_OF" xml:space="preserve">
+    <value>Crear extensión de mapa de</value>
+  </data>
+  <data name="DLG_TXT_EXTENT_STYLE" xml:space="preserve">
+    <value>Estilo de la extensión de mapa</value>
+  </data>
+  <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
+    <value>Seleccionar ventana para restablecer</value>
+  </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>La capa descriptiva no se admite.</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>No se puede usar una cadena vacía como nombre descriptivo de una capa.</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Ingrese el nombre de la ventana base nueva.</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>Ingrese un nombre para la ventana.</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>Ingrese un tamaño mayor que 0.</value>
+  </data>
+  <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
+    <value>La ventana activa debe ser una ventana de mapeador.</value>
+  </data>
+  <data name="ERR_INVALID_XML" xml:space="preserve">
+    <value>El formato XML no es válido.</value>
+  </data>
+  <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
+    <value>Debe haber al menos una ventana de mapa abierta.</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>El mapa no tiene una capa seleccionable</value>
+  </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>Haga clic en la celda desde la que desea leer el valor. La aplicación ignora la primera fila de la primera columna</value>
+  </data>
+  <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
+    <value>No hay ventanas para restablecer.</value>
+  </data>
+  <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
+    <value>Debe haber al menos una ventana abierta.</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>Solo se admiten columnas de caracteres y numéricas.</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
+    <value>Abra una ventana desde la que deseas leer el tamaño y la posición.</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_RESIZE_REPOSITION" xml:space="preserve">
+    <value>Abra una ventana para cambiar el tamaño y reposicionar.</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
+    <value>Abra una ventana para guardar en un entorno de trabajo.</value>
+  </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>El Registro seleccionado no tiene un objeto Spatial.</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>Seleccione exactamente un registro.</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>Seleccione al menos un registro.</value>
+  </data>
+  <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
+    <value>Seleccione la ventana base que se actualizará.</value>
+  </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>Seleccione una tabla con al menos una columna numérica.</value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Seleccione una capa que no sea temporal en Control de capas. </value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione una capa que no sea temporal en Lista de capas. </value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Seleccione una capa normal en Control de capas.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione una capa normal en Lista de capas.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Seleccione una capa normal o de ráster/cuadrícula en Control de capas.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione una capa normal o de ráster/cuadrícula en Lista de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Seleccione una capa en Control de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione una capa en Lista de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>Seleccione una sola capa en Control de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Seleccione un mapa en Control de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione un mapa en Lista de capas.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
+    <value>Seleccione una tabla en la ventana de TableList.</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Seleccione una capa temática en Lista de capas.</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>La tabla contiene principalmente un tipo de objeto de texto que no se admite.</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>La tabla contiene un tipo de ráster que no se admite.</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>La tabla tiene un tipo de objeto dominante desconocido.</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>Lamentablemente, no se admite este tipo temático.</value>
+  </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>La tabla contiene tipos de objetos que esta función no admite {0}</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
+    <value>Todas las ventanas cerradas</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Ventanas del navegador cerradas</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Ventanas de presentación cerradas</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_MAPS" xml:space="preserve">
+    <value>Ventanas de mapa cerradas</value>
+  </data>
+  <data name="LST_WINDOWS_ALL" xml:space="preserve">
+    <value>Todas las ventanas</value>
+  </data>
+  <data name="LST_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Ventanas del navegador</value>
+  </data>
+  <data name="LST_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Ventanas de presentación</value>
+  </data>
+  <data name="LST_WINDOWS_LEGENDS" xml:space="preserve">
+    <value>Ventanas de diseño de leyenda</value>
+  </data>
+  <data name="LST_WINDOWS_MAPS" xml:space="preserve">
+    <value>Ventanas de mapa</value>
+  </data>
+  <data name="LST_WINDOWS_SPECIAL" xml:space="preserve">
+    <value>Ventanas especiales</value>
+  </data>
+  <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
+    <value>&amp;Acerca de {0}...</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Escala cartográfica</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Nombre de proyección</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>Título del mapa</value>
+  </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>Cambio de nombre avanzado</value>
+  </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>Aplicar estilos</value>
+  </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Bloquear automáticamente ventanas</value>
+  </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>Navegador flotante</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>Navegar en ventana flotante</value>
+  </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>Borrar selección</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>Clonar mapa</value>
+  </data>
+  <data name="MNU_CLOSE_TABLE" xml:space="preserve">
+    <value>Cerrar tabla</value>
+  </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Copiar propiedades de capa</value>
+  </data>
+  <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Extensión de mapa</value>
+  </data>
+  <data name="MNU_END_PROGRAM" xml:space="preserve">
+    <value>&amp;Terminar programa</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Filtrar con valor de celda</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>Valor de celda</value>
+  </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Agrupar por columna actual</value>
+  </data>
+  <data name="MNU_HELP" xml:space="preserve">
+    <value>&amp;Ayuda</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>Esto le permitirá cambiar el nombre de la capa seleccionada y guardar el nombre nuevo como nombre predeterminado</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>Activar o desactivar Anular estilos</value>
+  </data>
+  <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
+    <value>Bloquear automáticamente todas las ventanas</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>Mostrar y manipular datos en una ventana de navegador flotante</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>Desmarcar todos los objetos y marcos de presentación</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>Clonar la ventana de mapa seleccionada</value>
+  </data>
+  <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
+    <value>Clonar ventana</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_TABLE" xml:space="preserve">
+    <value>Cierra la tabla seleccionada</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
+    <value>Cerrar ventana</value>
+  </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Copiar todos los parámetros de configuración de la capa seleccionada</value>
+  </data>
+  <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Cree una extensión de mapa en un mapa o una tabla.</value>
+  </data>
+  <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
+    <value>Hacer que la ventana sea acoplable</value>
+  </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Esto filtrará el navegador con el valor de la celda seleccionada actualmente</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Ejecute una consulta de Agrupar por en la columna seleccionada actualmente</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Mover la capa seleccionada a la parte inferior de la lista de capas en el mapa</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que no sea la capa descriptiva, una capa temática ni la última capa.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Mover la capa seleccionada a la parte superior de la lista de capas en el mapa</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que no sea la capa descriptiva, una capa temática ni la primera capa.</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Mostrar una copia idéntica de la presentación activa</value>
+  </data>
+  <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Busca un archivo en el Explorador de Windows relacionado con la tabla seleccionada</value>
+  </data>
+  <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
+    <value>Bloquear ventana</value>
+  </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Cambiar tamaño o título de la ventana</value>
+  </data>
+  <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
+    <value>Modificar título y tamaño de la ventana activa</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Cambiar el nombre de todas las capas para que coincidan con el nombre del archivo de tabulaciones</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que no sea la capa descriptiva.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que no sea la capa descriptiva ni una capa temática.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que no sea una capa temática.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>Seleccione una capa de la Lista de capas que tenga un archivo TAB en el disco.</value>
+  </data>
+  <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Abrir el archivo de tabulaciones seleccionado en</value>
+  </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Desplazarse hasta el registro seleccionado en el mapa más frontal</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Pegar configuración de capa en la capa seleccionada</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Crear un mapa temático individual a partir de una columna</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Crear un mapa temático de rango a partir de una columna</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>Calificar la aplicación en la página de descarga de la comunidad de Precisely</value>
+  </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Actualizar la capa con el filtro especificado</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Restablecer una o más ventanas cerradas durante esta sesión</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOW" xml:space="preserve">
+    <value>Restablecer ventana cerrada</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Restablecer posiciones de ventana para el estado guardado</value>
+  </data>
+  <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Guarda la ventana activa en un entorno de trabajo sin los enunciados 'Abrir tabla ...'</value>
+  </data>
+  <data name="MNU_HLP_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Configurar ventanas base con tamaño y posición</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Establecer vista predeterminada en todas las capas del mapa</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Establecer vista predeterminada en capa seleccionada</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Mostrar lista de funciones y subprocedimientos para usar con la función Exec()</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Almacenar la posición actual de las ventanas</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>Especificar las posiciones de las ventanas que se guardarán automáticamente</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Guardar los estilos del tema como estilos de objeto</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Restablecer posiciones de ventanas cuando se inicie el programa</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>Mostrar automáticamente la ventana Control de capas en el inicio</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>Mostrar automáticamente la ventana TableList en el inicio</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Restablecer posiciones de ventanas cuando finalice el programa</value>
+  </data>
+  <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Desbloquear ventana</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Hace zoom a toda la vista del mapa de capas</value>
+  </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Abrir la ventana Explorador de entornos de trabajo</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
+    <value>Zoom al primero</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
+    <value>Zoom al último</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
+    <value>Zoom al siguiente</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
+    <value>Zoom al anterior</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zoom a la extensión de la selección en el mapa más frontal</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Mover capa a la parte inferior</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Mover capa a la parte superior</value>
+  </data>
+  <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Clonar vista</value>
+  </data>
+  <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Localizar archivo en el Explorador de Windows</value>
+  </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>Bloquear ventana</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modificar ventana</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Cambiar nombre de capas múltiples</value>
+  </data>
+  <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Abrir archivo de tabulaciones en</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Explorador de entornos de trabajo</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>Opciones</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Desplazarse hasta el registro seleccionado</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Pegar propiedades de capa</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Tema individual rápido</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Tema de rango rápido</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>Calificar aplicación</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Actualizar capa filtrada</value>
+  </data>
+  <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Restablecer ventanas</value>
+  </data>
+  <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Restablecer posiciones de ventanas ahora</value>
+  </data>
+  <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Guardar en entorno de trabajo</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Selección de extensión de mapa</value>
+  </data>
+  <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Configurar ventanas base...</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Establecer vista predeterminada en todas las capas</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Establecer vista predeterminada</value>
+  </data>
+  <data name="MNU_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Establecer tamaño y posición preferidos en la ventana delantera</value>
+  </data>
+  <data name="MNU_SHOW_ALL_WINDOWS" xml:space="preserve">
+    <value>Mostrar &amp;todas las ventanas</value>
+  </data>
+  <data name="MNU_SHOW_INFO_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de &amp;información</value>
+  </data>
+  <data name="MNU_SHOW_LEGEND_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de &amp;Leyenda</value>
+  </data>
+  <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de Map&amp;Basic</value>
+  </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Mostrar lista de funciones y subprocedimientos</value>
+  </data>
+  <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de &amp;mensaje</value>
+  </data>
+  <data name="MNU_SHOW_RULER_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de &amp;regla</value>
+  </data>
+  <data name="MNU_SHOW_STATISTICS_WINDOW" xml:space="preserve">
+    <value>Mostrar la ventana de &amp;estadísticas</value>
+  </data>
+  <data name="MNU_SHOW_WINDOW" xml:space="preserve">
+    <value>&amp;Mostrar ventana</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>Tema estático</value>
+  </data>
+  <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Almacenar posiciones de ventanas ahora</value>
+  </data>
+  <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>&amp;Almacenar automáticamente posición de ventanas</value>
+  </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Guardar estilos en tabla</value>
+  </data>
+  <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Restablecer posiciones de ventanas en el inicio</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>Mostrar &amp;control de capas en el inicio</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>Mostrar &amp;TableList en el inicio</value>
+  </data>
+  <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Almacenar posiciones de ventanas a la salida</value>
+  </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Desbloquear ventana</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Ver todo el mapa</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Zoom a la extensión de selección</value>
+  </data>
+  <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
+    <value>Seleccionar entorno de trabajo en el que se guardará la ventana...</value>
+  </data>
+  <data name="QUEST_AUTOSTORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>WindowHelper puede almacenar el tamaño y la posición de las ventanas a la salida y restablecer estas ventanas cuando se inicie la próxima vez. {\n}{\n}¿Desea activarlo?</value>
+  </data>
+  <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
+    <value>¿Está seguro de que desea cerrar esta ventana: {0} ?</value>
+  </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>Esta aplicación amplía MapInfo Pro con una gran cantidad de características útiles para trabajar con las ventanas.</value>
+  </data>
+  <data name="STR_APPLY" xml:space="preserve">
+    <value>Aplicar</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>Actualización de objetos con estilo temático</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>Mostrar información</value>
+  </data>
+  <data name="STR_CHANGE" xml:space="preserve">
+    <value>Cambiar</value>
+  </data>
+  <data name="STR_CLOSE" xml:space="preserve">
+    <value>Cercano</value>
+  </data>
+  <data name="STR_CLOSE_WINDOW" xml:space="preserve">
+    <value>Cerrar ventana</value>
+  </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>Copiar</value>
+  </data>
+  <data name="STR_COSM_LAYER_IN" xml:space="preserve">
+    <value>Capa descriptiva en</value>
+  </data>
+  <data name="STR_CREATE" xml:space="preserve">
+    <value>Crear</value>
+  </data>
+  <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
+    <value>Capa editable en</value>
+  </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Expresión Exec() copiada en Portapapeles: </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Nombre descriptivo</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>Funciones y subprocedimientos</value>
+  </data>
+  <data name="STR_GRID_FILE" xml:space="preserve">
+    <value>Archivo de cuadrícula</value>
+  </data>
+  <data name="STR_HEIGHT" xml:space="preserve">
+    <value>Alto</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>Ocultar controles de mapa base</value>
+  </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>Mapa</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>Minibarra de herramientas del mapa</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>Agregar herramienta de información a la minibarra de herramientas del mapa</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>Agregar herramienta de regla a la minibarra de herramientas del mapa</value>
+  </data>
+  <data name="STR_NAME" xml:space="preserve">
+    <value>FirstName</value>
+  </data>
+  <data name="STR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Ventana base nueva</value>
+  </data>
+  <data name="STR_NO" xml:space="preserve">
+    <value>No</value>
+  </data>
+  <data name="STR_OK" xml:space="preserve">
+    <value>Aceptar</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>Abrir</value>
+  </data>
+  <data name="STR_POSITION" xml:space="preserve">
+    <value>Posición</value>
+  </data>
+  <data name="STR_RASTER_FILE" xml:space="preserve">
+    <value>Archivo ráster</value>
+  </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>Cambiar el nombre de esta tabla/capa en todas las ventanas de mapa</value>
+  </data>
+  <data name="STR_RESTORE" xml:space="preserve">
+    <value>Restaurar</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Guardar como nombre descriptivo predeterminado</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>Registros seleccionados: {0}</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>Registros seleccionados: {0} de {1}</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>Mostrar información cuando se cancele la selección de los registros</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>Mostrar información sobre la selección</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>Omitir capa con nombre descriptivo</value>
+  </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>Fuente de texto inteligente</value>
+  </data>
+  <data name="STR_TABLE" xml:space="preserve">
+    <value>Tabla</value>
+  </data>
+  <data name="STR_TAB_FILE" xml:space="preserve">
+    <value>Archivo de tabulaciones</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>La información sobre la selección está desactivada. Hacer clic en Activar información sobre la selección</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>La información sobre la selección está activada. Hacer clic en Desactivar información sobre la selección</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>Mostrar información tabular sobre objetos del mapa</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>Mostrar la distancia entre dos puntos del mapa</value>
+  </data>
+  <data name="STR_UPDATE" xml:space="preserve">
+    <value>Actualizar</value>
+  </data>
+  <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
+    <value>Usar nombre de ventana predeterminado</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>Usar descripción de tabla existente</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>Usar nombre de archivo como nombre de capa descriptivo</value>
+  </data>
+  <data name="STR_WIDTH" xml:space="preserve">
+    <value>Ancho</value>
+  </data>
+  <data name="STR_WINDOW_NAME" xml:space="preserve">
+    <value>Título de la ventana</value>
+  </data>
+  <data name="STR_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="STR_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="STR_YES" xml:space="preserve">
+    <value>Sí</value>
+  </data>
+  <data name="TAB_CLOSED" xml:space="preserve">
+    <value>Cerrado</value>
+  </data>
+  <data name="TAB_CURRENT" xml:space="preserve">
+    <value>Actual</value>
+  </data>
+  <data name="TAB_SPECIAL" xml:space="preserve">
+    <value>Especial</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Agregar texto inteligente para escala cartográfica al mapa</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Agregar texto inteligente para nombre de proyección al mapa</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>Agregar texto inteligente para título de mapa al mapa</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>Las ventanas no se bloquean automáticamente, lo que evitaría que se cierren. Hacer clic aquí para activar el bloqueo de ventanas de forma automática</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>Las ventanas se bloquean automáticamente, lo que evita que se cierren. Hacer clic aquí para desactivar el bloqueo de ventanas de forma automática</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>Bloquear la ventana para evitar que se cierre</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Modificar título y tamaño de la ventana activa</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>Este control no estará activado hasta que tenga una ventana abierta</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>Activar una ventana de mapa para activar esta característica.</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>Abrir el cuadro de diálogo Opciones para la aplicación WindowHelper</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Restablecer las ventanas que se cerraron durante esta sesión</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Seleccionar objetos que tienen su centroide dentro de la extensión de mapa actual</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>Crear tema a partir de una columna y los estilos de objeto existentes</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Desbloquear la ventana para que sea posible cerrar la ventana</value>
+  </data>
+  <data name="VIEW_OF_VIEWS" xml:space="preserve">
+    <value>{0} de {1}</value>
+  </data>
+</root>

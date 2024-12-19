@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>   <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
+    <value>האם ברצונך לחפש את קובץ ה-TAB או את קובץ הרשת?</value>
+  </data>
+  <data name="ASK_LOCATE_TAB_FILE_OR_RASTER_FILE" xml:space="preserve">
+    <value>האם ברצונך לחפש את קובץ ה-TAB או את קובץ הסריקה?</value>
+  </data>
+  <data name="BTN_HLP_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>הפעל/כבה נעילה אוטומטית של חלונות\nנעילת חלון אוטומטית</value>
+  </data>
+  <data name="BTN_HLP_CLONE_FRONT_WINDOW" xml:space="preserve">
+    <value>שכפל חלון פעיל\nשכפל חלון</value>
+  </data>
+  <data name="BTN_HLP_CLOSE_FRONT_WINDOW" xml:space="preserve">
+    <value>סגור חלון פעיל\nסגור חלון</value>
+  </data>
+  <data name="BTN_HLP_LOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>נעל את החלון הפעיל כך שלא ייסגר\nנעל חלון</value>
+  </data>
+  <data name="BTN_HLP_RESTORE_CLOSED_WINDOW" xml:space="preserve">
+    <value>שחזר חלון שנסגר\nשחזר חלון שנסגר</value>
+  </data>
+  <data name="BTN_HLP_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>הגדרת גודל ומיקום מועדפים בחלון הקדמי\nהגדרת גודל ומיקום מועדפים</value>
+  </data>
+  <data name="BTN_HLP_UNLOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>בטל את נעילת החלון כך שיוכל להיסגר\nבטל נעילת חלון</value>
+  </data>
+  <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
+    <value>חלונות בסיסיים ({0})</value>
+  </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>פונקציות והליכי משנה מותאמים אישית</value>
+  </data>
+  <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
+    <value>שנה חלון</value>
+  </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>מספר התיבות הוגבל ל-{0}.</value>
+  </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>אפשרויות</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>הדבק את כל המאפיינים</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>הדבק הגדרות תווית</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>הדבק עקיפות תווית</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>הדבק מסנני שכבה</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>הדבק סגנונות שכבה</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>הדבק עקיפות סגנון</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>הדבק מאפייני שעה</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>ערכת נושא סטטית</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>בחר עמודה עם קטגוריות</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>בחר טבלה עבור ערכת נושא</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>מספר תיבות</value>
+  </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value>מס' טווחים</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>בחר טווח צבע</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>בחר עמודה עבור מפה נושאית</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>בחר שכבה עבור מפה נושאית</value>
+  </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>שינוי שם של שכבה מתקדמת</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>שנה את השם של שכבות מרובות</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>ערכת נושא בודדת מהירה</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>ערכת נושא מהירה של טווח</value>
+  </data>
+  <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>צור שטח מפה</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>הדבק מאפייני שכבה</value>
+  </data>
+  <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
+    <value>שחזר חלונות</value>
+  </data>
+  <data name="DLG_TXT_CREATE_EXTENT_OF" xml:space="preserve">
+    <value>צור שטח מפה של</value>
+  </data>
+  <data name="DLG_TXT_EXTENT_STYLE" xml:space="preserve">
+    <value>סגנון שטח מפה</value>
+  </data>
+  <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
+    <value>בחר חלון לשחזור</value>
+  </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>השכבה הקוסמטית לא נתמכת!</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>לא ניתן להשתמש במחרוזת ריקה כשם ידידותי של שכבה!</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>הזן שם לחלון הבסיסי החדש!</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>הזן שם לחלון!</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>הזן גודל הגדול יותר מ-0!</value>
+  </data>
+  <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
+    <value>החלון הפעיל חייב להיות חלון ממפה!</value>
+  </data>
+  <data name="ERR_INVALID_XML" xml:space="preserve">
+    <value>ה-XML לא חוקי!</value>
+  </data>
+  <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
+    <value>לפחות חלון מפה אחד חייב להיות פתוח!</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>המפה לא כוללת שכבה הניתנת לבחירה</value>
+  </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>בחר שדה לקריאת הערך הכלול בו! היישום יתעלם מהשורה הראשונה בעמודה הראשונה</value>
+  </data>
+  <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
+    <value>אין חלונות שניתן לשחזר!</value>
+  </data>
+  <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
+    <value>לפחות חלון אחד חייב להיות פתוח!</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>רק עמודות תווים ועמודות מספריות נתמכות</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
+    <value>פתח חלון לקריאת הגודל והמיקום בו!</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_RESIZE_REPOSITION" xml:space="preserve">
+    <value>פתח חלון לשינוי הגודל והמיקום שלו!</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
+    <value>פתח חלון לשמירת סביבת עבודה!</value>
+  </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>הרשומה שנבחרה לא כוללת אובייקט מרחבי!</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>בחר רשומה אחת בדיוק!</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>בחר לפחות רשומה אחת!</value>
+  </data>
+  <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
+    <value>בחר חלון בסיסי לעדכון!</value>
+  </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>בחר טבלה עם עמודה מספרית אחת לפחות!</value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>בחר שכבה שאינה זמנית בבקרת השכבות! </value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר שכבה שאינה זמנית ברשימת השכבות! </value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>בחר שכבה רגילה בבקרת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר שכבה רגילה ברשימת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>בחר שכבת סריקה/רשת בבקרת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר שכבה רגילה או שכבת סריקה/רשת ברשימת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>בחר שכבה אחת בבקרת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר שכבה אחת ברשימת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>בחר שכבה בודדת בבקרת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>בחר מפה אחת בבקרת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר מפה אחת ברשימת השכבות!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
+    <value>בחר טבלה אחת בחלון רשימת הטבלאות!</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>בחר שכבה נושאית ברשימת השכבות!</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>הטבלה כוללת בעיקר סוג אובייקט טקסט שאינו נתמך.</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>הטבלה כוללת סוג סריקה שאינו נתמך.</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>הטבלה כוללת סוג אובייקט דומיננטי לא ידוע.</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>הסוג הנושאי הזה אינו נתמך!</value>
+  </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>הטבלה כוללת סוגי אובייקטים שאינם נתמכים בפונקציה הזו {0}</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
+    <value>כל החלונות הסגורים</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>חלונות דפדפן סגורים</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>חלונות פריסה סגורים</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_MAPS" xml:space="preserve">
+    <value>חלונות מפה סגורים</value>
+  </data>
+  <data name="LST_WINDOWS_ALL" xml:space="preserve">
+    <value>כל החלונות</value>
+  </data>
+  <data name="LST_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>חלונות דפדפן</value>
+  </data>
+  <data name="LST_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>חלונות פריסה</value>
+  </data>
+  <data name="LST_WINDOWS_LEGENDS" xml:space="preserve">
+    <value>חלון מקרא מעוצב</value>
+  </data>
+  <data name="LST_WINDOWS_MAPS" xml:space="preserve">
+    <value>חלונות מפה</value>
+  </data>
+  <data name="LST_WINDOWS_SPECIAL" xml:space="preserve">
+    <value>חלונות מיוחדים</value>
+  </data>
+  <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
+    <value>&amp;אודות {0}...</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>קנה מידה קרטוגרפי</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>שם היטל</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>כותרת מפה</value>
+  </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>שינוי שם מתקדם</value>
+  </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>החל סגנונות</value>
+  </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>נעל חלונות אוטומטית</value>
+  </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>דפדפן צף</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>עיון בחלון צף</value>
+  </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>נקה את הבחירה</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>שכפל מפה</value>
+  </data>
+  <data name="MNU_CLOSE_TABLE" xml:space="preserve">
+    <value>סגור טבלה</value>
+  </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>העתק מאפייני שכבה</value>
+  </data>
+  <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>שטח המפה</value>
+  </data>
+  <data name="MNU_END_PROGRAM" xml:space="preserve">
+    <value>&amp;סיים תוכנית</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>סנן באמצעות ערך תא</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>ערך תא</value>
+  </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>קבץ לפי העמודה הנוכחית</value>
+  </data>
+  <data name="MNU_HELP" xml:space="preserve">
+    <value>&amp;עזרה</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>פעולה זו תאפשר לך לשנות את השם של השכבה שנבחרה ולשמור את השם החדש כשם ברירת המחדל.</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>הפעל או השבת את סגנונות העקיפה</value>
+  </data>
+  <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
+    <value>נעל אוטומטית את כל החלונות</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>הצג נתונים וטפל בהם בחלון דפדפן צף</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>בטל את הבחירה בכל האובייקטים והמסגרות</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>שכפל את חלון המפה שנבחר</value>
+  </data>
+  <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
+    <value>שכפל חלון</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_TABLE" xml:space="preserve">
+    <value>סגור את הטבלה שנבחרה</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
+    <value>סגור חלון</value>
+  </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>העתק את כל ההגדרות מהשכבה שנבחרה</value>
+  </data>
+  <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>צור שטח מפה בתוך מפה או טבלה.</value>
+  </data>
+  <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
+    <value>הגדר את החלון כניתן לעגינה</value>
+  </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>בפעולה זו יבוצע סינון בדפדפן לפי הערך שנמצא בתא הנוכחי שנבחר</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>הפעל שאילתת 'קבץ לפי' העמודה הנוכחית שנבחרה.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>העבר את השכבה שנבחרה לתחתית רשימת השכבות במפה</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>בחר שכבה אחת מרשימת השכבות שאינה השכבה הקוסמטית, הנושאית או האחרונה.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>העבר את השכבה שנבחרה לראש רשימת השכבות במפה</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>בחר שכבה אחת מרשימת השכבות שאינה השכבה הקוסמטית, הנושאית או האחרונה.</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>הצג עותק של השכבה הפעילה</value>
+  </data>
+  <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>מחפש את הקובץ בסייר חלונות הקשור לטבלה שנבחרה</value>
+  </data>
+  <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
+    <value>נעל חלון</value>
+  </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>שנה את הגודל או את הכותרת של החלון</value>
+  </data>
+  <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
+    <value>שנה את הכותרת והגודל של החלון הפעיל</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>שנה את השם של כל השכבות כך שיתאימו לשם של קובץ ה-TAB</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>בחר שכבה אחת מרשימת השכבות שאינה שכבה קוסמטית.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>בחר שכבה אחת מרשימת השכבות שאינה שכבה קוסמטית או נושאית.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>בחר שכבה נושאית אחת מרשימת השכבות.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>בחר שכבה אחת מרשימת השכבות הכוללת קובץ TAB בדיסק.</value>
+  </data>
+  <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>פתח את קובץ ה-TAB שנבחר ב-</value>
+  </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>הזז אל הרשומה שנבחרה במפה הקדמית ביותר</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>הדבק הגדרות שכבה על השכבה שנבחרה</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>צור מפה נושאית בודדת מעמודה</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>צור מפה נושאית בעלת טווח מעמודה</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>דרג יישום בדף ההורדות של קהילת Precisely</value>
+  </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>רענן את השכבה לפי המסנן שצוין</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>שחזר חלון אחד או יותר שנסגרו במהלך הפעלה זו</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOW" xml:space="preserve">
+    <value>שחזר חלון שנסגר</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>שחזר מיקומי חלונות למצב שנשמר</value>
+  </data>
+  <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>שומר את החלון הפעיל בסביבת עבודה ללא משפטי 'פתח טבלה...'</value>
+  </data>
+  <data name="MNU_HLP_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>הגדר גודל ומיקום של חלונות בסיסיים </value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>הגדר תצוגת ברירת מחדל בכל השכבות במפה</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>הגדר תצוגת ברירת מחדל בשכבה שנבחרה</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>הצג רשימת פונקציות והליכי משנה לשימוש עם הפונקציה Exec()‎</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>אחסן את המיקום הנוכחי של החלונות</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>ציין חלונות לאחסון אוטומטי של המיקומים שלהם</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>שמור את הסגנונות מערכת הנושא כסגנונות של האובייקט</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>שחזר את מיקומי החלונות כאשר התוכנית מתחילה</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>הצג את חלון בקרת השכבות באופן אוטומטי בעת האתחול</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>הצג את רשימת הטבלאות באופן אוטומטי בעת האתחול</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>אחסן את מיקומי החלונות בסיום התוכנית</value>
+  </data>
+  <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>בטל את נעילת החלון</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>בצע זום על התצוגה הכוללת של מפת השכבות</value>
+  </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>הצג את חלון סייר סביבות העבודה</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
+    <value>בצע זום לראשון</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
+    <value>בצע זום לאחרון</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
+    <value>בצע זום לעוקב</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
+    <value>בצע זום לקודם</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>בצע זום לשטח הבחירה במפה הקדמית ביותר</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>העבר את השכבה לתחתית</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>העבר את השכבה לראש</value>
+  </data>
+  <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>שכפל תצוגה</value>
+  </data>
+  <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>אתר קובץ בסייר החלונות</value>
+  </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>נעל חלון</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>שנה חלון</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>שנה את השם של שכבות מרובות</value>
+  </data>
+  <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>פתח קובץ TAB ב-</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>סייר סביבת עבודה</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>אפשרויות</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>הזז אל הרשומה שנבחרה</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>הדבק מאפייני שכבה</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>ערכת נושא בודדת מהירה</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>ערכת נושא מהירה של טווח</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>דרג יישום</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>רענן שכבה מסוננת</value>
+  </data>
+  <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>שחזר חלונות</value>
+  </data>
+  <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>שחזר עכשיו את מיקומי החלונות</value>
+  </data>
+  <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>שמור לסביבת עבודה</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>בחירת שטח מפה</value>
+  </data>
+  <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>הגדר חלונות בסיסיים...</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>הגדר תצוגת ברירת מחדל בכל השכבות</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>הגדר תצוגת ברירת מחדל</value>
+  </data>
+  <data name="MNU_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>הגדר את הגודל והמיקום המועדפים בחלון הקדמי</value>
+  </data>
+  <data name="MNU_SHOW_ALL_WINDOWS" xml:space="preserve">
+    <value>הצג את &amp;כל החלונות</value>
+  </data>
+  <data name="MNU_SHOW_INFO_WINDOW" xml:space="preserve">
+    <value>הצג את חלון &amp;המידע</value>
+  </data>
+  <data name="MNU_SHOW_LEGEND_WINDOW" xml:space="preserve">
+    <value>הצג את חלון &amp;המקרא</value>
+  </data>
+  <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
+    <value>הצג את חלון המפה&amp;הבסיסי</value>
+  </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>הצג רשימה של פונקציות והליכי משנה</value>
+  </data>
+  <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
+    <value>הצג את חלון &amp;ההודעות</value>
+  </data>
+  <data name="MNU_SHOW_RULER_WINDOW" xml:space="preserve">
+    <value>הצג את חלון &amp;הסרגל</value>
+  </data>
+  <data name="MNU_SHOW_STATISTICS_WINDOW" xml:space="preserve">
+    <value>הצג את חלון &amp;הסטטיסטיקה</value>
+  </data>
+  <data name="MNU_SHOW_WINDOW" xml:space="preserve">
+    <value>&amp;הצג חלון</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>ערכת נושא סטטית</value>
+  </data>
+  <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>אחסן עכשיו את מיקומי החלונות</value>
+  </data>
+  <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>אחסן &amp;אוטומטית את מיקום החלונות</value>
+  </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>שמור סגנונות בטבלה</value>
+  </data>
+  <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>שחזר מיקומי חלונות באתחול</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>הצג את בקרת &amp;השכבות באתחול</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>הצג את &amp;רשימת הטבלאות באתחול</value>
+  </data>
+  <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>אחסן את מיקומי החלונות ביציאה</value>
+  </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>בטל את נעילת החלון</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>הצג את כל המפה</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>בצע זום על שטח הבחירה</value>
+  </data>
+  <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
+    <value>בחר סביבת עבודה שבה יישמר החלון...</value>
+  </data>
+  <data name="QUEST_AUTOSTORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>עוזר החלונות יכול לשמור את הגודל והמיקום של החלונות ביציאה ולשחזר את החלונות האלו בעת ההפעלה הבאה. {\n}{\n}האם ברצונך להפעיל זאת?</value>
+  </data>
+  <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
+    <value>בטוח שברצונך לסגור את החלון הזה: {0} ?</value>
+  </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>יישום זה מרחיב את MapInfo Pro על ידי הוספה של מספר תכונות שימושיות לעבודה עם חלונות</value>
+  </data>
+  <data name="STR_APPLY" xml:space="preserve">
+    <value>החל</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>מתבצע עדכון של אובייקטים עם סגנון נושאי</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>הצג מידע</value>
+  </data>
+  <data name="STR_CHANGE" xml:space="preserve">
+    <value>שנה</value>
+  </data>
+  <data name="STR_CLOSE" xml:space="preserve">
+    <value>סגור</value>
+  </data>
+  <data name="STR_CLOSE_WINDOW" xml:space="preserve">
+    <value>סגור חלון</value>
+  </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>העתק</value>
+  </data>
+  <data name="STR_COSM_LAYER_IN" xml:space="preserve">
+    <value>שכבה קוסמטית ב-</value>
+  </data>
+  <data name="STR_CREATE" xml:space="preserve">
+    <value>יצירה</value>
+  </data>
+  <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
+    <value>שכבה הניתנת לעריכה ב-</value>
+  </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>ביטוי Exec()‎ הועתק ללוח: </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>סנן</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>שם ידידותי</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>פונקציות והליכי משנה</value>
+  </data>
+  <data name="STR_GRID_FILE" xml:space="preserve">
+    <value>קובץ רשת</value>
+  </data>
+  <data name="STR_HEIGHT" xml:space="preserve">
+    <value>גובה</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>הסתר פקדי מפה בסיסית</value>
+  </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>מפה</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>סרגל כלים קטן של מפה</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>הוסף כלי מידע לסרגל הכלים הקטן של המפה</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>הוסף כלי סרגל לסרגל הכלים הקטן של המפה</value>
+  </data>
+  <data name="STR_NAME" xml:space="preserve">
+    <value>שם</value>
+  </data>
+  <data name="STR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>חלון בסיסי חדש</value>
+  </data>
+  <data name="STR_NO" xml:space="preserve">
+    <value>לא</value>
+  </data>
+  <data name="STR_OK" xml:space="preserve">
+    <value>אישור</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>פתיחה</value>
+  </data>
+  <data name="STR_POSITION" xml:space="preserve">
+    <value>מיקום</value>
+  </data>
+  <data name="STR_RASTER_FILE" xml:space="preserve">
+    <value>קובץ סריקה</value>
+  </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>שנה את השם של הטבלה/השכבה הזו בכל חלונות המפה</value>
+  </data>
+  <data name="STR_RESTORE" xml:space="preserve">
+    <value>שחזר</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>שמור כשם הידידותי בברירת מחדל</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>הרשומות שנבחרו: {0}</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>הרשומות שנבחרו: {0} מתוך {1}</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>הצג מידע בעת ביטול הבחירה ברשומות</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>הצג מידע בעת בחירה</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>דלג על שכבה עם שם ידידותי</value>
+  </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>גופן טקסט חכם</value>
+  </data>
+  <data name="STR_TABLE" xml:space="preserve">
+    <value>טבלה</value>
+  </data>
+  <data name="STR_TAB_FILE" xml:space="preserve">
+    <value>קובץ TAB</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>הצגת מידע בעת בחירה מושבתת. לחץ כדי להפעיל הצגת מידע בעת בחירה</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>הצגת מידע בעת בחירה מופעלת. לחץ כדי להשבית הצגת מידע בעת בחירה</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>הצג מידע טבלאי על אובייקטי מפה</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>הצג את המרחק בין שתי נקודות במפה</value>
+  </data>
+  <data name="STR_UPDATE" xml:space="preserve">
+    <value>עדכן</value>
+  </data>
+  <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
+    <value>השתמש בשם חלון שברירת מחדל</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>השתמש בתיאור הטבלה הקיים</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>השתמש בשם הקובץ כשם השכבה הידידותי</value>
+  </data>
+  <data name="STR_WIDTH" xml:space="preserve">
+    <value>רוחב</value>
+  </data>
+  <data name="STR_WINDOW_NAME" xml:space="preserve">
+    <value>כותרת חלון</value>
+  </data>
+  <data name="STR_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="STR_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="STR_YES" xml:space="preserve">
+    <value>כן</value>
+  </data>
+  <data name="TAB_CLOSED" xml:space="preserve">
+    <value>סגור</value>
+  </data>
+  <data name="TAB_CURRENT" xml:space="preserve">
+    <value>נוכחי</value>
+  </data>
+  <data name="TAB_SPECIAL" xml:space="preserve">
+    <value>מיוחד</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>הוסף טקסט חכם עבור קנ"מ קרטוגרפי למפה</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>הוסף טקסט חכם עבור שם היטל למפה</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>הוסף טקסט חכם עבור כותרת המפה למפה</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>חלונות לא ננעלים אוטומטית, כך שלא יהיה ניתן לסגור אותם. לחץ כאן כדי להפעיל נעילה אוטומטית של חלונות</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>חלונות ננעלים אוטומטית, כך שלא ניתן לסגור אותם. לחץ כאן כדי להשבית את הנעילה האוטומטית של חלונות</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>נעל את החלון כדי למנוע את סגירתו</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>שנה את הכותרת והגודל של החלון הפעיל</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>פקד זה יפעל רק לאחר פתיחת חלון</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>הפעל חלון מפה כדי להפעיל את התכונה הזו.</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>פתח את תיבת הדו-שיח של האפשרויות עבור יישום עוזר החלונות</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>שחזר חלונות שנסגרו במהלך ההפעלה הזו</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>בחר אובייקטים שנקודת האמצע שלהם נמצאת בשטח המפה הנוכחית</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>צור ערכת נושא מעמודה ומסגנונות אובייקט קיימים</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>בטל את נעילת החלון כדי לאפשר את סגירתו</value>
+  </data>
+  <data name="VIEW_OF_VIEWS" xml:space="preserve">
+    <value>{0} מתוך {1}</value>
+  </data>
+</root>

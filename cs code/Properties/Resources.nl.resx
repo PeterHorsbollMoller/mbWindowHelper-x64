@@ -1,0 +1,968 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<root>   <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string"/>
+              <xsd:attribute name="type" type="xsd:string"/>
+              <xsd:attribute name="mimetype" type="xsd:string"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string"/>
+              <xsd:attribute name="name" type="xsd:string"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
+              <xsd:attribute ref="xml:space"/>
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required"/>
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ASK_LOCATE_TAB_FILE_OR_GRID_FILE" xml:space="preserve">
+    <value>Wilt u het tabbladbestand of het rasterbestand zoeken?</value>
+  </data>
+  <data name="ASK_LOCATE_TAB_FILE_OR_RASTER_FILE" xml:space="preserve">
+    <value>Wilt u het tabbladbestand of het rasterbestand zoeken?</value>
+  </data>
+  <data name="BTN_HLP_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Automatische vergrendeling van vensters in-/uitschakelen\nVenster automatisch vergrendelen</value>
+  </data>
+  <data name="BTN_HLP_CLONE_FRONT_WINDOW" xml:space="preserve">
+    <value>Actief venster klonen\nVenster klonen</value>
+  </data>
+  <data name="BTN_HLP_CLOSE_FRONT_WINDOW" xml:space="preserve">
+    <value>Actief venster sluiten\nVenster sluiten</value>
+  </data>
+  <data name="BTN_HLP_LOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Actief venster vergrendelen voor sluiten\nVenster vergrendelen</value>
+  </data>
+  <data name="BTN_HLP_RESTORE_CLOSED_WINDOW" xml:space="preserve">
+    <value>Gesloten venster herstellen\nGesloten venster herstellen</value>
+  </data>
+  <data name="BTN_HLP_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Gewenste grootte en positie op voorste venster instellen\nGewenste grootte en positie instellen</value>
+  </data>
+  <data name="BTN_HLP_UNLOCK_FRONT_WINDOW" xml:space="preserve">
+    <value>Actief venster ontgrendelen voor sluiten\nVenster ontgrendelen</value>
+  </data>
+  <data name="DLG_BASE_WINDOW_X" xml:space="preserve">
+    <value>Basisvensters ({0})</value>
+  </data>
+  <data name="DLG_LIST_FUNCTIONS_PROCEDURES" xml:space="preserve">
+    <value>Aangepaste functies en subprocedures</value>
+  </data>
+  <data name="DLG_MODIFY_WINDOW" xml:space="preserve">
+    <value>Venster aanpassen</value>
+  </data>
+  <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
+    <value>Het aantal bins is beperkt tot {0}.</value>
+  </data>
+  <data name="DLG_OPTIONS" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="DLG_PASTE_ALL" xml:space="preserve">
+    <value>Alle eigenschappen plakken</value>
+  </data>
+  <data name="DLG_PASTE_LABEL" xml:space="preserve">
+    <value>Labelinstellingen plakken</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OBERRIDES" xml:space="preserve">
+    <value>Labeloverschrijvingen plakken</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_FILTERS" xml:space="preserve">
+    <value>Laagfilters plakken</value>
+  </data>
+  <data name="DLG_PASTE_LAYER_STYLES" xml:space="preserve">
+    <value>Laagstijlen plakken</value>
+  </data>
+  <data name="DLG_PASTE_STYLE_OVERRIDES" xml:space="preserve">
+    <value>Stijloverschrijvingen plakken</value>
+  </data>
+  <data name="DLG_PASTE_TIME_PROPERTIES" xml:space="preserve">
+    <value>Tijdeigenschappen plakken</value>
+  </data>
+  <data name="DLG_STATIC_THEME" xml:space="preserve">
+    <value>Statisch thema</value>
+    <comment>Create Theme from Current Styles</comment>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Kolom met categorieën selecteren</value>
+  </data>
+  <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
+    <value>Tabel voor thema selecteren</value>
+  </data>
+  <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
+    <value>Aantal bins</value>
+  </data>
+  <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
+    <value># bereiken</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
+    <value>Kleurbereik selecteren</value>
+  </data>
+  <data name="DLG_THEME_SELECT_COLUMN" xml:space="preserve">
+    <value>Kolom voor thematische kaart selecteren</value>
+  </data>
+  <data name="DLG_THEME_SELECT_LAYER" xml:space="preserve">
+    <value>Laag voor thematische kaart selecteren</value>
+  </data>
+  <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
+    <value>Geavanceerde laag hernoemen</value>
+  </data>
+  <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Meerdere lagen hernoemen</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Snel individueel thema</value>
+  </data>
+  <data name="DLG_TITLE_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Snel geclassificeerd thema</value>
+  </data>
+  <data name="DLG_TTL_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Kaartgebied maken</value>
+  </data>
+  <data name="DLG_TTL_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Laageigenschappen plakken</value>
+  </data>
+  <data name="DLG_TTL_RESTORE_WINDOWS" xml:space="preserve">
+    <value>Vensters herstellen</value>
+  </data>
+  <data name="DLG_TXT_CREATE_EXTENT_OF" xml:space="preserve">
+    <value>Kaartgebied maken van</value>
+  </data>
+  <data name="DLG_TXT_EXTENT_STYLE" xml:space="preserve">
+    <value>Stijl van kaartgebied</value>
+  </data>
+  <data name="DLG_TXT_PICK_WINDOW_TO_RESTORE" xml:space="preserve">
+    <value>Venster kiezen om te herstellen</value>
+  </data>
+  <data name="ERR_COSMETIC_LAYER_NOT_SUPPORTED" xml:space="preserve">
+    <value>De verfraaiingslaag wordt niet ondersteund.</value>
+  </data>
+  <data name="ERR_EMPTY_STRING_NOT_SUPPORTED_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>Een lege tekenreeks kan niet worden gebruikt als de omschrijving van een laag.</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Voer een naam in voor het nieuwe basisvenster.</value>
+  </data>
+  <data name="ERR_ENTER_NAME_FOR_WINDOW" xml:space="preserve">
+    <value>Voer een naam in voor het venster.</value>
+  </data>
+  <data name="ERR_ENTER_SIZE_LARGER_THAN_0" xml:space="preserve">
+    <value>Voer een grootte in groter dan 0.</value>
+  </data>
+  <data name="ERR_FRONT_WIN_NOT_MAPPER" xml:space="preserve">
+    <value>Het actieve venster moet een kaartvenster zijn.</value>
+  </data>
+  <data name="ERR_INVALID_XML" xml:space="preserve">
+    <value>De XML is ongeldig.</value>
+  </data>
+  <data name="ERR_NO_MAP_WIN_OPEN" xml:space="preserve">
+    <value>Er moet minimaal één kaartvenster geopend zijn.</value>
+  </data>
+  <data name="ERR_NO_SELECTABLE_LAYER" xml:space="preserve">
+    <value>De kaart heeft geen selecteerbare laag</value>
+  </data>
+  <data name="ERR_NO_SELECT_SELECTED_TOP_LEFT_CELL_IGNORED" xml:space="preserve">
+    <value>Klik in de cel waarvan de waarde moet worden gelezen. De applicatie negeert de eerste rij in de eerste kolom</value>
+  </data>
+  <data name="ERR_NO_WINDOWS_TO_RESTORE" xml:space="preserve">
+    <value>Er zijn geen vensters om te herstellen.</value>
+  </data>
+  <data name="ERR_NO_WIN_OPEN" xml:space="preserve">
+    <value>Er moet minimaal één venster geopend zijn.</value>
+  </data>
+  <data name="ERR_ONLY_CHAR_AND_NUM_COLS_SUPPORTED" xml:space="preserve">
+    <value>Alleen teken- en numerieke kolommen worden ondersteund</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_READ_SIZE_POSITION" xml:space="preserve">
+    <value>Open een venster waarvan de grootte en positie moet worden gelezen.</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_RESIZE_REPOSITION" xml:space="preserve">
+    <value>Open een venster waarvan de grootte en locatie moet worden aangepast.</value>
+  </data>
+  <data name="ERR_OPEN_WINDOW_TO_SAVE_TO_WOR" xml:space="preserve">
+    <value>Open een venster dat naar een werkruimte moet worden opgeslagen.</value>
+  </data>
+  <data name="ERR_SELECTION_HAS_NO_SPATIAL_OBJECT" xml:space="preserve">
+    <value>De geselecteerde record heeft geen ruimtelijk object.</value>
+  </data>
+  <data name="ERR_SELECTION_NOT_ONE_RECORD" xml:space="preserve">
+    <value>Selecteer precies één record.</value>
+  </data>
+  <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
+    <value>Selecteer minimaal één record.</value>
+  </data>
+  <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
+    <value>Selecteer het basisvenster dat moet worden bijgewerkt.</value>
+  </data>
+  <data name="ERR_SELECT_LAYER_WITH_NUMERIC_COLUMN" xml:space="preserve">
+    <value>Selecteer een tabel met minimaal één numerieke kolom.</value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Selecteer een niet-tijdelijke laag in het lagenbeheer. </value>
+  </data>
+  <data name="ERR_SELECT_NON_TEMPORAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer een niet-tijdelijke laag in de lagenlijst. </value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Selecteer een normale laag in het lagenbeheer.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer een normale laag in de lagenlijst.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Selecteer een normale laag of rasterlaag in het lagenbeheer.</value>
+  </data>
+  <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer een normale laag of rasterlaag in de lagenlijst.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Selecteer één laag in het lagenbeheer.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer één laag in de lagenlijst</value>
+  </data>
+  <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
+    <value>Selecteer één laag in het lagenbeheer.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
+    <value>Selecteer één kaart in het lagenbeheer.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_MAP_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer één kaart in de lagenlijst.</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
+    <value>Selecteer één tabel in het venster met de tabellijst.</value>
+  </data>
+  <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Selecteer een thematische laag in de lagenlijst.</value>
+  </data>
+  <data name="ERR_TAB_WITH_MOSTLY_TEXT_NOT_SUPPORTED" xml:space="preserve">
+    <value>De tabel bevat voornamelijk tekstobjecttypen die niet worden ondersteund.</value>
+  </data>
+  <data name="ERR_TAB_WITH_RASTER_NOT_SUPPORTED" xml:space="preserve">
+    <value>De tabel bevat een rastertype dat niet wordt ondersteund.</value>
+  </data>
+  <data name="ERR_TAB_WITH_UNKNOWN_OBJECT_TYPE" xml:space="preserve">
+    <value>De tabel heeft een onbekend dominant objecttype.</value>
+  </data>
+  <data name="ERR_THEME_TYPE_NOT_SUPPORTED" xml:space="preserve">
+    <value>Dit thematisch type wordt helaas niet ondersteund.</value>
+  </data>
+  <data name="ERR_UNSUPPORTED_OBJECT_TYPE" xml:space="preserve">
+    <value>De tabel bevat objecttypen die niet worden ondersteund door deze functie {0}</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_ALL" xml:space="preserve">
+    <value>Alle gesloten vensters</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Gesloten browservensters</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Gesloten lay-outvensters</value>
+  </data>
+  <data name="LST_CLOSED_WINDOWS_MAPS" xml:space="preserve">
+    <value>Gesloten kaartvensters</value>
+  </data>
+  <data name="LST_WINDOWS_ALL" xml:space="preserve">
+    <value>Alle vensters</value>
+  </data>
+  <data name="LST_WINDOWS_BROWSERS" xml:space="preserve">
+    <value>Browservensters</value>
+  </data>
+  <data name="LST_WINDOWS_LAYOUTS" xml:space="preserve">
+    <value>Lay-outvensters</value>
+  </data>
+  <data name="LST_WINDOWS_LEGENDS" xml:space="preserve">
+    <value>Legenda Ontwerpvensters</value>
+  </data>
+  <data name="LST_WINDOWS_MAPS" xml:space="preserve">
+    <value>Kaartvensters</value>
+  </data>
+  <data name="LST_WINDOWS_SPECIAL" xml:space="preserve">
+    <value>Speciale vensters</value>
+  </data>
+  <data name="MNU_ABOUT_PROGRAM_X" xml:space="preserve">
+    <value>&amp;Info over {0}…</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Cartografische schaal</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Projectienaam</value>
+  </data>
+  <data name="MNU_ADD_SMARTTEXT_MAP_TITLE" xml:space="preserve">
+    <value>Kaarttitel</value>
+  </data>
+  <data name="MNU_ADVANCED_RENAME" xml:space="preserve">
+    <value>Geavanceerd hernoemen</value>
+  </data>
+  <data name="MNU_APPLY_STYLES" xml:space="preserve">
+    <value>Stijlen toepassen</value>
+  </data>
+  <data name="MNU_AUTOLOCK_WINDOWS" xml:space="preserve">
+    <value>Vensters automatisch vergrendelen</value>
+  </data>
+  <data name="MNU_BROWSER_FLOATING" xml:space="preserve">
+    <value>Zwevende browser</value>
+  </data>
+  <data name="MNU_BROWSE_FLOATING_WIN" xml:space="preserve">
+    <value>Bladeren in zwevend venster</value>
+  </data>
+  <data name="MNU_CLEAR_SELECTION" xml:space="preserve">
+    <value>Selectie wissen</value>
+  </data>
+  <data name="MNU_CLONE_MAP" xml:space="preserve">
+    <value>Kaart klonen</value>
+  </data>
+  <data name="MNU_CLOSE_TABLE" xml:space="preserve">
+    <value>Tabel sluiten</value>
+  </data>
+  <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Laageigenschappen kopiëren</value>
+  </data>
+  <data name="MNU_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Kaartbereik</value>
+  </data>
+  <data name="MNU_END_PROGRAM" xml:space="preserve">
+    <value>&amp;Programma beëindigen</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Filteren met behulp van celwaarde</value>
+  </data>
+  <data name="MNU_FILTER_USING_CELL_VALUE_SHORT" xml:space="preserve">
+    <value>Celwaarde</value>
+  </data>
+  <data name="MNU_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Groeperen op huidige kolom</value>
+  </data>
+  <data name="MNU_HELP" xml:space="preserve">
+    <value>&amp;Help</value>
+  </data>
+  <data name="MNU_HLP_ADVANCED_RENAME" xml:space="preserve">
+    <value>Hiermee kunt u de geselecteerde laag hernoemen en kunt u de nieuwe naam opslaan als de standaardnaam</value>
+  </data>
+  <data name="MNU_HLP_APPLY_STYLES" xml:space="preserve">
+    <value>De schakelaar Stijlen overschrijven in- of uitschakelen</value>
+  </data>
+  <data name="MNU_HLP_AUTOLOCK_ALL_WINDOWS" xml:space="preserve">
+    <value>Alle vensters automatisch vergrendelen</value>
+  </data>
+  <data name="MNU_HLP_BROWSER_FLOATING" xml:space="preserve">
+    <value>Gegevens weergeven en aanpassen in een zwevend browservenster</value>
+  </data>
+  <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
+    <value>De selectie van alle lay-outobjecten en -kaders opheffen</value>
+  </data>
+  <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
+    <value>Het geselecteerde kaartvenster klonen</value>
+  </data>
+  <data name="MNU_HLP_CLONE_WINDOW" xml:space="preserve">
+    <value>Venster klonen</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_TABLE" xml:space="preserve">
+    <value>Hiermee wordt de geselecteerde tabel gesloten</value>
+  </data>
+  <data name="MNU_HLP_CLOSE_WINDOW" xml:space="preserve">
+    <value>Venster sluiten</value>
+  </data>
+  <data name="MNU_HLP_COPY_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Alle instellingen van geselecteerde laag kopiëren</value>
+  </data>
+  <data name="MNU_HLP_CREATE_MAP_EXTENT" xml:space="preserve">
+    <value>Maak een kaartgebied in een kaart of tabel.</value>
+  </data>
+  <data name="MNU_HLP_DOCK_WINDOW" xml:space="preserve">
+    <value>Venster vastzetbaar maken</value>
+  </data>
+  <data name="MNU_HLP_FILTER_USING_CELL_VALUE" xml:space="preserve">
+    <value>Hiermee wordt de browser gefilterd met behulp van de waarde in de momenteel geselecteerde cel</value>
+  </data>
+  <data name="MNU_HLP_GROUP_BY_CURRENT_COLUMN" xml:space="preserve">
+    <value>Voer een query Groeperen op uit op de momenteel geselecteerde kolom. </value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>De geselecteerde laag naar de onderkant van de lagenlijst in de kaart verplaatsen</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst die niet de cosmetische laag, een thematische laag of de laatste laag is.</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>De geselecteerde laag naar de bovenkant van de lagenlijst in de kaart verplaatsen</value>
+  </data>
+  <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst die niet de cosmetische laag, een thematische laag of de eerste laag is.</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Een kloon van de actieve lay-out weergeven</value>
+  </data>
+  <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Hiermee zoekt u een bestand in Windows Verkenner gerelateerd aan de geselecteerde tabel</value>
+  </data>
+  <data name="MNU_HLP_LOCK_WINDOW" xml:space="preserve">
+    <value>Venster vergrendelen</value>
+  </data>
+  <data name="MNU_HLP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Grootte of titel van venster wijzigen</value>
+  </data>
+  <data name="MNU_HLP_MOFIFY_WINDOW" xml:space="preserve">
+    <value>Titel en grootte van actief venster aanpassen</value>
+  </data>
+  <data name="MNU_HLP_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Alle lagen hernoemen zodat ze overeenkomen met de naam van het tab-bestand</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst die niet de cosmetische laag is.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_NOT_COSMETIC_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst die niet de cosmetische laag of een thematische laag is.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_THEMATIC_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst die niet een thematische laag is.</value>
+  </data>
+  <data name="MNU_HLP_ONE_LAYER_WITH_TABFILE_DISABLED" xml:space="preserve">
+    <value>Selecteer een laag in de lagenlijst waarvoor een TAB-bestand op de schijf is opgeslagen.</value>
+  </data>
+  <data name="MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Open het geselecteerde tab-bestand in</value>
+  </data>
+  <data name="MNU_HLP_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Pannen naar de geselecteerde record in de voorste kaart</value>
+  </data>
+  <data name="MNU_HLP_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Laaginstellingen plakken op geselecteerde laag</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Een afzonderlijke thematische kaart maken van een kolom</value>
+  </data>
+  <data name="MNU_HLP_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Een thematische kaart met bereik maken van een kolom</value>
+  </data>
+  <data name="MNU_HLP_RATE_APPLICATION" xml:space="preserve">
+    <value>Applicatie beoordelen op de downloadpagina van de Precisely-community</value>
+  </data>
+  <data name="MNU_HLP_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>De laag vernieuwen met het opgegeven filter</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Een of meer vensters herstellen die tijdens deze sessie zijn gesloten</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOW" xml:space="preserve">
+    <value>Gesloten venster herstellen</value>
+  </data>
+  <data name="MNU_HLP_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Vensterposities herstellen naar de opgeslagen status</value>
+  </data>
+  <data name="MNU_HLP_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Hiermee wordt het actieve venster opgeslagen naar een werkruimte zonder de instructies 'Tabel openen…'</value>
+  </data>
+  <data name="MNU_HLP_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Basisvensters instellen met grootte en positie</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Standaardweergave instellen op alle lagen in de kaart</value>
+  </data>
+  <data name="MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Standaardweergave instellen op geselecteerde laag</value>
+  </data>
+  <data name="MNU_HLP_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Lijst met functies en subprocedures weergeven die moeten worden gebruikt met de Exec()-functie</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>De huidige positie van de vensters opslaan</value>
+  </data>
+  <data name="MNU_HLP_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>Opgeven van welke vensters automatisch de posities worden opgeslagen</value>
+  </data>
+  <data name="MNU_HLP_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>De stijlen van het thema opslaan als de objectstijlen</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Vensterposities herstellen wanneer het programma start</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>Het venster Lagenbeheer bij opstarten automatisch weergeven</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>Het venster Tabellijst bij opstarten automatisch weergeven</value>
+  </data>
+  <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Vensterposities opslaan wanneer het programma eindigt</value>
+  </data>
+  <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Venster ontgrendelen</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Hiermee wordt ingezoomd op de volledige weergave van de lagenkaart</value>
+  </data>
+  <data name="MNU_HLP_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Venster werkruimteverkenner openen</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_FIRST" xml:space="preserve">
+    <value>Inzoomen naar eerste</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_LAST" xml:space="preserve">
+    <value>Inzoomen naar laatste</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
+    <value>Inzoomen naar volgende</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
+    <value>Inzoomen naar vorige</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Inzoomen naar het gebied van de selectie in de voorste kaart</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
+    <value>Laag verplaatsen naar onderkant</value>
+  </data>
+  <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
+    <value>Laag verplaatsen naar bovenkant</value>
+  </data>
+  <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
+    <value>Weergave klonen</value>
+  </data>
+  <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
+    <value>Bestand zoeken in Windows Verkenner</value>
+  </data>
+  <data name="MNU_LOCK_WINDOW" xml:space="preserve">
+    <value>Venster vergrendelen</value>
+  </data>
+  <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
+    <value>Venster aanpassen</value>
+  </data>
+  <data name="MNU_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
+    <value>Meerdere lagen hernoemen</value>
+  </data>
+  <data name="MNU_OPEN_TABFILE_IN_TEXT_EDITOR" xml:space="preserve">
+    <value>Tab-bestand openen in</value>
+  </data>
+  <data name="MNU_OPEN_WORKSPACE_EXPLORER" xml:space="preserve">
+    <value>Werkruimte-verkenner</value>
+  </data>
+  <data name="MNU_OPTIONS" xml:space="preserve">
+    <value>Opties</value>
+  </data>
+  <data name="MNU_PAN_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Pannen naar de geselecteerde record</value>
+  </data>
+  <data name="MNU_PASTE_LAYER_PROPERTIES" xml:space="preserve">
+    <value>Laageigenschappen plakken</value>
+  </data>
+  <data name="MNU_QUICK_THEME_INDIVIDUAL" xml:space="preserve">
+    <value>Snel individueel thema</value>
+  </data>
+  <data name="MNU_QUICK_THEME_RANGED" xml:space="preserve">
+    <value>Snel geclassificeerd thema</value>
+  </data>
+  <data name="MNU_RATE_APPLICATION" xml:space="preserve">
+    <value>Applicatie beoordelen</value>
+  </data>
+  <data name="MNU_REFRESH_FILTERED__LAYER" xml:space="preserve">
+    <value>Gefilterde laag vernieuwen</value>
+  </data>
+  <data name="MNU_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Vensters herstellen</value>
+  </data>
+  <data name="MNU_RESTORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Vensterposities nu herstellen</value>
+  </data>
+  <data name="MNU_SAVE_WINDOW_TO_WOR" xml:space="preserve">
+    <value>Opslaan naar werkruimte</value>
+  </data>
+  <data name="MNU_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Selectie van kaartgebied</value>
+  </data>
+  <data name="MNU_SETUP_BASE_WINDOWS" xml:space="preserve">
+    <value>Basisvensters instellen…</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_ALL_LAYERS" xml:space="preserve">
+    <value>Standaardweergave instellen op alle lagen</value>
+  </data>
+  <data name="MNU_SET_DEFAULT_VIEW_SINGLE_LAYER" xml:space="preserve">
+    <value>Standaardweergave instellen</value>
+  </data>
+  <data name="MNU_SET_WINDOW_SIZE_POSITION_USING_BASE_WINDOW" xml:space="preserve">
+    <value>Gewenste grootte en positie op voorste venster instellen</value>
+  </data>
+  <data name="MNU_SHOW_ALL_WINDOWS" xml:space="preserve">
+    <value>&amp;Alle vensters weergeven</value>
+  </data>
+  <data name="MNU_SHOW_INFO_WINDOW" xml:space="preserve">
+    <value>Het venster &amp;Info weergeven</value>
+  </data>
+  <data name="MNU_SHOW_LEGEND_WINDOW" xml:space="preserve">
+    <value>Het venster &amp;Legenda weergeven</value>
+  </data>
+  <data name="MNU_SHOW_MAPBASIC_WINDOW" xml:space="preserve">
+    <value>Het venster Map&amp;Basic weergeven</value>
+  </data>
+  <data name="MNU_SHOW_MB_FUNCTION_LIST" xml:space="preserve">
+    <value>Lijst met functies en subprocedures weergeven</value>
+  </data>
+  <data name="MNU_SHOW_MESSAGE_WINDOW" xml:space="preserve">
+    <value>Het venster &amp;Bericht weergeven</value>
+  </data>
+  <data name="MNU_SHOW_RULER_WINDOW" xml:space="preserve">
+    <value>Het venster &amp;Liniaal weergeven</value>
+  </data>
+  <data name="MNU_SHOW_STATISTICS_WINDOW" xml:space="preserve">
+    <value>Het venster &amp;Statistieken weergeven</value>
+  </data>
+  <data name="MNU_SHOW_WINDOW" xml:space="preserve">
+    <value>&amp;Venster weergeven</value>
+  </data>
+  <data name="MNU_STATIC_THEME" xml:space="preserve">
+    <value>Statisch thema</value>
+  </data>
+  <data name="MNU_STORE_WINDOWS_NOW" xml:space="preserve">
+    <value>Vensterposities nu opslaan</value>
+  </data>
+  <data name="MNU_STORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>&amp;Positie van vensters automatisch opslaan</value>
+  </data>
+  <data name="MNU_THEME_SAVE_TO_TABLE" xml:space="preserve">
+    <value>Stijlen opslaan naar tabel</value>
+  </data>
+  <data name="MNU_TOGGLE_RESTORE_WINDOWS_ON_START" xml:space="preserve">
+    <value>Vensterposities herstellen bij opstarten</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_LAYER_CONTROL" xml:space="preserve">
+    <value>&amp;Lagenbeheer weergeven bij opstarten</value>
+  </data>
+  <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
+    <value>&amp;Tabellijst weergeven bij opstarten</value>
+  </data>
+  <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
+    <value>Vensterposities opslaan bij afsluiten</value>
+  </data>
+  <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Venster ontgrendelen</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
+    <value>Volledige kaart weergeven</value>
+  </data>
+  <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
+    <value>Inzoomen op gebied van selectie</value>
+  </data>
+  <data name="PICK_WOR_TO_SAVE_WINDOW_TO" xml:space="preserve">
+    <value>Werkruimte selecteren om venster in op te slaan…</value>
+  </data>
+  <data name="QUEST_AUTOSTORE_WINDOW_POSITIONS" xml:space="preserve">
+    <value>WindowHelper kan de grootte en positie van vensters opslaan bij afsluiten en deze vensters herstellen wanneer het programma de volgende keer wordt opgestart. {\n}{\n}Wilt u dit inschakelen?</value>
+  </data>
+  <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
+    <value>Weet u zeker dat u dit venster wilt sluiten: {0}?</value>
+  </data>
+  <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
+    <value>Deze applicatie breidt MapInfo Pro uit met een aantal handige functies voor werken met vensters</value>
+  </data>
+  <data name="STR_APPLY" xml:space="preserve">
+    <value>Toepassen</value>
+  </data>
+  <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
+    <value>Objecten bijwerken met thematische stijl</value>
+  </data>
+  <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
+    <value>Informatie weergeven</value>
+  </data>
+  <data name="STR_CHANGE" xml:space="preserve">
+    <value>Wijzigen</value>
+  </data>
+  <data name="STR_CLOSE" xml:space="preserve">
+    <value>Sluiten</value>
+  </data>
+  <data name="STR_CLOSE_WINDOW" xml:space="preserve">
+    <value>Venster sluiten</value>
+  </data>
+  <data name="STR_COPY" xml:space="preserve">
+    <value>Kopiëren</value>
+  </data>
+  <data name="STR_COSM_LAYER_IN" xml:space="preserve">
+    <value>Cosmetische laag in</value>
+  </data>
+  <data name="STR_CREATE" xml:space="preserve">
+    <value>Maken</value>
+  </data>
+  <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
+    <value>Bewerkbare laag in</value>
+  </data>
+  <data name="STR_EXPRESSION_COPIED_TO_CLIPBOARD" xml:space="preserve">
+    <value>Exec()-expressie gekopieerd naar klembord: </value>
+  </data>
+  <data name="STR_FILTER" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Omschrijving</value>
+  </data>
+  <data name="STR_FUNCTIONS_SUBPROCEDURES" xml:space="preserve">
+    <value>Functies en subprocedures</value>
+  </data>
+  <data name="STR_GRID_FILE" xml:space="preserve">
+    <value>Roosterbestand</value>
+  </data>
+  <data name="STR_HEIGHT" xml:space="preserve">
+    <value>Hoogte</value>
+  </data>
+  <data name="STR_HIDE_BASE_MAP_CONTROL" xml:space="preserve">
+    <value>Basiskaartbedieningen verbergen</value>
+  </data>
+  <data name="STR_MAP" xml:space="preserve">
+    <value>Kaart</value>
+  </data>
+  <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
+    <value>Miniwerkbalk voor kaart</value>
+  </data>
+  <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
+    <value>Info-hulpmiddel toevoegen aan miniwerkbalk voor kaart</value>
+  </data>
+  <data name="STR_MTB_ADD_RULER_TOOL" xml:space="preserve">
+    <value>Liniaal-hulpmiddel toevoegen aan miniwerkbalk voor kaart</value>
+  </data>
+  <data name="STR_NAME" xml:space="preserve">
+    <value>Naam</value>
+  </data>
+  <data name="STR_NEW_BASE_WINDOW" xml:space="preserve">
+    <value>Nieuw basisvenster</value>
+  </data>
+  <data name="STR_NO" xml:space="preserve">
+    <value>Nee</value>
+  </data>
+  <data name="STR_OK" xml:space="preserve">
+    <value>OK</value>
+  </data>
+  <data name="STR_OPEN" xml:space="preserve">
+    <value>Openen</value>
+  </data>
+  <data name="STR_POSITION" xml:space="preserve">
+    <value>Positie</value>
+  </data>
+  <data name="STR_RASTER_FILE" xml:space="preserve">
+    <value>Rasterbestand</value>
+  </data>
+  <data name="STR_RENAME_LAYER_IN_ALL_MAPS" xml:space="preserve">
+    <value>Deze tabel/laag in alle kaartvensters hernoemen</value>
+  </data>
+  <data name="STR_RESTORE" xml:space="preserve">
+    <value>Herstellen</value>
+  </data>
+  <data name="STR_SAVE_AS_DEFAULT_FRIENDLY_LAYER_NAME" xml:space="preserve">
+    <value>Opslaan als standaardomschrijving</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X" xml:space="preserve">
+    <value>Geselecteerde records: {0}</value>
+  </data>
+  <data name="STR_SELECTED_RECORDS_X_OF_Y" xml:space="preserve">
+    <value>Geselecteerde records: {0} van {1}</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_DESELECT" xml:space="preserve">
+    <value>Informatie weergeven bij het deselecteren van records</value>
+  </data>
+  <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
+    <value>Informatie weergeven bij selectie</value>
+  </data>
+  <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
+    <value>Laag met omschrijving overslaan</value>
+  </data>
+  <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
+    <value>Lettertype van slimme tekst</value>
+  </data>
+  <data name="STR_TABLE" xml:space="preserve">
+    <value>Tabel</value>
+  </data>
+  <data name="STR_TAB_FILE" xml:space="preserve">
+    <value>Tab-bestand</value>
+  </data>
+  <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
+    <value>Informatie bij selectie is uitgeschakeld. Klik om Informatie bij selectie in te schakelen</value>
+  </data>
+  <data name="STR_TTIP_ENABLE_INFO_SEL" xml:space="preserve">
+    <value>Informatie bij selectie is ingeschakeld. Klik om Informatie bij selectie uit te schakelen</value>
+  </data>
+  <data name="STR_TTIP_INFO_TOOL" xml:space="preserve">
+    <value>Tabelinformatie weergeven over kaartobjecten</value>
+  </data>
+  <data name="STR_TTIP_RULER_TOOL" xml:space="preserve">
+    <value>De afstand tussen twee kaartpunten weergeven</value>
+  </data>
+  <data name="STR_UPDATE" xml:space="preserve">
+    <value>Bijwerken</value>
+  </data>
+  <data name="STR_USE_DEFAULT_WINDOW_NAME" xml:space="preserve">
+    <value>Standaard vensternaam gebruiken</value>
+  </data>
+  <data name="STR_USE_EXISTING_TABLE_DESCRIPTION" xml:space="preserve">
+    <value>Bestaande tabelbeschrijving gebruiken</value>
+  </data>
+  <data name="STR_USE_FILENAME_AS_FRIENDLY_NAME" xml:space="preserve">
+    <value>Bestandsnaam gebruiken als omschrijving voor laag</value>
+  </data>
+  <data name="STR_WIDTH" xml:space="preserve">
+    <value>Breedte</value>
+  </data>
+  <data name="STR_WINDOW_NAME" xml:space="preserve">
+    <value>Venstertitel</value>
+  </data>
+  <data name="STR_X" xml:space="preserve">
+    <value>X</value>
+  </data>
+  <data name="STR_Y" xml:space="preserve">
+    <value>Y</value>
+  </data>
+  <data name="STR_YES" xml:space="preserve">
+    <value>Ja</value>
+  </data>
+  <data name="TAB_CLOSED" xml:space="preserve">
+    <value>Gesloten</value>
+  </data>
+  <data name="TAB_CURRENT" xml:space="preserve">
+    <value>Huidige</value>
+  </data>
+  <data name="TAB_SPECIAL" xml:space="preserve">
+    <value>Speciaal</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_CART_SCALE" xml:space="preserve">
+    <value>Slimme tekst voor kartografische schaal toevoegen aan de kaart</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_COORSYS" xml:space="preserve">
+    <value>Slimme tekst voor projectienaam toevoegen aan de kaart</value>
+  </data>
+  <data name="TTIP_ADD_SMARTTEXT_MAPTITLE" xml:space="preserve">
+    <value>Slimme tekst voor kaarttitel toevoegen aan de kaart</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_OFF" xml:space="preserve">
+    <value>Vensters worden niet automatisch vergrendeld, waarmee zou worden voorkomen dat ze kunnen worden gesloten. Klik hier om automatisch vergrendelen voor vensters in te schakelen</value>
+  </data>
+  <data name="TTIP_AUTOLOCK_WINDOWS_ON" xml:space="preserve">
+    <value>Vensters worden automatisch vergrendeld, waardoor ze niet kunnen worden gesloten. Klik hier om automatisch vergrendelen voor vensters uit te schakelen</value>
+  </data>
+  <data name="TTIP_LOCK_WINDOW" xml:space="preserve">
+    <value>Het venster vergrendelen zodat het niet kan worden gesloten</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW" xml:space="preserve">
+    <value>Titel en grootte van actief venster aanpassen</value>
+  </data>
+  <data name="TTIP_MODIFY_WINDOW_DISABLED" xml:space="preserve">
+    <value>Deze bediening wordt pas ingeschakeld als u een venster open hebt</value>
+  </data>
+  <data name="TTIP_NO_MAPPER_DISABLED" xml:space="preserve">
+    <value>Activeer een kaartvenster om deze functie in te schakelen.</value>
+  </data>
+  <data name="TTIP_OPTIONS" xml:space="preserve">
+    <value>Het dialoogvenster Opties openen voor de applicatie WindowHelper</value>
+  </data>
+  <data name="TTIP_RESTORE_CLOSED_WINDOWS" xml:space="preserve">
+    <value>Vensters herstellen die tijdens deze sessie zijn gesloten</value>
+  </data>
+  <data name="TTIP_SELECT_WITHIN_MAP" xml:space="preserve">
+    <value>Objecten selecteren waarvan het zwaartepunt zich binnen het huidige kaartgebied bevindt</value>
+  </data>
+  <data name="TTIP_STATIC_THEME" xml:space="preserve">
+    <value>Thema maken van een kolom en de bestaande objectstijlen</value>
+  </data>
+  <data name="TTIP_UNLOCK_WINDOW" xml:space="preserve">
+    <value>Het venster ontgrendelen zodat het kan worden gesloten</value>
+  </data>
+  <data name="VIEW_OF_VIEWS" xml:space="preserve">
+    <value>{0} van {1}</value>
+  </data>
+</root>

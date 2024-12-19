@@ -16,12 +16,14 @@ Include "Library\ARRAYLib.def"
 Include "Library\CONFIGFILELib.def"
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
+Include "Library\LAYOUTLib.def"
 Include "Library\PROGRAMINFO.def"
 Include "Library\RIBBONLib.def"
 Include "Library\STRINGLib.def"
 Include "Library\TABLELib.def"
 
 Include "DLGModifyWindow.def"
+Include "DLGLayoutTextEditor.def"
 Include "WindowHelper.def"
 Include "WindowHelper.Assembly.def"
 
@@ -1047,3 +1049,49 @@ ErrorOccured:
 
 End Sub
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub WINHLayoutEditText
+
+Dim	nWID, nFrameID As Integer
+
+OnError GoTo ErrorOccured
+
+	nWID = FrontWindow()
+	If nWID = 0 Then
+		Note GetResItemStr("ERR_NO_WIN_OPEN")
+		Exit Sub
+	End If
+	If Not WindowInfo(nWID, WIN_INFO_TYPE) = WIN_LAYOUT_DESIGNER Then
+		Note GetResItemStr("ERR_FRONT_WIN_NOT_LAYOUT")
+		Exit Sub
+	End If
+
+	If LAYOUTNumSelectedFrames(nWID) <> 1 Then
+		Note GetResItemStr("ERR_SELECT_ONE_TEXT_FRAME_IN_LAYOUT")
+		Exit Sub
+	End If
+	nFrameID	= LAYOUTSelectedFrameID(nWID, 1)
+
+	If NOT LayoutItemInfo(nWID, nFrameID, LAYOUT_ITEM_INFO_TYPE) = LAYOUT_ITEM_TYPE_TEXT Then
+		Note GetResItemStr("ERR_SELECT_ONE_TEXT_FRAME_IN_LAYOUT")
+		Exit Sub
+	End If
+
+	If NOT DLGLayoutTextEditor(nWID, nFrameID) Then
+		Exit Sub
+	End If
+
+	Alter Designer Text Window nWID ID nFrameID Text DLGLTEGetChangedText()
+	Refresh Designer Frame Window nWID ID nFrameID
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "WINHLayoutEditText")
+	Call ERRShow()
+
+End Sub

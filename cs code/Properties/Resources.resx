@@ -156,6 +156,9 @@
   <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
     <value>Number of bins has been limited to {0}.</value>
   </data>
+  <data name="DLG_NUM_VALUES_LIMITED_TO" xml:space="preserve">
+    <value>Number of values has been limited to {0}.</value>
+  </data>
   <data name="DLG_OPTIONS" xml:space="preserve">
     <value>Options</value>
   </data>
@@ -190,11 +193,20 @@
   <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
     <value>Select Table for Theme</value>
   </data>
+  <data name="DLG_THEME_IGNORE_ZERO_BLANKS" xml:space="preserve">
+    <value>Ignore Zeroes or Blanks</value>
+  </data>
   <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
     <value>Number of Bins</value>
   </data>
   <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
     <value># of Ranges</value>
+  </data>
+  <data name="DLG_THEME_NUM_RANGES" xml:space="preserve">
+    <value># of Ranges</value>
+  </data>
+  <data name="DLG_THEME_NUM_VALUES" xml:space="preserve">
+    <value># of Values</value>
   </data>
   <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
     <value>Select Color Range</value>
@@ -207,6 +219,9 @@
   </data>
   <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
     <value>Advanced Layer Rename</value>
+  </data>
+  <data name="DLG_TITLE_LAYOUT_TEXT_EDITOR" xml:space="preserve">
+    <value>Layout Text Editor</value>
   </data>
   <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Rename Multiple Layers</value>
@@ -292,6 +307,9 @@
   <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
     <value>Please Select at least one Record!</value>
   </data>
+  <data name="ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select at least one layer in the layer list!</value>
+  </data>
   <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
     <value>Please select the base window to update!</value>
   </data>
@@ -316,6 +334,9 @@
   <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
     <value>Please select a normal or raster/grid layer in the Layer List!</value>
   </data>
+  <data name="ERR_SELECT_ONE_FRAME_IN_LAYOUT" xml:space="preserve">
+    <value>Please select a single frame in the layout window.</value>
+  </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one layer in the Layer Control!</value>
   </data>
@@ -333,6 +354,9 @@
   </data>
   <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
     <value>Please select one table in the TableList window!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TEXT_FRAME_IN_LAYOUT" xml:space="preserve">
+    <value>Please select a single text frame in the layout window.</value>
   </data>
   <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
     <value>Please select a thematic layer in the Layer List!</value>
@@ -418,6 +442,18 @@
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Close Table</value>
   </data>
+  <data name="MNU_CONTEXT_BROWSER" xml:space="preserve">
+    <value>Browser Context Menu</value>
+  </data>
+  <data name="MNU_CONTEXT_LAYER_LAYERLIST" xml:space="preserve">
+    <value>Layer Context Menu in Layer List</value>
+  </data>
+  <data name="MNU_CONTEXT_MAP" xml:space="preserve">
+    <value>Map Context Menu</value>
+  </data>
+  <data name="MNU_CONTEXT_TABLE_TABLELIST" xml:space="preserve">
+    <value>Table Context Menu in Table List</value>
+  </data>
   <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
     <value>Copy Layer Properties</value>
   </data>
@@ -452,7 +488,7 @@
     <value>Display and manipulate data in a floating browser window</value>
   </data>
   <data name="MNU_HLP_CLEAR_SELECTION" xml:space="preserve">
-    <value>Unselect all layout objects and frames</value>
+    <value>Unselect all map objects</value>
   </data>
   <data name="MNU_HLP_CLONE_MAP" xml:space="preserve">
     <value>Clone the selected Map Window</value>
@@ -493,8 +529,14 @@
   <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
     <value>Select one layer from the Layer List that isn't the cosmetic, a thematic layer, or the first layer.</value>
   </data>
+  <data name="MNU_HLP_LAYOUT_CLEAR_SELECTION" xml:space="preserve">
+    <value>Unselect all layout objects and frames</value>
+  </data>
   <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Display a clone of the active layout</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_EDIT_TEXT" xml:space="preserve">
+    <value>Edit text from selected frame in a dialog</value>
   </data>
   <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
     <value>Finds a file in Windows Explorer related to the selected table</value>
@@ -592,6 +634,12 @@
   <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
     <value>Unlock window</value>
   </data>
+  <data name="MNU_HLP_VIEW_ALL_NORMAL_LAYERS" xml:space="preserve">
+    <value>Set the view to the extent of all normal vector layers</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_LAYERS" xml:space="preserve">
+    <value>View the entire extent of the selected layer(s).</value>
+  </data>
   <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>Zooms to the entire view of the layers map</value>
   </data>
@@ -607,20 +655,26 @@
   <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
     <value>Zoom to next</value>
   </data>
+  <data name="MNU_HLP_ZOOM_TO_NORMAL_LAYERS" xml:space="preserve">
+    <value>Set the view to the extent of all normal vector layers</value>
+  </data>
   <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
-    <value>Zoom to previous</value>
+    <value>Zoom to previous view</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Zoom to the extent of the selection in the front most map</value>
   </data>
   <data name="MNU_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
-    <value>Move Layer to the Bottom</value>
+    <value>Move Layer to the bottom</value>
   </data>
   <data name="MNU_LAYER_MOVE_TO_TOP" xml:space="preserve">
-    <value>Move Layer to the Top</value>
+    <value>Move Layer to the top</value>
   </data>
   <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Clone View</value>
+  </data>
+  <data name="MNU_LAYOUT_EDIT_TEXT" xml:space="preserve">
+    <value>Edit Text</value>
   </data>
   <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
     <value>Locate File In Windows Explorer</value>
@@ -739,8 +793,17 @@
   <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
     <value>Unlock window</value>
   </data>
+  <data name="MNU_VIEW_ALL_NORMAL_LAYERS" xml:space="preserve">
+    <value>View All Normal Layers</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_LAYERS" xml:space="preserve">
+    <value>View Entire Layer(s)</value>
+  </data>
   <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>View Entire Map</value>
+  </data>
+  <data name="MNU_ZOOM_TO_NORMAL_LAYERS" xml:space="preserve">
+    <value>All Normal Layers</value>
   </data>
   <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Zoom to Extent of Selection</value>
@@ -754,6 +817,9 @@
   <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
     <value>Are you sure that you want to close this window: {0} ?</value>
   </data>
+  <data name="STR_ADD_MENUITEMS_IN_CONTEXT_MENUS" xml:space="preserve">
+    <value>Add Menu Items to Context Menus</value>
+  </data>
   <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
     <value>This application extents MapInfo Pro with a number of useful features for working with windows</value>
   </data>
@@ -762,6 +828,9 @@
   </data>
   <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
     <value>Updating objects with thematic style</value>
+  </data>
+  <data name="STR_BACKGROUND" xml:space="preserve">
+    <value>Background</value>
   </data>
   <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
     <value>Show Info</value>
@@ -778,11 +847,17 @@
   <data name="STR_COPY" xml:space="preserve">
     <value>Copy</value>
   </data>
+  <data name="STR_COPY_PASTE_LAYER_PROP" xml:space="preserve">
+    <value>Copy/Paste Layer Properties</value>
+  </data>
   <data name="STR_COSM_LAYER_IN" xml:space="preserve">
     <value>Cosmetic layer in</value>
   </data>
   <data name="STR_CREATE" xml:space="preserve">
     <value>Create</value>
+  </data>
+  <data name="STR_CUSTOM" xml:space="preserve">
+    <value>Custom</value>
   </data>
   <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
     <value>Editable Layer in</value>
@@ -792,6 +867,12 @@
   </data>
   <data name="STR_FILTER" xml:space="preserve">
     <value>Filter</value>
+  </data>
+  <data name="STR_FONT" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="STR_FOREGROUND" xml:space="preserve">
+    <value>Foreground</value>
   </data>
   <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
     <value>Friendly Name</value>
@@ -813,6 +894,9 @@
   </data>
   <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
     <value>Map Mini Toolbar</value>
+  </data>
+  <data name="STR_MOVE_LAYER_TOP_BOTTOM" xml:space="preserve">
+    <value>Move Layer to Top/Bottom</value>
   </data>
   <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
     <value>Add Info Tool to Map Mini Toolbar</value>
@@ -862,17 +946,29 @@
   <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
     <value>Show Info on Selection</value>
   </data>
+  <data name="STR_SHOW_IN_TXT_EDITOR" xml:space="preserve">
+    <value>Open in Text Editor</value>
+  </data>
   <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
     <value>Skip Layer with Friendly Name</value>
   </data>
   <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
     <value>Smart Text Font</value>
   </data>
+  <data name="STR_STANDARD" xml:space="preserve">
+    <value>Standard</value>
+  </data>
   <data name="STR_TABLE" xml:space="preserve">
     <value>Table</value>
   </data>
   <data name="STR_TAB_FILE" xml:space="preserve">
     <value>Tab File</value>
+  </data>
+  <data name="STR_TEXT" xml:space="preserve">
+    <value>Text</value>
+  </data>
+  <data name="STR_THEMES_QUICK" xml:space="preserve">
+    <value>Quick Themes</value>
   </data>
   <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
     <value>Info on Selection is Disabled. Click to Enable Info on Selection</value>
@@ -912,6 +1008,24 @@
   </data>
   <data name="STR_YES" xml:space="preserve">
     <value>Yes</value>
+  </data>
+  <data name="STR_ZOOM_LOCAL_GRID_LAYERS" xml:space="preserve">
+    <value>Zoom Local Grid Layers</value>
+  </data>
+  <data name="STR_ZOOM_LOCAL_RASTER_LAYERS" xml:space="preserve">
+    <value>Zoom Local Raster Layers</value>
+  </data>
+  <data name="STR_ZOOM_NORMAL_VECTOR_LAYERS" xml:space="preserve">
+    <value>Zoom Normal Vector Layers</value>
+  </data>
+  <data name="STR_ZOOM_ONLY_VISIBLE_LAYERS" xml:space="preserve">
+    <value>Zoom Only Visible Layers</value>
+  </data>
+  <data name="STR_ZOOM_TILESERVER_LAYERS" xml:space="preserve">
+    <value>Zoom Tile Server Layers</value>
+  </data>
+  <data name="STR_ZOOM_WMS_LAYERS" xml:space="preserve">
+    <value>Zoom WMS Layers</value>
   </data>
   <data name="TAB_CLOSED" xml:space="preserve">
     <value>Closed</value>

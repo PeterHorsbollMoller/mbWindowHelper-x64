@@ -14,6 +14,7 @@ Include "Enums.def"
 Include "Library\Defaults.def"
 
 '-------------------------------------
+Include "Library\ARRAYLib.def"
 Include "Library\COLUMNLib.def"
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
@@ -516,8 +517,6 @@ OnError GoTo ErrorOccured
 			If Not DLGQTRUseFixedColors() Then
 				If DLGQTRGetChangeBrushColorType() = RANGE_CHANGE_FOREGROUND_COLOR Then
 					Create Styles
-	'					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
-	'					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
 						From Brush STLChangeBrushFGColour(DLGQTRGetBrush(), DLGQTRGetFromColor())	'Brush MakeBrush(..) 'style for LOW range,
 						To Brush STLChangeBrushFGColour(DLGQTRGetBrush(), DLGQTRGetToColor())		'Brush MakeBrush (..) 'style for HIGH range
 						Vary Color By "RGB"
@@ -525,8 +524,6 @@ OnError GoTo ErrorOccured
 						Into Variable arrBrushes
 				Else
 					Create Styles
-	'					From Brush MakeBrush(2,DLGQTRGetFromColor(),16777215) 'style for LOW range,
-	'					To Brush MakeBrush (2,DLGQTRGetToColor(),16777215) 'style for HIGH range
 						From Brush STLChangeBrushBGColour(DLGQTRGetBrush(), DLGQTRGetFromColor())	'Brush MakeBrush(..) 'style for LOW range,
 						To Brush STLChangeBrushBGColour(DLGQTRGetBrush(), DLGQTRGetToColor())	'Brush MakeBrush (..) 'style for HIGH range
 						Vary Color By "RGB"
@@ -567,7 +564,9 @@ OnError GoTo ErrorOccured
 				End If
 			Next
 
-			sCmd	= "Shade Window " & nMID & " " & nLayerID & " With " & sCol & " Ranges " & sCmd
+			sCmd	= "Shade Window " & nMID & " " & nLayerID & " With " & sCol
+					& IIf(DLGQTRIgnoreZeroesOrBlanks(), " Ignore 0", "")
+					& " Ranges " & sCmd
 			Run Command sCmd
 
 		Case TAB_POINT_OBJECTS
@@ -588,11 +587,20 @@ OnError GoTo ErrorOccured
 				Next
 			End If
 
-			Shade Window nMID
-				nLayerID
-				with aCol
-				Ranges From Variable arrRanges
-				Style Variable arrSymbols
+			If DLGQTRIgnoreZeroesOrBlanks() Then
+				Shade Window nMID
+					nLayerID
+					with aCol
+					Ignore 0
+					Ranges From Variable arrRanges
+					Style Variable arrSymbols
+			Else
+				Shade Window nMID
+					nLayerID
+					with aCol
+					Ranges From Variable arrRanges
+					Style Variable arrSymbols
+			End If
 
 		Case TAB_LINE_OBJECTS
 			If Not DLGQTRUseFixedColors() Then
@@ -612,11 +620,20 @@ OnError GoTo ErrorOccured
 				Next
 			End If
 
-			Shade Window nMID
-				nLayerID
-				with aCol
-				Ranges From Variable arrRanges
-				Style Variable arrPens()
+			If DLGQTRIgnoreZeroesOrBlanks() Then
+				Shade Window nMID
+					nLayerID
+					with aCol
+					Ignore 0
+					Ranges From Variable arrRanges
+					Style Variable arrPens()
+			Else
+				Shade Window nMID
+					nLayerID
+					with aCol
+					Ranges From Variable arrRanges
+					Style Variable arrPens()
+			End If
 
 	End Case
 
@@ -814,10 +831,15 @@ OnError GoTo ErrorOccured
 	End If
 
 	For nLayer = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+		Call DEBUGPrint(nLayer & ". " & LayerInfo(nMID, nLayer, LAYER_INFO_NAME))
 		If LayerInfo(nMID, nLayer, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
+			Call DEBUGPrint("  Normal Layer Type")
 			If NOT LayerInfo(nMID, nLayer, LAYER_INFO_DISPLAY) = LAYER_INFO_DISPLAY_OFF Then
+				Call DEBUGPrint("  Visible")
 				If LayerInfo(nMID, nLayer, LAYER_INFO_SELECTABLE) Then
+					Call DEBUGPrint("  Selectable")
 					sLayer = LayerInfo(nMID, nLayer, LAYER_INFO_NAME)
+					Exit For
 				End If
 			End If
 		End If
@@ -929,6 +951,259 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHPanToSelectionInFrontMap")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomToSelectedLayersLC
+
+Dim	nMID, nLayer, nLayerID, arrLayers() As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+'	If LayerControlInfo(LC_INFO_SEL_COUNT) = 1 Then
+'		Run Menu Command M_MAP_ENTIRE_LAYER
+'		Exit Sub
+'	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+	For nLayer = 1 To LayerControlInfo(LC_INFO_SEL_COUNT)
+		If LayerControlSelectionInfo(nLayer, LC_SEL_INFO_MAPWIN_ID) = nMID Then
+			If LayerControlSelectionInfo(nLayer, LC_SEL_INFO_TYPE) = LC_SEL_INFO_TYPE_LAYER Then
+				nLayerID	= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_LAYER_ID)
+				Call ARRAYAddValueInteger(arrLayers(), nLayerID)
+			End If
+		End If
+	Next
+
+	Call MAPHZoomToLayers(nMID, arrLayers)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomToSelectedLayersLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomEntireMapLC
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_ONE_MAP_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
+
+	If DLGWHOGetViewEntireMapOption("ZOOM_TYPE_CUSTOM") Then
+		Call MAPHZoomEntireMap(nMID
+							, DLGWHOGetViewEntireMapOption("ZOOM_NORMAL_VECTOR_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_RASTER_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_GRID_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_WMS_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_TILESERVER_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_ONLY_VISIBLE")
+						)
+	Else
+		Set Map Window nMID Zoom Entire
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomEntireMapLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomEntireMapMenu
+
+Dim	nMID As Integer
+
+OnError GoTo ErrorOccured
+
+	nMID = FrontWindow()
+	If nMID = 0 Then
+		Exit Sub
+	End If
+	If Not WindowInfo(nMID, WIN_INFO_TYPE) = WIN_MAPPER Then
+		Exit Sub
+	End If
+
+	If DLGWHOGetViewEntireMapOption("ZOOM_TYPE_CUSTOM") Then
+		Call MAPHZoomEntireMap(nMID
+							, DLGWHOGetViewEntireMapOption("ZOOM_NORMAL_VECTOR_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_RASTER_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_GRID_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_WMS_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_TILESERVER_LAYERS")
+							, DLGWHOGetViewEntireMapOption("ZOOM_ONLY_VISIBLE")
+							)
+	Else
+		Set Map Window nMID Zoom Entire
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomEntireMapMenu")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomEntireMap(	  ByVal nMID As Integer
+					, ByVal bZoomNormalVectorLayers As Logical
+					, ByVal bZoomLocalRasterLayers As Logical
+					, ByVal bZoomLocalGridLayers As Logical
+					, ByVal bZoomWMSLayers As Logical
+					, ByVal bZoomTileServerLayers As Logical
+					, ByVal bZoomOnlyVisibleLayers As Logical
+					)
+
+Dim	nLayer, arrLayers() As Integer,
+	bZoomLayer As Logical
+
+OnError GoTo ErrorOccured
+
+	Call DEBUGPrint("MAPHZoomEntireMap:")
+	Call DEBUGPrint("bZoomNormalVectorLayers: " & bZoomNormalVectorLayers)
+	Call DEBUGPrint("bZoomLocalRasterLayers: " & bZoomLocalRasterLayers)
+	Call DEBUGPrint("bZoomLocalGridLayers: " & bZoomLocalGridLayers)
+	Call DEBUGPrint("bZoomWMSLayers: " & bZoomWMSLayers)
+	Call DEBUGPrint("bZoomTileServerLayers: " & bZoomTileServerLayers)
+	Call DEBUGPrint("bZoomOnlyVisibleLayers: " & bZoomOnlyVisibleLayers)
+
+	For nLayer = 1 To MapperInfo(nMID, MAPPER_INFO_LAYERS)
+		bZoomLayer	= FALSE
+
+		Do Case LayerInfo(nMID, nLayer, LAYER_INFO_TYPE)
+			Case LAYER_INFO_TYPE_NORMAL
+				If bZoomNormalVectorLayers Then
+					bZoomLayer	= TRUE
+				End If
+			Case LAYER_INFO_TYPE_IMAGE
+				If bZoomLocalRasterLayers Then
+					bZoomLayer	= TRUE
+				End If
+			Case LAYER_INFO_TYPE_GRID
+				If bZoomLocalGridLayers Then
+					bZoomLayer	= TRUE
+				End If
+			Case LAYER_INFO_TYPE_WMS
+				If bZoomWMSLayers Then
+					bZoomLayer	= TRUE
+				End If
+			Case LAYER_INFO_TYPE_TILESERVER
+				If bZoomTileServerLayers Then
+					bZoomLayer	= TRUE
+				End If
+		End Case
+
+		If bZoomLayer Then
+			If bZoomOnlyVisibleLayers And LayerInfo(nMID, nLayer, LAYER_INFO_DISPLAY) = LAYER_INFO_DISPLAY_OFF Then
+				'**Don't use this layer
+			Else
+				Call ARRAYAddValueInteger(arrLayers, nLayer)
+			End If
+		End If
+	Next
+
+	Call MAPHZoomToLayers(nMID, arrLayers())
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomEntireMap")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHZoomToLayers(	  ByVal nMID As Integer
+					, arrLayers() As Integer)
+
+Dim	sTab, sLayerTab As String,
+	nLayer As Integer,
+	oExtent As Object
+
+OnError GoTo ErrorOccured
+
+	If Ubound(arrLayers) = 0 Then
+		Call DEBUGPrint("MAPHZoomToLayers: List of layers to zoom to is empty!")
+		Exit Sub
+	End If
+
+	sTab	= "__MapExtent__" & nMID
+	Create Table sTab
+		( LayerID Integer
+		, LayerName Char(52)
+		)
+		File PathToDirectory$(TempFileName$("")) & sTab & ".tab"
+		Type NATIVE
+		Hide
+
+	Create Map
+		For sTab
+		CoordSys Window nMID
+	Set Table sTab FastEdit On
+
+	For nLayer = 1 To Ubound(arrLayers)
+		sLayerTab	= LayerInfo(nMID, arrLayers(nLayer), LAYER_INFO_NAME)
+		If InStr(1, sLayerTab, "(") > 0 Then
+			sLayerTab = Left$(sLayerTab, InStr(1, sLayerTab, "(") - 1)
+		End If
+		oExtent	= TABGetDataExtent(sLayerTab)
+
+		Insert Into sTab
+			(LayerID, LayerName, OBJ)
+			Values
+			(arrLayers(nLayer), sLayerTab, oExtent)
+	Next
+	Commit Table sTab
+
+	Set Map Window nMID Redraw Off
+	Add Map Window nMID Layer sTab
+	Set Map Window nMID Zoom Entire Layer sTab
+	Drop Table sTab
+	Set Map Window nMID Redraw On
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHZoomToLayers")
 	Call ERRShow()
 
 End Sub
@@ -1130,7 +1405,7 @@ End Sub
 '**********************************************************************************************''
 Sub MAPHMenuPasteLayerSettingsLC
 
-Dim	nMID, nLayerID As Integer
+Dim	nMID, nLayerID, nLayer As Integer
 
 OnError GoTo ErrorOccured
 
@@ -1141,30 +1416,43 @@ OnError GoTo ErrorOccured
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
-	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
+'	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+'		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+'		Exit Sub
 	End If
 
-	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
-	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+'	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
 
-	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
-	End If
-	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
-		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
-		Exit Sub
-	End If
+	For nLayer = 1 To LayerControlInfo(LC_INFO_SEL_COUNT)
+		nMID		= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_MAPWIN_ID)
+		nLayerID	= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_LAYER_ID)
+		If nLayerID > 0 Then
+			If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+			ElseIf LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_THEMATIC Then
+			Else
+				If tliApplyInfo(nMID, nLayerID, mtli) Then
+
+				End If
+			End If
+		End If
+	Next
+
+'	If nLayerID = -1 Then
+'		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+'		Exit Sub
+'	End If
+'	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+'		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+'		Exit Sub
+'	End If
 '	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_NORMAL Then
 '		Note GetResItemStr("ERR_SELECT_NORMAL_LAYER_IN_LAYER_CONTROL")
 '		Exit Sub
 '	End If
 
-	If tliApplyInfo(nMID, nLayerID, mtli) Then
-
-	End If
+'	If tliApplyInfo(nMID, nLayerID, mtli) Then
+'
+'	End If
 
 	Exit Sub
 '-------------------------
@@ -1227,31 +1515,36 @@ End Sub
 '**********************************************************************************************''
 Sub MAPHMenuMoveLayerToTopLC
 
-Dim	nMID, nLayerID As Integer
+Dim	nMID, nLayer, nLayerID, arrLayerIDs(), arrMIDs() As Integer
 
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
-	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
+'	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+'		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+'		Exit Sub
 	End If
 
-	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
-	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+	For nLayer = 1 To LayerControlInfo(LC_INFO_SEL_COUNT)
+		nMID		= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_MAPWIN_ID)
+		nLayerID	= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_LAYER_ID)
+		If nLayerID > 0 Then
+			If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+			ElseIf LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_THEMATIC Then
+			Else
+				Call ARRAYAddValueInteger(arrMIDs(), nMID)
+				Call ARRAYAddValueInteger(arrLayerIDs(), nLayerID)
+			End If
+		End If
+	Next
 
-	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
-	End If
-	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
-		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
-		Exit Sub
-	End If
-
-	Set Map Window nMID Order Layers nLayerID Position 1
+'	Print "MAPHMenuMoveLayerToTopLC:"
+	For nLayer = Ubound(arrLayerIDs) To 1 Step -1
+'		Print "Move Layer " & nLayer & " to position 1"
+		Set Map Window arrMIDs(nLayer) Order Layers nLayerID Position 1
+	Next
 
 	Exit Sub
 '-------------------------
@@ -1268,31 +1561,36 @@ End Sub
 '**********************************************************************************************''
 Sub MAPHMenuMoveLayerToBottomLC
 
-Dim	nMID, nLayerID As Integer
+Dim	nMID, nLayer, nLayerID, arrLayerIDs(), arrMIDs() As Integer
 
 OnError GoTo ErrorOccured
 
 	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
 		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
-	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
+'	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+'		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
+'		Exit Sub
 	End If
 
-	nMID		= LayerControlSelectionInfo (1, LC_SEL_INFO_MAPWIN_ID)
-	nLayerID	= LayerControlSelectionInfo (1, LC_SEL_INFO_LAYER_ID)
+	For nLayer = 1 To LayerControlInfo(LC_INFO_SEL_COUNT)
+		nMID		= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_MAPWIN_ID)
+		nLayerID	= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_LAYER_ID)
+		If nLayerID > 0 Then
+			If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+			ElseIf LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_THEMATIC Then
+			Else
+				Call ARRAYAddValueInteger(arrMIDs(), nMID)
+				Call ARRAYAddValueInteger(arrLayerIDs(), nLayerID)
+			End If
+		End If
+	Next
 
-	If nLayerID = -1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_LIST")
-		Exit Sub
-	End If
-	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
-		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
-		Exit Sub
-	End If
-
-	Set Map Window nMID Order Layers nLayerID Position MapperInfo(nMID, MAPPER_INFO_LAYERS)
+'	Print "MAPHMenuMoveLayerToBottomLC"
+	For nLayer = 1 To Ubound(arrLayerIDs)
+'		Print "Move Layer " & (arrLayerIDs(nLayer) - (nLayer - 1)) & " to position " & MapperInfo(nMID, MAPPER_INFO_LAYERS)
+		Set Map Window arrMIDs(nLayer) Order Layers (arrLayerIDs(nLayer) - (nLayer - 1)) Position MapperInfo(arrMIDs(nLayer), MAPPER_INFO_LAYERS)
+	Next
 
 	Exit Sub
 '-------------------------

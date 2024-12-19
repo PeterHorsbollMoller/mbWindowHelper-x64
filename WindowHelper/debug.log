@@ -17,3 +17,13 @@
 14:00:26 Select * From Parcels Where SOGNNAVN = "Øster Hassing-Gåser" Into __theme__apply_style NoSelect Hide
 14:00:27 Select * From Parcels Where SOGNNAVN = "Øster Hornum" Into __theme__apply_style NoSelect Hide
 14:00:27 Select * From Parcels Where SOGNNAVN = "Årestrup" Into __theme__apply_style NoSelect Hide
+12:07:41 Get View Entire Map Option 'ZOOM_WMS_LAYERS' = F
+12:07:41 Get View Entire Map Option 'ZOOM_TILESERVER_LAYERS' = F
+12:07:59 Set View Entire Map Option 'ZOOM_WMS_LAYERS' = F
+12:07:59 Set View Entire Map Option 'ZOOM_TILESERVER_LAYERS' = F
+12:08:06 Get View Entire Map Option 'ZOOM_WMS_LAYERS' = F
+12:08:06 Get View Entire Map Option 'ZOOM_TILESERVER_LAYERS' = F
+12:08:08 Set View Entire Map Option 'ZOOM_WMS_LAYERS' = F
+12:08:08 Set View Entire Map Option 'ZOOM_TILESERVER_LAYERS' = F
+12:08:12 Get View Entire Map Option 'ZOOM_WMS_LAYERS' = F
+12:08:12 Get View Entire Map Option 'ZOOM_TILESERVER_LAYERS' = F

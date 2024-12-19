@@ -13,6 +13,7 @@ Include "Menu.def"
 Include "Library\Defaults.def"
 
 '-------------------------------------
+Include "Library\ARRAYLib.def"
 Include "Library\COLUMNLib.def"
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
@@ -225,13 +226,17 @@ End Sub 'TABHOpenTabFileLC
 '**********************************************************************************************''
 Sub TABHCloseTableLC
 
-Dim	nMID, nLayerID As Integer,
-	sTab, sFile As String
+Dim	nMID, arrMIDs(), nLayerID, arrLayerIDs(), nLayer, nTab As Integer,
+	sTab, arrTables(), sFile As String
 
 OnError GoTo ErrorOccured
 
-	If LayerControlInfo(LC_INFO_SEL_COUNT) <> 1 Then
-		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL")		'Note "Please select one layer in the Layer Control!"
+'	If LayerControlInfo(LC_INFO_SEL_COUNT) <> 1 Then
+'		Note GetResItemStr("ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL")		'Note "Please select one layer in the Layer Control!"
+'		Exit Sub
+'	End If
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note GetResItemStr("ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST")
 		Exit Sub
 	End If
 
@@ -240,21 +245,53 @@ OnError GoTo ErrorOccured
 		Exit Sub
 	End If
 
-	nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
-	nLayerID	= LayerControlSelectionInfo(1, LC_SEL_INFO_LAYER_ID)
+	'**Looping through the selected layers
+	For nLayer = 1 To LayerControlInfo(LC_INFO_SEL_COUNT)
+		nMID		= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_MAPWIN_ID)
+		nLayerID	= LayerControlSelectionInfo (nLayer, LC_SEL_INFO_LAYER_ID)
+		If nLayerID > 0 Then
+			Do Case LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE)
+				Case LAYER_INFO_TYPE_COSMETIC
+					'** do nothing
+				Case LAYER_INFO_TYPE_THEMATIC
+					Call ARRAYAddValueInteger(arrMIDs, nMID)
+					Call ARRAYAddValueInteger(arrLayerIDs, nLayerID)
 
-	Do Case LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE)
-		Case LAYER_INFO_TYPE_COSMETIC
-			Exit Sub
-		Case LAYER_INFO_TYPE_THEMATIC
-			Remove Map
-				Window nMID
-				Layer nLayerID
-				Interactive
-		Case Else
-			sTab 	= LayerInfo(nMID, nLayerID, LAYER_INFO_NAME)
-			Close Table sTab Interactive
-	End Case
+				Case Else
+					sTab 	= LayerInfo(nMID, nLayerID, LAYER_INFO_NAME)
+					Call ARRAYAddValueString(arrTables, sTab)
+			End Case
+		End If
+	Next
+
+	'**Removing Thematic Layers
+	For nLayer = Ubound(arrLayerIDs) To 1 Step -1
+		Remove Map
+			Window arrMIDs(nLayer)
+			Layer arrLayerIDs(nLayer)
+			Interactive
+	Next
+
+	'**Closing selected tables
+	For nTab = 1 To Ubound(arrTables)
+		Call TABClose(arrTables(nTab))
+	Next
+
+'	nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
+'	nLayerID	= LayerControlSelectionInfo(1, LC_SEL_INFO_LAYER_ID)
+'
+'	Do Case LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE)
+'		Case LAYER_INFO_TYPE_COSMETIC
+'			Exit Sub
+'		Case LAYER_INFO_TYPE_THEMATIC
+'			Remove Map
+'				Window nMID
+'				Layer nLayerID
+'				Interactive
+'		Case Else
+'			sTab 	= LayerInfo(nMID, nLayerID, LAYER_INFO_NAME)
+'			Close Table sTab Interactive
+'	End Case
 
 	Exit Sub
 '-------------------------

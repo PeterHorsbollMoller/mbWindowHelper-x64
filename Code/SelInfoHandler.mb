@@ -236,7 +236,7 @@ OnError GoTo ErrorOccured
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "SELINFOSelChangedHandler")
 	If NOT ERRGetLatestErrorNo() IN (689, 644) Then
-		Call ERRShow()
+		Call ERRPrint()
 	End If
 	Resume Next
 

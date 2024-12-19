@@ -26,6 +26,22 @@ Declare Sub MAPHSelectWithinMap
 Declare Sub MAPHZoomToSelectionInFrontMap
 Declare Sub MAPHPanToSelectionInFrontMap
 
+Declare Sub MAPHZoomToSelectedLayersLC
+Declare Sub MAPHZoomEntireMapLC
+Declare Sub MAPHZoomEntireMapMenu
+Declare Sub MAPHZoomEntireMap(  ByVal nMID As Integer
+						, ByVal bZoomNormalVectorLayers As Logical
+						, ByVal bZoomLocalRasterLayers As Logical
+						, ByVal bZoomLocalGridLayers As Logical
+						, ByVal bZoomWMSLayers As Logical
+						, ByVal bZoomTileServerLayers As Logical
+						, ByVal bZoomOnlyVisibleLayers As Logical
+						)
+Declare Sub MAPHZoomToLayers(	  ByVal nMID As Integer
+						, arrLayers() As Integer
+						)
+
+
 Declare Sub MAPHAddSmartTextMapTitle
 Declare Sub MAPHAddSmartTextMapCartoScale
 Declare Sub MAPHAddSmartTextMapCoordsys

@@ -195,28 +195,21 @@
 '						- Support for default brush, line, pen and symbol for quick ranged theme
 '4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
 '						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
-'						- Add Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
-'4.0.2	14-08-2024 14:59:53	- Add menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
-'4.0.3	15-08-2024 11:56:51	- Add Open Explorer Window to Mapper Context menu
-'						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 - 5 votes
-'4.0.4	16-08-2024 15:30:33	- Save theme as object style on table for individual theme theme
 '*******************************************************************************
 'Potential new features:
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
 '	- Rename table via Layer context menu
-'	- Rename Layer: Option to specify character(s) to replace underscore with and not jut a space
+'	- Rename Layers: Option to specify character(s) to replace underscore with and not jut a space
 '	- Add more default Smart Text adornments to the map window, such as copyright
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
 '	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
-'	- Add support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569
 '	- Add 'Replace Image' to Layout, see https://ideas.precisely.com/ideas/MIPRO-I-1224
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
-'	- View Entire Layer for multiple layer, see https://ideas.precisely.com/ideas/MIPRO-I-96
 '	- Save theme as object style on table for ranged theme
 '	- ...
 '
-'	Not that easy to implemted currently
+'	Not that easy to implement currently
 '	- Add zoom to the extent of a selected frame in the layout (make the frame fit in the view).
 '*******************************************************************************
 
@@ -234,7 +227,7 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.0.4"
+Define xVersion 		"4.1.0"
 Define xYear			"2024"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -247,7 +240,9 @@ Include "Library\DEBUGLib.def"
 Include "Library\CONFIGFILELib.def"
 Include "Library\ERRORLib.def"
 Include "Library\FILELib.def"
+Include "Library\LAYOUTLib.def"
 Include "Library\ProgramInfo.def"
+Include "Library\OBJLib.def"
 Include "Library\RIBBONLib.def"
 Include "Library\SYSTEMLib.def"
 Include "Library\STYLELib.def"
@@ -279,7 +274,9 @@ Declare Sub WinFocusChangedHandler
 Declare Sub WinChangedHandler
 Declare Sub SelChangedHandler
 Declare Sub MENULayerSelectionChanged(ByVal args As This)
+Declare Sub MENULayoutSelectionChanged(ByVal args As This)
 
+Declare Sub MENURefreshLayoutControls
 Declare Sub MENURefreshLayerListControls
 
 Declare Sub MENUInitializeMenuItems
@@ -309,6 +306,11 @@ OnError GoTo ErrorOccured
 		End Program
 	End If
 
+	'***Enabling Debug if file exists
+	Call DEBUGEnableByFile(FILE_DBG)
+	Call DEBUGPrint("----------------------------------------------------------------------------------------------")
+	Call DEBUGPrint("Application " & PRGIGetApplicationName() & " " & xVersion & " started")
+
 	'***Reading configuration file
 	Call MENUReadIniFile
 
@@ -327,11 +329,6 @@ OnError GoTo ErrorOccured
 	Call PRGISetDescription(GetResItemStr("STR_APPLICATION_DESCRIPTION"))
 
 	Call PRGISetApplicationHelpFile(FILE_HLP & ".PDF")
-
-	'***Enabling Debug if file exists
-	Call DEBUGEnableByFile(FILE_DBG)
-	Call DEBUGPrint("----------------------------------------------------------------------------------------------")
-	Call DEBUGPrint("Application " & PRGIGetApplicationName() & " " & xVersion & " started")
 
 	'***Initializing BaseWindows module
 '	Call BWINSetIniFile(FILE_INI)
@@ -355,7 +352,10 @@ OnError GoTo ErrorOccured
 	If NOT RBNEventSubscribe(AddInEvents_LayerSelectionChanged, "MENULayerSelectionChanged") Then
 		Call DEBUGPrint("MENULayerSelectionChanged was not subscribed to the 'LayerSelectionChanged' event !")
 	End If
-	Call DEBUGPrint("Subscribing to MapDraw...")
+	If NOT RBNEventSubscribe(AddInEvents_LayoutSelectionChanged, "MENULayoutSelectionChanged") Then
+		Call DEBUGPrint("MENULayoutSelectionChanged was not subscribed to the 'LayoutSelectionChanged' event !")
+	End If
+'	Call DEBUGPrint("Subscribing to MapDraw...")
 '	If NOT RBNEventSubscribe(AddInEvents_MapDraw, "MENUMapDrawHandler") Then
 '		Call DEBUGPrint("MENUMapDrawHandler was not subscribed!")
 '	Else
@@ -425,6 +425,8 @@ OnError GoTo ErrorOccured
 '	nResult = RBNRegisterFunctionAsPublic("OBJDirectionMedian", "WHOBJDirectionMedian", "Calculates the Median direction of the object." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("OBJReverse", "WHObjectReverse", "Reverses the direction of lines and polylines." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("OBJCartesianCreatePointAlong", "WHCartesianCreatePointAlong", "Creates a point along a line or single segment polyline." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("OBJSetCentroidXY", "WHSetCentroidXY", "Changes the centroid to a given coordinate." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("OBJSetCentroid", "WHSetCentroid", "Changes the centroid to a given point object." & lf & "Function published from the " & xProgram & " application.")
 '	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "WHCombineFromTable", "Combines objects from a table, optionally specify a column and a value." & lf & "Function published from the " & xProgram & " application.")
 
 	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "WHDebugEnable", "Enables debug mode in WindowHelper." & lf & "Function published from the " & xProgram & " application.")
@@ -454,6 +456,8 @@ Sub MENUBuildRibbonInterface
 Dim	nCtrlIdx As Integer,
 	sTabName, sGroupName, sSplitButtonName, sSplitButtonGroupName As String,
 	sTextEditorExe, sTextEditor As String
+Dim i, nNumControls, nContextMenuID as integer,
+	rbnElement, rbnCntxtMenu, rbnControlCollection As This
 
 OnError GoTo ErrorOccured
 
@@ -689,7 +693,7 @@ OnError GoTo ErrorOccured
 				, ControlType_Button, sTabName, sGroupName, "FilterDropDown", "FilterDropDownMenuGroup")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_TAB_FILTER_16, "")
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
 	End If
@@ -698,10 +702,18 @@ OnError GoTo ErrorOccured
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    L A Y O U T
 	'********************************************************************************
 	sTabName		= TAB_LAYOUT
-	sGroupName	= "LayoutArrange"	'TAB_LAYOUT_EDIT_GRP
+	sGroupName	= "LayoutEdit"
+	nCtrlIdx = RBNGroupAddControl("tabLayoutEditText", GetResItemStr("MNU_LAYOUT_EDIT_TEXT"), "", ControlType_Button, sTabName, sGroupName)
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYOUT_EDIT_TEXT"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_LAY_INSERTTEXTBOX_16, MI_IMG_LAY_INSERTTEXTBOX_32)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLayoutEditText")
+	End If
+
+	sGroupName	= "LayoutArrange"
 	nCtrlIdx = RBNGroupInsertControlAfter("tabLayoutClearSelection", GetResItemStr("MNU_CLEAR_SELECTION"), "", ControlType_Button, sTabName, sGroupName, BTN_LAYOUT_SELECT)	'"LayoutSelectButton"
 	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLEAR_SELECTION"), "")
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYOUT_CLEAR_SELECTION"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, MI_IMG_MAP_CLEAR_16, MI_IMG_MAP_CLEAR_32)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLayoutClearSelection")
 	End If
@@ -717,56 +729,77 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPEXTCreateMenu")
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtExplorerWindow", GetResItemStr("MNU_OPEN_WORKSPACE_EXPLORER"), "", 0)
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_WORKSPACE_EXPLORER"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_WIN_WOREXPLORERWIN_16, MI_IMG_WIN_WOREXPLORERWIN_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCmdIDIdx(nCtrlIdx, M_VIEW_WORKSPACE_EXPLORER)
+	If DLGWHOAddItemToContextMenu(MAP_CTXT_WORKSPACE_EXPLORER) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtExplorerWindow", GetResItemStr("MNU_OPEN_WORKSPACE_EXPLORER"), "", 0)
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_WORKSPACE_EXPLORER"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_WIN_WOREXPLORERWIN_16, MI_IMG_WIN_WOREXPLORERWIN_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCmdIDIdx(nCtrlIdx, M_VIEW_WORKSPACE_EXPLORER)
+		End If
+
+		'*Adding a separator that will appear under Open Workspace Explorer
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtMapSeparator1", "(-", "", 1)
 	End If
-
-	'*Adding a separator that will appear under Open Workspace Explorer
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtMapSeparator1", "(-", "", 1)
-
 
 	'***************************************************************
 	' B R O W S E R   C O N T E X T   M E N U
 	'***************************************************************
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, MI_IMG_TAB_FILTER_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
+	If DLGWHOAddItemToContextMenu(BRWS_CTXT_FILTER_CELL_VALUE) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtFilterCellValue", GetResItemStr("MNU_FILTER_USING_CELL_VALUE"), "", 4)
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_FILTER_USING_CELL_VALUE"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FILTER_16, MI_IMG_TAB_FILTER_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHFilterBrowserCurrentCell")
+		End If
 	End If
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_GROUP_BY_CURRENT_COLUMN"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FINDMAPSELECTION_16, "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHGroupByCurrentColumn")
+	If DLGWHOAddItemToContextMenu(BRWS_CTXT_GROUP_BY_CURR_COL) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtGroupByColumn", GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN"), "", 5)
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_GROUP_BY_CURRENT_COLUMN"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_FINDMAPSELECTION_16, "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHGroupByCurrentColumn")
+		End If
+	End If
+	If DLGWHOAddItemToContextMenu(BRWS_CTXT_ZOOM_TO_SEL) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOEXTENTSEL_16, "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectionInFrontMap")
+		End If
+	End If
+	If DLGWHOAddItemToContextMenu(BRWS_CTXT_PAN_TO_SEL) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtPanToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
+		End If
+	End If
+	If DLGWHOAddItemToContextMenu(BRWS_CTXT_CLEAR_SEL) Then
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_BrowserShortcut, "brwsCntxtClearSelection", GetResItemStr("MNU_CLEAR_SELECTION"), "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLEAR_SELECTION"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLEAR_16, "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCmdIDIdx(nCtrlIdx, M_QUERY_UNSELECT)
+		End If
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtZoomToSelection", GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP"), "", 0)
+	'***************************************************************
+	' L A Y O U T   F R A M E   C O N T E X T   M E N U
+	'***************************************************************
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LayoutFrameShortcut, "layCntxtLayoutEditText", GetResItemStr("MNU_LAYOUT_EDIT_TEXT") & "...", "", 6)
 	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_ZOOM_TO_SELECTION_FRONT_MAP"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOEXTENTSEL_16, "")
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYOUT_EDIT_TEXT"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LAY_INSERTTEXTBOX_16, MI_IMG_LAY_INSERTTEXTBOX_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectionInFrontMap")
-	End If
-	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_BrowserShortcut, "brwsCntxtPanToSelection", GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP"), "", 1)
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PAN_TO_SELECTION_FRONT_MAP"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHPanToSelectionInFrontMap")
-	End If
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_BrowserShortcut, "brwsCntxtClearSelection", GetResItemStr("MNU_CLEAR_SELECTION"), "")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLEAR_SELECTION"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_CLEAR_16, "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCmdIDIdx(nCtrlIdx, M_QUERY_UNSELECT)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHLayoutEditText")
 	End If
 
 	'***************************************************************
@@ -779,24 +812,28 @@ OnError GoTo ErrorOccured
 '		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
 		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "exmapCntxtRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME") & "...", "", "MenuItem_LcRenameMap")
 	End If
-'	Call DEBUGPrint("MENUBuildRibbonInterface: mapRenameLayers 1 = " & RBNControlGetCaptionIdx(nCtrlIdx))
-'	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "mapRenameLayers", GetResItemStr("MNU_MULTIPLE_LAYERS_RENAME"), "")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_MULTIPLE_LAYERS_RENAME"), "")
 		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_TAB_RENAMETABLE_16, MI_IMG_TAB_RENAMETABLE_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameMultipleLayersLC")
 	End If
-'	Call DEBUGPrint("MENUBuildRibbonInterface: mapRenameLayers 2 = " & RBNControlGetCaptionIdx(nCtrlIdx))
 
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "exmapCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
-'	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcMapsShortcut, "lcmCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "", "exmapCntxtRenameLayers")
+	nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcMapsShortcut, "exmapCntxtZoomEntireMap", GetResItemStr("MNU_VIEW_ENTIRE_MAP"), "", 1)
 	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_VIEW_ENTIRE_MAP"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIREMAP_16, MI_IMG_MAP_ZOOMTOENTIREMAP_32)
 		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewAllLayers")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomEntireMapLC")
 	End If
+
+'	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "exmapCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
+'	If nCtrlIdx > 0 Then
+'		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_ALL_LAYERS"), "")
+'		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "DefaultView_24x24.png")
+'		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+'		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewAllLayers")
+'	End If
 
 	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcMapsShortcut, "exmapCntxtCloneMap", GetResItemStr("MNU_CLONE_MAP"), "")
 	If nCtrlIdx > 0 Then
@@ -806,26 +843,57 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHCloneMapLC")
 	End If
 
+	'Get the specific Context menu
+	rbnCntxtMenu = ICntxtMnusGetCntxtMnu(theContextMenus, MenuId_LcMapsShortcut)
+	'*Get the controls collection of this context menu
+	rbnControlCollection = GetICntxtMnuCtrls(rbnCntxtMenu)
+
+	nNumControls = GetMICtrlCollCount(rbnControlCollection)
+	For i = 1 To nNumControls
+		rbnElement = GetMICtrlCollItemInt(rbnControlCollection, (i - 1))
+		If RBNControlGetNameThs(rbnElement) In ("MenuItem_ViewEntireMap") Then
+			Call RBNControlSetVisibilityThs(rbnElement, FALSE)
+			Exit For
+		End If
+	Next
 	'***************************************************************
 	' L A Y E R   L I S T   L A Y E R S   C O N T E X T   M E N U
 	'***************************************************************
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+'		'**Adding a menu item as the fifth menu item on the Mapper Context menu
+		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "exmapCntxtZoomSelectedLayers", GetResItemStr("MNU_VIEW_ENTIRE_LAYERS"), "", 4)
+	Else
+'		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exmapCntxtZoomSelectedLayers", GetResItemStr("MNU_VIEW_ENTIRE_LAYERS"), "", "MenuItem_LcViewEntireLayer")
+	End If
+
+	If nCtrlIdx > 0 Then
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_VIEW_ENTIRE_LAYERS"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ZOOMTOENTIRELAYER_16, MI_IMG_MAP_ZOOMTOENTIRELAYER_32)
+		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHZoomToSelectedLayersLC")
+	End If
+
 	'**Adding a menu item to the Layers Context menu
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCntxtCloseTable", GetResItemStr("MNU_CLOSE_TABLE"), "")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLOSE_TABLE"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "Close Table 24x24.png")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHCloseTableLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_CLOSE_TABLE) Then
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCntxtCloseTable", GetResItemStr("MNU_CLOSE_TABLE"), "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_CLOSE_TABLE"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "Close Table 24x24.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHCloseTableLC")
+		End If
 	End If
 
-	nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_SHOW_IN_WIN_EXPLORER) Then
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LOCATE_FILE_IN_EXPLORER"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Windows Explorer 16x16.png", "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHLocateTabFileLC")
+		End If
 	End If
-
 
 	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
 		'**Adding a menu item as the fourth menu item on the Mapper Context menu
@@ -841,6 +909,20 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHRenameLayerAdvancedLC")
 	End If
 
+	'Get the specific Context menu
+	rbnCntxtMenu = ICntxtMnusGetCntxtMnu(theContextMenus, MenuId_LcLayersShortcut)
+	'*Get the controls collection of this context menu
+	rbnControlCollection = GetICntxtMnuCtrls(rbnCntxtMenu)
+
+	nNumControls = GetMICtrlCollCount(rbnControlCollection)
+	For i = 1 To nNumControls
+		rbnElement = GetMICtrlCollItemInt(rbnControlCollection, (i - 1))
+		If RBNControlGetNameThs(rbnElement) In ("MenuItem_LcViewEntireLayer", "MenuItem_LcRenameToFriendlyName") Then
+'			Call DEBUGPrint("Hiding Menu Item " & RBNControlGetNameThs(rbnElement))
+			Call RBNControlSetVisibilityThs(rbnElement, FALSE)
+		End If
+	Next
+
 	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtDefaultView", GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER"), "", "exlyrCntxtRenameLayer")
 	If nCtrlIdx > 0 Then
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SET_DEFAULT_VIEW_SINGLE_LAYER"), "")
@@ -849,82 +931,92 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHSetDefaultViewSingleLayer")
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToBottom", GetResItemStr("MNU_LAYER_MOVE_TO_BOTTOM"), "", "exlyrCntxtRenameLayer")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED"))
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowDown_15x15.png")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToBottomLC")
-	End If
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToTop", GetResItemStr("MNU_LAYER_MOVE_TO_TOP"), "", "exlyrCntxtRenameLayer")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED"))
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowUp_15x15.png")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToTopLC")
-	End If
-
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		'**Adding a menu item as the fourth menu item on the Mapper Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL"), "")
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL") & "...", "", "SampleDensity")
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_INDIVIDUAL"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeIndividualLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_MOVE_LAYER_TOP_BOTTOM) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToBottom", GetResItemStr("MNU_LAYER_MOVE_TO_BOTTOM"), "", "exlyrCntxtRenameLayer")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowDown_15x15.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToBottomLC")
+		End If
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtMoveToTop", GetResItemStr("MNU_LAYER_MOVE_TO_TOP"), "", "exlyrCntxtRenameLayer")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP"), GetResItemStr("MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "ArrowUp_15x15.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuMoveLayerToTopLC")
+		End If
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeRanged", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "exlyrCntxtQuickThemeIndividual")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_THEMES_QUICK) Then
+		If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+			'**Adding a menu item as the fourth menu item on the Mapper Context menu
+			nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL"), "")
+		Else
+			'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+			nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeIndividual", GetResItemStr("MNU_QUICK_THEME_INDIVIDUAL") & "...", "", "SampleDensity")
+		End If
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_INDIVIDUAL"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeIndividualLC")
+		End If
+
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtQuickThemeRanged", GetResItemStr("MNU_QUICK_THEME_RANGED") & "...", "", "exlyrCntxtQuickThemeIndividual")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_QUICK_THEME_RANGED"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_ADDTHEME_16, MI_IMG_MAP_ADDTHEME_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuQuickThemeRangedLC")
+		End If
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtThemeSaveToTable", GetResItemStr("MNU_THEME_SAVE_TO_TABLE"), "", "exlyrCntxtQuickThemeRanged")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_THEME_SAVE_TO_TABLE"), GetResItemStr("MNU_HLP_ONE_LAYER_THEMATIC_DISABLED"))
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "ThemeSave_16x16.png", PATH_IMAGES & "ThemeSave_32x32.png")
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuSaveThemeStylesToTable")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_THEME_SAVE_TO_TABLE) Then
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtThemeSaveToTable", GetResItemStr("MNU_THEME_SAVE_TO_TABLE"), "", "exlyrCntxtQuickThemeRanged")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_THEME_SAVE_TO_TABLE"), GetResItemStr("MNU_HLP_ONE_LAYER_THEMATIC_DISABLED"))
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "ThemeSave_16x16.png", PATH_IMAGES & "ThemeSave_32x32.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuSaveThemeStylesToTable")
+		End If
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemBefore(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", "MenuItem_LcLayerProperties") ' MenuItem_LcLayerProperties or MenuItem_LcAddDisplayOverride
-	Else
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", 6)
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_APPLY_STYLES"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LYR_APPLYSTYLES_16, MI_IMG_LYR_APPLYSTYLES_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCmdIDIdx(nCtrlIdx, 2528)	'Apply Styles
-	End If
-
-	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "", "MenuItem_LcLayerTimeProperties")
-	Else
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "")
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_COPY_LAYER_PROPERTIES"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_COPY_16, MI_IMG_MAP_COPY_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuCopyLayerSettingsLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_APPLY_STYLES) Then
+		If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+			nCtrlIdx = RBNCntxtMenuInsertMenuItemBefore(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", "MenuItem_LcLayerProperties") ' MenuItem_LcLayerProperties or MenuItem_LcAddDisplayOverride
+		Else
+			nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtToggleOverrideStyles", GetResItemStr("MNU_APPLY_STYLES"), "", 6)
+		End If
+		If nCtrlIdx > 0 Then
+			Call RBNControlToggleIdx(nCtrlIdx, TRUE)
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_APPLY_STYLES"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LYR_APPLYSTYLES_16, MI_IMG_LYR_APPLYSTYLES_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCmdIDIdx(nCtrlIdx, 2528)	'Apply Styles
+		End If
 	End If
 
-	nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtPasteProperties", GetResItemStr("MNU_PASTE_LAYER_PROPERTIES"), "", "exlyrCntxtCopyProperties")
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PASTE_LAYER_PROPERTIES"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_PASTE_16, MI_IMG_MAP_PASTE_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuPasteLayerSettingsLC")
+	If DLGWHOAddItemToContextMenu(LYR_CTXT_COPY_PASTE_LAYER_PROP) Then
+		If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
+			nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "", "MenuItem_LcLayerTimeProperties")
+		Else
+			nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "exlyrCntxtCopyProperties", GetResItemStr("MNU_COPY_LAYER_PROPERTIES"), "")
+		End If
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_COPY_LAYER_PROPERTIES"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_COPY_16, MI_IMG_MAP_COPY_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuCopyLayerSettingsLC")
+		End If
+
+		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_LcLayersShortcut, "exlyrCntxtPasteProperties", GetResItemStr("MNU_PASTE_LAYER_PROPERTIES"), "", "exlyrCntxtCopyProperties")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_PASTE_LAYER_PROPERTIES"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_MAP_PASTE_16, MI_IMG_MAP_PASTE_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuPasteLayerSettingsLC")
+		End If
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
@@ -937,10 +1029,27 @@ OnError GoTo ErrorOccured
 		End If
 	End If
 
+	sTextEditorExe	= SYSFindTextEditor()
+	If sTextEditorExe <> "" And DLGWHOAddItemToContextMenu(LYR_CTXT_SHOW_IN_TXT_EDITOR) Then
+		sTextEditor 	= PathToFileName$(sTextEditorExe)
+		sTextEditor 	= Left$(sTextEditor, Len(sTextEditor) - 4)
+
+		Call TABHSetTextEditor(sTextEditorExe)
+
+		'**Adding a menu item to the Layer Control Layer Context menu
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileLC")
+		End If
+	End If
+
 	'***************************************************************
 	' T A B L E   L I S T   T A B L E S   C O N T E X T   M E N U
 	'***************************************************************
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 And DLGWHOAddItemToContextMenu(TAB_CTXT_SHOW_IN_WIN_EXPLORER) Then
 		'**Adding a menu item to the Table List Context menu
 		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_TableListTablesShortcut, "extabCntxLocateInExplorer", GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER"), "")
 		If nCtrlIdx > 0 Then
@@ -951,21 +1060,23 @@ OnError GoTo ErrorOccured
 		End If
 	End If
 
-	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
-		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
-	Else
-		'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
-		nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", "MenuItem_TlvBrowseTable")
-	End If
-	If nCtrlIdx > 0 Then
-		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
-		Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHBrowserFloatingTL")
+	If DLGWHOAddItemToContextMenu(TAB_CTXT_BROWSER_FLOATING) Then
+		If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+			nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", 2)
+		Else
+			'**With versions of MapInfo Pro newer than v2100 context menu items have been given a static name
+			nCtrlIdx = RBNCntxtMenuInsertMenuItemAfter(MenuId_TableListTablesShortcut, "extabCntxBrowseFloating", GetResItemStr("MNU_BROWSE_FLOATING_WIN"), "", "MenuItem_TlvBrowseTable")
+		End If
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_BROWSER_FLOATING"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, MI_IMG_LAY_NEWBROWSER_16, MI_IMG_LAY_NEWBROWSER_32)
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHBrowserFloatingTL")
+		End If
 	End If
 
 	sTextEditorExe	= SYSFindTextEditor()
-	If sTextEditorExe <> "" Then
+	If sTextEditorExe <> "" And DLGWHOAddItemToContextMenu(TAB_CTXT_SHOW_IN_TXT_EDITOR) Then
 		sTextEditor 	= PathToFileName$(sTextEditorExe)
 		sTextEditor 	= Left$(sTextEditor, Len(sTextEditor) - 4)
 
@@ -983,15 +1094,6 @@ OnError GoTo ErrorOccured
 			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileTL")
-		End If
-
-		'**Adding a menu item to the Layer Control Layer Context menu
-		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_LcLayersShortcut, "lclCntxtOpenInTextEditor", GetResItemStr("MNU_OPEN_TABFILE_IN_TEXT_EDITOR") & " " & sTextEditor, "")
-		If nCtrlIdx > 0 Then
-			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_OPEN_TABFILE_IN_TEXT_EDITOR"), "")
-			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
-			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
-			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileLC")
 		End If
 	End If
 
@@ -1032,6 +1134,8 @@ OnError GoTo ErrorOccured
 
 	Call SELINFOSetSelInfoNumRowsControlIndex(nCtrlIdx)
 	Call SELINFOSelChangedHandler
+	Call MENURefreshLayoutControls
+	Call MENURefreshLayerListControls
 
 	Exit Sub
 '-------------------------
@@ -1065,11 +1169,43 @@ End Sub
 '**********************************************************************************************''
 Sub Endhandler
 
+Dim i, nNumControls, nContextMenuID as integer,
+	rbnElement, rbnCntxtMenu, rbnControlCollection As This
+
 OnError GoTo ErrorOccured
 
 	Call MENUWriteIniFile
 '	Call WHDEndHandler
 	Call BMHELPWriteConfigFile
+
+	'Get the specific Context menu
+	rbnCntxtMenu = ICntxtMnusGetCntxtMnu(theContextMenus, MenuId_LcMapsShortcut)
+	'*Get the controls collection of this context menu
+	rbnControlCollection = GetICntxtMnuCtrls(rbnCntxtMenu)
+
+	nNumControls = GetMICtrlCollCount(rbnControlCollection)
+	For i = 1 To nNumControls
+		rbnElement = GetMICtrlCollItemInt(rbnControlCollection, (i - 1))
+		If RBNControlGetNameThs(rbnElement) In ("MenuItem_ViewEntireMap") Then
+			Call RBNControlSetVisibilityThs(rbnElement, FALSE)
+			Exit For
+		End If
+	Next
+
+
+	'Get the specific Context menu
+	rbnCntxtMenu = ICntxtMnusGetCntxtMnu(theContextMenus, MenuId_LcLayersShortcut)
+	'*Get the controls collection of this context menu
+	rbnControlCollection = GetICntxtMnuCtrls(rbnCntxtMenu)
+
+	nNumControls = GetMICtrlCollCount(rbnControlCollection)
+	For i = 1 To nNumControls
+		rbnElement = GetMICtrlCollItemInt(rbnControlCollection, (i - 1))
+		If RBNControlGetNameThs(rbnElement) In ("MenuItem_LcViewEntireLayer", "MenuItem_LcRenameToFriendlyName") Then
+'			Call DEBUGPrint("Showing Menu Item " & RBNControlGetNameThs(rbnElement))
+			Call RBNControlSetVisibilityThs(rbnElement, TRUE)
+		End If
+	Next
 
 	If SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_RIBBON Then
 		Call RBNEndHandler
@@ -1079,7 +1215,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "Endhandler")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1099,6 +1237,8 @@ OnError GoTo ErrorOccured
 
 	nWID = CommandInfo(CMD_INFO_WIN)
 	Call WINHWinClosedHandler(nWID)
+	Call MENURefreshLayoutControls
+	Call MENURefreshLayerListControls
 	'Call WHDWinClosedHandler(nWID)
 
 	Set Handler WinClosedHandler On
@@ -1108,7 +1248,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "WinClosedHandler")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1129,6 +1271,8 @@ OnError GoTo ErrorOccured
 	nWID = CommandInfo(CMD_INFO_WIN)
 	Call WINHWinFocusChangedHandler(nWID)
 '	Call WHDWinFocusChangedHandler(nWID)
+	Call MENURefreshLayoutControls
+	Call MENURefreshLayerListControls
 
 	Set Handler WinFocusChangedHandler On
 	Set Event Processing On
@@ -1137,7 +1281,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "WinFocusChangedHandler")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1170,7 +1316,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "WinChangedHandler")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1188,7 +1336,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "SelChangedHandler")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1207,7 +1357,73 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MENULayerSelectionChanged")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsb�ll M�ller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENULayoutSelectionChanged(ByVal args As This)
+
+OnError GoTo ErrorOccured
+
+	Call MENURefreshLayoutControls
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENULayoutSelectionChanged")
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsb�ll M�ller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MENURefreshLayoutControls
+
+Dim	nWID As Integer
+
+OnError GoTo ErrorOccured
+
+	nWID = FrontWindow()
+
+	Alter Menu Item WINHLayoutClearSelection 	Disable
+	Alter Menu Item WINHLayoutEditText 		Disable
+
+	If nWID > 0 Then
+		If WindowInfo(nWID, WIN_INFO_TYPE) = WIN_LAYOUT_DESIGNER Then
+			If LAYOUTNumSelectedFrames(nWID) > 0 Then
+				Alter Menu Item WINHLayoutClearSelection 	Enable
+				Alter Menu Item WINHLayoutEditText		 	Enable
+			Else
+'				Print "Disable WINHLayoutClearSelection - No frames selected"
+			End If
+		Else
+			'**
+'			Print "Disable WINHLayoutClearSelection - not a layout window"
+		End If
+	Else
+		'**
+'		Print "Disable WINHLayoutClearSelection - no windows open"
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENURefreshLayoutControls")
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1226,7 +1442,12 @@ OnError GoTo ErrorOccured
 
 	Do Case nNumLayersSelected
 		Case 0
-			'**No item selected which will mena that the context menu can't be shown
+			'**No item selected which will mean that the context menu can't be shown
+			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
+			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
 
 		Case 1
 			nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
@@ -1303,7 +1524,7 @@ OnError GoTo ErrorOccured
 			End Case
 
 		Case Else
-			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+'			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
 			Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
 			Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
 			Alter Menu Item MAPHRenameLayerAdvancedLC 		Disable	'exlyrCntxtRenameLayer
@@ -1311,11 +1532,15 @@ OnError GoTo ErrorOccured
 			Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
 			Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
 			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
-			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+'			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
 			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
-			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
-			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+'			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+'			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
 			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
+			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Enable
+			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Enable
+			Alter Menu Item TABHCloseTableLC 				Enable	'exlyrCntxtCntxtCloseTable
+			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Enable	'exlyrCntxtPasteProperties
 
 	End Case
 
@@ -1323,7 +1548,9 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MENURefreshLayerListControls")
-	Call ERRShow()
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub
 
@@ -1353,9 +1580,9 @@ End Sub
 '**********************************************************************************************''
 Sub MENUReadIniFile
 
-Dim	sFile, sState, sFontName, sFont As String,
+Dim	sFile, sState, sOption, sFontName, sFont As String,
 	fntCurrent As Font,
-	nFontStyle, nFontSize, nFontFColor, nFontBColor As Integer
+	nFontStyle, nFontSize, nFontFColor, nFontBColor, nMenuItem As Integer
 
 OnError GoTo ErrorOccured
 
@@ -1367,6 +1594,33 @@ OnError GoTo ErrorOccured
 	Call DLGWHOSetAddRulerToolToMTB(sState <> "0")
 	sState	= CONFIGReadKey(sFile, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
 	Call TABHSetIgnoreTopLeftCell(sState <> "0")
+
+	sOption 	= "ZOOM_TYPE_STANDARD"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+	sOption 	= "ZOOM_NORMAL_VECTOR_LAYERS"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+	sOption 	= "ZOOM_LOCAL_RASTER_LAYERS"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+	sOption 	= "ZOOM_LOCAL_GRID_LAYERS"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+	sOption 	= "ZOOM_WMS_LAYERS"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "1", TRUE, FALSE))
+	sOption 	= "ZOOM_TILESERVER_LAYERS"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "1", TRUE, FALSE))
+	sOption 	= "ZOOM_ONLY_VISIBLE"
+	sState	= CONFIGReadKey(sFile, "ZOOMENTIREMAP", sOption)
+	Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+
+	For nMenuItem = 1 To NUM_CTXT_MENU_ITEMS
+		sState	= CONFIGReadKey(sFile, "CONTEXT_MENUS", "ADD_MENUITEM_" & nMenuItem)
+		Call DLGWHOSetAddItemToContextMenu(nMenuItem, IIf(sState <> "0", TRUE, FALSE))
+	Next
 
 	fntCurrent 	= CurrentFont()
 	sFontName		= StyleAttr(fntCurrent, FONT_NAME)
@@ -1386,6 +1640,11 @@ OnError GoTo ErrorOccured
 		sState	= CONFIGReadKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_RULER")
 		Call DLGWHOSetAddRulerToolToMTB(sState <> "0")
 
+		For nMenuItem = 1 To NUM_CTXT_MENU_ITEMS
+			sState	= CONFIGReadKey(FILE_INI, "CONTEXT_MENUS", "ADD_MENUITEM_" & nMenuItem)
+			Call DLGWHOSetAddItemToContextMenu(nMenuItem, sState <> "0")
+		Next
+
 		sState	= CONFIGReadKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL")
 		Call TABHSetIgnoreTopLeftCell(sState <> "0")
 
@@ -1394,6 +1653,30 @@ OnError GoTo ErrorOccured
 			fntCurrent	= STLText2Font(sFont)
 			Call DLGWHOSetSmartTextFont(fntCurrent)
 		End If
+
+		sOption 	= "ZOOM_TYPE_STANDARD"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+		sOption 	= "ZOOM_NORMAL_VECTOR_LAYERS"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+		sOption 	= "ZOOM_LOCAL_RASTER_LAYERS"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+		sOption 	= "ZOOM_LOCAL_GRID_LAYERS"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+		sOption 	= "ZOOM_WMS_LAYERS"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "1", TRUE, FALSE))
+		sOption 	= "ZOOM_TILESERVER_LAYERS"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "1", TRUE, FALSE))
+		sOption 	= "ZOOM_ONLY_VISIBLE"
+		sState	= CONFIGReadKey(FILE_INI, "ZOOMENTIREMAP", sOption)
+		Call DLGWHOSetViewEntireMapOption(sOption, IIf(sState = "0", FALSE, TRUE))
+	Else
+		Call DEBUGPrint("Config File not Found " & FILE_INI)
 	End If
 
 	Call SELINFOReadConfigFile
@@ -1417,14 +1700,36 @@ End Sub
 '**********************************************************************************************''
 Sub MENUWriteIniFile
 
+Dim	nMenuItem As Integer,
+	sOption As String
+
 OnError GoTo ErrorOccured
 
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_INFO", Int(DLGWHOGetAddInfoToolToMTB()))
 	Call CONFIGWriteKey(FILE_INI, "MAPMINITOOLBAR", "ADDTOOL_RULER", Int(DLGWHOGetAddRulerToolToMTB()))
 
+	For nMenuItem = 1 To NUM_CTXT_MENU_ITEMS
+		Call CONFIGWriteKey(FILE_INI, "CONTEXT_MENUS", "ADD_MENUITEM_" & nMenuItem, Int(DLGWHOAddItemToContextMenu(nMenuItem)))
+	Next
+
 	Call CONFIGWriteKey(FILE_INI, "BROWSERFILTER", "IGNORE_TOPLEFTCELL", Int(TABHGetIgnoreTopLeftCell()))
 
 	Call CONFIGWriteKey(FILE_INI, "SMARTEXT", "FONT", STLFont2Text(DLGWHOGetSmartTextFont()))
+
+	sOption 	= "ZOOM_TYPE_STANDARD"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_NORMAL_VECTOR_LAYERS"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_LOCAL_RASTER_LAYERS"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_LOCAL_GRID_LAYERS"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_WMS_LAYERS"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_TILESERVER_LAYERS"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+	sOption 	= "ZOOM_ONLY_VISIBLE"
+	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
 
 	Call SELINFOWriteConfigFile
 	Call WINHWriteConfigFile
@@ -1472,6 +1777,8 @@ Sub MENUMapDrawHandler(ByVal arg as This)
 Dim	dtEnd as DateTime,
 	fElapsedTime as Float
 
+OnError GoTo ErrorOccured
+
 	Print "MENUMapDrawHandler: " & GetMapDrawEventArgsDrawEventType(arg)
 	Do Case GetMapDrawEventArgsDrawEventType(arg)
 		Case 0	'DrawStarted
@@ -1482,5 +1789,13 @@ Dim	dtEnd as DateTime,
 			fElapsedTime	= ((dtEnd - dtStart) * 100000)
 			Print "End Drawing: " & WindowInfo(CommandInfo(CMD_INFO_WIN), WIN_INFO_NAME) & ": " & FormatNumber$(fElapsedTime) & " secs"
 	End Case
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MENURefreshLayerListControls")
+	If DEBUGIsEnabled() Then
+		Call ERRPrint()
+	End If
 
 End Sub 'WinEndDrawHandler

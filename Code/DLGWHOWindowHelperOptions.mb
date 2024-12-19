@@ -17,19 +17,57 @@ Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
 Include "Library\TABLELib.def"
 
-Define	CTRL_CHK_MTB_ADD_INFO_TOOL	100
-Define	CTRL_CHK_MTB_ADD_RULER_TOOL	110
-Define	CTRL_CHK_SELINFO_ON_DESELECT	200
+Define	CTRL_CHK_MTB_ADD_INFO_TOOL		100
+Define	CTRL_CHK_MTB_ADD_RULER_TOOL		110
+Define	CTRL_CHK_SELINFO_ON_DESELECT		200
+
+Define	CTRL_LST_CONTEXT_MENUS			300
+
+Define	CTRL_CHK_LAY_APPLY_STYLES		301
+Define	CTRL_CHK_LAY_COPYPASTE_PROP		302
+Define	CTRL_CHK_LAY_MOVE_TOPBOTTOM		303
+Define	CTRL_CHK_LAY_QUICK_THEMES		304
+Define	CTRL_CHK_LAY_SAVE_THEMES			305
+Define	CTRL_CHK_LAY_CLOSE_TABLE			306
+Define	CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO	307
+Define	CTRL_CHK_LAY_OPEN_TEXTEDITOR		308
+Define	CTRL_CHK_LAY_DEFAULT_VIEW		309
+
+Define	CTRL_CHK_MAP_WORKSPACE_EXPL		311
+
+Define	CTRL_CHK_TAB_BROWSE_FLOATING		321
+Define	CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	322
+Define	CTRL_CHK_TAB_OPEN_TEXTEDITOR		323
+
+Define	CTRL_CHK_BRW_ZOOM_SELECTION		331
+Define	CTRL_CHK_BRW_PAN_SELECTION		332
+Define	CTRL_CHK_BRW_CLEAR_SELECTION		333
+Define	CTRL_CHK_BRW_FILTER_CELL_VAL		334
+Define	CTRL_CHK_BRW_GROUPBY_COLUMNN		335
+
+Define	CTRL_LST_VIEW_ENTIRE_MAP_TYPE		400
+Define	CTRL_CHK_ZOOM_NORMAL_VECTOR		401
+Define	CTRL_CHK_ZOOM_LOCAL_RASTER		402
+Define	CTRL_CHK_ZOOM_LOCAL_GRID			403
+Define	CTRL_CHK_ZOOM_WMS				404
+Define	CTRL_CHK_ZOOM_TILESERVER			405
+Define	CTRL_CHK_ZOOM_ONLY_VISIBLE		406
 
 Include "WindowHelper.Assembly.def"
 Include "DLGWHOWindowHelperOptions.def"
 Include "BaseMapsHelper.def"
 
-Declare Sub DLGWHOHandler_OnLoad
-Declare Sub DLGWHOHandler_OKClicked
+Declare Sub DLGWHO_OnLoad
+Declare Sub DLGWHO_OKClicked
+Declare Sub DLGWHO_CtxtMenuListClicked
+Declare Sub DLGWHO_ViewEntireTypeClicked
 
 Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
+	marrContextMenuItems(NUM_CTXT_MENU_ITEMS) As Logical,
 	marrBaseMaps(6) As Logical,
+	mbZoomTypeCustom As Logical,
+	mbZoomNormalVectorLayers, mbZoomLocalRasterLayers, mbZoomOnlyVisibleLayers As Logical,
+	mbZoomLocalGridLayers, mbZoomWMSLayers, mbZoomTileServerLayers As Logical,
 	mfntSmartText As Font
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
@@ -46,7 +84,7 @@ OnError GoTo ErrorOccured
 
 	Dialog
 		Title GetResItemStr("DLG_OPTIONS")
-		Calling DLGWHOHandler_OnLoad
+		Calling DLGWHO_OnLoad
 
 		Control GroupBox
 			Position 5,5		Width 170		Height 45
@@ -61,61 +99,201 @@ OnError GoTo ErrorOccured
 			Value DLGWHOGetAddRulerToolToMTB()
 
 		Control GroupBox
-			Position 5,60		Width 170		Height 30
+			Position 5,55		Width 170		Height 30
 			Title GetResItemStr("STR_SHOW_INFO_ON_SELECTION")
 		Control CheckBox		ID CTRL_CHK_SELINFO_ON_DESELECT
-			Position 15,75		Width 150
+			Position 15,70		Width 150
 			Title GetResItemStr("STR_SHOW_INFO_ON_DESELECT")
 			Value DLGWHOGetShowInfoOnDeselect()
 
 		Control GroupBox
-			Position 5,100		Width 170		Height 60
+			Position 5,90		Width 170		Height 60
 			Title GetResItemStr("STR_HIDE_BASE_MAP_CONTROL")
 		Control CheckBox
-			Position 15,115	Width 70
+			Position 15,105	Width 70
 			Title "Bing Aerial"
 			Value BMHELPHideBaseMap(BASEMAP_BING_AERIAL)
 			Into marrBaseMaps(BASEMAP_BING_AERIAL)
 		Control CheckBox
-			Position 15,130	Width 70
+			Position 15,120	Width 70
 			Title "Bing Roads"
 			Value BMHELPHideBaseMap(BASEMAP_BING_ROADS)
 			Into marrBaseMaps(BASEMAP_BING_ROADS)
 		Control CheckBox
-			Position 15,145	Width 70
+			Position 15,135	Width 70
 			Title "Bing Hybrid"
 			Value BMHELPHideBaseMap(BASEMAP_BING_HYBRID)
 			Into marrBaseMaps(BASEMAP_BING_HYBRID)
 
 		Control CheckBox
-			Position 90,115	Width 70
-			Title "GeoMap Bronze"
+			Position 90,105	Width 70
+			Title "Precisely Bronze"
 			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_BRONZE)
 			Into marrBaseMaps(BASEMAP_GEOMAP_BRONZE)
 		Control CheckBox
-			Position 90,130	Width 70
-			Title "GeoMap Steel"
+			Position 90,120	Width 70
+			Title "Precisely Steel"
 			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_STEEL)
 			Into marrBaseMaps(BASEMAP_GEOMAP_STEEL)
 		Control CheckBox
-			Position 90,145	Width 70
-			Title "GeoMap Iron"
+			Position 90,135	Width 70
+			Title "Precisely Iron"
 			Value BMHELPHideBaseMap(BASEMAP_GEOMAP_IRON)
 			Into marrBaseMaps(BASEMAP_GEOMAP_IRON)
 
+		Control GroupBox
+			Position 180,5		Width 170		Height 165
+			Title GetResItemStr("STR_ADD_MENUITEMS_IN_CONTEXT_MENUS")
+		Control PopupMenu		ID CTRL_LST_CONTEXT_MENUS
+			Position 190,20	Width 150
+			Title GetResItemStr("MNU_CONTEXT_LAYER_LAYERLIST") & ";" & GetResItemStr("MNU_CONTEXT_TABLE_TABLELIST") & ";" & GetResItemStr("MNU_CONTEXT_MAP") & ";" & GetResItemStr("MNU_CONTEXT_BROWSER")
+			Calling DLGWHO_CtxtMenuListClicked
+
+		'**STR_CONTEXT_MENU_LAYER
+		Control CheckBox		ID CTRL_CHK_LAY_APPLY_STYLES
+			Position 190,35	Width 150
+			Title GetResItemStr("MNU_APPLY_STYLES")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_APPLY_STYLES)
+			Into marrContextMenuItems(LYR_CTXT_APPLY_STYLES)
+		Control CheckBox		ID CTRL_CHK_LAY_COPYPASTE_PROP
+			Position 190,50	Width 150
+			Title GetResItemStr("STR_COPY_PASTE_LAYER_PROP")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_COPY_PASTE_LAYER_PROP)
+			Into marrContextMenuItems(LYR_CTXT_COPY_PASTE_LAYER_PROP)
+		Control CheckBox		ID CTRL_CHK_LAY_MOVE_TOPBOTTOM
+			Position 190,65	Width 150
+			Title GetResItemStr("STR_MOVE_LAYER_TOP_BOTTOM")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_MOVE_LAYER_TOP_BOTTOM)
+			Into marrContextMenuItems(LYR_CTXT_MOVE_LAYER_TOP_BOTTOM)
+		Control CheckBox		ID CTRL_CHK_LAY_QUICK_THEMES
+			Position 190,80	Width 150
+			Title GetResItemStr("STR_THEMES_QUICK")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_THEMES_QUICK)
+			Into marrContextMenuItems(LYR_CTXT_THEMES_QUICK)
+		Control CheckBox		ID CTRL_CHK_LAY_SAVE_THEMES
+			Position 190,95	Width 150
+			Title GetResItemStr("MNU_THEME_SAVE_TO_TABLE")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_THEME_SAVE_TO_TABLE)
+			Into marrContextMenuItems(LYR_CTXT_THEME_SAVE_TO_TABLE)
+		Control CheckBox		ID CTRL_CHK_LAY_CLOSE_TABLE
+			Position 190,110	Width 150
+			Title GetResItemStr("MNU_CLOSE_TABLE")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_CLOSE_TABLE)
+			Into marrContextMenuItems(LYR_CTXT_CLOSE_TABLE)
+		Control CheckBox		ID CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO
+			Position 190,125	Width 150
+			Title GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_SHOW_IN_WIN_EXPLORER)
+			Into marrContextMenuItems(LYR_CTXT_SHOW_IN_WIN_EXPLORER)
+		Control CheckBox		ID CTRL_CHK_LAY_OPEN_TEXTEDITOR
+			Position 190,140	Width 150
+			Title GetResItemStr("STR_SHOW_IN_TXT_EDITOR")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_SHOW_IN_TXT_EDITOR)
+			Into marrContextMenuItems(LYR_CTXT_SHOW_IN_TXT_EDITOR)
+		Control CheckBox		ID CTRL_CHK_LAY_DEFAULT_VIEW
+			Position 190,155	Width 150
+			Title GetResItemStr("MNU_SET_DEFAULT_VIEW_SINGLE_LAYER")
+			Value DLGWHOAddItemToContextMenu(LYR_CTXT_DEFAULT_VIEW)
+			Into marrContextMenuItems(LYR_CTXT_DEFAULT_VIEW)
+
+		'**STR_CONTEXT_MENU_MAP
+		Control CheckBox		ID CTRL_CHK_MAP_WORKSPACE_EXPL
+			Position 190,35	Width 150
+			Title GetResItemStr("MNU_OPEN_WORKSPACE_EXPLORER")
+			Value DLGWHOAddItemToContextMenu(MAP_CTXT_WORKSPACE_EXPLORER)
+			Into marrContextMenuItems(MAP_CTXT_WORKSPACE_EXPLORER)
+
+		'**STR_CONTEXT_MENU_TABLE
+		Control CheckBox		ID CTRL_CHK_TAB_BROWSE_FLOATING
+			Position 190,35	Width 150
+			Title GetResItemStr("MNU_BROWSE_FLOATING_WIN")
+			Value DLGWHOAddItemToContextMenu(TAB_CTXT_BROWSER_FLOATING)
+			Into marrContextMenuItems(TAB_CTXT_BROWSER_FLOATING)
+		Control CheckBox		ID CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO
+			Position 190,50	Width 150
+			Title GetResItemStr("MNU_LOCATE_FILE_IN_EXPLORER")
+			Value DLGWHOAddItemToContextMenu(TAB_CTXT_SHOW_IN_WIN_EXPLORER)
+			Into marrContextMenuItems(TAB_CTXT_SHOW_IN_WIN_EXPLORER)
+		Control CheckBox		ID CTRL_CHK_TAB_OPEN_TEXTEDITOR
+			Position 190,65	Width 150
+			Title GetResItemStr("STR_SHOW_IN_TXT_EDITOR")
+			Value DLGWHOAddItemToContextMenu(TAB_CTXT_SHOW_IN_TXT_EDITOR)
+			Into marrContextMenuItems(TAB_CTXT_SHOW_IN_TXT_EDITOR)
+
+		'**STR_CONTEXT_MENU_BROWSER
+		Control CheckBox		ID CTRL_CHK_BRW_ZOOM_SELECTION
+			Position 190,35	Width 150
+			Title GetResItemStr("MNU_ZOOM_TO_SELECTION_FRONT_MAP")
+			Value DLGWHOAddItemToContextMenu(BRWS_CTXT_ZOOM_TO_SEL)
+			Into marrContextMenuItems(BRWS_CTXT_ZOOM_TO_SEL)
+		Control CheckBox		ID CTRL_CHK_BRW_PAN_SELECTION
+			Position 190,50	Width 150
+			Title GetResItemStr("MNU_PAN_TO_SELECTION_FRONT_MAP")
+			Value DLGWHOAddItemToContextMenu(BRWS_CTXT_PAN_TO_SEL)
+			Into marrContextMenuItems(BRWS_CTXT_PAN_TO_SEL)
+		Control CheckBox		ID CTRL_CHK_BRW_CLEAR_SELECTION
+			Position 190,65	Width 150
+			Title GetResItemStr("MNU_CLEAR_SELECTION")
+			Value DLGWHOAddItemToContextMenu(BRWS_CTXT_CLEAR_SEL)
+			Into marrContextMenuItems(BRWS_CTXT_CLEAR_SEL)
+		Control CheckBox		ID CTRL_CHK_BRW_FILTER_CELL_VAL
+			Position 190,80	Width 150
+			Title GetResItemStr("MNU_FILTER_USING_CELL_VALUE")
+			Value DLGWHOAddItemToContextMenu(BRWS_CTXT_FILTER_CELL_VALUE)
+			Into marrContextMenuItems(BRWS_CTXT_FILTER_CELL_VALUE)
+		Control CheckBox		ID CTRL_CHK_BRW_GROUPBY_COLUMNN
+			Position 190,95	Width 150
+			Title GetResItemStr("MNU_GROUP_BY_CURRENT_COLUMN")
+			Value DLGWHOAddItemToContextMenu(BRWS_CTXT_GROUP_BY_CURR_COL)
+			Into marrContextMenuItems(BRWS_CTXT_GROUP_BY_CURR_COL)
+
+		Control GroupBox
+			Position 355,5		Width 170		Height 130
+			Title GetResItemStr("MNU_VIEW_ENTIRE_MAP")
+		Control RadioGroup		ID CTRL_LST_VIEW_ENTIRE_MAP_TYPE
+			Position 360,15
+			Title GetResItemStr("STR_STANDARD") & " " & GetResItemStr("MNU_VIEW_ENTIRE_MAP") & ";" & GetResItemStr("STR_CUSTOM") & " " & GetResItemStr("MNU_VIEW_ENTIRE_MAP")
+			Value IIf(DLGWHOGetViewEntireMapOption("ZOOM_TYPE_CUSTOM"), 2, 1)
+			Calling DLGWHO_ViewEntireTypeClicked
+
+		Control CheckBox		ID CTRL_CHK_ZOOM_NORMAL_VECTOR
+			Position 370,45	Width 140
+			Title GetResItemStr("STR_ZOOM_NORMAL_VECTOR_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_NORMAL_VECTOR_LAYERS")
+		Control CheckBox		ID CTRL_CHK_ZOOM_LOCAL_RASTER
+			Position 370,60	Width 140
+			Title GetResItemStr("STR_ZOOM_LOCAL_RASTER_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_RASTER_LAYERS")
+		Control CheckBox		ID CTRL_CHK_ZOOM_LOCAL_GRID
+			Position 370,75	Width 140
+			Title GetResItemStr("STR_ZOOM_LOCAL_GRID_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_LOCAL_GRID_LAYERS")
+		Control CheckBox		ID CTRL_CHK_ZOOM_WMS
+			Position 370,90	Width 140
+			Title GetResItemStr("STR_ZOOM_WMS_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_WMS_LAYERS")
+		Control CheckBox		ID CTRL_CHK_ZOOM_TILESERVER
+			Position 370,105	Width 140
+			Title GetResItemStr("STR_ZOOM_TILESERVER_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_TILESERVER_LAYERS")
+		Control CheckBox		ID CTRL_CHK_ZOOM_ONLY_VISIBLE
+			Position 370,120	Width 140
+			Title GetResItemStr("STR_ZOOM_ONLY_VISIBLE_LAYERS")
+			Value DLGWHOGetViewEntireMapOption("ZOOM_ONLY_VISIBLE")
+
 		Control StaticText
-			Position 15,170	Width 40	Height 25
+			Position 15,155	Width 70	Height 25
 			Title GetResItemStr("STR_SMART_TEXT_FONT") & ":"
 		Control FontPicker
-			Position 60,170	Width 25	Height 25
+			Position 90,155	Width 25	Height 25
 			Value mfntSmartText
 			Into mfntSmartText
 
 		Control OKButton
-			Position 135,170		Width 40
-			Calling DLGWHOHandler_OKClicked
+			Position 430,170		Width 40	Height 15
+			Calling DLGWHO_OKClicked
 		Control CancelButton
-			Position 135,185		Width 40
+			Position 475,170		Width 40	Height 15
 
 	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
 		Exit Sub
@@ -140,7 +318,7 @@ End Function
 'Parameters:
 '
 '**********************************************************************************************''
-Sub DLGWHOHandler_OnLoad
+Sub DLGWHO_OnLoad
 
 OnError GoTo ErrorOccured
 
@@ -152,10 +330,20 @@ OnError GoTo ErrorOccured
 		Alter Control CTRL_CHK_MTB_ADD_RULER_TOOL Enable
 	End If
 
+	If SystemInfo(SYS_INFO_MIVERSION) < 2100 Then
+		Alter Control CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO Enable
+	Else
+		'**This option is in newer versions of Pro by default
+		Alter Control CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO Disable
+	End If
+
+	Call DLGWHO_CtxtMenuListClicked
+	Call DLGWHO_ViewEntireTypeClicked
+
 	Exit Sub
 '-------------------------
 ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "DLGWHOHandler_OnLoad")
+	Call ERRCreate(Err(), Error$(), "DLGWHO_OnLoad")
 	Call ERRShow()
 
 End Sub
@@ -165,20 +353,140 @@ End Sub
 'Parameters:
 '
 '**********************************************************************************************''
-Sub DLGWHOHandler_OKClicked
+Sub DLGWHO_OKClicked
 
 OnError GoTo ErrorOccured
 
 	Call DLGWHOSetAddInfoToolToMTB(ReadControlValue(CTRL_CHK_MTB_ADD_INFO_TOOL))
 	Call DLGWHOSetAddRulerToolToMTB(ReadControlValue(CTRL_CHK_MTB_ADD_RULER_TOOL))
 	Call DLGWHOSetShowInfoOnDeselect(ReadControlValue(CTRL_CHK_SELINFO_ON_DESELECT))
+
+	Call DLGWHOSetViewEntireMapOption("ZOOM_TYPE_STANDARD", IIf(ReadControlValue(CTRL_LST_VIEW_ENTIRE_MAP_TYPE) = 1, TRUE, FALSE))
+
+	Call DLGWHOSetViewEntireMapOption("ZOOM_NORMAL_VECTOR_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_NORMAL_VECTOR))
+	Call DLGWHOSetViewEntireMapOption("ZOOM_LOCAL_RASTER_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_LOCAL_RASTER))
+	Call DLGWHOSetViewEntireMapOption("ZOOM_LOCAL_GRID_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_LOCAL_GRID))
+	Call DLGWHOSetViewEntireMapOption("ZOOM_WMS_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_WMS))
+	Call DLGWHOSetViewEntireMapOption("ZOOM_TILESERVER_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_TILESERVER))
+	Call DLGWHOSetViewEntireMapOption("ZOOM_ONLY_VISIBLE", ReadControlValue(CTRL_CHK_ZOOM_ONLY_VISIBLE))
+
 	Exit Sub
 '-------------------------
 ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "DLGWHOHandler_OKClicked")
+	Call ERRCreate(Err(), Error$(), "DLGWHO_OKClicked")
 	Call ERRShow()
 
 End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGWHO_CtxtMenuListClicked
+
+Dim	nItem As Integer
+
+OnError GoTo ErrorOccured
+
+	nItem	= ReadControlValue(CTRL_LST_CONTEXT_MENUS)
+	If nItem = 0 Then
+		nItem = 1
+		Alter Control CTRL_LST_CONTEXT_MENUS Value nItem
+	End If
+
+	'**Hide all controls
+	Alter Control CTRL_CHK_LAY_APPLY_STYLES		Hide
+	Alter Control CTRL_CHK_LAY_COPYPASTE_PROP	Hide
+	Alter Control CTRL_CHK_LAY_MOVE_TOPBOTTOM	Hide
+	Alter Control CTRL_CHK_LAY_QUICK_THEMES		Hide
+	Alter Control CTRL_CHK_LAY_SAVE_THEMES		Hide
+	Alter Control CTRL_CHK_LAY_CLOSE_TABLE		Hide
+	Alter Control CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO	Hide
+	Alter Control CTRL_CHK_LAY_OPEN_TEXTEDITOR	Hide
+	Alter Control CTRL_CHK_LAY_DEFAULT_VIEW		Hide
+
+	Alter Control CTRL_CHK_MAP_WORKSPACE_EXPL	Hide
+
+	Alter Control CTRL_CHK_TAB_BROWSE_FLOATING	Hide
+	Alter Control CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	Hide
+	Alter Control CTRL_CHK_TAB_OPEN_TEXTEDITOR	Hide
+
+	Alter Control CTRL_CHK_BRW_ZOOM_SELECTION	Hide
+	Alter Control CTRL_CHK_BRW_PAN_SELECTION	Hide
+	Alter Control CTRL_CHK_BRW_CLEAR_SELECTION	Hide
+	Alter Control CTRL_CHK_BRW_FILTER_CELL_VAL	Hide
+	Alter Control CTRL_CHK_BRW_GROUPBY_COLUMNN	Hide
+
+	'**Show controls for the selected context menu
+	'GetResItemStr("STR_CONTEXT_MENU_LAYER") & ";" & GetResItemStr("STR_CONTEXT_MENU_TABLE") & ";" & GetResItemStr("STR_CONTEXT_MENU_MAP") & ";" & GetResItemStr("STR_CONTEXT_MENU_BROWSER")
+	Do Case nItem
+		Case 1	'STR_CONTEXT_MENU_LAYER
+			Alter Control CTRL_CHK_LAY_APPLY_STYLES		Show
+			Alter Control CTRL_CHK_LAY_COPYPASTE_PROP	Show
+			Alter Control CTRL_CHK_LAY_MOVE_TOPBOTTOM	Show
+			Alter Control CTRL_CHK_LAY_QUICK_THEMES		Show
+			Alter Control CTRL_CHK_LAY_SAVE_THEMES		Show
+			Alter Control CTRL_CHK_LAY_CLOSE_TABLE		Show
+			Alter Control CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO	Show
+			Alter Control CTRL_CHK_LAY_OPEN_TEXTEDITOR	Show
+			Alter Control CTRL_CHK_LAY_DEFAULT_VIEW		Show
+		Case 2	'STR_CONTEXT_MENU_TABLE
+			Alter Control CTRL_CHK_TAB_BROWSE_FLOATING	Show
+			Alter Control CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	Show
+			Alter Control CTRL_CHK_TAB_OPEN_TEXTEDITOR	Show
+		Case 3	'STR_CONTEXT_MENU_MAP
+			Alter Control CTRL_CHK_MAP_WORKSPACE_EXPL	Show
+		Case 4	'STR_CONTEXT_MENU_BROWSER
+			Alter Control CTRL_CHK_BRW_ZOOM_SELECTION	Show
+			Alter Control CTRL_CHK_BRW_PAN_SELECTION	Show
+			Alter Control CTRL_CHK_BRW_CLEAR_SELECTION	Show
+			Alter Control CTRL_CHK_BRW_FILTER_CELL_VAL	Show
+			Alter Control CTRL_CHK_BRW_GROUPBY_COLUMNN	Show
+	End Case
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHO_CtxtMenuListClicked")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGWHO_ViewEntireTypeClicked
+
+OnError GoTo ErrorOccured
+
+	If ReadControlValue(CTRL_LST_VIEW_ENTIRE_MAP_TYPE) = 1 Then
+		Alter Control CTRL_CHK_ZOOM_NORMAL_VECTOR	Disable
+		Alter Control CTRL_CHK_ZOOM_LOCAL_RASTER	Disable
+		Alter Control CTRL_CHK_ZOOM_LOCAL_GRID		Disable
+		Alter Control CTRL_CHK_ZOOM_WMS			Disable
+		Alter Control CTRL_CHK_ZOOM_TILESERVER		Disable
+		Alter Control CTRL_CHK_ZOOM_ONLY_VISIBLE	Disable
+	Else
+		Alter Control CTRL_CHK_ZOOM_NORMAL_VECTOR	Enable
+		Alter Control CTRL_CHK_ZOOM_LOCAL_RASTER	Enable
+		Alter Control CTRL_CHK_ZOOM_LOCAL_GRID		Enable
+		Alter Control CTRL_CHK_ZOOM_WMS			Enable
+		Alter Control CTRL_CHK_ZOOM_TILESERVER		Enable
+		Alter Control CTRL_CHK_ZOOM_ONLY_VISIBLE	Enable
+	End If
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHO_ViewEntireTypeClicked")
+	Call ERRShow()
+
+End Sub
+
+
 
 '**********************************************************************************************''
 ' Property 'AddInfoToolToMapMiniToolbar
@@ -235,6 +543,36 @@ ErrorOccured:
 End Function
 
 '**********************************************************************************************''
+' Property
+'**********************************************************************************************''
+Sub DLGWHOSetAddItemToContextMenu(	  ByVal nMenuItem As Integer		'See defines in DLGWHOWindowHelperOptions.def
+							, ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	marrContextMenuItems(nMenuItem) = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetAddItemToContextMenu")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOAddItemToContextMenu(  ByVal nMenuItem As Integer		'See defines in DLGWHOWindowHelperOptions.def
+							) As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOAddItemToContextMenu = marrContextMenuItems(nMenuItem)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOAddItemToContextMenu")
+
+End Function
+
+
+'**********************************************************************************************''
 ' Property 'AddRulerToolToMapMiniToolbar
 '**********************************************************************************************''
 Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
@@ -285,5 +623,74 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "DLGWHOGetSmartTextFont")
+
+End Function
+
+'**********************************************************************************************''
+' Property
+'**********************************************************************************************''
+Sub DLGWHOSetViewEntireMapOption(	  ByVal sOption As String
+							, ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	Do Case sOption
+		Case "ZOOM_TYPE_STANDARD"
+			mbZoomTypeCustom 		= Not (bValue)
+		Case "ZOOM_TYPE_CUSTOM"
+			mbZoomTypeCustom 		= bValue
+		Case "ZOOM_NORMAL_VECTOR_LAYERS"
+			mbZoomNormalVectorLayers	= bValue
+		Case "ZOOM_LOCAL_RASTER_LAYERS"
+			mbZoomLocalRasterLayers	= bValue
+		Case "ZOOM_LOCAL_GRID_LAYERS"
+			mbZoomLocalGridLayers	= bValue
+		Case "ZOOM_WMS_LAYERS"
+			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
+			mbZoomWMSLayers		= bValue
+		Case "ZOOM_TILESERVER_LAYERS"
+			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
+			mbZoomTileServerLayers	= bValue
+		Case "ZOOM_ONLY_VISIBLE", "ZOOM_ONLY_VISIBLE_LAYERS"
+			mbZoomOnlyVisibleLayers	= bValue
+	End Case
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetViewEntireMapOption")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetViewEntireMapOption(	  ByVal sOption As String
+								) As Logical
+
+OnError GoTo ErrorOccured
+
+	Do Case sOption
+		Case "ZOOM_TYPE_STANDARD"
+			DLGWHOGetViewEntireMapOption = Not (mbZoomTypeCustom)
+		Case "ZOOM_TYPE_CUSTOM"
+			DLGWHOGetViewEntireMapOption = mbZoomTypeCustom
+		Case "ZOOM_NORMAL_VECTOR_LAYERS"
+			DLGWHOGetViewEntireMapOption = mbZoomNormalVectorLayers
+		Case "ZOOM_LOCAL_RASTER_LAYERS"
+			DLGWHOGetViewEntireMapOption = mbZoomLocalRasterLayers
+		Case "ZOOM_LOCAL_GRID_LAYERS"
+			DLGWHOGetViewEntireMapOption = mbZoomLocalGridLayers
+		Case "ZOOM_WMS_LAYERS"
+			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomWMSLayers)
+			DLGWHOGetViewEntireMapOption = mbZoomWMSLayers
+		Case "ZOOM_TILESERVER_LAYERS"
+			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomTileServerLayers)
+			DLGWHOGetViewEntireMapOption = mbZoomTileServerLayers
+		Case "ZOOM_ONLY_VISIBLE", "ZOOM_ONLY_VISIBLE_LAYERS"
+			DLGWHOGetViewEntireMapOption = mbZoomOnlyVisibleLayers
+	End Case
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetViewEntireMapOption")
 
 End Function

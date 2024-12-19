@@ -9,6 +9,7 @@ Declare Function DLGQuickThemeRanged(	  ByVal nMID As Integer				'**ID of Map Wi
 Declare Function DLGQTRGetLayerID() As Integer
 Declare Function DLGQTRGetLayerName() As String
 Declare Function DLGQTRGetColumnName() As String
+Declare Function DLGQTRIgnoreZeroesOrBlanks() As Logical
 
 Declare Function DLGQTRGetRangeCount() As Integer
 Declare Function DLGQTRGetFromColor() As Integer

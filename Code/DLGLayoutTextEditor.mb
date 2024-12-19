@@ -1,0 +1,86 @@
+﻿'*******************************************************************************
+'** 	Created By Peter Horsbøll Møller, Precisely
+'** 	Program:
+'** 	Modul:
+'**
+'*******************************************************************************
+
+'-------------------------------------
+Include "MapBasic.def"
+Include "Icons.def"
+Include "Menu.def"
+'**default constants...
+Include "Library\Defaults.def"
+
+'-------------------------------------
+Include "Library\DEBUGLib.def"
+Include "Library\ERRORLib.def"
+Include "Library\TABLELib.def"
+
+Include "WindowHelper.Assembly.def"
+Include "DLGLayoutTextEditor.def"
+
+Dim	msFrameText As String
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGLayoutTextEditor(   ByVal nLayoutWID As Integer
+						, ByVal nFrameID As Integer
+						) As Logical
+
+OnError GoTo ErrorOccured
+
+DLGLayoutTextEditor = FALSE
+
+	msFrameText	= LayoutItemInfo(nLayoutWID, nFrameID, LAYOUT_ITEM_INFO_TEXTSTRING)
+
+	Dialog
+		Title GetResItemStr("DLG_TITLE_LAYOUT_TEXT_EDITOR")
+
+		Control StaticText	Position 5,5
+			Title GetResItemStr("STR_TEXT")
+		Control EditText	Position 5,15
+			Width 250	Height 100
+			Value msFrameText
+			Into msFrameText
+
+		Control OKButton
+		Control CancelButton
+
+	If not CommandInfo(CMD_INFO_DLG_OK) Then
+		Exit Function
+	End If
+
+	DLGLayoutTextEditor = TRUE
+
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGLayoutTextEditor")
+	Call ERRShow()
+
+End Function
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Function DLGLTEGetChangedText() As String
+
+OnError GoTo ErrorOccured
+
+	DLGLTEGetChangedText = msFrameText
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGLTEGetChangedText")
+	Call ERRShow()
+
+End Function

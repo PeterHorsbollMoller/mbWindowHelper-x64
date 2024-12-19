@@ -1,3 +1,23 @@
+Define	LYR_CTXT_APPLY_STYLES			1
+Define	LYR_CTXT_COPY_PASTE_LAYER_PROP	2
+Define	LYR_CTXT_MOVE_LAYER_TOP_BOTTOM	3
+Define	LYR_CTXT_THEMES_QUICK			4
+Define	LYR_CTXT_THEME_SAVE_TO_TABLE		5
+Define	LYR_CTXT_CLOSE_TABLE			6
+Define	LYR_CTXT_SHOW_IN_WIN_EXPLORER		7
+Define	LYR_CTXT_SHOW_IN_TXT_EDITOR		8
+Define	LYR_CTXT_DEFAULT_VIEW			9
+Define	TAB_CTXT_BROWSER_FLOATING		10
+Define	TAB_CTXT_SHOW_IN_TXT_EDITOR		11
+Define	TAB_CTXT_SHOW_IN_WIN_EXPLORER		12
+Define	BRWS_CTXT_ZOOM_TO_SEL			13
+Define	BRWS_CTXT_PAN_TO_SEL			14
+Define	BRWS_CTXT_CLEAR_SEL				15
+Define	BRWS_CTXT_FILTER_CELL_VALUE		16
+Define	BRWS_CTXT_GROUP_BY_CURR_COL		17
+Define	MAP_CTXT_WORKSPACE_EXPLORER		18
+Define	NUM_CTXT_MENU_ITEMS				18
+
 Declare Function DLGWHOWindowHelperOptions() As Logical
 
 Declare Sub DLGWHOSetAddInfoToolToMTB(ByVal bValue As Logical)
@@ -5,8 +25,19 @@ Declare Function DLGWHOGetAddInfoToolToMTB() As Logical
 Declare Sub DLGWHOSetAddRulerToolToMTB(ByVal bValue As Logical)
 Declare Function DLGWHOGetAddRulerToolToMTB() As Logical
 
+Declare Sub DLGWHOSetAddItemToContextMenu(	  ByVal nMenuItem As Integer		'See defines in DLGWHOWindowHelperOptions.def
+									, ByVal bValue As Logical)
+Declare Function DLGWHOAddItemToContextMenu(	  ByVal nMenuItem As Integer		'See defines in DLGWHOWindowHelperOptions.def
+									) As Logical
+
 Declare Sub DLGWHOSetShowInfoOnDeselect(ByVal bValue As Logical)
 Declare Function DLGWHOGetShowInfoOnDeselect() As Logical
 
 Declare Sub DLGWHOSetSmartTextFont(ByVal fntValue As Font)
 Declare Function DLGWHOGetSmartTextFont() As Font
+
+Declare Sub DLGWHOSetViewEntireMapOption( ByVal sOption As String
+								, ByVal bValue As Logical)
+Declare Function DLGWHOGetViewEntireMapOption(	  ByVal sOption As String
+										) As Logical
+

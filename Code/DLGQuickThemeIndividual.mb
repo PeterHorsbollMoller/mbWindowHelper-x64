@@ -31,7 +31,7 @@ Define	CTRL_LST_LAYERS			100
 Define	CTRL_LST_COLUMNS			200
 Define	CTRL_LST_COLORRANGES		300
 Define	CTRL_TXT_BINCOUNT			400
-Define	CTRL_TXT_NUM_BINS_LIMITED_TO	500
+Define	CTRL_TXT_NUM_VALS_LIMITED_TO	500
 Define	CTRL_CMD_STYLE_LINE			601
 Define	CTRL_CMD_STYLE_SYMBOL		611
 Define	CTRL_CMD_STYLE_BRUSH		621
@@ -152,14 +152,14 @@ DLGQuickThemeIndividual = FALSE
 			Into mnColorRange
 
 		Control StaticText		Position 150,130
-			Title GetResItemStr("DLG_THEME_NUM_BINS")
+			Title GetResItemStr("DLG_THEME_NUM_RANGES")
 		Control EditText		Position 150,140	ID CTRL_TXT_BINCOUNT
 			Width 55
 			Value ""
 			Disable
 
-		Control StaticText		Position 80,160	ID CTRL_TXT_NUM_BINS_LIMITED_TO
-			Title GetResItemStrReplace("DLG_NUM_BINS_LIMITED_TO", "256")
+		Control StaticText		Position 80,160	ID CTRL_TXT_NUM_VALS_LIMITED_TO
+			Title GetResItemStrReplace("DLG_NUM_VALUES_LIMITED_TO", "256")
 
 		Control PenPicker		Position 5,175		ID CTRL_CMD_STYLE_LINE
 			Width 20	Height 20
@@ -229,7 +229,7 @@ OnError GoTo ErrorOccured
 	mbInitiatingDialog	= TRUE
 
 	Alter Control CTRL_CMD_OK				Disable
-	Alter Control CTRL_TXT_NUM_BINS_LIMITED_TO	Hide
+	Alter Control CTRL_TXT_NUM_VALS_LIMITED_TO	Hide
 
 	Call DLGQTI_LoadLayerList
 
@@ -442,10 +442,10 @@ OnError GoTo ErrorOccured
 	Alter Control CTRL_TXT_BINCOUNT Value FormatNumber$(nCount)
 	If nCount > 256 Then	'Or is it 1896 ???
 		Alter Control CTRL_CMD_OK Disable
-		Alter Control CTRL_TXT_NUM_BINS_LIMITED_TO Show
+		Alter Control CTRL_TXT_NUM_VALS_LIMITED_TO Show
 	Else
 		Alter Control CTRL_CMD_OK Enable
-		Alter Control CTRL_TXT_NUM_BINS_LIMITED_TO Hide
+		Alter Control CTRL_TXT_NUM_VALS_LIMITED_TO Hide
 	End If
 
 	If NOT mbInitiatingDialog Then
