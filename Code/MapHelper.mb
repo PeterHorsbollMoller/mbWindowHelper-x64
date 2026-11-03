@@ -41,7 +41,7 @@ Include "DLGAdvancedLayerRename.def"
 Include "DLGMultipleLayersRename.def"
 
 Dim	mtli As T_LAYER_INFO,
-	mbLayerInfoRead As Logical,
+	mbLayerInfoRead, mbFastSymbolRenderingInitiated, mbFastSymbolRenderingOn As Logical,
 	mnNumBins, mnCurrentBin As Integer,
 	msThemeBaseTab As String,
 	marrItems() As T_INDIVIDUAL_ITEMS
@@ -1805,6 +1805,112 @@ ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHSaveThemeStyleToTab_Single")
 	Call ERRPrint()
 	GoTo NextBin
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHFastSymbolRenderingSwitch
+
+OnError GoTo ErrorOccured
+
+	If Not mbFastSymbolRenderingInitiated Then
+		mbFastSymbolRenderingOn = GetPreference(PREFERENCE_OUTPUT, PREF_OUTPUT_DISPLAYPOINTSFAST)
+		mbFastSymbolRenderingInitiated = TRUE
+	Else
+		mbFastSymbolRenderingOn	= Not mbFastSymbolRenderingOn
+
+		If mbFastSymbolRenderingOn Then
+			Set FastPointRendering On
+		Else
+			Set FastPointRendering Off
+		End If
+	End If
+
+	Call MAPHEnableDisableControls
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHFastSymbolRenderingSwitch")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHEnableDisableControls
+
+OnError GoTo ErrorOccured
+
+	Call RBNGroupCheckControl(  "", "", "mapCtxtFastSymbolRendering", mbFastSymbolRenderingOn)
+	Call RBNGroupCheckControl(  "", "", "btnMapFastSymbolRendering", mbFastSymbolRenderingOn)
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHEnableDisableControls")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHWinFocusChangedHandler(	ByVal nWID As Integer)
+
+OnError GoTo ErrorOccured
+
+	Call MAPHEnableDisableControls
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHWinFocusChangedHandler")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHWinChangedHandler(	ByVal nWID As Integer)
+
+OnError GoTo ErrorOccured
+
+	Call MAPHEnableDisableControls
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHWinChangedHandler")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub MAPHWinClosedHandler
+
+OnError GoTo ErrorOccured
+
+	Call MAPHEnableDisableControls
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHWinClosedHandler")
+	Call ERRShow()
 
 End Sub
 

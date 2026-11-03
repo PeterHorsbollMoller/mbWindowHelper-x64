@@ -16,7 +16,12 @@ Define	BRWS_CTXT_CLEAR_SEL				15
 Define	BRWS_CTXT_FILTER_CELL_VALUE		16
 Define	BRWS_CTXT_GROUP_BY_CURR_COL		17
 Define	MAP_CTXT_WORKSPACE_EXPLORER		18
-Define	NUM_CTXT_MENU_ITEMS				18
+Define	MAP_CTXT_FAST_SYMBOL_RENDERING	19
+Define	NUM_CTXT_MENU_ITEMS				19
+
+Define	CTRL_MAP_FAST_SYMBOL_RENDER		1
+Define	CTRL_MAPCTX_FAST_SYMBOL_RENDER	2
+Define	NUM_CTRL_ITEMS					2
 
 Declare Function DLGWHOWindowHelperOptions() As Logical
 
@@ -41,3 +46,8 @@ Declare Sub DLGWHOSetViewEntireMapOption( ByVal sOption As String
 Declare Function DLGWHOGetViewEntireMapOption(	  ByVal sOption As String
 										) As Logical
 
+Declare Sub DLGWHOSetCtrlIdx(	  ByVal nCtrl As Integer			'Internal ID of Control, see list at the top of DLGWHOWindowHelperOptions.def
+						, ByVal nCtrlIdx As Integer		'Ctrl IDX Assigned when creating control
+						)
+Declare Function DLGWHOGetCtrlIdx(	ByVal nCtrl As Integer		'Internal ID of Control, see list at the top of DLGWHOWindowHelperOptions.def
+						   ) As Integer

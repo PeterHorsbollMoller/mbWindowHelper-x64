@@ -34,6 +34,7 @@ Define	CTRL_CHK_LAY_OPEN_TEXTEDITOR		308
 Define	CTRL_CHK_LAY_DEFAULT_VIEW		309
 
 Define	CTRL_CHK_MAP_WORKSPACE_EXPL		311
+Define	CTRL_CHK_MAP_FAST_SYM_RENDER		312
 
 Define	CTRL_CHK_TAB_BROWSE_FLOATING		321
 Define	CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	322
@@ -64,6 +65,7 @@ Declare Sub DLGWHO_ViewEntireTypeClicked
 
 Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
 	marrContextMenuItems(NUM_CTXT_MENU_ITEMS) As Logical,
+	marrControlIDXs(NUM_CTRL_ITEMS) As Integer,
 	marrBaseMaps(6) As Logical,
 	mbZoomTypeCustom As Logical,
 	mbZoomNormalVectorLayers, mbZoomLocalRasterLayers, mbZoomOnlyVisibleLayers As Logical,
@@ -202,6 +204,11 @@ OnError GoTo ErrorOccured
 			Title GetResItemStr("MNU_OPEN_WORKSPACE_EXPLORER")
 			Value DLGWHOAddItemToContextMenu(MAP_CTXT_WORKSPACE_EXPLORER)
 			Into marrContextMenuItems(MAP_CTXT_WORKSPACE_EXPLORER)
+		Control CheckBox		ID CTRL_CHK_MAP_FAST_SYM_RENDER
+			Position 190,50	Width 150
+			Title GetResItemStr("MNU_FAST_SYMBOL_RENDERING")
+			Value DLGWHOAddItemToContextMenu(MAP_CTXT_FAST_SYMBOL_RENDERING)
+			Into marrContextMenuItems(MAP_CTXT_FAST_SYMBOL_RENDERING)
 
 		'**STR_CONTEXT_MENU_TABLE
 		Control CheckBox		ID CTRL_CHK_TAB_BROWSE_FLOATING
@@ -407,6 +414,7 @@ OnError GoTo ErrorOccured
 	Alter Control CTRL_CHK_LAY_DEFAULT_VIEW		Hide
 
 	Alter Control CTRL_CHK_MAP_WORKSPACE_EXPL	Hide
+	Alter Control CTRL_CHK_MAP_FAST_SYM_RENDER	Hide
 
 	Alter Control CTRL_CHK_TAB_BROWSE_FLOATING	Hide
 	Alter Control CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	Hide
@@ -437,6 +445,7 @@ OnError GoTo ErrorOccured
 			Alter Control CTRL_CHK_TAB_OPEN_TEXTEDITOR	Show
 		Case 3	'STR_CONTEXT_MENU_MAP
 			Alter Control CTRL_CHK_MAP_WORKSPACE_EXPL	Show
+			Alter Control CTRL_CHK_MAP_FAST_SYM_RENDER	Show
 		Case 4	'STR_CONTEXT_MENU_BROWSER
 			Alter Control CTRL_CHK_BRW_ZOOM_SELECTION	Show
 			Alter Control CTRL_CHK_BRW_PAN_SELECTION	Show
@@ -646,10 +655,10 @@ OnError GoTo ErrorOccured
 		Case "ZOOM_LOCAL_GRID_LAYERS"
 			mbZoomLocalGridLayers	= bValue
 		Case "ZOOM_WMS_LAYERS"
-			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
+'			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
 			mbZoomWMSLayers		= bValue
 		Case "ZOOM_TILESERVER_LAYERS"
-			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
+'			Call DEBUGPrint("Set View Entire Map Option '" & sOption & "' = " & bValue)
 			mbZoomTileServerLayers	= bValue
 		Case "ZOOM_ONLY_VISIBLE", "ZOOM_ONLY_VISIBLE_LAYERS"
 			mbZoomOnlyVisibleLayers	= bValue
@@ -679,10 +688,10 @@ OnError GoTo ErrorOccured
 		Case "ZOOM_LOCAL_GRID_LAYERS"
 			DLGWHOGetViewEntireMapOption = mbZoomLocalGridLayers
 		Case "ZOOM_WMS_LAYERS"
-			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomWMSLayers)
+'			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomWMSLayers)
 			DLGWHOGetViewEntireMapOption = mbZoomWMSLayers
 		Case "ZOOM_TILESERVER_LAYERS"
-			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomTileServerLayers)
+'			Call DEBUGPrint("Get View Entire Map Option '" & sOption & "' = " & mbZoomTileServerLayers)
 			DLGWHOGetViewEntireMapOption = mbZoomTileServerLayers
 		Case "ZOOM_ONLY_VISIBLE", "ZOOM_ONLY_VISIBLE_LAYERS"
 			DLGWHOGetViewEntireMapOption = mbZoomOnlyVisibleLayers
@@ -692,5 +701,35 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "DLGWHOGetViewEntireMapOption")
+
+End Function
+
+'**********************************************************************************************''
+' Property
+'**********************************************************************************************''
+Sub DLGWHOSetCtrlIdx(	  ByVal nCtrl As Integer			'Internal ID of Control, see list at the top of DLGWHOWindowHelperOptions.def
+					, ByVal nCtrlIdx As Integer		'Ctrl IDX Assigned when creating control
+					)
+
+OnError GoTo ErrorOccured
+
+	marrControlIDXs(nCtrl) = nCtrlIdx
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetCtrlIdx: Ctrl" & nCtrl & " Ctrl IDX: " & nCtrlIdx)
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetCtrlIdx(	ByVal nCtrl As Integer		'Internal ID of Control, see list at the top of DLGWHOWindowHelperOptions.def
+					   ) As Integer
+
+OnError GoTo ErrorOccured
+
+	DLGWHOGetCtrlIdx = marrControlIDXs(nCtrl)
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetCtrlIdx: Ctrl" & nCtrl)
 
 End Function

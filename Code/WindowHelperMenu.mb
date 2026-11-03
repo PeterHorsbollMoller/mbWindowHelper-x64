@@ -190,7 +190,7 @@
 '						- Fixed an issue with menu items not getting removed when tool ends
 '						- Reordered some controls in the context menus
 '4.0.0	29-09-2023 12:01:26	- Now using TAB_GROUP_HOME_WINDOW in stead of TAB_HOME_RECOVER_GRP
-'						- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear
+'						- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear, see https://ideas.precisely.com/ideas/MIPRO-I-31 - 1 vote
 '						- Support for default brush, line, pen and symbol for quick individual theme
 '						- Support for default brush, line, pen and symbol for quick ranged theme
 '4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
@@ -199,10 +199,10 @@
 '4.0.2	14-08-2024 14:59:53	- Added menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
 '4.0.3	15-08-2024 11:56:51	- Added Open Explorer Window to Mapper Context menu
 '						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 (5 votes) and https://ideas.precisely.com/ideas/MIPRO-I-549 (51 votes)
-'4.0.4	16-08-2024 15:30:33	- Added Save theme as object style on table for individual theme
+'4.0.4	16-08-2024 15:30:33	- Added Save theme as object style on table for individual theme, see https://ideas.precisely.com/ideas/MIPRO-I-1456 - 1 vote
 '4.0.5	24-10-2024 11:58:33	- Layout Clear Selection now gets disabled/enabled
 '						- Added Support for Ignore 0 or Blanks for Quick Ranged Theme
-'						- Added support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569
+'						- Added support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569 - 5 votes
 '							- Added to Layout tab and to the Layout Frame context menu
 '						- Hiding the standard Rename menu in the Layer context menu in the Layer List
 '						- These support multiple selected layers: MAPHMenuMoveLayerToTopLC, MAPHMenuMoveLayerToBottomLC, TABHCloseTableLC & MAPHMenuPasteLayerSettingsLC
@@ -217,18 +217,39 @@
 '		25-11-2024 09:28:58	- Updated the FunctionList.txt file with samples to match the published functions
 '		18-12-2024 07:46:29 - Fixed an issue in MAPHSelectWithinMap: It will now use the topmost normal layer that is visible and selectable.
 '4.1.0	19-12-2024 13:27:05	- Release Build
+'4.1.1	19-03-2025 14:14:16	- Added and published STRINGNumericShorthand function
+'4.1.2	16-12-2025 09:04:42	- New version of STRINGNumericShorthand implemented
+'		19-12-2025 14:49:47	- Turn Fast Rendering On/Off via button on Map Tab and in Map Context Menu
+'4.1.3	28-10-2026 14:09:47 - Fixing issue with faulting error that puts MapInfo Pro in a unresponsive state
 '*******************************************************************************
 'Potential new features:
+'	- Check Quick Theme for Database Tables: No Columns show
+'	- Allow user to use the line style for Region thematic for Quick Individual/Ranged Theme
+'	- Check Move Layer Top/Bottom for layers with Themes - include thematic layers when moving
+'	- Convert Thematic Layer to Quick Theme template
+'	- Hide theme legends based on map objects in map extent
+'	- Custom function for Notification
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
 '	- Rename table via Layer context menu
 '	- Rename Layers: Option to specify character(s) to replace underscore with and not jut a space
 '	- Add more default Smart Text adornments to the map window, such as copyright
 '	- Improve support for copying layer settings: hotlinks, time settings, filter etc
-'	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc.
+'	- Improve support for pasting specific layer settings, e.g. only style and hotlink etc. (Paste Special...)
 '	- Add support for saving/restoring layer settings to/from the metadata of a table
 '	- Add 'Replace Image' to Layout, see https://ideas.precisely.com/ideas/MIPRO-I-1224
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
 '	- Save theme as object style on table for ranged theme
+'	- Find and fix error: StyleAttr not supported when selected a layer in the layer list
+'	- Add Label Help for these label expressions:
+'		Object Area and Length, incl. units:
+'		Set Map Window FrontWindow()  Layer 3 Label With FormatNumber$(Round(Area(obj, "sq m"), 0.01)) + "m" + Chr$(178)
+'		Rounding vlaues
+'		Set Map Window FrontWindow()  Layer 3 Label With Round(Area(obj, "sq m"), 0.0001)
+'		Rounding with fixed number of decimals
+'		Set Map Window FrontWindow()  Layer 3 Label With Format$(Area(obj, "sq m"), ",0.000000")
+'	- Copy Thematic Bin Style from Theme Bin context : Copy the style from the selected bin
+'	- Paste Themtic Bin Style / Paste Themtic Bin Style Special ... from Theme Bin context : Paste entire or selected elements from bin style 
+'	- Select record from Theme Bin context menu
 '	- ...
 '
 '	Not that easy to implement currently
@@ -249,13 +270,13 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.1.0"
-Define xYear			"2024"
+Define xVersion 		"4.1.3"
+Define xYear			"2026"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
 Define FILE_DBG			ApplicationDirectory$() & xProgram & ".dbg"
 Define FILE_HLP			ApplicationDirectory$() + xProgram 	'& ".pdf"
-Define PATH_IMAGES			ApplicationDirectory$() & "Images\"
+Define PATH_IMAGES		ApplicationDirectory$() & "Images\"
 
 '-------------------------------------
 Include "Library\DEBUGLib.def"
@@ -293,7 +314,7 @@ Declare Sub EndProgram
 Declare Sub Endhandler
 Declare Sub WinClosedHandler
 Declare Sub WinFocusChangedHandler
-Declare Sub WinChangedHandler
+'Declare Sub WinChangedHandler	'Not used currently
 Declare Sub SelChangedHandler
 Declare Sub MENULayerSelectionChanged(ByVal args As This)
 Declare Sub MENULayoutSelectionChanged(ByVal args As This)
@@ -371,6 +392,7 @@ OnError GoTo ErrorOccured
 	If NOT RBNEventSubscribe(AddInEvents_TableClosed, "SELINFOTableClosedHandler") Then
 		Call DEBUGPrint("SELINFOTableClosedHandler was not subscribed to the 'TableClosed' event!")
 	End If
+
 	If NOT RBNEventSubscribe(AddInEvents_LayerSelectionChanged, "MENULayerSelectionChanged") Then
 		Call DEBUGPrint("MENULayerSelectionChanged was not subscribed to the 'LayerSelectionChanged' event !")
 	End If
@@ -423,6 +445,7 @@ OnError GoTo ErrorOccured
 	nResult = RBNRegisterFunctionAsPublic("STRINGGetValueBetweenChars", "WHExtractValueBetweenChars$", "Extract the value between the two given characters." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("STRINGConcatenateWithSeparator", "WHCombineWithSeparator$", "Combine the two values witht he separator given." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("STRINGLeftWord", "WHLeftWord$", "Extracts a specific word from a string of words separated by spaces." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("STRINGNumericShorthand", "WHNumericShorthand$", "Shortens number to 0.5K, 1K, 10M, or 150B." & lf & "Function published from the " & xProgram & " application.")
 
 	nResult = RBNRegisterFunctionAsPublic("COLExists", "WHColumnExists", "Returns true/1 if the specified column exists in the specified table." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("COLTypeAsString", "WHColumnTypeAsString", "Return string containing the column type (e.g. 'Logical'), including the column width (e.g. 'Char (49)')." & lf & "Function published from the " & xProgram & " application.")
@@ -518,7 +541,7 @@ OnError GoTo ErrorOccured
 	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    M A P
 	'********************************************************************************
-	sTabName		= TAB_MAP
+	sTabName	= TAB_MAP
 	sGroupName	= TAB_MAP_OPTIONS_GRP	'TAB_MAP_FILE_GRP
 
 	nCtrlIdx = RBNGroupAddButton("btnMapMapExtent", GetResItemStr("MNU_CREATE_MAP_EXTENT"), "", sTabName, sGroupName)
@@ -535,7 +558,7 @@ OnError GoTo ErrorOccured
 		Call SELINFOSetControlIndex(nCtrlIdx)
 		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
 		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("STR_TTIP_ENABLE_INFO_SEL"), "")
-		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, "", PATH_IMAGES & "InfoSelHandler_32x32.png")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "InfoSelHandler_32x32.png", PATH_IMAGES & "InfoSelHandler_32x32.png")
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "SELINFOSwitchDisplay")
 	End If
 
@@ -546,7 +569,17 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "WINHRestoreWindowMenu")
 	End If
 
-	sTabName		= TAB_MAP
+	nCtrlIdx = RBNGroupInsertControlAfter("btnMapFastSymbolRendering", GetResItemStr("MNU_FAST_SYMBOL_RENDERING"), "", ControlType_Button, sTabName, sGroupName, BTN_MAP_OPTIONS)	'MapOptionsButton
+	If nCtrlIdx > 0 Then
+		Call DLGWHOSetCtrlIdx(CTRL_MAP_FAST_SYMBOL_RENDER, nCtrlIdx)
+		Call RBNControlToggleIdx(nCtrlIdx, TRUE)
+		Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_FAST_SYMBOL_RENDERING"), "")
+		Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_LARGE, PATH_IMAGES & "FastSymbRendering_32x32.png", PATH_IMAGES & "FastSymbRendering_32x32.png")
+		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHFastSymbolRenderingSwitch")
+	End If
+
+
+	sTabName	= TAB_MAP
 	sGroupName	= TAB_MAP_FILE_GRP
 
 	nCtrlIdx = RBNGroupInsertControlAfter("btnMapStaticTheme", GetResItemStr("MNU_STATIC_THEME"), "", ControlType_Button, sTabName, sGroupName, "MapAddThematicButton")
@@ -563,7 +596,7 @@ OnError GoTo ErrorOccured
 		Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHMenuSaveThemeStylesToTable")
 	End If
 
-	sTabName		= TAB_MAP
+	sTabName	= TAB_MAP
 	sGroupName	= TAB_MAP_SELECTION_GRP
 
 	nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSelectWithinMap", GetResItemStr("MNU_SELECT_WITHIN_MAP"), "", ControlType_Button, sTabName, sGroupName, "MapSelectionToolsSplitButton", "SelectionDownMenuGroup")
@@ -575,7 +608,7 @@ OnError GoTo ErrorOccured
 	End If
 
 	If SystemInfo(SYS_INFO_MIVERSION) >= 2100 Then
-		sTabName		= TAB_MAP
+		sTabName	= TAB_MAP
 		sGroupName	= TAB_MAP_FILE_GRP
 
 		nCtrlIdx = RBNSplitButtonGroupAddControl("btnMapSmartTextMapTitle", GetResItemStr("MNU_ADD_SMARTTEXT_MAP_TITLE"), "", ControlType_Button, sTabName, sGroupName, "AddToMapSplitButton", "AddToMapDropDownMenuGroup")
@@ -649,7 +682,7 @@ OnError GoTo ErrorOccured
 	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    H O M E
 	'********************************************************************************
-	sTabName		= TAB_HOME
+	sTabName	= TAB_HOME
 	sGroupName	= TAB_HOME_WINDOW_GRP	'TAB_HOME_RECOVER_GRP
 
 	nCtrlIdx = RBNGroupAddButton("HomeRestoreClosedWindows", GetResItemStr("MNU_RESTORE_CLOSED_WINDOWS"), "", sTabName, sGroupName)
@@ -687,7 +720,7 @@ OnError GoTo ErrorOccured
 '	End If
 
 	'********************************************************************************
-	sTabName		= TAB_HOME
+	sTabName	= TAB_HOME
 	sGroupName	= TAB_HOME_OUTPUT_GRP
 
 	nCtrlIdx = RBNGroupAddButton("HomeSaveWindowToWorkspace", GetResItemStr("MNU_SAVE_WINDOW_TO_WOR"), "", sTabName, sGroupName)
@@ -700,7 +733,7 @@ OnError GoTo ErrorOccured
 	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    T A B L E
 	'********************************************************************************
-	sTabName		= TAB_TABLE
+	sTabName	= TAB_TABLE
 	sGroupName	= TAB_TABLE_DATA_GRP
 	nCtrlIdx = RBNGroupInsertButton("tabBrowserFloating", GetResItemStr("MNU_BROWSER_FLOATING"), "", sTabName, sGroupName, 1)
 	If nCtrlIdx > 0 Then
@@ -723,7 +756,7 @@ OnError GoTo ErrorOccured
 	'********************************************************************************
 	'A D D I N G    C O N T R O L S    T O    T H E    R I B B O N    -    L A Y O U T
 	'********************************************************************************
-	sTabName		= TAB_LAYOUT
+	sTabName	= TAB_LAYOUT
 	sGroupName	= "LayoutEdit"
 	nCtrlIdx = RBNGroupAddControl("tabLayoutEditText", GetResItemStr("MNU_LAYOUT_EDIT_TEXT"), "", ControlType_Button, sTabName, sGroupName)
 	If nCtrlIdx > 0 Then
@@ -763,6 +796,22 @@ OnError GoTo ErrorOccured
 		'*Adding a separator that will appear under Open Workspace Explorer
 		nCtrlIdx = RBNCntxtMenuInsertMenuItem(MenuId_MapperShortcut, "mapCntxtMapSeparator1", "(-", "", 1)
 	End If
+
+	If DLGWHOAddItemToContextMenu(MAP_CTXT_FAST_SYMBOL_RENDERING) Then
+		Call DEBUGPrint("Adding ")
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(MenuId_MapperShortcut, "mapCtxtFastSymbolRendering", GetResItemStr("MNU_FAST_SYMBOL_RENDERING"), "")
+		If nCtrlIdx > 0 Then
+			Call DLGWHOSetCtrlIdx(CTRL_MAPCTX_FAST_SYMBOL_RENDER, nCtrlIdx)
+			Call RBNControlToggleIdx(nCtrlIdx, TRUE)
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("TTIP_FAST_SYMBOL_RENDERING"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "FastSymbRendering_32x32.png", PATH_IMAGES & "FastSymbRendering_32x32.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHFastSymbolRenderingSwitch")
+		End If
+	End If
+
+	'**Calling to initiate the buttons/controls
+	Call MAPHFastSymbolRenderingSwitch
 
 	'***************************************************************
 	' B R O W S E R   C O N T E X T   M E N U
@@ -1196,6 +1245,8 @@ Dim i, nNumControls, nContextMenuID as integer,
 
 OnError GoTo ErrorOccured
 
+'	Call DEBUGPrint("Endhandler: Start")
+
 	Call MENUWriteIniFile
 '	Call WHDEndHandler
 	Call BMHELPWriteConfigFile
@@ -1214,7 +1265,6 @@ OnError GoTo ErrorOccured
 		End If
 	Next
 
-
 	'Get the specific Context menu
 	rbnCntxtMenu = ICntxtMnusGetCntxtMnu(theContextMenus, MenuId_LcLayersShortcut)
 	'*Get the controls collection of this context menu
@@ -1232,6 +1282,8 @@ OnError GoTo ErrorOccured
 	If SystemInfo(SYS_INFO_MAPINFO_INTERFACE) = MIINTERFACE_RIBBON Then
 		Call RBNEndHandler
 	End If
+
+'	Call DEBUGPrint("Endhandler: End")
 
 	Exit Sub
 '-------------------------
@@ -1257,11 +1309,15 @@ OnError GoTo ErrorOccured
 	Set Event Processing Off
 	Set Handler WinClosedHandler Off
 
+'	Call DEBUGPrint("WinClosedHandler: Start")
+
 	nWID = CommandInfo(CMD_INFO_WIN)
 	Call WINHWinClosedHandler(nWID)
 	Call MENURefreshLayoutControls
 	Call MENURefreshLayerListControls
 	'Call WHDWinClosedHandler(nWID)
+
+'	Call DEBUGPrint("WinClosedHandler: End")
 
 	Set Handler WinClosedHandler On
 	Set Event Processing On
@@ -1290,11 +1346,17 @@ OnError GoTo ErrorOccured
 	Set Event Processing Off
 	Set Handler WinFocusChangedHandler Off
 
+'	Call DEBUGPrint("WinFocusChangedHandler: Start")
+
+	'**Test: Removing all these calls
 	nWID = CommandInfo(CMD_INFO_WIN)
 	Call WINHWinFocusChangedHandler(nWID)
-'	Call WHDWinFocusChangedHandler(nWID)
 	Call MENURefreshLayoutControls
 	Call MENURefreshLayerListControls
+
+'	Call WHDWinFocusChangedHandler(nWID)
+
+'	Call DEBUGPrint("WinFocusChangedHandler: End")
 
 	Set Handler WinFocusChangedHandler On
 	Set Event Processing On
@@ -1314,35 +1376,34 @@ End Sub
 'Parameters:
 '
 '**********************************************************************************************''
-Sub WinChangedHandler
+'Sub WinChangedHandler
 
-Dim	nWID As Integer
+'Dim	nWID As Integer
 
-OnError GoTo ErrorOccured
+'OnError GoTo ErrorOccured
 
-	Set Event Processing Off
-	Set Handler WinFocusChangedHandler Off
+'	Set Event Processing Off
+'	Set Handler WinChangedHandler Off
+	
+'	Call DEBUGPrint("WinChangedHandler: Start")
 
-	nWID = CommandInfo(CMD_INFO_WIN)
-	Call WINHWinChangedHandler(nWID)
-'	Call WHDWinChangedHandler(nWID)
+'	nWID = CommandInfo(CMD_INFO_WIN)
+'	Call DEBUGPrint("WinChangedHandler: WinID: " + nWID)
+	
+'	Call DEBUGPrint("WinChangedHandler: End")
 
-'	If WindowInfo(nWID, WIN_INFO_TYPE) = WIN_MAPPER Then
-'		Call MAPCacheMapExtent(nWID)
+'	Set Handler WinChangedHandler On
+'	Set Event Processing On
+
+'	Exit Sub
+'-------------------------
+'ErrorOccured:
+'	Call ERRCreate(Err(), Error$(), "WinChangedHandler")
+'	If DEBUGIsEnabled() Then
+'		Call ERRPrint()
 '	End If
 
-	Set Handler WinFocusChangedHandler On
-	Set Event Processing On
-
-	Exit Sub
-'-------------------------
-ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "WinChangedHandler")
-	If DEBUGIsEnabled() Then
-		Call ERRPrint()
-	End If
-
-End Sub
+'End Sub
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Precisely
@@ -1353,7 +1414,14 @@ Sub SelChangedHandler
 
 OnError GoTo ErrorOccured
 
+	Set Event Processing Off
+'	Call DEBUGPrint("SelChangedHandler: Start")
+
 	Call SELINFOSelChangedHandler
+
+'	Call DEBUGPrint("SelChangedHandler: End")
+	Set Event Processing On
+
 	Exit Sub
 '-------------------------
 ErrorOccured:
@@ -1373,7 +1441,15 @@ Sub MENULayerSelectionChanged(ByVal args As This)
 
 OnError GoTo ErrorOccured
 
+'	Set Event Processing Off
+'	Call MIEventsSuspend(theMapInfoEvents, AddInEvents_LayerSelectionChanged)
+'	Call DEBUGPrint("MENULayerSelectionChanged: Start")
+
 	Call MENURefreshLayerListControls
+
+'	Call DEBUGPrint("MENULayerSelectionChanged: End")
+'	Call MIEventsUnSuspend(theMapInfoEvents, AddInEvents_LayerSelectionChanged)
+'	Set Event Processing On
 
 	Exit Sub
 '-------------------------
@@ -1394,7 +1470,13 @@ Sub MENULayoutSelectionChanged(ByVal args As This)
 
 OnError GoTo ErrorOccured
 
+	Set Event Processing Off
+'	Call DEBUGPrint("MENULayoutSelectionChanged: Start")
+
 	Call MENURefreshLayoutControls
+
+'	Call DEBUGPrint("MENULayoutSelectionChanged: End")
+	Set Event Processing On
 
 	Exit Sub
 '-------------------------
@@ -1465,11 +1547,13 @@ OnError GoTo ErrorOccured
 	Do Case nNumLayersSelected
 		Case 0
 			'**No item selected which will mean that the context menu can't be shown
-			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
-			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
-			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
-			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
-			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+			'**Currently a fault occurs when opening a failing Workspace
+			'**Disabling these Alter Menu Item statements prevents the fault from occuring.
+'			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
+'			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+'			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
+'			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+'			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
 
 		Case 1
 			nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
@@ -1486,7 +1570,7 @@ OnError GoTo ErrorOccured
 			Alter Menu Item MAPHRenameLayerAdvancedLC 		Enable	'exlyrCntxtRenameLayer
 			Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Enable	'exlyrCntxtQuickThemeIndividual
 			Alter Menu Item MAPHMenuQuickThemeRangedLC 		Enable	'exlyrCntxtQuickThemeRanged
-			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Enable	'exlyrCntxtCopyProperties
+			Alter Menu Item MAPHMenuCopyLayerSettingsLC 	Enable	'exlyrCntxtCopyProperties
 			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Enable	'exlyrCntxtPasteProperties
 			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Enable	'exlyrCntxtRefreshFilteredLayer
 			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Enable
@@ -1546,23 +1630,24 @@ OnError GoTo ErrorOccured
 			End Case
 
 		Case Else
-'			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
 			Alter Menu Item TABHLocateTabFileLC 			Disable	'exlyrCntxtLocateInExplorer
 			Alter Menu Item TABHOpenTabFileLC	 			Disable	'lclCntxtOpenInTextEditor
 			Alter Menu Item MAPHRenameLayerAdvancedLC 		Disable	'exlyrCntxtRenameLayer
 			Alter Menu Item WINHSetDefaultViewSingleLayer 	Disable	'exlyrCntxtDefaultView
 			Alter Menu Item MAPHMenuQuickThemeIndividualLC 	Disable	'exlyrCntxtQuickThemeIndividual
 			Alter Menu Item MAPHMenuQuickThemeRangedLC 		Disable	'exlyrCntxtQuickThemeRanged
-			Alter Menu Item MAPHMenuCopyLayerSettingsLC 		Disable	'exlyrCntxtCopyProperties
-'			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+			Alter Menu Item MAPHMenuCopyLayerSettingsLC 	Disable	'exlyrCntxtCopyProperties
 			Alter Menu Item MAPHMenuRefreshFilteredLayerLC 	Disable	'exlyrCntxtRefreshFilteredLayer
-'			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
-'			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
 			Alter Menu Item MAPHMenuSaveThemeStylesToTable 	Disable
 			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Enable
 			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Enable
 			Alter Menu Item TABHCloseTableLC 				Enable	'exlyrCntxtCntxtCloseTable
 			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Enable	'exlyrCntxtPasteProperties
+
+'			Alter Menu Item TABHCloseTableLC 				Disable	'exlyrCntxtCntxtCloseTable
+'			Alter Menu Item MAPHMenuPasteLayerSettingsLC 	Disable	'exlyrCntxtPasteProperties
+'			Alter Menu Item MAPHMenuMoveLayerToTopLC	 	Disable
+'			Alter Menu Item MAPHMenuMoveLayerToBottomLC	 	Disable
 
 	End Case
 
@@ -1575,8 +1660,6 @@ ErrorOccured:
 	End If
 
 End Sub
-
-
 
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes MapInfo

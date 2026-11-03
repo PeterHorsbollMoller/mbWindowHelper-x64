@@ -601,7 +601,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least one layer in the layer list!.
+        ///   Looks up a localized string similar to Please select at least one layer in the Layer List!.
         /// </summary>
         internal static string ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST {
             get {
@@ -709,7 +709,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select a single layer in the layer control!.
+        ///   Looks up a localized string similar to Please select a single layer in the Layer Control!.
         /// </summary>
         internal static string ERR_SELECT_ONE_LAYER_IN_LC {
             get {
@@ -736,7 +736,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select one table in the TableList window!.
+        ///   Looks up a localized string similar to Please select one table in the Table List window!.
         /// </summary>
         internal static string ERR_SELECT_ONE_TABLE_IN_TABLE_LIST {
             get {
@@ -1222,7 +1222,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move the selected layer to the bottom of layer list in the map.
+        ///   Looks up a localized string similar to Move the selected layer to the bottom of Layer List in the map.
         /// </summary>
         internal static string MNU_HLP_LAYER_MOVE_TO_BOTTOM {
             get {
@@ -1240,7 +1240,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Move the selected layer to the top of layer list in the map.
+        ///   Looks up a localized string similar to Move the selected layer to the top of Layer List in the map.
         /// </summary>
         internal static string MNU_HLP_LAYER_MOVE_TO_TOP {
             get {
@@ -1546,7 +1546,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Automatically show the TableList window on startup.
+        ///   Looks up a localized string similar to Automatically show the Table List window on startup.
         /// </summary>
         internal static string MNU_HLP_TOGGLE_SHOW_TABLE_LIST {
             get {
@@ -2023,7 +2023,7 @@ namespace WindowHelper.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show &amp;TableList On Startup.
+        ///   Looks up a localized string similar to Show &amp;Table List On Startup.
         /// </summary>
         internal static string MNU_TOGGLE_SHOW_TABLE_LIST {
             get {

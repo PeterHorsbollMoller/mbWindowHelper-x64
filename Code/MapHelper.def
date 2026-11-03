@@ -56,3 +56,10 @@ Declare Sub MAPHMenuMoveLayerToBottomLC
 
 Declare Sub MAPHMenuSaveThemeStylesToTable
 Declare Sub MAPHSaveThemeStyleToTab_Single
+
+Declare Sub MAPHFastSymbolRenderingSwitch
+
+Declare Sub MAPHEnableDisableControls
+Declare Sub MAPHWinFocusChangedHandler(	ByVal nWID As Integer)
+Declare Sub MAPHWinChangedHandler(	ByVal nWID As Integer)
+Declare Sub MAPHWinClosedHandler

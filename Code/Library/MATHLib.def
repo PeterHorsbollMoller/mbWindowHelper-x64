@@ -1,4 +1,10 @@
-'Math
+﻿
+'**********************************************************************************************************************
+'	H I S T O R Y    O F    M A T H L I B
+'**********************************************************************************************************************
+'	23-12-2025 15:37:13		- MATHNormalizeDegree to replace MATHGetValidDirection which just call MATHNormalizeDegree
+'						- Added Define for MATH_PI
+'**********************************************************************************************************************
 
 'In Euclid's world, if your starting point is O and the other endpoints
 'of your two lines are points A and B, then determine the midpoint of the
@@ -26,14 +32,23 @@ Define	CALC_TYPE_SET_TO		1
 Define	CALC_TYPE_ADD_TO		2
 Define	CALC_TYPE_MULTIPLY_BY	3
 
+Define	MATH_PI	3.14159265358979
 
-Declare Function MATHGetDirection(	  ByVal fStartX As Float	'X value of start point
-							, ByVal fStartY As Float	'Y value of start point
-							, ByVal fEndX As Float	'X value of end point
-							, ByVal fEndY As Float	'Y value of end point
-							) As Float 			'Return the direction of the line, East = 0, counter clockwise
+
+Declare Function MATHGetDirection(	  ByVal fStartX As Float			'X value of start point
+							, ByVal fStartY As Float			'Y value of start point
+							, ByVal fEndX As Float			'X value of end point
+							, ByVal fEndY As Float			'Y value of end point
+							) As Float 					'Return the direction of the line, East = 0, counter clockwise
+Declare Function MATHGetBearing(	  ByVal fStartLong As Float		'Long value of start point
+							, ByVal fStartLat As Float		'Lat value of start point
+							, ByVal fEndLong As Float		'Long value of end point
+							, ByVal fEndLat As Float			'Lat value of end point
+							) As Float					'Return the direction of the line, North = 0, clockwise
 Declare Function MATHGetValidDirection(	  ByVal fDirection As Float	'The direction to validate
 								) As Float				'Returns a direction between 0 and 360
+Declare Function MATHNormalizeDegree(ByVal fDegree As Float			'The degree to validate
+								) As Float				'Returns a degree between 0 and 360
 
 Declare Function MATHOffsetX(	  ByVal fX As Float			'X value to offset
 						, ByVal fDistance As Float	'Distance to move the X value

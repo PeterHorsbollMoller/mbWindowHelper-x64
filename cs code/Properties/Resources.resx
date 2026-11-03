@@ -308,7 +308,7 @@
     <value>Please Select at least one Record!</value>
   </data>
   <data name="ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
-    <value>Please select at least one layer in the layer list!</value>
+    <value>Please select at least one layer in the Layer List!</value>
   </data>
   <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
     <value>Please select the base window to update!</value>
@@ -344,7 +344,7 @@
     <value>Please select one layer in the Layer List</value>
   </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LC" xml:space="preserve">
-    <value>Please select a single layer in the layer control!</value>
+    <value>Please select a single layer in the Layer Control!</value>
   </data>
   <data name="ERR_SELECT_ONE_MAP_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Please select one map in the Layer Control!</value>
@@ -353,7 +353,7 @@
     <value>Please select one map in the Layer List!</value>
   </data>
   <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
-    <value>Please select one table in the TableList window!</value>
+    <value>Please select one table in the Table List!</value>
   </data>
   <data name="ERR_SELECT_ONE_TEXT_FRAME_IN_LAYOUT" xml:space="preserve">
     <value>Please select a single text frame in the layout window.</value>
@@ -518,13 +518,13 @@
     <value>Run a Group By query on the currently selected column.</value>
   </data>
   <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM" xml:space="preserve">
-    <value>Move the selected layer to the bottom of layer list in the map</value>
+    <value>Move the selected layer to the bottom of Layer List in the map</value>
   </data>
   <data name="MNU_HLP_LAYER_MOVE_TO_BOTTOM_DISABLED" xml:space="preserve">
     <value>Select one layer from the Layer List that isn't the cosmetic, a thematic layer, or the last layer.</value>
   </data>
   <data name="MNU_HLP_LAYER_MOVE_TO_TOP" xml:space="preserve">
-    <value>Move the selected layer to the top of layer list in the map</value>
+    <value>Move the selected layer to the top of Layer List in the map</value>
   </data>
   <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
     <value>Select one layer from the Layer List that isn't the cosmetic, a thematic layer, or the first layer.</value>
@@ -626,7 +626,7 @@
     <value>Automatically show the Layer Control window on startup</value>
   </data>
   <data name="MNU_HLP_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
-    <value>Automatically show the TableList window on startup</value>
+    <value>Automatically show the Table List on startup</value>
   </data>
   <data name="MNU_HLP_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
     <value>Store window positions when the program ends</value>
@@ -785,7 +785,7 @@
     <value>Show &amp;Layer Control On Startup</value>
   </data>
   <data name="MNU_TOGGLE_SHOW_TABLE_LIST" xml:space="preserve">
-    <value>Show &amp;TableList On Startup</value>
+    <value>Show &amp;Table List On Startup</value>
   </data>
   <data name="MNU_TOGGLE_STORE_WINDOWS_ON_EXIT" xml:space="preserve">
     <value>Store Window Positions On Exit</value>
