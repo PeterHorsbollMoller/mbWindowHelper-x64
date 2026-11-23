@@ -51,3 +51,12 @@ Declare Sub DLGWHOSetCtrlIdx(	  ByVal nCtrl As Integer			'Internal ID of Control
 						)
 Declare Function DLGWHOGetCtrlIdx(	ByVal nCtrl As Integer		'Internal ID of Control, see list at the top of DLGWHOWindowHelperOptions.def
 						   ) As Integer
+
+Declare Sub DLGWHOSetResizeMIProOnStartup(ByVal bValue As Logical)
+Declare Function DLGWHOResizeMIProOnStartup() As Logical
+Declare Sub DLGWHOSetMIProWidth(ByVal fValue As Float)
+Declare Function DLGWHOGetMIProWidth() As Float
+Declare Sub DLGWHOSetMIProHeight(ByVal fValue As Float)
+Declare Function DLGWHOGetMIProHeight() As Float
+Declare Sub DLGWHOSetPaperUnits(ByVal sValue As String)
+Declare Function DLGWHOGetPaperUnits() As String

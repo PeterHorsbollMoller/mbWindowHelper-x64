@@ -1,0 +1,30 @@
+{
+  "ShowEmptyProjects": false,
+  "SelectedGroups": [],
+  "ExpandedProjects": [],
+  "EnableSpellChecker": true,
+  "ColumnOrder": [
+    "name",
+    "type",
+    "neutral-value",
+    "neutral-comment",
+    "da",
+    "de",
+    "es",
+    "fi",
+    "fr",
+    "he",
+    "it",
+    "ja",
+    "nl",
+    "pl",
+    "pt",
+    "sv",
+    "tr",
+    "zh"
+  ],
+  "VisibleColumnKeys": [
+    "name",
+    "neutral-value"
+  ]
+}

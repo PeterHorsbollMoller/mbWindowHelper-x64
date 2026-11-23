@@ -150,77 +150,82 @@
 '							- OBJCartesianCreatePointAlong
 '							- WINHSetCoordsysUsingMap
 '							- OBJCombineFromTable
-'						- Added a new module to Modify Window size and settings
+'							- Added a new module to Modify Window size and settings
 '3.6.1	01-02-2019 15:39:40	- Published some additional functions, mostly for testing purpose
 '							- OBJDirectionWtAvg
 '							- OBJDirectionMedian
 '3.6.2	26-02-2019 14:22:12	- Added a new function to the Browser Context Menu
 '							- Zoom to Selection in Front Most Map Window
-'						- Moved two functions to the TABHelper module:
+'							- Moved two functions to the TABHelper module:
 '							- TABHFilterBrowserCurrentCell
 '							- TABHGroupByCurrentColumn
 '							- Added method to set IgnoreTopLeftCell: TABHSetIgnoreTopLeftCell(...)
 '3.6.3	26-04-2019 10:21:12	- Published a function to the MapInfo Pro interface (only works from v17.0.1):
 '							- STLChangeSymbolColour
 '3.7.0	27-01-2020 15:14:19	- Compiled with latest version of the Common MapBasic Libraries
-'						- Published a function to the MapInfo Pro interface (only works from v17.0.1):
+'							- Published a function to the MapInfo Pro interface (only works from v17.0.1):
 '							- WHGetColumnValue: can read the value from a specific column of a specific record of the specified table
 '							- Renamed the published functions to start with WH (WindowHelper)
 '							- Removed a few published functions that merely were for testing
-'						- Removed MenuItem that links to the "old" Community Download site
-'						- Reintroduced "Save Window to Workspace without 'Open Table' statements"
-'						- BaseMapHelper: Lets the user hide Base Map controls from the Open dropdown
+'							- Removed MenuItem that links to the "old" Community Download site
+'							- Reintroduced "Save Window to Workspace without 'Open Table' statements"
+'							- BaseMapHelper: Lets the user hide Base Map controls from the Open dropdown
 '3.7.1	30-01-2020 10:19:36	- Added additional information to the Description of the published functions
 '3.8.0	26-01-2022 10:35:48	- Removing commands that have been added to MapInfo Pro v2019/v2021 (Find in Folder)
-'						- Fixed issue with Selection Count in Statusbar not showing correct string on load
-'						- Images have been made translucent
-'						- Menu item in context menus are now ordered using the existing menu item names
+'							- Fixed issue with Selection Count in Statusbar not showing correct string on load
+'							- Images have been made translucent
+'							- Menu item in context menus are now ordered using the existing menu item names
 '3.9.0	25/10/2022 08.53.38 - Fixing positions of menu item sin context menus
-'						- Adding options to insert Smart Text Adornments into map window - for MapInfo Pro v2021 and newer
+'							- Adding options to insert Smart Text Adornments into map window - for MapInfo Pro v2021 and newer
 '							- Map Title, Coordsys Name & Cartographic Scale
-'						- Create Quick Ranged Theme via Layer context menu
+'							- Create Quick Ranged Theme via Layer context menu
 '3.9.1	14/11/2022 12.31.41	- Fixed an issue in Quick Ranged Theme didn't allow the user to select query layers
 '3.9.2	23/11/2022 16.02.18	- Created Individual Theme via Layer context menu
-'						- Moved SelInfoHandler, Create Map Extent and Restore windows back to Options group
+'							- Moved SelInfoHandler, Create Map Extent and Restore windows back to Options group
 '3.9.3	24/11/2022 14.40.44	- Copy/Paste layer settings
-'						- Fixed an issue using numeric values in Quick Individual Theme
+'							- Fixed an issue using numeric values in Quick Individual Theme
 '3.9.5	25/11/2022 10.32.37	- Released version
-'						- Renamed some of the Quick Ranged thematics
+'							- Renamed some of the Quick Ranged thematics
 '3.9.6	30/11/2022 09.36.50	- Added menu item on Layer context menu to refresh filtered layer
-'						- Fixed an issue with menu items not getting removed when tool ends
-'						- Reordered some controls in the context menus
+'							- Fixed an issue with menu items not getting removed when tool ends
+'							- Reordered some controls in the context menus
 '4.0.0	29-09-2023 12:01:26	- Now using TAB_GROUP_HOME_WINDOW in stead of TAB_HOME_RECOVER_GRP
-'						- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear, see https://ideas.precisely.com/ideas/MIPRO-I-31 - 1 vote
-'						- Support for default brush, line, pen and symbol for quick individual theme
-'						- Support for default brush, line, pen and symbol for quick ranged theme
+'							- Added 'Clear Selection' to Layout tab: Set Layout Selection Clear, see https://ideas.precisely.com/ideas/MIPRO-I-31 - 1 vote
+'							- Support for default brush, line, pen and symbol for quick individual theme
+'							- Support for default brush, line, pen and symbol for quick ranged theme
 '4.0.1	07-08-2024 12:50:49	- Fixed issue where line style doesn't work properly for Quick Individula Theme
-'						- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
-'						- Added Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
+'							- Menu Item in Layer List context menu gets enabled/disabled based on the type of the selected layer
+'							- Added Unselect to the context menu of the Browser window, see https://ideas.precisely.com/ideas/MIPRO-I-12 - 5 votes
 '4.0.2	14-08-2024 14:59:53	- Added menu items to the Layer context menu to move layer to the top or bottom of the layer list, see https://ideas.precisely.com/ideas/MIPRO-I-13 - 4 votes
 '4.0.3	15-08-2024 11:56:51	- Added Open Explorer Window to Mapper Context menu
-'						- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 (5 votes) and https://ideas.precisely.com/ideas/MIPRO-I-549 (51 votes)
+'							- Switch style override off via context menu on layer, see https://ideas.precisely.com/ideas/MIPRO-I-8 (5 votes) and https://ideas.precisely.com/ideas/MIPRO-I-549 (51 votes)
 '4.0.4	16-08-2024 15:30:33	- Added Save theme as object style on table for individual theme, see https://ideas.precisely.com/ideas/MIPRO-I-1456 - 1 vote
 '4.0.5	24-10-2024 11:58:33	- Layout Clear Selection now gets disabled/enabled
-'						- Added Support for Ignore 0 or Blanks for Quick Ranged Theme
-'						- Added support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569 - 5 votes
+'							- Added Support for Ignore 0 or Blanks for Quick Ranged Theme
+'							- Added support for editing the text from a frame in a layout in a dialog, see https://ideas.precisely.com/ideas/MIPRO-I-569 - 5 votes
 '							- Added to Layout tab and to the Layout Frame context menu
-'						- Hiding the standard Rename menu in the Layer context menu in the Layer List
-'						- These support multiple selected layers: MAPHMenuMoveLayerToTopLC, MAPHMenuMoveLayerToBottomLC, TABHCloseTableLC & MAPHMenuPasteLayerSettingsLC
-'						- Most context menu controls can now be shown or hidden via an Options setting
-'						- Added Zoom to Normal Layers - https://ideas.precisely.com/ideas/MIPRO-I-64 (8 votes)
+'							- Hiding the standard Rename menu in the Layer context menu in the Layer List
+'							- These support multiple selected layers: MAPHMenuMoveLayerToTopLC, MAPHMenuMoveLayerToBottomLC, TABHCloseTableLC & MAPHMenuPasteLayerSettingsLC
+'							- Most context menu controls can now be shown or hidden via an Options setting
+'							- Added Zoom to Normal Layers - https://ideas.precisely.com/ideas/MIPRO-I-64 (8 votes)
 '							- Hidden option control if not visible layers should be used or not
-'						- Zoom to the extent of a few layers - https://ideas.precisely.com/ideas/MIPRO-I-96 (2 votes)
-'						- Hiding the standard View Entire Layer menu in the Layer context menu in the Layer List
-'						- Custom Zoom Entire Map let's you pick what layers to include by type (replacing Zoom to Normal Layers):
+'							- Zoom to the extent of a few layers - https://ideas.precisely.com/ideas/MIPRO-I-96 (2 votes)
+'							- Hiding the standard View Entire Layer menu in the Layer context menu in the Layer List
+'							- Custom Zoom Entire Map let's you pick what layers to include by type (replacing Zoom to Normal Layers):
 '							- Normal Vector, Local Raster, Local Grid, WMS, Tile Server and Only Visible
-'						- Published OBJSetCentroidXY as WHSetCentroid
+'							- Published OBJSetCentroidXY as WHSetCentroid
 '		25-11-2024 09:28:58	- Updated the FunctionList.txt file with samples to match the published functions
 '		18-12-2024 07:46:29 - Fixed an issue in MAPHSelectWithinMap: It will now use the topmost normal layer that is visible and selectable.
 '4.1.0	19-12-2024 13:27:05	- Release Build
 '4.1.1	19-03-2025 14:14:16	- Added and published STRINGNumericShorthand function
 '4.1.2	16-12-2025 09:04:42	- New version of STRINGNumericShorthand implemented
 '		19-12-2025 14:49:47	- Turn Fast Rendering On/Off via button on Map Tab and in Map Context Menu
-'4.1.3	28-10-2026 14:09:47 - Fixing issue with faulting error that puts MapInfo Pro in a unresponsive state
+'4.1.3	28-10-2026 14:09:47 - Fixing issue with workspace error that puts MapInfo Pro in a unresponsive state
+'4.1.4	04-11-2026 09:29:12	- Customs function for Notification exposed to MapInfo Pro:
+'4.1.5	20-11-2026 11:27:55	- Added missing strings to dll
+'							- Added Resize MapInfo Pro on start up to Options dialog
+'							- Added menu item to theme bin context menu to Select all records from a bin - Individual Themes only								- 
+'4.2.0	20-11-2026 14:16:30	- Release Build
 '*******************************************************************************
 'Potential new features:
 '	- Check Quick Theme for Database Tables: No Columns show
@@ -228,7 +233,6 @@
 '	- Check Move Layer Top/Bottom for layers with Themes - include thematic layers when moving
 '	- Convert Thematic Layer to Quick Theme template
 '	- Hide theme legends based on map objects in map extent
-'	- Custom function for Notification
 '	- Add a option to the Layer context menu to move layer to a specific location in the layer list
 '	- Rename table via Layer context menu
 '	- Rename Layers: Option to specify character(s) to replace underscore with and not jut a space
@@ -239,17 +243,15 @@
 '	- Add 'Replace Image' to Layout, see https://ideas.precisely.com/ideas/MIPRO-I-1224
 '	- Incorporate BorderGrid capabilty, see BorderGrid.mb
 '	- Save theme as object style on table for ranged theme
-'	- Find and fix error: StyleAttr not supported when selected a layer in the layer list
 '	- Add Label Help for these label expressions:
 '		Object Area and Length, incl. units:
-'		Set Map Window FrontWindow()  Layer 3 Label With FormatNumber$(Round(Area(obj, "sq m"), 0.01)) + "m" + Chr$(178)
-'		Rounding vlaues
-'		Set Map Window FrontWindow()  Layer 3 Label With Round(Area(obj, "sq m"), 0.0001)
+'			Set Map Window FrontWindow()  Layer 3 Label With FormatNumber$(Round(Area(obj, "sq m"), 0.01)) + "m" + Chr$(178)
+'		Rounding values
+'			Set Map Window FrontWindow()  Layer 3 Label With Round(Area(obj, "sq m"), 0.0001)
 '		Rounding with fixed number of decimals
-'		Set Map Window FrontWindow()  Layer 3 Label With Format$(Area(obj, "sq m"), ",0.000000")
+'			Set Map Window FrontWindow()  Layer 3 Label With Format$(Area(obj, "sq m"), ",0.000000")
 '	- Copy Thematic Bin Style from Theme Bin context : Copy the style from the selected bin
 '	- Paste Themtic Bin Style / Paste Themtic Bin Style Special ... from Theme Bin context : Paste entire or selected elements from bin style 
-'	- Select record from Theme Bin context menu
 '	- ...
 '
 '	Not that easy to implement currently
@@ -270,7 +272,7 @@ Include "Library\Defaults.def"
 'Include "Library\RibbonElements.def"
 
 Define xProgram 		"WindowHelper"
-Define xVersion 		"4.1.3"
+Define xVersion 		"4.2.0"
 Define xYear			"2026"
 
 Define FILE_INI			GetFolderPath$(FOLDER_MI_PREFERENCE) & xProgram & ".ini"
@@ -407,6 +409,12 @@ OnError GoTo ErrorOccured
 '	End If
 
 	Call MENUPublishFunctionsToMapInfoProInterface
+	
+	If DLGWHOResizeMIProOnStartup() Then
+		Set Window WIN_MAPINFO
+			Width DLGWHOGetMIProWidth() Units DLGWHOGetPaperUnits()
+			Height DLGWHOGetMIProHeight() Units DLGWHOGetPaperUnits()
+	End If
 
 	Exit Sub
 '-------------------------
@@ -473,6 +481,9 @@ OnError GoTo ErrorOccured
 	nResult = RBNRegisterFunctionAsPublic("OBJSetCentroidXY", "WHSetCentroidXY", "Changes the centroid to a given coordinate." & lf & "Function published from the " & xProgram & " application.")
 	nResult = RBNRegisterFunctionAsPublic("OBJSetCentroid", "WHSetCentroid", "Changes the centroid to a given point object." & lf & "Function published from the " & xProgram & " application.")
 '	nResult = RBNRegisterFunctionAsPublic("OBJCombineFromTable", "WHCombineFromTable", "Combines objects from a table, optionally specify a column and a value." & lf & "Function published from the " & xProgram & " application.")
+
+	nResult = RBNRegisterFunctionAsPublic("RBNNotificationInfoShow", "WHShowNotificationInfo", "Shows a info notification with a specified title and text." & lf & "Function published from the " & xProgram & " application.")
+	nResult = RBNRegisterFunctionAsPublic("RBNNotificationErrorShow", "WHShowNotificationError", "Shows a error notification with a specified title and text." & lf & "Function published from the " & xProgram & " application.")
 
 	nResult = RBNRegisterFunctionAsPublic("DEBUGEnable", "WHDebugEnable", "Enables debug mode in WindowHelper." & lf & "Function published from the " & xProgram & " application.")
 
@@ -1114,6 +1125,21 @@ OnError GoTo ErrorOccured
 			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "Notepad 16x16.png", "")
 			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
 			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "TABHOpenTabFileLC")
+		End If
+	End If
+
+
+	'***************************************************************
+	' L A Y E R   L I S T   T H E M E   B I N   C O N T E X T   M E N U
+	'***************************************************************
+	If SystemInfo(SYS_INFO_MIVERSION) >= 2300 And SystemInfo(SYS_INFO_MIBUILD_NUMBER) >= 890 Then	'And DLGWHOAddItemToContextMenu(THEMBIN_CTXT_SELECT_FROM_BIN) Then
+
+		nCtrlIdx = RBNCntxtMenuAddMenuItem(58, "exbinCntxtSelectAllFromBin", GetResItemStr("MNU_SELECT_ALL_FROM_BIN"), "")
+		If nCtrlIdx > 0 Then
+			Call RBNControlSetToolTipIdx(nCtrlIdx, PRGIGetApplicationName(), GetResItemStr("MNU_HLP_SELECT_ALL_FROM_BIN"), "")
+			Call RBNControlSetIconsIdx(nCtrlIdx, CONTROL_SIZE_SMALL, PATH_IMAGES & "ThemeBinSelect_32x32", PATH_IMAGES & "ThemeBinSelect_32x32.png")
+			Call RBNControlSetLeftMarginIdx(nCtrlIdx, 0)
+			Call RBNControlSetCustomMBXHandlerIdx(nCtrlIdx, "MAPHThemeSelectFromBinLC")
 		End If
 	End If
 
@@ -1784,6 +1810,33 @@ OnError GoTo ErrorOccured
 		Call DEBUGPrint("Config File not Found " & FILE_INI)
 	End If
 
+	sOption 	= "RESIZE_MAPINFO_PRO"
+	sState	= CONFIGReadKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption)
+	Call DLGWHOSetResizeMIProOnStartup(IIf(sState = "1", TRUE, FALSE))
+	sOption 	= "HEIGHT"
+	sState	= CONFIGReadKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption)
+	If sState = "" Then
+		Call DLGWHOSetMIProWidth(WindowInfo(WIN_MAPINFO, WIN_INFO_HEIGHT))
+	Else		
+		Call DLGWHOSetMIProHeight(Val(sState))
+	End If	
+	sOption 	= "WIDTH"
+	sState	= CONFIGReadKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption)
+	If sState = "" Then
+		Call DLGWHOSetMIProWidth(WindowInfo(WIN_MAPINFO, WIN_INFO_WIDTH))
+	Else		
+		Call DLGWHOSetMIProWidth(Val(sState))
+	End If	
+	sOption 	= "PAPER_UNITS"
+	sState	= CONFIGReadKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption)
+	If sState = "" Then
+		If DLGWHOGetPaperUnits() Then
+			'**Querying the Paper Units to ensure they are defined
+		End If	
+	Else		
+		Call DLGWHOSetPaperUnits(sState)
+	End If
+
 	Call SELINFOReadConfigFile
 	Call WINHReadConfigFile
 
@@ -1835,6 +1888,15 @@ OnError GoTo ErrorOccured
 	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
 	sOption 	= "ZOOM_ONLY_VISIBLE"
 	Call CONFIGWriteKey(FILE_INI, "ZOOMENTIREMAP", sOption, Int(DLGWHOGetViewEntireMapOption(sOption)))
+
+	sOption 	= "RESIZE_MAPINFO_PRO"
+	Call CONFIGWriteKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption, Int(DLGWHOResizeMIProOnStartup()))
+	sOption 	= "HEIGHT"
+	Call CONFIGWriteKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption, Str$(DLGWHOGetMIProHeight()))
+	sOption 	= "WIDTH"
+	Call CONFIGWriteKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption, Str$(DLGWHOGetMIProWidth()))
+	sOption 	= "PAPER_UNITS"
+	Call CONFIGWriteKey(FILE_INI, "RESIZEMIPROONSTARTUP", sOption, DLGWHOGetPaperUnits())
 
 	Call SELINFOWriteConfigFile
 	Call WINHWriteConfigFile

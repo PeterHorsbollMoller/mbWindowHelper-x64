@@ -290,7 +290,7 @@ OnError GoTo ErrorOccured
 	Exit Sub
 '-------------------------
 ErrorOccured:
-	Call ERRCreate(Err(), Error$(), "MAPHThemeUsingCurrentStyles")
+	Call ERRCreate(Err(), Error$(), "MAPHMenuStaticTheme")
 	Call ERRShow()
 
 End Sub
@@ -300,11 +300,11 @@ End Sub
 'Parameters:
 '
 '**********************************************************************************************''
-Sub MAPHThemeUsingCurrentStyles(	  ByVal nObjectTypes As Integer
-							, ByVal nMID As Integer
-							, ByVal sTab As String
-							, ByVal sCol As String
-							)
+Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
+								, ByVal nMID As Integer
+								, ByVal sTab As String
+								, ByVal sCol As String
+								)
 
 Dim	aCol As Alias,
 	nLayer As Integer,
@@ -725,6 +725,139 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "MAPHMenuQuickThemeIndividualLC")
+	Call ERRShow()
+
+End Sub
+
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Pitney Bowes Business Insight
+'Parameters:
+'	:
+'Return value:
+'
+'**********************************************************************************************''
+Sub MAPHThemeSelectFromBinLC
+
+Dim	nMID, nLayerID, nCol, nBin, nBins, nBinID As Integer,
+	sTab, sCol, sBinLabel, sCmd As String
+
+OnError GoTo ErrorOccured
+
+	If LayerControlInfo(LC_INFO_SEL_COUNT) = 0 Then
+		Note "A: " + GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	ElseIf LayerControlInfo(LC_INFO_SEL_COUNT) > 1 Then
+		Note "B: " + GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	If Not LayerControlSelectionInfo(1, LC_SEL_INFO_TYPE) = LC_SEL_INFO_TYPE_THEME_ITEM Then
+		Note "C: " + GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	End If		
+
+	nMID		= LayerControlSelectionInfo(1, LC_SEL_INFO_MAPWIN_ID)
+	nLayerID	= LayerControlSelectionInfo(1, LC_SEL_INFO_LAYER_ID)
+	nBinID		= LayerControlSelectionInfo(1, LC_SEL_INFO_TYPE_THEME_ITEM)
+	sBinLabel	= LayerControlSelectionInfo(1, LC_SEL_INFO_NAME)
+
+'	Call DEBUGPrint("nMID: " & nMID)
+'	Call DEBUGPrint("nLayerID: " & nLayerID)
+'	Call DEBUGPrint("nBinID: " & nBinID)
+'	Call DEBUGPrint("sBinLabel: " & sBinLabel)
+
+	If nLayerID = -1 Then
+		Note "D: " + GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	End If
+	If nBinID = -1 And sBinLabel = "" Then
+		Note "E: " + GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	If LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_COSMETIC Then
+		Note GetResItemStr("ERR_COSMETIC_LAYER_NOT_SUPPORTED")
+		Exit Sub
+	End If
+'	Call DEBUGPrint("Layer Type: " & LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE))
+	If Not LayerInfo(nMID, nLayerID, LAYER_INFO_TYPE) = LAYER_INFO_TYPE_THEMATIC Then
+		Note GetResItemStr("ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST")
+		Exit Sub
+	End If
+
+	sTab	= ThemeInfo(nMID, nLayerID, THEME_INFO_TABLE_ALIAS)
+	sCmd	= "Select * From " & sTab
+
+	Do Case ThemeInfo (nMID, nLayerID, THEME_INFO_TYPE)
+		Case THEME_TYPE_UNIQUE
+			mnNumBins 		= THEMEGetIndividualItems(nMID, nLayerID, marrItems())
+			
+			If nBinID <= 0 Then
+				mnCurrentBin = 0
+				For nBin = 1 To mnNumBins
+					If marrItems(nBin).sLabel = sBinLabel Then
+						mnCurrentBin	= nBin
+'						Call DEBUGPrint("Found Theme Bin using name: " & sBinLabel)
+						Exit For
+					End If	
+				Next	
+			Else	
+				mnCurrentBin	= nBinID
+			End If
+			
+			If 	mnCurrentBin = 0 Then
+				Call DEBUGPrint("Theme Bin wasn't found using label: " & sBinLabel)
+				Exit Sub
+			End If		
+	
+			If marrItems(mnCurrentBin).nExprType = EXPRESSION_TYPE_CHAR Then
+				sCmd = sCmd & " Where " & marrItems(mnCurrentBin).sExpr & " = "
+			Else
+				sCmd = sCmd & " Where " & " Str$(" & marrItems(mnCurrentBin).sExpr & ") = "
+			End If
+
+			Do Case marrItems(mnCurrentBin).nExprType
+				Case EXPRESSION_TYPE_INTEGER, EXPRESSION_TYPE_SMALLINT, 39	', EXPRESSION_TYPE_LARGEINT = 39?
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).nValue) & Chr$(34)
+				Case EXPRESSION_TYPE_DECIMAL, EXPRESSION_TYPE_FLOAT
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).fValue) & Chr$(34)
+				Case EXPRESSION_TYPE_CHAR
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).sValue) & Chr$(34)
+				Case EXPRESSION_TYPE_DATE
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).dValue) & Chr$(34)
+				Case EXPRESSION_TYPE_TIME
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).tValue) & Chr$(34)
+				Case EXPRESSION_TYPE_DATETIME
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).dtValue) & Chr$(34)
+				Case EXPRESSION_TYPE_LOGICAL
+					sCmd = sCmd & Chr$(34) & Str$(marrItems(mnCurrentBin).bValue) & Chr$(34)
+			End Case
+
+'		Case THEME_TYPE_RANGES
+			'This type is not yet supported - under consideration
+'		Case THEME_TYPE_GRADUATED
+			'This type is not yet supported - under consideration
+'		Case THEME_TYPE_BARS
+			'This type will not be supported
+'		Case THEME_TYPE_PIES
+			'This type will not be supported
+'		Case THEME_TYPE_DOTDENSITY
+			'This type will not be supported
+'		Case THEME_TYPE_GRID
+			'This type will not be supported
+		Case Else
+			Note GetResItemStr("ERR_THEME_TYPE_NOT_SUPPORTED")
+			Exit Sub
+	End Case
+
+	sCmd = sCmd & " Into Selection"
+	Call DEBUGPrint(sCmd)
+	Run Command sCmd
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "MAPHThemeSelectFromBinLC")
 	Call ERRShow()
 
 End Sub

@@ -1,5 +1,6 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
-<root>   <!-- 
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
     Microsoft ResX Schema 
     
     Version 2.0
@@ -57,46 +58,47 @@
     value   : The object must be serialized into a byte array 
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
-    -->   <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-    <xsd:import namespace="http://www.w3.org/XML/1998/namespace"/>
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
     <xsd:element name="root" msdata:IsDataSet="true">
       <xsd:complexType>
         <xsd:choice maxOccurs="unbounded">
           <xsd:element name="metadata">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
               </xsd:sequence>
-              <xsd:attribute name="name" use="required" type="xsd:string"/>
-              <xsd:attribute name="type" type="xsd:string"/>
-              <xsd:attribute name="mimetype" type="xsd:string"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="assembly">
             <xsd:complexType>
-              <xsd:attribute name="alias" type="xsd:string"/>
-              <xsd:attribute name="name" type="xsd:string"/>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="data">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
-                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1"/>
-              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3"/>
-              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4"/>
-              <xsd:attribute ref="xml:space"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
             </xsd:complexType>
           </xsd:element>
           <xsd:element name="resheader">
             <xsd:complexType>
               <xsd:sequence>
-                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1"/>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
               </xsd:sequence>
-              <xsd:attribute name="name" type="xsd:string" use="required"/>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
             </xsd:complexType>
           </xsd:element>
         </xsd:choice>
@@ -152,7 +154,10 @@
     <value>Modificer vindue</value>
   </data>
   <data name="DLG_NUM_BINS_LIMITED_TO" xml:space="preserve">
-    <value>Antal kasser er blevet begrænset til {0}.</value>
+    <value>Antal klasser blevet begrænset til {0}.</value>
+  </data>
+  <data name="DLG_NUM_VALUES_LIMITED_TO" xml:space="preserve">
+    <value>Antal værdier er blevet begrænset til {0}.</value>
   </data>
   <data name="DLG_OPTIONS" xml:space="preserve">
     <value>Muligheder</value>
@@ -188,11 +193,20 @@
   <data name="DLG_STATIC_THEME_SELECT_TABLE" xml:space="preserve">
     <value>Vælg tabel for tema</value>
   </data>
+  <data name="DLG_THEME_IGNORE_ZERO_BLANKS" xml:space="preserve">
+    <value>Ignorer nul eller blanke</value>
+  </data>
   <data name="DLG_THEME_NUM_BINS" xml:space="preserve">
     <value>Antal kasser</value>
   </data>
   <data name="DLG_THEME_NUM_COLOR_RANGES" xml:space="preserve">
     <value># intervaller</value>
+  </data>
+  <data name="DLG_THEME_NUM_RANGES" xml:space="preserve">
+    <value># intervaller</value>
+  </data>
+  <data name="DLG_THEME_NUM_VALUES" xml:space="preserve">
+    <value># værdier</value>
   </data>
   <data name="DLG_THEME_SELECT_COLOR_RANGE" xml:space="preserve">
     <value>Vælg farveområde</value>
@@ -205,6 +219,9 @@
   </data>
   <data name="DLG_TITLE_ADVANCED_LAYER_RENAME" xml:space="preserve">
     <value>Avanceret omdøbning af lag</value>
+  </data>
+  <data name="DLG_TITLE_LAYOUT_TEXT_EDITOR" xml:space="preserve">
+    <value>Layout Tekst Editor</value>
   </data>
   <data name="DLG_TITLE_MULTIPLE_LAYERS_RENAME" xml:space="preserve">
     <value>Omdøb flere lag</value>
@@ -290,6 +307,9 @@
   <data name="ERR_SELECTION_NO_RECORDS" xml:space="preserve">
     <value>Vælg mindst én post!</value>
   </data>
+  <data name="ERR_SELECT_AT_LEAST_ONE_LAYER_IN_LAYER_LIST" xml:space="preserve">
+    <value>Vælg mindst én post!</value>
+  </data>
   <data name="ERR_SELECT_BASE_WINDOW_TO_UPDATE" xml:space="preserve">
     <value>Vælg det basisvindue, der skal opdateres!</value>
   </data>
@@ -314,6 +334,9 @@
   <data name="ERR_SELECT_NORMAL_OR_RASTER_OR_GRID_LAYER_IN_LAYER_LIST" xml:space="preserve">
     <value>Vælg et normalt lag eller et raster-/gitterlag i laglisten!</value>
   </data>
+  <data name="ERR_SELECT_ONE_FRAME_IN_LAYOUT" xml:space="preserve">
+    <value>Vælg én ramme i layout-vinduet</value>
+  </data>
   <data name="ERR_SELECT_ONE_LAYER_IN_LAYER_CONTROL" xml:space="preserve">
     <value>Vælg ét lag i lagkontrol!</value>
   </data>
@@ -331,6 +354,9 @@
   </data>
   <data name="ERR_SELECT_ONE_TABLE_IN_TABLE_LIST" xml:space="preserve">
     <value>Vælg én tabel i vinduet TableList!</value>
+  </data>
+  <data name="ERR_SELECT_ONE_TEXT_FRAME_IN_LAYOUT" xml:space="preserve">
+    <value>Vælg én tekstramme i layout-vinduet</value>
   </data>
   <data name="ERR_SELECT_THEME_LAYER_IN_LAYER_LIST" xml:space="preserve">
     <value>Vælg et tematisk lag i laglisten!</value>
@@ -416,6 +442,18 @@
   <data name="MNU_CLOSE_TABLE" xml:space="preserve">
     <value>Luk tabel</value>
   </data>
+  <data name="MNU_CONTEXT_BROWSER" xml:space="preserve">
+    <value>Kontekstmenu i listevinduet</value>
+  </data>
+  <data name="MNU_CONTEXT_LAYER_LAYERLIST" xml:space="preserve">
+    <value>Lagets kontekstmenu i Laglisten</value>
+  </data>
+  <data name="MNU_CONTEXT_MAP" xml:space="preserve">
+    <value>Kontekstmenu i kortvinduet</value>
+  </data>
+  <data name="MNU_CONTEXT_TABLE_TABLELIST" xml:space="preserve">
+    <value>Tabellens kontekstmenu i Tabellisten</value>
+  </data>
   <data name="MNU_COPY_LAYER_PROPERTIES" xml:space="preserve">
     <value>Kopiér lagegenskaber</value>
   </data>
@@ -491,8 +529,14 @@
   <data name="MNU_HLP_LAYER_MOVE_TO_TOP_DISABLED" xml:space="preserve">
     <value>Vælg ét lag fra laglisten, der ikke er det kosmetiske, et tematisk lag eller det første lag.</value>
   </data>
+  <data name="MNU_HLP_LAYOUT_CLEAR_SELECTION" xml:space="preserve">
+    <value>Afvælg alle objekter og rammer i layoutvinduet</value>
+  </data>
   <data name="MNU_HLP_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Vis en kloning af det aktive layout</value>
+  </data>
+  <data name="MNU_HLP_LAYOUT_EDIT_TEXT" xml:space="preserve">
+    <value>Rediger tekst i en dialogboks fra en udvalg ramme</value>
   </data>
   <data name="MNU_HLP_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
     <value>Finder en fil i Windows Stifinder relateret til den valgte tabel</value>
@@ -590,6 +634,12 @@
   <data name="MNU_HLP_UNLOCK_WINDOW" xml:space="preserve">
     <value>Lås vindue op</value>
   </data>
+  <data name="MNU_HLP_VIEW_ALL_NORMAL_LAYERS" xml:space="preserve">
+    <value>Sæt visningen til udbredelsen af alle normale vektorlag</value>
+  </data>
+  <data name="MNU_HLP_VIEW_ENTIRE_LAYERS" xml:space="preserve">
+    <value>Vis udbredelsen af de udvalgte lag.</value>
+  </data>
   <data name="MNU_HLP_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>Zoomer til hele visningen af lagkortet</value>
   </data>
@@ -604,6 +654,9 @@
   </data>
   <data name="MNU_HLP_ZOOM_TO_NEXT" xml:space="preserve">
     <value>Zoom til næste</value>
+  </data>
+  <data name="MNU_HLP_ZOOM_TO_NORMAL_LAYERS" xml:space="preserve">
+    <value>Sæt visningen til udbredelsen af alle normale vektorlag</value>
   </data>
   <data name="MNU_HLP_ZOOM_TO_PREVIOUS" xml:space="preserve">
     <value>Zoom til forrige</value>
@@ -620,11 +673,17 @@
   <data name="MNU_LAYOUT_CLONE_VIEW" xml:space="preserve">
     <value>Klon visning</value>
   </data>
+  <data name="MNU_LAYOUT_EDIT_TEXT" xml:space="preserve">
+    <value>Rediger tekst</value>
+  </data>
   <data name="MNU_LOCATE_FILE_IN_EXPLORER" xml:space="preserve">
     <value>Find fil i Windows Stifinder</value>
   </data>
   <data name="MNU_LOCK_WINDOW" xml:space="preserve">
     <value>Lås vindue</value>
+  </data>
+  <data name="STR_MAPINFO_SIZE_START_UP" xml:space="preserve">
+    <value>Sæt MapInfo størrelse ved opstart</value>
   </data>
   <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
     <value>Modificer vindue</value>
@@ -737,8 +796,17 @@
   <data name="MNU_UNLOCK_WINDOW" xml:space="preserve">
     <value>Lås vindue op</value>
   </data>
+  <data name="MNU_VIEW_ALL_NORMAL_LAYERS" xml:space="preserve">
+    <value>Vis alle normale lag</value>
+  </data>
+  <data name="MNU_VIEW_ENTIRE_LAYERS" xml:space="preserve">
+    <value>Vis alle lag</value>
+  </data>
   <data name="MNU_VIEW_ENTIRE_MAP" xml:space="preserve">
     <value>Vis hele kortet</value>
+  </data>
+  <data name="MNU_ZOOM_TO_NORMAL_LAYERS" xml:space="preserve">
+    <value>Alle normale lag</value>
   </data>
   <data name="MNU_ZOOM_TO_SELECTION_FRONT_MAP" xml:space="preserve">
     <value>Zoom til omfanget af markering</value>
@@ -752,6 +820,9 @@
   <data name="QUEST_CLOSE_WINDOW" xml:space="preserve">
     <value>Er du sikker på, at du vil lukke dette vindue: {0}?</value>
   </data>
+  <data name="STR_ADD_MENUITEMS_IN_CONTEXT_MENUS" xml:space="preserve">
+    <value>Tilføj menuelementer til kontekst-menuer</value>
+  </data>
   <data name="STR_APPLICATION_DESCRIPTION" xml:space="preserve">
     <value>Denne applikation udvider MapInfo Pro med en række praktiske funktioner til arbejde med vinduer</value>
   </data>
@@ -760,6 +831,9 @@
   </data>
   <data name="STR_APPLYING_THEME_STYLE_TO_OBJS" xml:space="preserve">
     <value>Opdatering af objekter med tematisk stil</value>
+  </data>
+  <data name="STR_BACKGROUND" xml:space="preserve">
+    <value>Baggrund</value>
   </data>
   <data name="STR_BTN_SEL_INFO_HANDLER" xml:space="preserve">
     <value>Vis Info</value>
@@ -776,11 +850,17 @@
   <data name="STR_COPY" xml:space="preserve">
     <value>Kopier</value>
   </data>
+  <data name="STR_COPY_PASTE_LAYER_PROP" xml:space="preserve">
+    <value>Kopier/Indsæt lag-indstillinger</value>
+  </data>
   <data name="STR_COSM_LAYER_IN" xml:space="preserve">
     <value>Kosmetisk lag i</value>
   </data>
   <data name="STR_CREATE" xml:space="preserve">
     <value>Opret</value>
+  </data>
+  <data name="STR_CUSTOM" xml:space="preserve">
+    <value>Tilpasset</value>
   </data>
   <data name="STR_EDIT_LAYER_IN" xml:space="preserve">
     <value>Redigerbart lag i</value>
@@ -790,6 +870,12 @@
   </data>
   <data name="STR_FILTER" xml:space="preserve">
     <value>Filter</value>
+  </data>
+  <data name="STR_FONT" xml:space="preserve">
+    <value>Font</value>
+  </data>
+  <data name="STR_FOREGROUND" xml:space="preserve">
+    <value>Forgrund</value>
   </data>
   <data name="STR_FRIENDLY_LAYER_NAME" xml:space="preserve">
     <value>Læsevenligt navn</value>
@@ -811,6 +897,9 @@
   </data>
   <data name="STR_MAP_MINI_TOOLBAR" xml:space="preserve">
     <value>Kortets miniværktøjslinje</value>
+  </data>
+  <data name="STR_MOVE_LAYER_TOP_BOTTOM" xml:space="preserve">
+    <value>Flyt lag til top/bund</value>
   </data>
   <data name="STR_MTB_ADD_INFO_TOOL" xml:space="preserve">
     <value>Tilføj værktøjet Info til kortets miniværktøjslinje</value>
@@ -860,17 +949,29 @@
   <data name="STR_SHOW_INFO_ON_SELECTION" xml:space="preserve">
     <value>Vis info ved valg</value>
   </data>
+  <data name="STR_SHOW_IN_TXT_EDITOR" xml:space="preserve">
+    <value>Åbn i teksteditor</value>
+  </data>
   <data name="STR_SKIP_LAYER_WITH_FRIENLY_NAME" xml:space="preserve">
     <value>Spring lag med læsevenligt navn over</value>
   </data>
   <data name="STR_SMART_TEXT_FONT" xml:space="preserve">
     <value>Smart Text-skrifttype</value>
   </data>
+  <data name="STR_STANDARD" xml:space="preserve">
+    <value>Standard</value>
+  </data>
   <data name="STR_TABLE" xml:space="preserve">
     <value>Tabel</value>
   </data>
   <data name="STR_TAB_FILE" xml:space="preserve">
     <value>Tab-fil</value>
+  </data>
+  <data name="STR_TEXT" xml:space="preserve">
+    <value>Tekst</value>
+  </data>
+  <data name="STR_THEMES_QUICK" xml:space="preserve">
+    <value>Hurtig Tematisering</value>
   </data>
   <data name="STR_TTIP_DISABLE_INFO_SEL" xml:space="preserve">
     <value>Info ved valg er deaktiveret. Klik for at aktivere info ved valg</value>
@@ -910,6 +1011,24 @@
   </data>
   <data name="STR_YES" xml:space="preserve">
     <value>Ja</value>
+  </data>
+  <data name="STR_ZOOM_LOCAL_GRID_LAYERS" xml:space="preserve">
+    <value>Zoom lokale grid-lag</value>
+  </data>
+  <data name="STR_ZOOM_LOCAL_RASTER_LAYERS" xml:space="preserve">
+    <value>Zoom lokale raster-lag</value>
+  </data>
+  <data name="STR_ZOOM_NORMAL_VECTOR_LAYERS" xml:space="preserve">
+    <value>Zoom normale vektor-lag</value>
+  </data>
+  <data name="STR_ZOOM_ONLY_VISIBLE_LAYERS" xml:space="preserve">
+    <value>Zoom kun synlige lag</value>
+  </data>
+  <data name="STR_ZOOM_TILESERVER_LAYERS" xml:space="preserve">
+    <value>Zoom Tile Server-lag</value>
+  </data>
+  <data name="STR_ZOOM_WMS_LAYERS" xml:space="preserve">
+    <value>Zoom WMS-lag</value>
   </data>
   <data name="TAB_CLOSED" xml:space="preserve">
     <value>Lukket</value>
@@ -964,5 +1083,17 @@
   </data>
   <data name="VIEW_OF_VIEWS" xml:space="preserve">
     <value>{0} af {1}</value>
+  </data>
+  <data name="MNU_FAST_SYMBOL_RENDERING" xml:space="preserve">
+    <value>Hurtig symbolrendereing</value>
+  </data>
+  <data name="TTIP_FAST_SYMBOL_RENDERING" xml:space="preserve">
+    <value>Tænd eller sluk for hurtig symbolrendering</value>
+  </data>
+  <data name="STR_GET" xml:space="preserve">
+    <value>Hent</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OVERRIDES" xml:space="preserve">
+    <value>Indsæt tilsidesættelser af label</value>
   </data>
 </root>

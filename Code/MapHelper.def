@@ -14,7 +14,7 @@ Declare Sub MAPHThemeUsingCurrentStyles(  ByVal nObjectTypes As Integer
 								)
 Declare Sub MAPHMenuQuickThemeRangedLC
 Declare Sub MAPHMenuQuickThemeIndividualLC
-
+Declare Sub MAPHThemeSelectFromBinLC
 
 Declare Function MAPHGetCartographicScale(ByVal nMID As Integer) As Integer
 Declare Function MAPHGetCoordinate(  ByVal nMID As Integer

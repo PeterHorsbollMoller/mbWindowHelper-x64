@@ -15,44 +15,53 @@ Include "Library\Defaults.def"
 '-------------------------------------
 Include "Library\DEBUGLib.def"
 Include "Library\ERRORLib.def"
+Include "Library\PreferencesLib.def"
 Include "Library\TABLELib.def"
 
-Define	CTRL_CHK_MTB_ADD_INFO_TOOL		100
-Define	CTRL_CHK_MTB_ADD_RULER_TOOL		110
+Define	CTRL_CHK_MTB_ADD_INFO_TOOL			100
+Define	CTRL_CHK_MTB_ADD_RULER_TOOL			110
 Define	CTRL_CHK_SELINFO_ON_DESELECT		200
 
-Define	CTRL_LST_CONTEXT_MENUS			300
+Define	CTRL_LST_CONTEXT_MENUS				300
 
-Define	CTRL_CHK_LAY_APPLY_STYLES		301
-Define	CTRL_CHK_LAY_COPYPASTE_PROP		302
-Define	CTRL_CHK_LAY_MOVE_TOPBOTTOM		303
-Define	CTRL_CHK_LAY_QUICK_THEMES		304
+Define	CTRL_CHK_LAY_APPLY_STYLES			301
+Define	CTRL_CHK_LAY_COPYPASTE_PROP			302
+Define	CTRL_CHK_LAY_MOVE_TOPBOTTOM			303
+Define	CTRL_CHK_LAY_QUICK_THEMES			304
 Define	CTRL_CHK_LAY_SAVE_THEMES			305
 Define	CTRL_CHK_LAY_CLOSE_TABLE			306
-Define	CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO	307
+Define	CTRL_CHK_LAY_SHOW_IN_WIN_EXPLO		307
 Define	CTRL_CHK_LAY_OPEN_TEXTEDITOR		308
-Define	CTRL_CHK_LAY_DEFAULT_VIEW		309
+Define	CTRL_CHK_LAY_DEFAULT_VIEW			309
 
-Define	CTRL_CHK_MAP_WORKSPACE_EXPL		311
+Define	CTRL_CHK_MAP_WORKSPACE_EXPL			311
 Define	CTRL_CHK_MAP_FAST_SYM_RENDER		312
 
 Define	CTRL_CHK_TAB_BROWSE_FLOATING		321
-Define	CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO	322
+Define	CTRL_CHK_TAB_SHOW_IN_WIN_EXPLO		322
 Define	CTRL_CHK_TAB_OPEN_TEXTEDITOR		323
 
-Define	CTRL_CHK_BRW_ZOOM_SELECTION		331
-Define	CTRL_CHK_BRW_PAN_SELECTION		332
+Define	CTRL_CHK_BRW_ZOOM_SELECTION			331
+Define	CTRL_CHK_BRW_PAN_SELECTION			332
 Define	CTRL_CHK_BRW_CLEAR_SELECTION		333
 Define	CTRL_CHK_BRW_FILTER_CELL_VAL		334
 Define	CTRL_CHK_BRW_GROUPBY_COLUMNN		335
 
 Define	CTRL_LST_VIEW_ENTIRE_MAP_TYPE		400
-Define	CTRL_CHK_ZOOM_NORMAL_VECTOR		401
-Define	CTRL_CHK_ZOOM_LOCAL_RASTER		402
+Define	CTRL_CHK_ZOOM_NORMAL_VECTOR			401
+Define	CTRL_CHK_ZOOM_LOCAL_RASTER			402
 Define	CTRL_CHK_ZOOM_LOCAL_GRID			403
-Define	CTRL_CHK_ZOOM_WMS				404
+Define	CTRL_CHK_ZOOM_WMS					404
 Define	CTRL_CHK_ZOOM_TILESERVER			405
-Define	CTRL_CHK_ZOOM_ONLY_VISIBLE		406
+Define	CTRL_CHK_ZOOM_ONLY_VISIBLE			406
+
+Define	CTRL_CHK_RESIZE_MAPINFO				500
+Define	CTRL_LBL_MAPINFO_WIDTH				511
+Define	CTRL_TXT_MAPINFO_WIDTH				512
+Define	CTRL_LBL_MAPINFO_HEIGHT				513
+Define	CTRL_TXT_MAPINFO_HEIGHT				514
+Define	CTRL_CMD_MAPINFO_GET_SIZE			520
+
 
 Include "WindowHelper.Assembly.def"
 Include "DLGWHOWindowHelperOptions.def"
@@ -62,6 +71,7 @@ Declare Sub DLGWHO_OnLoad
 Declare Sub DLGWHO_OKClicked
 Declare Sub DLGWHO_CtxtMenuListClicked
 Declare Sub DLGWHO_ViewEntireTypeClicked
+Declare Sub DLGWHO_GetMIProSizeClicked
 
 Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
 	marrContextMenuItems(NUM_CTXT_MENU_ITEMS) As Logical,
@@ -70,7 +80,10 @@ Dim	mbAddInfoToolToMTB, mbAddRulerToolToMTB, mbShowInfoOnDeselect As Logical,
 	mbZoomTypeCustom As Logical,
 	mbZoomNormalVectorLayers, mbZoomLocalRasterLayers, mbZoomOnlyVisibleLayers As Logical,
 	mbZoomLocalGridLayers, mbZoomWMSLayers, mbZoomTileServerLayers As Logical,
-	mfntSmartText As Font
+	mfntSmartText As Font,
+	mbResizeMIProOnStartup As Logical,
+	mfMIProWidth, mfMIProHeight As Float,
+	msPaperUnits As String
 '**********************************************************************************************''
 'Created by Peter Horsbøll Møller, Pitney Bowes Software
 'Parameters:
@@ -83,6 +96,10 @@ Dim i As Integer
 OnError GoTo ErrorOccured
 
 	DLGWHOWindowHelperOptions = FALSE
+	
+	If DLGWHOGetPaperUnits() Then
+		'**Querying the Paper Units to ensure they are defined
+	End If	
 
 	Dialog
 		Title GetResItemStr("DLG_OPTIONS")
@@ -288,6 +305,30 @@ OnError GoTo ErrorOccured
 			Title GetResItemStr("STR_ZOOM_ONLY_VISIBLE_LAYERS")
 			Value DLGWHOGetViewEntireMapOption("ZOOM_ONLY_VISIBLE")
 
+		Control GroupBox
+			Position 355,140		Width 170		Height 60
+			Title GetResItemStr("STR_MAPINFO_SIZE_START_UP")
+		Control CheckBox		ID CTRL_CHK_RESIZE_MAPINFO
+			Position 370,155		Width 140
+			Title GetResItemStr("STR_MAPINFO_SIZE_START_UP")
+			Value DLGWHOResizeMIProOnStartup()
+		Control StaticText		ID CTRL_LBL_MAPINFO_WIDTH
+			Position 370,170	Width 50
+			Title GetResItemStr("STR_WIDTH") & ", " & DLGWHOGetPaperUnits()
+		Control EditText		ID CTRL_TXT_MAPINFO_WIDTH
+			Position 370,180	Width 50
+			Value FormatNumber$(DLGWHOGetMIProWidth())
+		Control StaticText		ID CTRL_LBL_MAPINFO_HEIGHT
+			Position 425,170	Width 50
+			Title GetResItemStr("STR_HEIGHT") & ", " & DLGWHOGetPaperUnits()
+		Control EditText		ID CTRL_TXT_MAPINFO_HEIGHT
+			Position 425,180	Width 50	
+			Value FormatNumber$(DLGWHOGetMIProHeight())
+		Control Button			ID CTRL_CMD_MAPINFO_GET_SIZE
+			Position 480,180	Width 25	Height 12
+			Title GetResItemStr("STR_GET")
+			Calling DLGWHO_GetMIProSizeClicked
+
 		Control StaticText
 			Position 15,155	Width 70	Height 25
 			Title GetResItemStr("STR_SMART_TEXT_FONT") & ":"
@@ -297,10 +338,10 @@ OnError GoTo ErrorOccured
 			Into mfntSmartText
 
 		Control OKButton
-			Position 430,170		Width 40	Height 15
+			Position 430,205	Width 40	Height 15
 			Calling DLGWHO_OKClicked
 		Control CancelButton
-			Position 475,170		Width 40	Height 15
+			Position 475,205	Width 40	Height 15
 
 	If NOT CommandInfo(CMD_INFO_DLG_OK) Then
 		Exit Sub
@@ -362,6 +403,10 @@ End Sub
 '**********************************************************************************************''
 Sub DLGWHO_OKClicked
 
+Dim	sSize As String,
+	fSize As Float,
+	nCtrl As Integer
+
 OnError GoTo ErrorOccured
 
 	Call DLGWHOSetAddInfoToolToMTB(ReadControlValue(CTRL_CHK_MTB_ADD_INFO_TOOL))
@@ -377,6 +422,39 @@ OnError GoTo ErrorOccured
 	Call DLGWHOSetViewEntireMapOption("ZOOM_TILESERVER_LAYERS", ReadControlValue(CTRL_CHK_ZOOM_TILESERVER))
 	Call DLGWHOSetViewEntireMapOption("ZOOM_ONLY_VISIBLE", ReadControlValue(CTRL_CHK_ZOOM_ONLY_VISIBLE))
 
+	Call DLGWHOSetResizeMIProOnStartup(ReadControlValue(CTRL_CHK_RESIZE_MAPINFO))
+	If DLGWHOResizeMIProOnStartup() Then
+		nCtrl	= CTRL_TXT_MAPINFO_WIDTH
+		sSize = ReadControlValue(nCtrl)
+		If sSize <> "" Then
+			fSize = DeformatNumber$(sSize)
+			If fSize > 0 Then
+				Call DLGWHOSetMIProWidth(fSize)
+			Else
+				Alter Control nCtrl Active
+				Note GetResItemStr("ERR_ENTER_SIZE_LARGER_THAN_0")
+			End If			
+		Else	
+			Alter Control nCtrl Active
+			Note GetResItemStr("ERR_ENTER_SIZE_LARGER_THAN_0")
+		End If			
+	
+		nCtrl	= CTRL_TXT_MAPINFO_HEIGHT
+		sSize = ReadControlValue(nCtrl)
+		If sSize <> "" Then
+			fSize = DeformatNumber$(sSize)
+			If fSize > 0 Then
+				Call DLGWHOSetMIProHeight(fSize)
+			Else
+				Alter Control nCtrl Active
+				Note GetResItemStr("ERR_ENTER_SIZE_LARGER_THAN_0")
+			End If			
+		Else	
+			Alter Control nCtrl Active
+			Note GetResItemStr("ERR_ENTER_SIZE_LARGER_THAN_0")
+		End If			
+	End If	
+		
 	Exit Sub
 '-------------------------
 ErrorOccured:
@@ -495,7 +573,33 @@ ErrorOccured:
 
 End Sub
 
+'**********************************************************************************************''
+'Created by Peter Horsbøll Møller, Precisely
+'Parameters:
+'
+'**********************************************************************************************''
+Sub DLGWHO_GetMIProSizeClicked
 
+Dim		sSize As String
+
+OnError GoTo ErrorOccured
+
+	Set Paper Units DLGWHOGetPaperUnits()
+	sSize = FormatNumber$(WindowInfo(WIN_MAPINFO, WIN_INFO_HEIGHT))
+	Alter Control CTRL_TXT_MAPINFO_HEIGHT	Value sSize
+	Alter Control CTRL_LBL_MAPINFO_HEIGHT	Title GetResItemStr("STR_HEIGHT") & ", " & DLGWHOGetPaperUnits()
+
+	sSize = FormatNumber$(WindowInfo(WIN_MAPINFO, WIN_INFO_WIDTH))
+	Alter Control CTRL_TXT_MAPINFO_WIDTH	Value sSize
+	Alter Control CTRL_LBL_MAPINFO_WIDTH	Title GetResItemStr("STR_WIDTH") & ", " & DLGWHOGetPaperUnits()
+
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHO_ViewEntireTypeClicked")
+	Call ERRShow()
+
+End Sub
 
 '**********************************************************************************************''
 ' Property 'AddInfoToolToMapMiniToolbar
@@ -701,6 +805,132 @@ OnError GoTo ErrorOccured
 '-------------------------
 ErrorOccured:
 	Call ERRCreate(Err(), Error$(), "DLGWHOGetViewEntireMapOption")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'tResizeMIProOnStartup'
+'**********************************************************************************************''
+Sub DLGWHOSetResizeMIProOnStartup(ByVal bValue As Logical)
+
+OnError GoTo ErrorOccured
+
+	mbResizeMIProOnStartup = bValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetResizeMIProOnStartup")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOResizeMIProOnStartup() As Logical
+
+OnError GoTo ErrorOccured
+
+	DLGWHOResizeMIProOnStartup = mbResizeMIProOnStartup
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOResizeMIProOnStartup")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'tResizeMIProOnStartup'
+'**********************************************************************************************''
+Sub DLGWHOSetMIProWidth(ByVal fValue As Float)
+
+OnError GoTo ErrorOccured
+
+	mfMIProWidth = fValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetMIProWidth")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetMIProWidth() As Float
+
+OnError GoTo ErrorOccured
+
+	If mfMIProWidth <= 0 Then
+		Call DLGWHOSetPaperUnits(PREFGetPaperUnits())
+		Set Paper Units DLGWHOGetPaperUnits()
+		mfMIProHeight	= WindowInfo(WIN_MAPINFO, WIN_INFO_HEIGHT)
+		mfMIProWidth	= WindowInfo(WIN_MAPINFO, WIN_INFO_WIDTH)
+	End If
+
+	DLGWHOGetMIProWidth = mfMIProWidth
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetMIProWidth")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'tResizeMIProOnStartup'
+'**********************************************************************************************''
+Sub DLGWHOSetMIProHeight(ByVal fValue As Float)
+
+OnError GoTo ErrorOccured
+
+	mfMIProHeight = fValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetMIProHeight")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetMIProHeight() As Float
+
+OnError GoTo ErrorOccured
+
+	If mfMIProHeight <= 0 Then
+		Call DLGWHOSetPaperUnits(PREFGetPaperUnits())
+		Set Paper Units DLGWHOGetPaperUnits()
+		mfMIProHeight	= WindowInfo(WIN_MAPINFO, WIN_INFO_HEIGHT)
+		mfMIProWidth	= WindowInfo(WIN_MAPINFO, WIN_INFO_WIDTH)
+	End If
+
+	DLGWHOGetMIProHeight = mfMIProHeight
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetMIProHeight")
+
+End Function
+
+'**********************************************************************************************''
+' Property 'tResizeMIProOnStartup'
+'**********************************************************************************************''
+Sub DLGWHOSetPaperUnits(ByVal sValue As String)
+
+OnError GoTo ErrorOccured
+
+	msPaperUnits = sValue
+	Exit Sub
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOSetPaperUnits")
+
+End Sub
+'**********************************************************************************************''
+Function DLGWHOGetPaperUnits() As String
+
+OnError GoTo ErrorOccured
+
+	If msPaperUnits = "" Then
+		msPaperUnits = PREFGetPaperUnits()
+	End If
+
+	DLGWHOGetPaperUnits = msPaperUnits
+	Exit Function
+'-------------------------
+ErrorOccured:
+	Call ERRCreate(Err(), Error$(), "DLGWHOGetPaperUnits")
 
 End Function
 

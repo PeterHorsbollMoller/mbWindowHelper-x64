@@ -966,4 +966,7 @@
   <data name="VIEW_OF_VIEWS" xml:space="preserve">
     <value>{0} / {1}</value>
   </data>
+  <data name="DLG_PASTE_LABEL_OVERRIDES" xml:space="preserve">
+    <value>Etiket Üzerine Yazılanları Yapıştır</value>
+  </data>
 </root>

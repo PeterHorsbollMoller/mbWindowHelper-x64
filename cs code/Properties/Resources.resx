@@ -682,6 +682,9 @@
   <data name="MNU_LOCK_WINDOW" xml:space="preserve">
     <value>Lock Window</value>
   </data>
+  <data name="STR_MAPINFO_SIZE_START_UP" xml:space="preserve">
+    <value>Resize MapInfo on Startup</value>
+  </data>
   <data name="MNU_MODIFY_WINDOW" xml:space="preserve">
     <value>Modify Window</value>
   </data>
@@ -1080,5 +1083,26 @@
   </data>
   <data name="VIEW_OF_VIEWS" xml:space="preserve">
     <value>{0} of {1}</value>
+  </data>
+  <data name="MNU_FAST_SYMBOL_RENDERING" xml:space="preserve">
+    <value>Fast Symbol Rendering</value>
+  </data>
+  <data name="TTIP_FAST_SYMBOL_RENDERING" xml:space="preserve">
+    <value>Turn Fast Symbol Rendering On or Off</value>
+  </data>
+  <data name="STR_GET" xml:space="preserve">
+    <value>Get</value>
+  </data>
+  <data name="DLG_PASTE_LABEL_OVERRIDES" xml:space="preserve">
+    <value>Paste Label Overrides</value>
+  </data>
+  <data name="MNU_SELECT_ALL_FROM_BIN" xml:space="preserve">
+    <value>Select Records from Bin</value>
+  </data>
+  <data name="MNU_HLP_SELECT_ALL_FROM_BIN" xml:space="preserve">
+    <value>Select all records that fall within this thematic bin</value>
+  </data>
+  <data name="ERR_SELECT_ONE_THEME_BIN_IN_LAYER_LIST" xml:space="preserve">
+    <value>Please select one thematic bin in the Layer List</value>
   </data>
 </root>

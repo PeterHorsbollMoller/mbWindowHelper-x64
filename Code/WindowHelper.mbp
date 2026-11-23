@@ -13,6 +13,7 @@ Module=Library\LAYOUTLib.mbo
 Module=Library\MATHLib.mbo
 Module=Library\MAPPERLib.mbo
 Module=Library\OBJLib.mbo
+Module=Library\PreferencesLib.mbo
 Module=Library\ProgramInfo.mbo
 Module=Library\RESSTRNGLib.MBO
 Module=Library\ReadRecordsLib.mbo
